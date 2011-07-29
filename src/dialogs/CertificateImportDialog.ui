@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CertificateImportDialog</class>
+ <widget class="QDialog" name="CertificateImportDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>515</width>
+    <height>270</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Import Certificate Dialog</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+    <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="m_pDialogLayout">
+   <item>
+    <widget class="QFrame" name="m_pP12Frame">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QGridLayout" name="m_pFileFrameLayout">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="m_pFileEdit">
+        <property name="toolTip">
+         <string>Full path to PKCS12 (*.p12, *.pfx) encoded certificate bundle file to immport</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="m_pBrowseFilePushButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+          <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3">
+       <widget class="QTextEdit" name="m_pInfoTextEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="m_pFileLabel">
+        <property name="text">
+         <string>PKCS12 File:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pFileEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="m_pSeletAutomaticallyCheckBox">
+        <property name="toolTip">
+         <string>If checked. the imported certificate is automatically selectd as IPsec authentication certificate </string>
+        </property>
+        <property name="text">
+         <string>Use this certificate for IPsec authentication</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="m_pPemFrame">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QFormLayout" name="m_pPemFrameLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="m_pPrivateKeyPassphraseLabel">
+        <property name="text">
+         <string>Private key passphrase:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="m_pPrivateKeyPassphraseEdit">
+        <property name="toolTip">
+         <string>Enter the passphrase that shall be used to encrypt the imported private key</string>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="m_pVerifyPrivateKeyPassphraseLabel">
+        <property name="text">
+         <string>Verify private key passphrase:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="m_pVerifyPrivateKeyPassphraseEdit">
+        <property name="toolTip">
+         <string>Type the private key passphrase again to confirm</string>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>m_pFileEdit</tabstop>
+  <tabstop>m_pBrowseFilePushButton</tabstop>
+  <tabstop>m_pSeletAutomaticallyCheckBox</tabstop>
+  <tabstop>m_pInfoTextEdit</tabstop>
+  <tabstop>m_pPrivateKeyPassphraseEdit</tabstop>
+  <tabstop>m_pVerifyPrivateKeyPassphraseEdit</tabstop>
+  <tabstop>m_pButtonBox</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../resources/L2tpIPsecVpn.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>CertificateImportDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>CertificateImportDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=L2TP Ipsec VPN Manager
+Exec=L2tpIPsecVpn startConnectionEditor
+Comment=Manage and change your L2TP IPsec VPN connection settings
+Icon=/usr/share/L2tpIPsecVpn/logo.png
+Type=Application
+Terminal=false
+StartupNotify=false
+Categories=GNOME;GTK;Settings;X-SuSE-ControlCenter-System;X-GNOME-NetworkSettings;

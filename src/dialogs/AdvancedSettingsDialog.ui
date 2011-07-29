@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AdvancedSettingsDialog</class>
+ <widget class="QDialog" name="AdvancedSettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>260</width>
+    <height>221</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Advanced Settings</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+    <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="m_pDialogLayout">
+   <item>
+    <widget class="QGroupBox" name="m_pCompressionGroupBox">
+     <property name="title">
+      <string>Compression</string>
+     </property>
+     <layout class="QVBoxLayout" name="m_pCompressionLayout">
+      <item>
+       <widget class="QCheckBox" name="m_pAllowBSDCompressionCheckBox">
+        <property name="text">
+         <string>Allow &amp;BSD dada compression</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_pAllowDeflateCompressionCheckBox">
+        <property name="text">
+         <string>Allow &amp;Deflate data compression</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_pUseTCPHeaderCompressionCheckBox">
+        <property name="text">
+         <string>Use TCP &amp;header compression</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="m_pEchoGroupBox">
+     <property name="title">
+      <string>Echo</string>
+     </property>
+     <layout class="QVBoxLayout" name="m_pEchoLayout">
+      <item>
+       <widget class="QCheckBox" name="m_pSendEchoCheckBox">
+        <property name="text">
+         <string>Send PPP &amp;echo packets</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>m_pAllowBSDCompressionCheckBox</tabstop>
+  <tabstop>m_pAllowDeflateCompressionCheckBox</tabstop>
+  <tabstop>m_pUseTCPHeaderCompressionCheckBox</tabstop>
+  <tabstop>m_pSendEchoCheckBox</tabstop>
+  <tabstop>m_pButtonBox</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../resources/L2tpIPsecVpn.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>AdvancedSettingsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>AdvancedSettingsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

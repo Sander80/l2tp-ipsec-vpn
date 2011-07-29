@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EapSettingsDialog</class>
+ <widget class="QDialog" name="EapSettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>502</width>
+    <height>302</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EAP settings</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+    <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="m_pDialogLayout">
+   <item>
+    <widget class="QGroupBox" name="m_pConnectingGroupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>When connecting</string>
+     </property>
+     <layout class="QVBoxLayout" name="m_pConnectingGroupLayout">
+      <item>
+       <widget class="QRadioButton" name="m_pUseSmartCardRadioButton">
+        <property name="text">
+         <string>Use my smart card</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="m_pUseCertificateRadioButton">
+        <property name="text">
+         <string>Use a certificate on this computer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="m_pCertificateFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QGridLayout" name="m_pCertificateFrameLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="m_pCertificateLabel">
+        <property name="text">
+         <string>User certificate:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pCertificateEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="m_pCertificateEdit">
+        <property name="toolTip">
+         <string>Full path to a X.509 encoded personal certificate file</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="m_pBrowseCertificateButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+          <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="m_pPrivateKeyLabel">
+        <property name="text">
+         <string>Private key:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pPrivateKeyEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="m_pPrivateKeyEdit">
+        <property name="toolTip">
+         <string>Full path to a X.509 pem encoded private key file</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="m_pBrowsePrivateKeyButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+          <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="m_pPrivateKeyPwdLabel">
+        <property name="text">
+         <string>Passphrase:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pPrivateKeyPwdEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="m_pPrivateKeyPwdEdit">
+        <property name="toolTip">
+         <string>Enter the PIN or passphrase for your private key.
+
+If left empty you'll be ask each time you try to establish a connection.</string>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="m_pCaCertificateFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="m_pCaCertificateFrameLayout">
+      <item>
+       <widget class="QLabel" name="m_pCaCertificateLabel">
+        <property name="text">
+         <string>CA Certificate:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pCaCertificateEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="m_pCaCertificateEdit">
+        <property name="toolTip">
+         <string>Full path to a X.509 pem encoded Certificate Authority certificate file</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_pBrowseCaCertificateButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+          <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>m_pUseSmartCardRadioButton</tabstop>
+  <tabstop>m_pUseCertificateRadioButton</tabstop>
+  <tabstop>m_pCertificateEdit</tabstop>
+  <tabstop>m_pBrowseCertificateButton</tabstop>
+  <tabstop>m_pPrivateKeyEdit</tabstop>
+  <tabstop>m_pBrowsePrivateKeyButton</tabstop>
+  <tabstop>m_pPrivateKeyPwdEdit</tabstop>
+  <tabstop>m_pCaCertificateEdit</tabstop>
+  <tabstop>m_pBrowseCaCertificateButton</tabstop>
+  <tabstop>m_pButtonBox</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../resources/L2tpIPsecVpn.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>EapSettingsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>243</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>EapSettingsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>243</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

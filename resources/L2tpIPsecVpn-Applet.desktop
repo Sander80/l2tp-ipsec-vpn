@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=L2TP Ipsec VPN Applet
+Comment=Control your L2TP IPsec VPN connections
+Exec=L2tpIPsecVpn
+Icon=/usr/share/L2tpIPsecVpn/logo.png
+Categories=Network;

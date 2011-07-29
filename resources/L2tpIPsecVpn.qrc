@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RCC version="1.0">
+   <qresource prefix="/images">
+      <file alias="configure.png">configure.png</file>
+      <file alias="busy.gif">busy.gif</file>
+      <file alias="connectEstablished.png">connectEstablished.png</file>
+      <file alias="connectNo.png">connectNo.png</file>
+      <file alias="search.png">search.png</file>
+      <file alias="logo.png">logo.png</file>
+   </qresource>
+   <qresource prefix="/templates">
+      <file alias="ipsec.conf.tpl">ipsec.conf.tpl</file>
+      <file alias="30-l2tp-ipsec-vpn.conf.tpl">30-l2tp-ipsec-vpn.conf.tpl</file>
+      <file alias="xl2tpd.conf.tpl">xl2tpd.conf.tpl</file>
+      <file alias="options.xl2tpd.tpl">options.xl2tpd.tpl</file>
+      <file alias="getIPSecInfo.lib.tpl">getIPSecInfo.lib.tpl</file>
+      <file alias="L2tpIPsecVpn-up.tpl">L2tpIPsecVpn-up.tpl</file>
+      <file alias="L2tpIPsecVpn-dns.tpl">L2tpIPsecVpn-dns.tpl</file>
+      <file alias="L2tpIPsecVpn-down.tpl">L2tpIPsecVpn-down.tpl</file>
+      <file alias="openssl.cnf.tpl">openssl.cnf.tpl</file>
+      <file alias="ipsec.secrets.tpl">ipsec.secrets.tpl</file>
+   </qresource>
+</RCC>

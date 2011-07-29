@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=L2TP Ipsec VPN Manager
+Exec=L2tpIPsecVpn
+Comment=Control your L2TP IPsec VPN connections
+Icon=/usr/share/L2tpIPsecVpn/logo.png
+Type=Application
+Terminal=false
+StartupNotify=false
+

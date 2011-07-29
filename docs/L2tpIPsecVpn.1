@@ -1,0 +1,52 @@
+.TH L2tpIPsecVpn 1 "13 Feb 2011" "version 1.0.0"
+.SH NAME
+\fBL2tpIPsecVpn\fP \- L2tp over IPsec VPN Manager applet for the GNOME Desktop
+
+.SH SYNOPSIS
+.B L2tpIPsecVpn
+[\fIoptions\fR]
+.SH DESCRIPTION
+This GUI is not a network manager plugin. However, it provides a systray
+icon in the indicator applet from which a non privileged user can establish
+and bring down L2TP over IPsec VPN connections.
+
+From there the user can add, remove and edit vpn connections.
+
+Editing allows configuring various options for IPsec, L2TP and PPP.
+
+Among others, the user can configure eg. the gateway, the use of either
+PSK or a certificate for authentication, various L2TP options as redial-
+timeout and attempts and of course all important PPP options. It also
+allows you to configure PPP for tunnel splitting because you can add
+routes as you want.
+
+When applying your settings, all necessary configuration files are written
+accordingly (ipsec.conf, xl2tp.conf, options.xl2tpd, opensc.conf up and
+down scripts ...).
+
+It relies on Openswan and xl2tp packages as the underlying protocol
+handlers.
+
+You can also use certificates on your local machine or, if e.g. OpenSC is
+installed and configured, even on a smart card to handle PPP
+authentication.
+
+The GUI automatically detects when network interfaces are going up or
+down and can (if so configured) automatically establish or close VPN
+connections.
+
+.LP
+.SH OPTIONS
+
+.TP
+\fBstartConnectionEditor\fR
+Starts the connection editor dialog.
+
+.TP
+\fapplySettings\fR
+Write configuration files according to the connection settings, must be
+started with root privileges, ie use gksudo as non root user.
+
+.SH AUTHORS
+Werner Jaeger
+

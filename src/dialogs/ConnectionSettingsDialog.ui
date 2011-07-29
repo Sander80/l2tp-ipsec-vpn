@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConnectionSettingsDialog</class>
+ <widget class="QDialog" name="ConnectionSettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>451</width>
+    <height>440</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Connection Settings</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+    <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="m_pDialogGridLayout">
+   <item row="0" column="0" colspan="2">
+    <layout class="QFormLayout" name="m_pConnectionNameLayout">
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="m_pConnectionNameLabel">
+       <property name="text">
+        <string>Connection &amp;name:</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="buddy">
+        <cstring>m_pConnectionNameEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="m_pConnectionNameEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="maxLength">
+        <number>30</number>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="m_pConnectAutomatically">
+     <property name="text">
+      <string>Connect &amp;automatically</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QTabWidget" name="m_pTabWidget">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Rounded</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="m_pTabIPsec">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <attribute name="title">
+       <string>IPsec</string>
+      </attribute>
+      <layout class="QGridLayout" name="m_pIPsecTabLayout">
+       <item row="0" column="0" colspan="2">
+        <layout class="QFormLayout" name="m_pIPsecGatewayLayout">
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
+         <property name="verticalSpacing">
+          <number>6</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="m_pIPsecGatewayLabel">
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>&amp;Remote Server:</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::AutoText</enum>
+           </property>
+           <property name="buddy">
+            <cstring>m_pIPsecGatewayEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="m_pIPsecGatewayEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IPv4 address or domain name of the remote access server that you want to connect to.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1.2.3.4&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ipsec.server.edu&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="m_pIPsecIdentityLabel">
+           <property name="text">
+            <string>Server &amp;Identity:</string>
+           </property>
+           <property name="buddy">
+            <cstring>m_pIPsecIdentityEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="m_pIPsecIdentityEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>Leave empty if you don't want to check peers's identity,
+otherwise enter the peer's identity 
+
+This is mostly a distinguished name like 'CN=cisco-fcs-ber'.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="m_pIPsecUsePreSharedKeyRadioButton">
+         <property name="text">
+          <string>Use &amp;pre-shared key for authentication</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLineEdit" name="m_pIPsecPreSharedKeyEdit">
+         <property name="echoMode">
+          <enum>QLineEdit::PasswordEchoOnEdit</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QRadioButton" name="m_pIPsecUseCertificateRadioButton">
+         <property name="text">
+          <string>Use &amp;Certificate for authentication</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QListView" name="m_pIPsecCertificateListView">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>23</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QFrame" name="m_pIPsecPrivateKeyFrame">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QGridLayout" name="m_pIPsecPrivateKeyLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="m_pIPsecPrivateKeyLabel">
+            <property name="text">
+             <string>Private &amp;key:</string>
+            </property>
+            <property name="buddy">
+             <cstring>m_pIPsecPrivateKeyFileEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="m_pIPsecPrivateKeyFileEdit">
+            <property name="toolTip">
+             <string>Full path to a X.509 pem encoded private key file</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="m_pIPsecPassphraseLabel">
+            <property name="text">
+             <string>Passphrase:</string>
+            </property>
+            <property name="buddy">
+             <cstring>m_pIPsecPassphraseEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="m_pIPsecPassphraseEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="m_pIPsecBrowsePrivateKeyButton">
+            <property name="minimumSize">
+             <size>
+              <width>36</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../../resources/L2tpIPsecVpn.qrc">
+              <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="m_pImportPushButton">
+         <property name="text">
+          <string>Import ...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pTabL2TP">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <attribute name="title">
+       <string>L2TP</string>
+      </attribute>
+      <layout class="QGridLayout" name="m_pL2tpTabLayout">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="m_pL2tpRedialCheckBox">
+         <property name="toolTip">
+          <string>If checked, l2tpd will attempt to redial if the call get disconected.</string>
+         </property>
+         <property name="text">
+          <string>Redial</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="m_pL2tpLengthBitCheckBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>If Checked, the length bit present in the l2tp packet payload will be used.</string>
+         </property>
+         <property name="text">
+          <string>Length bit</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <layout class="QFormLayout" name="m_pL2tpRedialLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="m_pL2tpRedialTimeoutLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Timeout:</string>
+           </property>
+           <property name="buddy">
+            <cstring>m_pL2tpRedialTimeoutSpinBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="m_pL2tpRedialTimeoutSpinBox">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Wait N seconds before redial. The redial option must be set to yes to use this option.</string>
+           </property>
+           <property name="maximum">
+            <number>300</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="m_pL2tpRedialAttemptsLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Attempts:</string>
+           </property>
+           <property name="buddy">
+            <cstring>m_pL2tpRedialAttemptsSpinBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="m_pL2tpRedialAttemptsSpinBox">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::WheelFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>Will give up redial tries after N attempts.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pTabPpp">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <attribute name="title">
+       <string>PPP</string>
+      </attribute>
+      <layout class="QGridLayout" name="m_pPppTabLayout">
+       <item row="0" column="0" colspan="3">
+        <widget class="QRadioButton" name="m_pPppUseEAPRadioButton">
+         <property name="toolTip">
+          <string>With this option set, pppd will agree to authenticate itself to the peer exclusively using EAP.</string>
+         </property>
+         <property name="text">
+          <string>Use Extensible Authentication Protocol (EAP)</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="m_pPppPropertiesButton">
+         <property name="text">
+          <string>Properties ...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QRadioButton" name="m_pPppAllowProtocolsRadioButton">
+         <property name="text">
+          <string>Allow these protocols</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QListWidget" name="m_pPppAllowProtocolsListWidget">
+         <item>
+          <property name="text">
+           <string>Unencrypted password (PAP)</string>
+          </property>
+          <property name="toolTip">
+           <string>With this option set, pppd will agree to authenticate itself to the peer using PAP.</string>
+          </property>
+          <property name="checkState">
+           <enum>Unchecked</enum>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Challenge Authentication Protocol (CHAP)</string>
+          </property>
+          <property name="toolTip">
+           <string>With this option set, pppd will agree to authenticate itself to the peer using CHAP.</string>
+          </property>
+          <property name="checkState">
+           <enum>Unchecked</enum>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Microsoft CHAP (MS-Chap)</string>
+          </property>
+          <property name="toolTip">
+           <string>With this option set, pppd will agree to authenticate itself to the peer using MS-CHAP.</string>
+          </property>
+          <property name="checkState">
+           <enum>Unchecked</enum>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Microsoft CHAP Version 2 (MS-CHAPv2)</string>
+          </property>
+          <property name="toolTip">
+           <string>With this option set, pppd will agree to authenticate itself to the peer using MS-CHAPv2.</string>
+          </property>
+          <property name="checkState">
+           <enum>Unchecked</enum>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QFrame" name="m_pPppCredentialsFrame">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QGridLayout" name="m_pIPsecCredentialsLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="m_pPppUserNameLabel">
+            <property name="text">
+             <string>User name:</string>
+            </property>
+            <property name="buddy">
+             <cstring>m_pPppUserNameEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="m_pPppUserNameEdit">
+            <property name="toolTip">
+             <string>Set the name used for authenticating the local system to the remote access server.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="m_pPppPwdLabel">
+            <property name="text">
+             <string>Password:</string>
+            </property>
+            <property name="buddy">
+             <cstring>m_pPppPwdEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="m_pPppPwdEdit">
+            <property name="toolTip">
+             <string>Enter your password.
+
+If left empty you'll be ask each time you try to establish a connection.</string>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="m_pPppPeerAuthenticationButton">
+         <property name="text">
+          <string>Peer authentication ...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="m_pPppIpSettingsButton">
+         <property name="text">
+          <string>IP settings ...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QPushButton" name="m_pPppAdvancedButton">
+         <property name="text">
+          <string>Advanced ...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>m_pConnectionNameEdit</tabstop>
+  <tabstop>m_pConnectAutomatically</tabstop>
+  <tabstop>m_pTabWidget</tabstop>
+  <tabstop>m_pIPsecGatewayEdit</tabstop>
+  <tabstop>m_pIPsecIdentityEdit</tabstop>
+  <tabstop>m_pIPsecUsePreSharedKeyRadioButton</tabstop>
+  <tabstop>m_pIPsecPreSharedKeyEdit</tabstop>
+  <tabstop>m_pIPsecUseCertificateRadioButton</tabstop>
+  <tabstop>m_pIPsecCertificateListView</tabstop>
+  <tabstop>m_pImportPushButton</tabstop>
+  <tabstop>m_pIPsecPrivateKeyFileEdit</tabstop>
+  <tabstop>m_pIPsecBrowsePrivateKeyButton</tabstop>
+  <tabstop>m_pIPsecPassphraseEdit</tabstop>
+  <tabstop>m_pL2tpRedialCheckBox</tabstop>
+  <tabstop>m_pL2tpRedialTimeoutSpinBox</tabstop>
+  <tabstop>m_pL2tpRedialAttemptsSpinBox</tabstop>
+  <tabstop>m_pL2tpLengthBitCheckBox</tabstop>
+  <tabstop>m_pPppUseEAPRadioButton</tabstop>
+  <tabstop>m_pPppPropertiesButton</tabstop>
+  <tabstop>m_pPppAllowProtocolsRadioButton</tabstop>
+  <tabstop>m_pPppAllowProtocolsListWidget</tabstop>
+  <tabstop>m_pPppUserNameEdit</tabstop>
+  <tabstop>m_pPppPwdEdit</tabstop>
+  <tabstop>m_pPppPeerAuthenticationButton</tabstop>
+  <tabstop>m_pPppIpSettingsButton</tabstop>
+  <tabstop>m_pPppAdvancedButton</tabstop>
+  <tabstop>m_pButtonBox</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../resources/L2tpIPsecVpn.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pL2tpRedialCheckBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>m_pL2tpRedialAttemptsSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>101</x>
+     <y>103</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pL2tpRedialCheckBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>m_pL2tpRedialTimeoutSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>101</x>
+     <y>103</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConnectionSettingsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>417</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ConnectionSettingsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>417</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

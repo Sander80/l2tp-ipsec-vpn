@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="79">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>src/conf/AbstractConfWriter.h</itemPath>
+      <itemPath>src/dialogs/AdvancedSettingsDialog.h</itemPath>
+      <itemPath>src/dialogs/CertificateImportDialog.h</itemPath>
+      <itemPath>src/util/CertificateInfo.h</itemPath>
+      <itemPath>src/conf/ConfWriter.h</itemPath>
+      <itemPath>src/ConnectionEditor.h</itemPath>
+      <itemPath>src/dialogs/ConnectionEditorDialog.h</itemPath>
+      <itemPath>src/dialogs/ConnectionInformationDialog.h</itemPath>
+      <itemPath>src/ConnectionManager.h</itemPath>
+      <itemPath>src/settings/ConnectionSettings.h</itemPath>
+      <itemPath>src/dialogs/ConnectionSettingsDialog.h</itemPath>
+      <itemPath>src/ConnectionState.h</itemPath>
+      <itemPath>src/models/ConnectionsModel.h</itemPath>
+      <itemPath>src/dialogs/EapSettingsDialog.h</itemPath>
+      <itemPath>src/util/EncSecrets.h</itemPath>
+      <itemPath>src/util/ErrorEx.h</itemPath>
+      <itemPath>src/conf/GetIPsecInfoScriptWriter.h</itemPath>
+      <itemPath>src/util/GlobalFunctions.h</itemPath>
+      <itemPath>src/models/IPsecCertificateListModel.h</itemPath>
+      <itemPath>src/conf/IPsecConfWriter.h</itemPath>
+      <itemPath>src/conf/IPsecSecretsConfWriter.h</itemPath>
+      <itemPath>src/dialogs/IPsecSettingsDialog.h</itemPath>
+      <itemPath>src/dialogs/InterfaceStatisticsDialog.h</itemPath>
+      <itemPath>src/dialogs/IpSettingsDialog.h</itemPath>
+      <itemPath>src/conf/L2tpConfWriter.h</itemPath>
+      <itemPath>src/L2tpIPsecVpnApplication.h</itemPath>
+      <itemPath>src/util/Libtool.h</itemPath>
+      <itemPath>src/localpeer/LocalPeer.h</itemPath>
+      <itemPath>src/localpeer/LockedFile.h</itemPath>
+      <itemPath>src/util/NetworkInterface.h</itemPath>
+      <itemPath>src/util/NetworkInterfaceMonitor.h</itemPath>
+      <itemPath>src/conf/OpensslConfWriter.h</itemPath>
+      <itemPath>src/conf/PPPConfWriter.h</itemPath>
+      <itemPath>src/PasswordCallback.h</itemPath>
+      <itemPath>src/dialogs/PeerAuthenticationDialog.h</itemPath>
+      <itemPath>src/pkcs11/Pkcs11.h</itemPath>
+      <itemPath>src/pkcs11/Pkcs11Attribute.h</itemPath>
+      <itemPath>src/util/Pkcs12.h</itemPath>
+      <itemPath>src/conf/PppDnsConfWriter.h</itemPath>
+      <itemPath>src/conf/PppDownScriptWriter.h</itemPath>
+      <itemPath>src/models/PppRoutesModel.h</itemPath>
+      <itemPath>src/conf/PppUpScriptWriter.h</itemPath>
+      <itemPath>src/settings/Preferences.h</itemPath>
+      <itemPath>src/dialogs/PreferencesEditorDialog.h</itemPath>
+      <itemPath>src/conf/RSysLogConfWriter.h</itemPath>
+      <itemPath>src/dialogs/RouteSettingsDialog.h</itemPath>
+      <itemPath>src/util/SecretsChecker.h</itemPath>
+      <itemPath>src/settings/Settings.h</itemPath>
+      <itemPath>src/pkcs11/SmartCardInfo.h</itemPath>
+      <itemPath>src/pkcs11/SmartCardInsertWaitTask.h</itemPath>
+      <itemPath>src/models/SmartCardObjectListModel.h</itemPath>
+      <itemPath>src/dialogs/SmartCardObjectsDialog.h</itemPath>
+      <itemPath>src/pkcs11/SmartCardState.h</itemPath>
+      <itemPath>src/VPNControlTask.h</itemPath>
+      <itemPath>src/util/VpnControlDaemonClient.h</itemPath>
+      <itemPath>src/pkcs11/pkcs11.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+      <itemPath>resources/L2tpIPsecVpn.qrc</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>src/conf/AbstractConfWriter.cpp</itemPath>
+      <itemPath>src/dialogs/AdvancedSettingsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/AdvancedSettingsDialog.ui</itemPath>
+      <itemPath>src/dialogs/CertificateImportDialog.cpp</itemPath>
+      <itemPath>src/dialogs/CertificateImportDialog.ui</itemPath>
+      <itemPath>src/util/CertificateInfo.cpp</itemPath>
+      <itemPath>src/conf/ConfWriter.cpp</itemPath>
+      <itemPath>src/ConnectionEditor.cpp</itemPath>
+      <itemPath>src/dialogs/ConnectionEditorDialog.cpp</itemPath>
+      <itemPath>src/dialogs/ConnectionEditorDialog.ui</itemPath>
+      <itemPath>src/dialogs/ConnectionInformationDialog.cpp</itemPath>
+      <itemPath>src/dialogs/ConnectionInformationDialog.ui</itemPath>
+      <itemPath>src/ConnectionManager.cpp</itemPath>
+      <itemPath>src/settings/ConnectionSettings.cpp</itemPath>
+      <itemPath>src/dialogs/ConnectionSettingsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/ConnectionSettingsDialog.ui</itemPath>
+      <itemPath>src/ConnectionState.cpp</itemPath>
+      <itemPath>src/models/ConnectionsModel.cpp</itemPath>
+      <itemPath>src/dialogs/EapSettingsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/EapSettingsDialog.ui</itemPath>
+      <itemPath>src/util/EncSecrets.cpp</itemPath>
+      <itemPath>src/conf/GetIPsecInfoScriptWriter.cpp</itemPath>
+      <itemPath>src/util/GlobalFunctions.cpp</itemPath>
+      <itemPath>src/models/IPsecCertificateListModel.cpp</itemPath>
+      <itemPath>src/conf/IPsecConfWriter.cpp</itemPath>
+      <itemPath>src/conf/IPsecSecretsConfWriter.cpp</itemPath>
+      <itemPath>src/dialogs/IPsecSettingsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/InterfaceStatisticsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/InterfaceStatisticsDialog.ui</itemPath>
+      <itemPath>src/dialogs/IpSettingsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/IpSettingsDialog.ui</itemPath>
+      <itemPath>src/conf/L2tpConfWriter.cpp</itemPath>
+      <itemPath>src/L2tpIPsecVpnApplication.cpp</itemPath>
+      <itemPath>src/util/Libtool.cpp</itemPath>
+      <itemPath>src/localpeer/LocalPeer.cpp</itemPath>
+      <itemPath>src/localpeer/LockedFile.cpp</itemPath>
+      <itemPath>src/util/NetworkInterface.cpp</itemPath>
+      <itemPath>src/util/NetworkInterfaceMonitor.cpp</itemPath>
+      <itemPath>src/conf/OpensslConfWriter.cpp</itemPath>
+      <itemPath>src/conf/PPPConfWriter.cpp</itemPath>
+      <itemPath>src/PasswordCallback.cpp</itemPath>
+      <itemPath>src/dialogs/PeerAuthenticationDialog.cpp</itemPath>
+      <itemPath>src/dialogs/PeerAuthenticationDialog.ui</itemPath>
+      <itemPath>src/pkcs11/Pkcs11.cpp</itemPath>
+      <itemPath>src/pkcs11/Pkcs11Attribute.cpp</itemPath>
+      <itemPath>src/util/Pkcs12.cpp</itemPath>
+      <itemPath>src/conf/PppDnsConfWriter.cpp</itemPath>
+      <itemPath>src/conf/PppDownScriptWriter.cpp</itemPath>
+      <itemPath>src/models/PppRoutesModel.cpp</itemPath>
+      <itemPath>src/conf/PppUpScriptWriter.cpp</itemPath>
+      <itemPath>src/settings/Preferences.cpp</itemPath>
+      <itemPath>src/dialogs/PreferencesEditorDialog.cpp</itemPath>
+      <itemPath>src/dialogs/PreferencesEditorDialog.ui</itemPath>
+      <itemPath>src/conf/RSysLogConfWriter.cpp</itemPath>
+      <itemPath>src/dialogs/RouteSettingsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/RouteSettingsDialog.ui</itemPath>
+      <itemPath>src/util/SecretsChecker.cpp</itemPath>
+      <itemPath>src/settings/Settings.cpp</itemPath>
+      <itemPath>src/pkcs11/SmartCardInfo.cpp</itemPath>
+      <itemPath>src/pkcs11/SmartCardInsertWaitTask.cpp</itemPath>
+      <itemPath>src/models/SmartCardObjectListModel.cpp</itemPath>
+      <itemPath>src/dialogs/SmartCardObjectsDialog.cpp</itemPath>
+      <itemPath>src/dialogs/SmartCardObjectsDialog.ui</itemPath>
+      <itemPath>src/pkcs11/SmartCardState.cpp</itemPath>
+      <itemPath>src/models/SmartCardTokenListModel.cpp</itemPath>
+      <itemPath>src/VPNControlTask.cpp</itemPath>
+      <itemPath>src/util/VpnControlDaemonClient.cpp</itemPath>
+      <itemPath>src/main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f2"
+                     displayName="Libtool Tests"
+                     projectFiles="true"
+                     kind="TEST">
+      </logicalFolder>
+      <logicalFolder name="f3"
+                     displayName="Pkcs12 Tests"
+                     projectFiles="true"
+                     kind="TEST">
+      </logicalFolder>
+      <logicalFolder name="f1"
+                     displayName="Secrets Encoding Tests"
+                     projectFiles="true"
+                     kind="TEST">
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="4">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <qt>
+        <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
+        <target>L2tpIPsecVpn</target>
+        <modules>core gui network</modules>
+        <mocDir>src/generated</mocDir>
+        <rccDir>src/generated</rccDir>
+        <uiDir>src/generated</uiDir>
+        <defs>
+          <Elem>LIBS+=-lctemplate</Elem>
+          <Elem>LIBS+=-lcrypto</Elem>
+          <Elem>LIBS+=-lltdl</Elem>
+        </defs>
+      </qt>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>/usr/include/qt4/QtCore</pElem>
+          </incDir>
+        </ccTool>
+      </compileType>
+      <packaging>
+        <packType>Tar</packType>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.0.tar</output>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+      </packaging>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcrypto</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lltdl</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+        </linkerTool>
+      </folder>
+    </conf>
+    <conf name="Release" type="4">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <qt>
+        <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
+        <target>L2tpIPsecVpn</target>
+        <buildMode>1</buildMode>
+        <modules>core gui network</modules>
+        <mocDir>src/generated</mocDir>
+        <rccDir>src/generated</rccDir>
+        <uiDir>src/generated</uiDir>
+        <defs>
+          <Elem></Elem>
+          <Elem>LIBS+=-lctemplate</Elem>
+          <Elem>LIBS+=-lcrypto</Elem>
+          <Elem>LIBS+=-lltdl</Elem>
+          <Elem>target.path = /usr/bin</Elem>
+          <Elem>INSTALLS += target</Elem>
+          <Elem>data.path = /usr/share/L2tpIPsecVpn</Elem>
+          <Elem>data.files = resources/logo.png</Elem>
+          <Elem>INSTALLS += data</Elem>
+          <Elem>startupmenu.path = /etc/xdg/autostart</Elem>
+          <Elem>startupmenu.files = resources/L2tpIPsecVpn.desktop</Elem>
+          <Elem>INSTALLS += startupmenu</Elem>
+          <Elem>preferencesmenu.path = /usr/share/applications</Elem>
+          <Elem>preferencesmenu.files = resources/L2TP-Ipsec-VPN-Manager.desktop</Elem>
+          <Elem>INSTALLS += preferencesmenu</Elem>
+          <Elem>networkmenu.path=/usr/share/applications</Elem>
+          <Elem>networkmenu.files = resources/L2tpIPsecVpn-Applet.desktop</Elem>
+          <Elem>INSTALLS += networkmenu</Elem>
+        </defs>
+      </qt>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>/usr/include/qt4/QtCore</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <packaging>
+        <packType>Tar</packType>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.0.tar</output>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+      </packaging>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcrypto</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lltdl</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+        </linkerTool>
+      </folder>
+    </conf>
+  </confs>
+</configurationDescriptor>
