@@ -1,0 +1,5 @@
+l2tp-ipsec-vpn (1.0.0-1) unstable; urgency=low
+
+  * Initial release. (Closes: #602504)
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Fri, 29 Jul 2011 07:07:22 +0200

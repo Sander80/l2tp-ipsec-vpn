@@ -1,0 +1,30 @@
+Source: l2tp-ipsec-vpn
+Section: net
+Priority: optional
+Maintainer: Werner Jaeger <werner_jaeger@web.de>
+Build-Depends: debhelper (>= 8.0),
+               libcppunit-dev (>= 1.12.1),
+               libctemplate-dev (>= 0.96),
+               libengine-pkcs11-openssl (>= 0.1.8-2),
+               libltdl-dev (>= 2.2.6),
+               libqt4-dev (>= 4.6.2),
+               libssl-dev (>= 0.9.8),
+               qt4-qmake (>= 4.6.2)
+Standards-Version: 3.9.2
+Vcs-bzr: lp:l2tp-ipsec-vpn
+Vcs-Browser: http://bazaar.launchpad.net/~werner-jaeger/l2tp-ipsec-vpn/gui/files
+Homepage: https://launchpad.net/l2tp-ipsec-vpn
+
+Package: l2tp-ipsec-vpn
+Architecture: any
+Depends: gksu (>= 2.0),
+         l2tp-ipsec-vpn-daemon (>= 0.9.5),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: libengine-pkcs11-openssl (>=0.1.8-2), ppp-2.4.5-eaptls-mppe (>=0.98)
+Description: control your L2TP IPsec VPN connections
+ This GUI provides a system tray icon in the notification area from which a non
+ privileged user can establish and bring down L2TP over IPsec VPN connections.
+ .
+ There is also a configuration editor that allows configuring various options
+ for IPsec, L2TP and PPP.
