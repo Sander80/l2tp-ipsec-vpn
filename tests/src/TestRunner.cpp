@@ -1,5 +1,5 @@
 /*
- * $Id: TestRunner.cpp 45 2011-02-12 00:25:26Z werner $
+ * $Id: TestRunner.cpp 105 2011-08-16 00:56:38Z werner $
  *
  * File:   TestRunner.cpp
  * Author: wejaeger
@@ -34,7 +34,7 @@ int main()
    // Create the event manager and test controller
    CPPUNIT_NS::TestResult controller;
 
-   // Add a listener that colllects test result
+   // Add a listener that collects test result
    CPPUNIT_NS::TestResultCollector result;
    controller.addListener(&result);
 

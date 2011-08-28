@@ -1,3 +1,10 @@
+1.0.1
+ - Makefile:
+   * clean target did not delete all generated files
+   * added clobber and uninstall target
+
+ - Renamed targets in Qt test project files
+
 1.0.0
  - fixed bug when connecting ipsec auto --up is occasionally started before 
    pluto is running or has added the connection (LP: #781498)

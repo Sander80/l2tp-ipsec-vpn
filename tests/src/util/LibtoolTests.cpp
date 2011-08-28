@@ -1,7 +1,7 @@
 /*
- * $Id: LibtoolTests.cpp 45 2011-02-12 00:25:26Z werner $
+ * $Id: LibtoolTests.cpp 105 2011-08-16 00:56:38Z werner $
  *
- * File:   Libtool.cpp
+ * File:   LibtoolTests.cpp
  * Author: wejaeger
  *
  * Created on Feb 8, 2011, 1:06:28 PM

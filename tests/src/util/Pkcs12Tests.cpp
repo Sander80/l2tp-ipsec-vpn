@@ -1,7 +1,7 @@
 /*
- * $Id: Pkcs12Tests.cpp 102 2011-08-05 03:08:00Z werner $
+ * $Id: Pkcs12Tests.cpp 105 2011-08-16 00:56:38Z werner $
  *
- * File:   newtestclass.cpp
+ * File:   Pkcs12Tests.cpp
  * Author: wejaeger
  *
  * Created on Apr 8, 2011, 7:41:51 PM

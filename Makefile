@@ -1,5 +1,5 @@
 #
-# $Id: Makefile 104 2011-08-05 07:50:33Z werner $
+# $Id: Makefile 105 2011-08-16 00:56:38Z werner $
 #
 # File:   Makefile
 # Author: Werner Jaeger
@@ -25,40 +25,58 @@
 QMAKE = qmake-qt4
 
 # default configuration is release
-CONF ?= Release
+DEFAULTCONF=Release
+
+# Active Configuration
+CONF ?= ${DEFAULTCONF}
+
+# All Configurations
+ALLCONFS=Debug Release 
 
 # various directories
 BUILDDIR = build/${CONF}
 GENDIR = src/generated
+DOCDIR = docs/api
 DISTDIR = dist/${CONF}
 TESTDIR = build/TestFiles
 
 # build
 build: nbproject/qt-${CONF}.mk
-	make -f nbproject/qt-${CONF}.mk dist/${CONF}/L2tpIPsecVpn
+	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/L2tpIPsecVpn
 
 # install
 install: nbproject/qt-${CONF}.mk
 	make -f nbproject/qt-${CONF}.mk install
 
+# uninstall
+uninstall: nbproject/qt-${CONF}.mk
+	make -f nbproject/qt-${CONF}.mk uninstall
+
 # clean
 clean:
 	rm -rf ${BUILDDIR}/*
 	rm -rf ${GENDIR}/*
+	rm -rf ${DOCDIR}
 	rm -rf ${DISTDIR}/*
 	rm -rf ${TESTDIR}/*
-	rm -f nbproject/qt-EncSecretsTests.mk
-	rm -f nbproject/qt-LibtoolTests.mk
-	rm -f nbproject/qt-Pkcs12Tests.mk
-	rm -f nbproject/qt-${CONF}.mk
+	rm -f nbproject/*.mk
+	rm -f nbproject/*.bash
+	rm -f *.mk
+
+# clobber 
+clobber:
+	@for CONF in ${ALLCONFS}; \
+	do \
+	    make CONF=$${CONF} clean; \
+	done
 
 # run tests
 test: build build-tests
 	@if [ "${TEST}" = "" ]; \
 	then  \
-	    ${TESTDIR}/f2 || true; \
-	    ${TESTDIR}/f3 || true; \
-	    ${TESTDIR}/f1 || true; \
+	    ${TESTDIR}/LibtoolTests || true; \
+	    ${TESTDIR}/Pkcs12Tests || true; \
+	    ${TESTDIR}/EncSecretsTests || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi
@@ -66,34 +84,40 @@ test: build build-tests
 # help
 help:
 	@echo "This makefile supports the following configurations:"
-	@echo "    Release, Debug"
+	@echo "    ${ALLCONFS} (default = ${DEFAULTCONF})"
 	@echo ""
 	@echo "and the following targets:"
 	@echo "    build  (default target)"
 	@echo "    clean"
+	@echo "    clobber"
 	@echo "    install"
+	@echo "    uninstall"
 	@echo "    test"
 	@echo "    help"
 	@echo ""
 	@echo "Makefile Usage:"
 	@echo "    make [CONF=<CONFIGURATION>] build"
 	@echo "    make [CONF=<CONFIGURATION>] clean"
-	@echo "    make [CONF=<CONFIGURATION>] [INSTALL_ROOT=<Base directory to intall in>] install"
+	@echo "    make clobber"
+	@echo "    make [CONF=<CONFIGURATION>] [INSTALL_ROOT=<Base directory to install in>] install"
+	@echo "    make [INSTALL_ROOT=<Base directory to uninstall from>] uninstall"
 	@echo "    make test"
 	@echo "    make help"
 	@echo ""
 	@echo "Target 'build' will build a specific configuration."
-	@echo "Target 'clean' will clean a specific configuration."
-	@echo "Target 'install' will install a specific configuration of the program."
-	@echo "    in [INSTALL_ROOT]/usr/lib/l2tp-ipsec-vpn-daemon/"
+	@echo "Target 'clean' will remove all built files from a specific configuration."
+	@echo "Target 'clobber' will remove all built files from all configurations"
+	@echo "Target 'install' will install a specific configuration of the program"
+	@echo "       in [INSTALL_ROOT]/usr/bin/"
+	@echo "Target 'uninstall' will uninstall the program from [INSTALL_ROOT]/usr/bin/"
 	@echo "Target 'test' will run the test suite."
-	@echo "Target 'help' prints this message."
+	@echo "Target 'help' prints this message"
 	@echo ""
 
 build-tests: nbproject/qt-EncSecretsTests.mk nbproject/qt-LibtoolTests.mk nbproject/qt-Pkcs12Tests.mk
-	make -f nbproject/qt-EncSecretsTests.mk ${TESTDIR}/f1
-	make -f nbproject/qt-LibtoolTests.mk ${TESTDIR}/f2
-	make -f nbproject/qt-Pkcs12Tests.mk ${TESTDIR}/f3
+	make -f nbproject/qt-EncSecretsTests.mk ${TESTDIR}/EncSecretsTests
+	make -f nbproject/qt-LibtoolTests.mk ${TESTDIR}/LibtoolTests
+	make -f nbproject/qt-Pkcs12Tests.mk ${TESTDIR}/Pkcs12Tests
 
 nbproject/qt-EncSecretsTests.mk: tests/EncSecretsTests.pro
 	${QMAKE} -o qttmp-EncSecretsTests.mk "BUILDDIR=${BUILDDIR}" "OBJECTS_DIR=${TESTDIR}" "DESTDIR=${TESTDIR}" tests/EncSecretsTests.pro
@@ -108,6 +132,6 @@ nbproject/qt-Pkcs12Tests.mk: tests/Pkcs12Tests.pro
 	mv -f qttmp-Pkcs12Tests.mk nbproject/qt-Pkcs12Tests.mk
 
 nbproject/qt-${CONF}.mk: nbproject/qt-${CONF}.pro
-	${QMAKE} -o qttmp-${CONF}.mk -after "OBJECTS_DIR=${BUILDDIR}" nbproject/qt-${CONF}.pro
+	${QMAKE} -o qttmp-${CONF}.mk -after "OBJECTS_DIR=${BUILDDIR}" "DESTDIR=${DISTDIR}" nbproject/qt-${CONF}.pro
 	mv -f qttmp-${CONF}.mk nbproject/qt-${CONF}.mk
 
