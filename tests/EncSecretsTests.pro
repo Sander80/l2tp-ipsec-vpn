@@ -22,7 +22,7 @@
 #
 # Build Unit Tests for EncSecrets class
 #
-TARGET = f1
+TARGET = EncSecretsTests
 CONFIG += debug
 QT = core
 INCLUDEPATH=../src

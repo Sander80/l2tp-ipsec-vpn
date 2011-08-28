@@ -22,7 +22,7 @@
 #
 # Build Unit Tests for Libtool class
 #
-TARGET = f3
+TARGET = Pkcs12Tests
 CONFIG += debug
 QT = core network
 INCLUDEPATH=../src

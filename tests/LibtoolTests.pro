@@ -22,7 +22,7 @@
 #
 # Build Unit Tests for Libtool class
 #
-TARGET = f2
+TARGET = LibtoolTests
 CONFIG += debug
 QT = core gui
 INCLUDEPATH=../src

@@ -1,3 +1,18 @@
+l2tp-ipsec-vpn (1.0.1-1) unstable; urgency=low
+
+  * New upstream release
+    - Makefile:
+      o clean target did not delete all generated files
+      o added clobber and uninstall target
+
+    - Renamed targets in Qt test project files
+
+  * debian/control: 
+    - Removed ppp-2.4.5-eaptls-mppe suggests dependency
+    - Changed architecture from any to linux-any (Closes: #639434)
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Sun, 28 Aug 2011 12:35:41 +0200
+
 l2tp-ipsec-vpn (1.0.0-1) unstable; urgency=low
 
   * Initial release. (Closes: #602504)

@@ -142,17 +142,17 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
-      <logicalFolder name="f2"
+      <logicalFolder name="LibtoolTests"
                      displayName="Libtool Tests"
                      projectFiles="true"
                      kind="TEST">
       </logicalFolder>
-      <logicalFolder name="f3"
+      <logicalFolder name="Pkcs12Tests"
                      displayName="Pkcs12 Tests"
                      projectFiles="true"
                      kind="TEST">
       </logicalFolder>
-      <logicalFolder name="f1"
+      <logicalFolder name="EncSecretsTests"
                      displayName="Secrets Encoding Tests"
                      projectFiles="true"
                      kind="TEST">
@@ -165,9 +165,6 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceRootList>
-    <Elem>src</Elem>
-  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="4">
@@ -183,99 +180,6 @@
         <rccDir>src/generated</rccDir>
         <uiDir>src/generated</uiDir>
         <defs>
-          <Elem>LIBS+=-lctemplate</Elem>
-          <Elem>LIBS+=-lcrypto</Elem>
-          <Elem>LIBS+=-lltdl</Elem>
-        </defs>
-      </qt>
-      <compileType>
-        <ccTool>
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/include/qt4</pElem>
-            <pElem>/usr/include/qt4/QtCore</pElem>
-          </incDir>
-        </ccTool>
-      </compileType>
-      <packaging>
-        <packType>Tar</packType>
-        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.0.tar</output>
-        <packFileList>
-          <packFileListElem type="File"
-                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
-                            from="${OUTPUT_PATH}"
-                            perm="755"
-                            owner="root"
-                            group="bin"/>
-        </packFileList>
-      </packaging>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-          <linkerLibItems>
-            <linkerOptionItem>-lcrypto</linkerOptionItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f2">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
-          <linkerLibItems>
-            <linkerOptionItem>-lltdl</linkerOptionItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f3">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f3</output>
-        </linkerTool>
-      </folder>
-    </conf>
-    <conf name="Release" type="4">
-      <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>GNU|GNU</compilerSet>
-      </toolsSet>
-      <qt>
-        <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
-        <target>L2tpIPsecVpn</target>
-        <buildMode>1</buildMode>
-        <modules>core gui network</modules>
-        <mocDir>src/generated</mocDir>
-        <rccDir>src/generated</rccDir>
-        <uiDir>src/generated</uiDir>
-        <defs>
-          <Elem></Elem>
           <Elem>LIBS+=-lctemplate</Elem>
           <Elem>LIBS+=-lcrypto</Elem>
           <Elem>LIBS+=-lltdl</Elem>
@@ -296,27 +200,18 @@
         </defs>
       </qt>
       <compileType>
-        <cTool>
-          <developmentMode>5</developmentMode>
-        </cTool>
         <ccTool>
-          <developmentMode>5</developmentMode>
           <incDir>
             <pElem>src</pElem>
             <pElem>/usr/include/qt4</pElem>
             <pElem>/usr/include/qt4/QtCore</pElem>
+            <pElem>/usr/include/qt4/QtNetwork</pElem>
           </incDir>
         </ccTool>
-        <fortranCompilerTool>
-          <developmentMode>5</developmentMode>
-        </fortranCompilerTool>
-        <asmTool>
-          <developmentMode>5</developmentMode>
-        </asmTool>
       </compileType>
       <packaging>
         <packType>Tar</packType>
-        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.0.tar</output>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.1.tar</output>
         <packFileList>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
@@ -326,55 +221,156 @@
                             group="bin"/>
         </packFileList>
       </packaging>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
+      <folder path="TestFiles">
         <ccTool>
           <incDir>
-            <pElem>.</pElem>
+            <pElem>../src</pElem>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>/usr/include/qt4/QtCore</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcppunit</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/EncSecretsTests">
+        <linkerTool>
+          <output>build/TestFiles/EncSecretsTests</output>
           <linkerLibItems>
             <linkerOptionItem>-lcrypto</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </folder>
-      <folder path="TestFiles/f2">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
+      <folder path="TestFiles/LibtoolTests">
         <ccTool>
           <incDir>
-            <pElem>.</pElem>
+            <pElem>/usr/include/qt4/QtGui</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
+          <output>build/TestFiles/LibtoolTests</output>
           <linkerLibItems>
             <linkerOptionItem>-lltdl</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </folder>
-      <folder path="TestFiles/f3">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
+      <folder path="TestFiles/Pkcs12Tests">
         <ccTool>
           <incDir>
-            <pElem>.</pElem>
+            <pElem>/usr/include/qt4/QtNetwork</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f3</output>
+          <output>build/TestFiles/Pkcs12Tests</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcrypto</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+    </conf>
+    <conf name="Release" type="4">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <qt>
+        <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
+        <target>L2tpIPsecVpn</target>
+        <buildMode>1</buildMode>
+        <modules>core gui network</modules>
+        <mocDir>src/generated</mocDir>
+        <rccDir>src/generated</rccDir>
+        <uiDir>src/generated</uiDir>
+        <defs>
+          <Elem>LIBS+=-lctemplate</Elem>
+          <Elem>LIBS+=-lcrypto</Elem>
+          <Elem>LIBS+=-lltdl</Elem>
+          <Elem>target.path = /usr/bin</Elem>
+          <Elem>INSTALLS += target</Elem>
+          <Elem>data.path = /usr/share/L2tpIPsecVpn</Elem>
+          <Elem>data.files = resources/logo.png</Elem>
+          <Elem>INSTALLS += data</Elem>
+          <Elem>startupmenu.path = /etc/xdg/autostart</Elem>
+          <Elem>startupmenu.files = resources/L2tpIPsecVpn.desktop</Elem>
+          <Elem>INSTALLS += startupmenu</Elem>
+          <Elem>preferencesmenu.path = /usr/share/applications</Elem>
+          <Elem>preferencesmenu.files = resources/L2TP-Ipsec-VPN-Manager.desktop</Elem>
+          <Elem>INSTALLS += preferencesmenu</Elem>
+          <Elem>networkmenu.path=/usr/share/applications</Elem>
+          <Elem>networkmenu.files = resources/L2tpIPsecVpn-Applet.desktop</Elem>
+          <Elem>INSTALLS += networkmenu</Elem>
+        </defs>
+      </qt>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>/usr/include/qt4/QtCore</pElem>
+            <pElem>/usr/include/qt4/QtNetwork</pElem>
+          </incDir>
+        </ccTool>
+      </compileType>
+      <packaging>
+        <packType>Tar</packType>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.1.tar</output>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+      </packaging>
+      <folder path="TestFiles">
+        <ccTool>
+          <incDir>
+            <pElem>../src</pElem>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>/usr/include/qt4/QtCore</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerOptionItem>-lcppunit</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/EncSecretsTests">
+        <linkerTool>
+          <output>build/TestFiles/EncSecretsTests</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcrypto</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/LibtoolTests">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/qt4/QtGui</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>build/TestFiles/LibtoolTests</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lltdl</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/Pkcs12Tests">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/qt4/QtNetwork</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>build/TestFiles/Pkcs12Tests</output>
+          <linkerLibItems>
+            <linkerOptionItem>-lcrypto</linkerOptionItem>
+          </linkerLibItems>
         </linkerTool>
       </folder>
     </conf>
