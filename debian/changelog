@@ -1,3 +1,22 @@
+l2tp-ipsec-vpn (1.0.2-1) unstable; urgency=low
+
+  * New upstream release
+    - fixed bug No connection names in context menu when using unity desktop
+      (LP: #877083)
+    - fixed bug L2tpIPsecVpn core dumps (LP: #845845)
+    - copy and paste pre-shared key does not truncate trailing CR/LF
+      (LP: #853020)
+    - fixed bug System tray icon disappears sometimes (LP: #791471)
+
+  * debian/postinst:
+    - removed restart logic (LP: #818294)
+
+  * debian/copyright:
+    - empty lines must be escaped by representing them by a space followed by a 
+      dot
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Wed, 19 Oct 2011 17:14:54 +0200
+
 l2tp-ipsec-vpn (1.0.1-1) unstable; urgency=low
 
   * New upstream release

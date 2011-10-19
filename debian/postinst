@@ -28,18 +28,6 @@ case "$1" in
     # Rsyslogd  configuration file (potentially  written out with the command 
     # 'L2tpIPsecVpn applySettings' above)
     invoke-rc.d rsyslog restart || true
-
-    # if applet is running try to close and restart it
-    PIDS=$(pidof L2tpIPsecVpn || true)
-    if [ -n "$PIDS" ]; then
-       RUSER=$(ps -p $PIDS -o ruser=)
-       echo "Trying to stop L2tpIPsecVpn applet" >&2
-       kill $PIDS || true
-       if [ -n "$RUSER" ]; then
-          echo "Trying to restart L2tpIPsecVpn applet for user '$RUSER'" >&2
-          su -c "nohup L2tpIPsecVpn > /dev/null 2>&1 < /dev/null" $RUSER || true &
-       fi
-    fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

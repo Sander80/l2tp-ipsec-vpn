@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionManager.cpp 90 2011-04-22 14:33:35Z werner $
+ * $Id: ConnectionManager.cpp 110 2011-10-22 12:02:21Z werner $
  *
  * File:   ConnectionManager.cpp
  * Author: Werner Jaeger
@@ -96,8 +96,7 @@ ConnectionManager::~ConnectionManager()
    delete m_pActions;
    delete m_pState;
    delete m_pTrayIcon;
-   delete m_pContextMenu;
-   delete m_pConnectionMenu;
+   delete m_pTrayIconMenu;
    delete m_pVPNControlTask;
 }
 
@@ -153,23 +152,22 @@ void ConnectionManager::createActions()
 
 void ConnectionManager::createTrayIcon()
 {
-   m_pConnectionMenu = new QMenu;
-   m_pConnectionMenu->addAction(action(EDIT));
-
-   m_pContextMenu = new QMenu();
-   m_pContextMenu->addAction(action(EDIT));
-   m_pContextMenu->addAction(action(INFO));
-   m_pContextMenu->addSeparator();
-   m_pContextMenu->addAction(action(ABOUT));
-   m_pContextMenu->addSeparator();
-   m_pContextMenu->addAction(action(QUIT));
+   m_pTrayIconMenu = new QMenu();
+   m_pTrayIconMenu->addAction(action(DISC));
+   m_pTrayIconMenu->addSeparator();
+   m_pTrayIconMenu->addAction(action(EDIT));
+   m_pTrayIconMenu->addAction(action(INFO));
+   m_pTrayIconMenu->addSeparator();
+   m_pTrayIconMenu->addAction(action(ABOUT));
+   m_pTrayIconMenu->addSeparator();
+   m_pTrayIconMenu->addAction(action(QUIT));
 
    m_pTrayIcon = new QSystemTrayIcon(this);
-   m_pTrayIcon->setContextMenu(m_pContextMenu);
+   m_pTrayIcon->setContextMenu(m_pTrayIconMenu);
 
    m_pState = new NotConnected(m_pTrayIcon);
 
-   connect(m_pConnectionMenu, SIGNAL(triggered(QAction*)), SLOT(vpnConnect(QAction*)));
+   connect(m_pTrayIconMenu, SIGNAL(triggered(QAction*)), SLOT(vpnConnect(QAction*)));
    connect(m_pTrayIcon, SIGNAL(messageClicked()), SLOT(messageClicked()));
    connect(m_pTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 }
@@ -255,7 +253,7 @@ void ConnectionManager::vpnConnect(const QString& strConnectionName)
 
 void ConnectionManager::vpnConnect(QAction* pAction)
 {
-   if (m_pConnectionMenu && pAction)
+   if (m_pTrayIconMenu && pAction)
    {
       if (!pAction->data().isNull())
          vpnConnect(pAction->data().toString());
@@ -328,7 +326,7 @@ void ConnectionManager::iconActivated(QSystemTrayIcon::ActivationReason reason)
          break;
 
       case QSystemTrayIcon::Trigger:
-         m_pConnectionMenu->popup(QCursor::pos());
+         m_pTrayIconMenu->popup(QCursor::pos());
          break;
 
       default:
@@ -421,7 +419,7 @@ void ConnectionManager::onVpnTaskTimeout()
          error(500);
    }
 
-//   qDebug() << "ConnectionManager::onVpnTaskTimeout() -> finised";
+//   qDebug() << "ConnectionManager::onVpnTaskTimeout() -> finished";
 }
 
 void ConnectionManager::onVpnTaskFinished()
@@ -438,14 +436,8 @@ void ConnectionManager::onConnectionAdded(const QString& strName)
 {
 //   qDebug() << "ConnectionManager::onConnectionAdded(const QString&" << strName << ")";
 
-   if (m_pConnectionMenu && m_pActions)
+   if (m_pTrayIconMenu && m_pActions)
    {
-      if (m_pConnectionMenu->actions().count() == 1)
-      {
-         m_pConnectionMenu->removeAction(action(EDIT));
-         m_pConnectionMenu->addAction(action(DISC));
-      }
-
       m_pActions->append(new QAction(strName, this));
       m_pActions->last()->setData(strName);
       m_pActions->last()->setToolTip(tr("Click to establish a vpn connection to '%1'").arg(strName));
@@ -455,7 +447,7 @@ void ConnectionManager::onConnectionAdded(const QString& strName)
       else
          m_pActions->last()->setEnabled(false);
 
-      m_pConnectionMenu->insertAction(action(DISC), m_pActions->last());
+      m_pTrayIconMenu->insertAction(action(DISC), m_pActions->last());
    }
 
 //   qDebug() << "ConnectionManager::onConnectionAdded(const QString&" << strName << ") -> finished";
@@ -465,7 +457,7 @@ void ConnectionManager::onConnectionRemoved(const QString& strName)
 {
 //   qDebug() << "ConnectionManager::onConnectionRemoved(const QString&" << strName << ")";
 
-   if (m_pConnectionMenu && m_pActions)
+   if (m_pTrayIconMenu && m_pActions)
    {
       QAction* pAction = NULL;
       for (int i = QUIT + 1; !pAction && i < m_pActions->size(); i++)
@@ -476,15 +468,9 @@ void ConnectionManager::onConnectionRemoved(const QString& strName)
 
       if (pAction)
       {
-         m_pConnectionMenu->removeAction(pAction);
+         m_pTrayIconMenu->removeAction(pAction);
          m_pActions->removeAll(pAction);
          delete pAction;
-      }
-
-      if (m_pConnectionMenu->actions().count() == 1)
-      {
-         m_pConnectionMenu->removeAction(action(DISC));
-         m_pConnectionMenu->addAction(action(EDIT));
       }
    }
 

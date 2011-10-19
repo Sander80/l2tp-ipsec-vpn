@@ -1,3 +1,12 @@
+1.0.2
+ - fixed bug No connection names in context menu when using unity desktop
+   (LP: #877083)
+ - fixed bug Unable to successfully install/upgrade (LP: #818294)
+ - fixed bug L2tpIPsecVpn core dumps (LP: #845845)
+ - fixed bug copy and paste pre-shared key does not truncate trailing CR/LF
+   (LP: #853020)
+ - fixed bug System tray icon disappears sometimes (LP: #791471)
+
 1.0.1
  - Makefile:
    * clean target did not delete all generated files
@@ -6,7 +15,7 @@
  - Renamed targets in Qt test project files
 
 1.0.0
- - fixed bug when connecting ipsec auto --up is occasionally started before 
+ - fixed bug when connecting ipsec auto --up is occasionally started before
    pluto is running or has added the connection (LP: #781498)
  - fixed bug ipsec setup start failed (LP: #793542)
  - added menu entry to start applet
@@ -24,7 +33,7 @@
  - added a tab to the ConnectionInformation dialog to show various connection information and
    connection statistics
  - Animated system tray icon when connecting or disconnecting
- - Certificates to be used for IPsec rsasig authentication can now be imported from a 
+ - Certificates to be used for IPsec rsasig authentication can now be imported from a
    PKCS#12 certificate bundle
  - Debian package installer: start / restart applet after installation or upgrade
  - Spitted context menu. Now connection specific action are in a separate connection
@@ -33,7 +42,7 @@
  - fixed bug disconnection of physical network interface not detected if
    'Use default gateway on the remote network' is selected in PPP -> IP setting -> Routes
    configuration for the VPN connection (LP: #750000)
- - fixed bug manager applet no longer started automatically after 
+ - fixed bug manager applet no longer started automatically after
    upgrading it (LP: #750174)
  - fixed bug connection editor has wrong button layout (LP: #759510)
  - fixed bug invalid version string in .desktop files (LP: #759515)
@@ -42,7 +51,7 @@
  - fixed bug icon not available to other users (LP: #761216)
 
 0.9.8
- - no longer depends on ppp-2.4.5-eaptls-mppe package. It is optional and only needed if 
+ - no longer depends on ppp-2.4.5-eaptls-mppe package. It is optional and only needed if
    one wants to use PPP EAP-TLS authentication
  - No longer depends on OpenSC, any PKCS11 library can be used and is dynamically loaded
  - Increased retry attempts to detect a system tray from 10 to 30

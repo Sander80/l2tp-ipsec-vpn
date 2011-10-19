@@ -1,5 +1,5 @@
 /*
- * $Id: Pkcs11.h 97 2011-08-01 07:29:28Z werner $
+ * $Id: Pkcs11.h 110 2011-10-22 12:02:21Z werner $
  *
  * File:   Pkcs11.h
  * Author: Werner Jaeger
@@ -62,8 +62,9 @@ public:
 
    CK_OBJECT_HANDLE createObject(const Pkcs11Attlist& attrs) const;
 
-   static bool loadLibrary(QString strFilePath, bool fSilent);
-   static void pk11error(QString strfunc, int iReturnValue);
+   static bool loadLibrary(const QString strFilePath, bool fSilent);
+   static bool closeLibrary(const QString strFilePath, bool fSilent);
+   static void pk11error(const QString strfunc, int iReturnValue);
    static bool loaded() { return !!m_p11; };
 
 private:

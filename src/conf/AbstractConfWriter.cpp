@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractConfWriter.cpp 90 2011-04-22 14:33:35Z werner $
+ * $Id: AbstractConfWriter.cpp 110 2011-10-22 12:02:21Z werner $
  *
  * File:   AbstractConfWriter.cpp
  * Author: Werner Jaeger
@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QResource>
 #include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
@@ -30,6 +31,7 @@
 #include <QCoreApplication>
 #include "AbstractConfWriter.h"
 #include "VPNControlTask.h"
+#include "pkcs11/SmartCardState.h"
 
 static const char* const FILENAME = "FILENAME";
 static const char* const CREATIONDATE = "CREATIONDATE";
@@ -39,9 +41,8 @@ static const char* const APPPFILEPATH = "APPPFILEPATH";
 
 AbstractConfWriter::AbstractConfWriter(const QString& strTemplateKey, const QString& strWriteTo, FileType type) :
    m_strTemplateKey(strTemplateKey), m_strWriteTo(strWriteTo), m_Type(type),
-   m_strInstance(QString("")), m_strFileName(strWriteTo), m_pDictionary(NULL)
+   m_strInstance(QString("")), m_strFileName(strWriteTo), m_pDictionary(NULL), m_fTemplatesInitialized(false)
 {
-   ctemplate::Template::StringToTemplateCache(strTemplateKey.toStdString(), readTemplate(strTemplateKey).toStdString());
 }
 
 AbstractConfWriter::~AbstractConfWriter()
@@ -52,11 +53,14 @@ AbstractConfWriter::~AbstractConfWriter()
 
 const QString& AbstractConfWriter::write()
 {
-   m_strLastErrorMsg.clear();
-   newDictionary();
+   readTemplate(m_strTemplateKey);
 
-   fill();
-   save();
+   if (m_strLastErrorMsg.isEmpty())
+   {
+      newDictionary();
+      fill();
+      save();
+   }
 
    return(m_strLastErrorMsg);
 }
@@ -104,7 +108,7 @@ void AbstractConfWriter::save()
          QFile outFile(fileName());
          QDir outFileDir(QFileInfo(outFile).absoluteDir());
 
-         bool fOk = true;
+         bool fOk(true);
          if (!outFileDir.exists())
          {
             const QString strDirName(outFileDir.dirName());
@@ -155,34 +159,20 @@ void AbstractConfWriter::save()
       addErrorMsg(QObject::tr("Failed to get template '%1'.").arg(templateKey()));
 }
 
-QString AbstractConfWriter::readTemplate(const QString& strKey)
+void AbstractConfWriter::readTemplate(const QString& strKey)
 {
-   QString strText;
-   QFile templateFile(":/templates/" + strKey + ".tpl");
-   if (templateFile.open(QIODevice::ReadOnly | QIODevice::Text))
+   if (!m_fTemplatesInitialized)
    {
-      char acBuf[1024];
+      const QResource rsc(":/templates/" + strKey + ".tpl");
 
-      while (!templateFile.atEnd())
+      if (rsc.isValid())
       {
-         const int iRead = templateFile.read(acBuf,sizeof(acBuf));
-         if (iRead > 0)
-         {
-            acBuf[iRead] = '\0';
-            strText.append(acBuf);
-         }
-         else if (iRead == -1)
-         {
-            addErrorMsg(QObject::tr("A error occurred while reading template file '%1'.").arg(templateFile.fileName()));
-            break;
-         }
+         ctemplate::Template::StringToTemplateCache(m_strTemplateKey.toStdString(), QString(reinterpret_cast<const char*>(rsc.data())).toStdString());
+         m_fTemplatesInitialized = true;
       }
-      templateFile.close();
+      else
+         addErrorMsg(QObject::tr("Failed to open template file ':/templates/%1.tpl'.").arg(strKey));
    }
-   else
-      addErrorMsg(QObject::tr("Failed to open template file '%1'.").arg(templateFile.fileName()));
-
-   return(strText);
 }
 
 void AbstractConfWriter::newDictionary()
