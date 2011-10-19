@@ -1,5 +1,5 @@
 /*
- * $Id: main.cpp 86 2011-04-20 05:27:21Z werner $
+ * $Id: main.cpp 110 2011-10-22 12:02:21Z werner $
  *
  * File:   main.cpp
  * Author: Werner Jaeger
@@ -60,11 +60,12 @@ int main(int iArgc, char* pcArgv[])
    {
       Q_INIT_RESOURCE(L2tpIPsecVpn);
 
+      const QString strPkcs11Lib(Preferences().openSSLSettings().pkcs11Path());
+
       if (!Pkcs11::loaded())
       {
-         const QString strPkcs11Lib(Preferences().openSSLSettings().pkcs11Path());
          if (!strPkcs11Lib.isEmpty())
-            iRet = Pkcs11::loadLibrary(Preferences().openSSLSettings().pkcs11Path(), true) ? 0 : 2;
+            iRet = Pkcs11::loadLibrary(strPkcs11Lib, true) ? 0 : 2;
       }
 
       if (iRet == 0)
@@ -101,6 +102,7 @@ int main(int iArgc, char* pcArgv[])
                Q_ASSERT(false);
                break;
          }
+         Pkcs11::closeLibrary(strPkcs11Lib, true);
       }
       else
          QMessageBox::critical(NULL, app.applicationName(), QObject::tr("I couldn't load PKCS11 library %1.").arg(Preferences().openSSLSettings().pkcs11Path()));

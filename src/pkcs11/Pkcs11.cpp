@@ -1,5 +1,5 @@
 /*
- * $Id: Pkcs11.cpp 39 2011-02-05 03:06:31Z werner $
+ * $Id: Pkcs11.cpp 110 2011-10-22 12:02:21Z werner $
  *
  * File:   Pkcs11.cpp
  * Author: Werner Jaeger
@@ -296,9 +296,10 @@ QList<CK_OBJECT_HANDLE> Pkcs11::objectList(const Pkcs11Attlist& atts) const
    return(objectHandleList);
 }
 
-bool Pkcs11::loadLibrary(QString strFilePath, bool fSilent)
+bool Pkcs11::loadLibrary(const QString strFilePath, bool fSilent)
 {
-   m_p11 = NULL;
+   if (!Pkcs11::closeLibrary(strFilePath, fSilent))
+      return(false);
 
    CK_RV(*c_get_function_list)(CK_FUNCTION_LIST_PTR_PTR);
 
@@ -314,8 +315,6 @@ bool Pkcs11::loadLibrary(QString strFilePath, bool fSilent)
          throw ErrorEx("Failed to close PKCS11 library: " + strFilePath);
       }
    }
-
-   m_pLoadedModuleHandle = NULL;
 
    if (strFilePath.isEmpty())
    {
@@ -340,7 +339,10 @@ bool Pkcs11::loadLibrary(QString strFilePath, bool fSilent)
    if (c_get_function_list)
    {
       if (c_get_function_list(&m_p11) == CKR_OK)
+      {
+         m_p11->C_Initialize(NULL_PTR);
          return(true);
+      }
    }
 
    /* This state is always worth an error ! */
@@ -351,6 +353,29 @@ bool Pkcs11::loadLibrary(QString strFilePath, bool fSilent)
       throw ErrorEx("Failed to open PKCS11 library: " + strFilePath);
 
    return(false);
+}
+
+bool Pkcs11::closeLibrary(const QString strFilePath, bool fSilent)
+{
+   bool fRet(true);
+
+   if (m_pLoadedModuleHandle)
+   {
+      m_p11->C_Finalize(NULL_PTR);
+
+      if (::lt_dlclose(m_pLoadedModuleHandle) < 0)
+      {
+         fRet =false;
+
+         if (!fSilent)
+            throw ErrorEx("Failed to close PKCS11 library: " + strFilePath);
+      }
+   }
+
+   m_p11 = NULL;
+   m_pLoadedModuleHandle = NULL;
+
+   return(fRet);
 }
 
 static const char* CKR2Str(unsigned long ulReturnValue)
@@ -449,7 +474,7 @@ static const char* CKR2Str(unsigned long ulReturnValue)
    return ("unknown PKCS11 error");
 }
 
-void Pkcs11::pk11error(QString strfunc, int iReturnValue)
+void Pkcs11::pk11error(const QString strfunc, int iReturnValue)
 {
    ErrorEx err("PKCS#11 function " + strfunc + " failed: " + ::CKR2Str(iReturnValue) + "\n");
    throw err;

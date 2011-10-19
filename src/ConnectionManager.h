@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionManager.h 81 2011-04-19 03:37:04Z werner $
+ * $Id: ConnectionManager.h 110 2011-10-22 12:02:21Z werner $
  *
  * File:   ConnectionManager.h
  * Author: Werner Jaeger
@@ -102,8 +102,7 @@ private:
 
    ConnectionState* m_pState;
    QSystemTrayIcon* m_pTrayIcon;
-   QMenu* m_pContextMenu;
-   QMenu* m_pConnectionMenu;
+   QMenu* m_pTrayIconMenu;
    VPNControlTask* m_pVPNControlTask;
    volatile bool m_fIsExecuting;
    volatile bool m_fRoutePriorityIsChanging;

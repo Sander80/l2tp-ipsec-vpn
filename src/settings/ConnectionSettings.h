@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionSettings.h 38 2011-02-05 02:01:47Z werner $
+ * $Id: ConnectionSettings.h 109 2011-09-18 08:50:58Z werner $
  *
  * File:   ConnectionSettings.h
  * Author: Werner Jaeger
@@ -48,7 +48,6 @@ public:
    Result addConnection(const QString& strName) const;
    bool removeConnection(int iConnectionNo) const;
    QString gateway(const QString& strName) const;
-   QString name(const QHostAddress& gateway) const;
 
    CommonSettings commonSettings(const QString& strName) const;
    IPSecSettings ipsecSettings(const QString& strName) const;

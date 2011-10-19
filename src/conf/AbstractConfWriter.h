@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractConfWriter.h 13 2010-09-17 09:12:39Z werner $
+ * $Id: AbstractConfWriter.h 110 2011-10-22 12:02:21Z werner $
  *
  * File:   AbstractConfWriter.h
  * Author: Werner Jaeger
@@ -54,7 +54,7 @@ private:
 
    void save();
 
-   QString readTemplate(const QString& strKey);
+   void readTemplate(const QString& strKey);
 
    void newDictionary();
 
@@ -66,6 +66,8 @@ private:
    ctemplate::TemplateDictionary* m_pDictionary;
 
    QString m_strLastErrorMsg;
+
+   bool m_fTemplatesInitialized;
 };
 
 #endif	/* ABSTRACTCONFWRITER_H */

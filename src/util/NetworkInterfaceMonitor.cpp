@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterfaceMonitor.cpp 73 2011-04-14 14:51:44Z werner $
+ * $Id: NetworkInterfaceMonitor.cpp 108 2011-09-17 10:04:41Z werner $
  *
  * File:   NetworkInterfaceMonitor.cpp
  * Author: Werner Jaeger
@@ -145,7 +145,7 @@ void NetworkInterfaceMonitor::run()
          qCritical("Failed to bind netlink socket");
    }
    else
-      qCritical("Faild to create a new netlink socket.");
+      qCritical("Failed to create a new netlink socket.");
 
 //   qDebug() << "Leaving NetworkInterfaceMonitor thread";
 }
@@ -414,9 +414,9 @@ void NetworkInterfaceMonitor::debugFlags(unsigned iFlags)
    if (iFlags & IFF_BROADCAST)
       qDebug() << "Interface"  << "broadcast address is valid";
    if (iFlags & IFF_DEBUG)
-      qDebug() << "Interface"  << "drbug is turned on";
+      qDebug() << "Interface"  << "debug is turned on";
    if (iFlags & IFF_LOOPBACK)
-      qDebug() << "Interface"  << "is loop bsck";
+      qDebug() << "Interface"  << "is loop back";
    if (iFlags & IFF_POINTOPOINT)
       qDebug() << "Interface"  << "is Ptp";
    if (iFlags & IFF_NOTRAILERS)
@@ -424,7 +424,7 @@ void NetworkInterfaceMonitor::debugFlags(unsigned iFlags)
    if (iFlags & IFF_RUNNING)
       qDebug() << "Interface"  << "is running";
    if (iFlags & IFF_NOARP)
-      qDebug() << "Interface"  << "has no address resolution protocoll";
+      qDebug() << "Interface"  << "has no address resolution protocol";
    if (iFlags & IFF_PROMISC)
       qDebug() << "Interface"  << "is in promiscous mode";
    if (iFlags & IFF_ALLMULTI)
