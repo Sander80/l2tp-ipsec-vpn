@@ -1,5 +1,5 @@
 /*
- * $Id: L2tpIPsecVpnApplication.cpp 105 2011-08-16 00:56:38Z werner $
+ * $Id: L2tpIPsecVpnApplication.cpp 112 2011-12-26 03:00:40Z werner $
  *
  * File:   L2tpIPsecVpnApplication.cpp
  * Author: Werner Jaeger
@@ -47,7 +47,7 @@ L2tpIPsecVpnApplication::L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPL
    setOrganizationName("WernerJaeger");
    setOrganizationDomain("wejaeger.com");
    setApplicationName(APPLICATIONNAME);
-   setApplicationVersion("1.0.1");
+   setApplicationVersion("1.0.3");
    setObjectName("L2tpIPsecVpn");
    qRegisterMetaType<NetworkInterface>("NetworkInterface");
    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");

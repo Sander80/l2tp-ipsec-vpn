@@ -1,5 +1,5 @@
 /*
- * $Id: IPsecSecretsConfWriter.cpp 24 2010-10-07 12:35:00Z werner $
+ * $Id: IPsecSecretsConfWriter.cpp 112 2011-12-26 03:00:40Z werner $
  *
  * File:   IPsecSecretsConfWriter.cpp
  * Author: Werner Jaeger
@@ -91,7 +91,7 @@ void IPsecSecretsConfWriter::fill()
          else
          {
             pConnection->SetValue(KEYTYPE, PSKKEYTYPE);
-            pConnection->SetValue(KEY, QString('"' + ipsecSetting.preSharedKey() + '"').toAscii().constData());
+            pConnection->SetValue(KEY, QString("0t" + ipsecSetting.preSharedKey()).toAscii().constData());
          }
       }
       else

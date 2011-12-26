@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionInformationDialog.h 65 2011-04-07 13:47:04Z werner $
+ * $Id: ConnectionInformationDialog.h 112 2011-12-26 03:00:40Z werner $
  *
  * File:   ConnectionInformationDialog.h
  * Author: Werner Jaeger
@@ -38,8 +38,8 @@ public:
    virtual ~ConnectionInformationDialog();
 
    void clearLog() { m_Widget.m_pTextEdit->clear(); }
-   void appendLogPlainText(const char* pcText) { m_Widget.m_pTextEdit->insertPlainText(QString(pcText)); }
-   void appendLogColorText(const QColor&, const char* pcText);
+   void appendLogPlainText(const char* pcText);
+   void appendLogColorText(const QColor& color, const char* pcText);
 
 public slots:
    void onConectionStateChanged(const ConnectionState* pNewState, const QString& strConnectionName);

@@ -1,3 +1,7 @@
+1.0.3
+ - added timestamp to connection information log
+ - fixed bug pre-shared key containing double quote not handled properly
+      (LP: #881987)
 1.0.2
  - fixed bug No connection names in context menu when using unity desktop
    (LP: #877083)
