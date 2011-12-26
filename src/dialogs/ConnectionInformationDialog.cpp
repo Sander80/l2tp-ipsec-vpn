@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionInformationDialog.cpp 74 2011-04-15 03:47:43Z werner $
+ * $Id: ConnectionInformationDialog.cpp 112 2011-12-26 03:00:40Z werner $
  *
  * File:   ConnectionInformationDialog.cpp
  * Author: Werner Jaeger
@@ -22,6 +22,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDateTime>
+
 #include "ConnectionState.h"
 #include "ConnectionManager.h"
 #include "InterfaceStatisticsDialog.h"
@@ -38,14 +40,22 @@ ConnectionInformationDialog::~ConnectionInformationDialog()
 {
 }
 
-void ConnectionInformationDialog::appendLogColorText(const QColor&, const char* pcText)
+void ConnectionInformationDialog::appendLogPlainText(const char* pcText)
+{
+   const QString strText(pcText);
+   const int iPos(strText.indexOf("ipsec__plutorun"));
+
+   m_Widget.m_pTextEdit->insertPlainText(QDateTime::currentDateTime().toString("MMM dd hh:mm:ss.zzz") + " " + strText.mid((iPos == -1 ? 0 : iPos)));
+}
+
+void ConnectionInformationDialog::appendLogColorText(const QColor& color, const char* pcText)
 {
    const QColor currentColor(m_Widget.m_pTextEdit->textColor());
 
    if (pcText)
    {
-      m_Widget.m_pTextEdit->setTextColor(QColor(255, 0, 0));
-      m_Widget.m_pTextEdit->insertPlainText(QString(pcText));
+      m_Widget.m_pTextEdit->setTextColor(color);
+      appendLogPlainText(pcText);
       m_Widget.m_pTextEdit->setTextColor(currentColor);
    }
 }

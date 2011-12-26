@@ -1,3 +1,12 @@
+l2tp-ipsec-vpn (1.0.3-1) unstable; urgency=low
+
+  * New upstream release
+    - added timestamp to connection information log
+    - fixed bug pre-shared key containing double quote not handled properly
+      (LP: #881987)
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Mon, 26 Dec 2011 02:46:11 +0200
+
 l2tp-ipsec-vpn (1.0.2-1) unstable; urgency=low
 
   * New upstream release
