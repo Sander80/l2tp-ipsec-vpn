@@ -1,5 +1,5 @@
 /*
- * $Id: Pkcs12.cpp 69 2011-04-12 04:33:22Z werner $
+ * $Id: Pkcs12.cpp 119 2012-03-02 10:11:22Z werner $
  *
  * File:   Pkcs12.cpp
  * Author: wejaeger
@@ -165,7 +165,7 @@ bool Pkcs12::privateKey2Pem(const QString& strFilenamePath, const QString& strPa
 
       if (pPemFile)
       {
-         if (::PEM_write_PrivateKey(pPemFile, m_pKey, ::EVP_des_ede3_cbc(), NULL, 1024, passwordCallback, strPassphrase.toUtf8().data()))
+         if (::PEM_write_RSAPrivateKey(pPemFile, m_pKey->pkey.rsa, ::EVP_des_ede3_cbc(), NULL, 0, passwordCallback, strPassphrase.toUtf8().data()))
             fRet = true;
          else
             m_strError = tr("Writing private key to") + "" + strFilenamePath + "" + tr("failed");

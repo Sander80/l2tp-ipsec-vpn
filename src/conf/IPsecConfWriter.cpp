@@ -1,5 +1,5 @@
 /*
- * $Id: IPsecConfWriter.cpp 92 2011-06-17 05:54:54Z werner $
+ * $Id: IPsecConfWriter.cpp 114 2012-01-22 05:07:35Z werner $
  *
  * File:   IPsecConfWriter.cpp
  * Author: Werner Jaeger
@@ -53,19 +53,23 @@ void IPsecConfWriter::fill()
 
    for (int i = 0; i < iConnections; i++)
    {
-      ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
       const QString strName(settings.connection(i));
 
       if (!strName.isEmpty())
       {
-         const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
+         if (!settings.commonSettings(strName).disableIPSecEncryption())
+         {
+            ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
 
-         pConnection->SetValue(NAME, strName.toAscii().constData());
-         pConnection->SetValue(GATEWAY, ipsecSetting.gateway().toAscii().constData());
-         pConnection->SetValue(IDENTITY, ipsecSetting.identity().toAscii().constData());
-         pConnection->SetValue(AUTHBY, ipsecSetting.authBy().toAscii().constData());
-         if (ipsecSetting.authBy() == RSASIG)
-            pConnection->SetFormattedValue(LEFTCERT, LEFTCERTLINE, ipsecSetting.certificateFileName().toAscii().constData());
+            const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
+
+            pConnection->SetValue(NAME, strName.toAscii().constData());
+            pConnection->SetValue(GATEWAY, ipsecSetting.gateway().toAscii().constData());
+            pConnection->SetValue(IDENTITY, ipsecSetting.identity().toAscii().constData());
+            pConnection->SetValue(AUTHBY, ipsecSetting.authBy().toAscii().constData());
+            if (ipsecSetting.authBy() == RSASIG)
+               pConnection->SetFormattedValue(LEFTCERT, LEFTCERTLINE, ipsecSetting.certificateFileName().toAscii().constData());
+         }
       }
       else
          addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>515</width>
-    <height>270</height>
+    <height>297</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
     <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="m_pDialogLayout">
    <item>
@@ -30,7 +33,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="m_pFileEdit">
         <property name="toolTip">
-         <string>Full path to PKCS12 (*.p12, *.pfx) encoded certificate bundle file to immport</string>
+         <string>Full path to PKCS12 (*.p12, *.pfx) encoded certificate bundle file to import</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -95,7 +98,7 @@
       <item row="1" column="0" colspan="2">
        <widget class="QCheckBox" name="m_pSeletAutomaticallyCheckBox">
         <property name="toolTip">
-         <string>If checked. the imported certificate is automatically selectd as IPsec authentication certificate </string>
+         <string>If checked. the imported certificate is automatically selected as IPsec authentication certificate </string>
         </property>
         <property name="text">
          <string>Use this certificate for IPsec authentication</string>

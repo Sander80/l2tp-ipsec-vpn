@@ -24,8 +24,8 @@ case "$1" in
     # re-apply settings just in case the new version has changed some things
     L2tpIPsecVpn applySettings || true
 
-    # restart syslog daemon just in case the new version has changed the 
-    # Rsyslogd  configuration file (potentially  written out with the command 
+    # restart syslog daemon just in case the new version has changed the
+    # Rsyslogd  configuration file (potentially  written out with the command
     # 'L2tpIPsecVpn applySettings' above)
     invoke-rc.d rsyslog restart || true
     ;;

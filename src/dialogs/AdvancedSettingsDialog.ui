@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
+    <width>305</width>
     <height>221</height>
    </rect>
   </property>
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
     <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="m_pDialogLayout">
    <item>
@@ -27,7 +30,7 @@
       <item>
        <widget class="QCheckBox" name="m_pAllowBSDCompressionCheckBox">
         <property name="text">
-         <string>Allow &amp;BSD dada compression</string>
+         <string>Allow &amp;BSD data compression</string>
         </property>
        </widget>
       </item>
@@ -71,6 +74,9 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

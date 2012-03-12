@@ -1,4 +1,4 @@
-.TH L2tpIPsecVpn 1 "26 Dec 2011" "version 1.0.3"
+.TH L2tpIPsecVpn 1 "12 Mar 2012" "version 1.0.6"
 .SH NAME
 \fBL2tpIPsecVpn\fP \- L2tp over IPsec VPN Manager applet for the GNOME Desktop
 
@@ -45,6 +45,11 @@ Starts the connection editor dialog.
 .TP
 \fapplySettings\fR
 Write configuration files according to the connection settings, must be
+started with root privileges, ie use gksudo as non root user.
+
+.TP
+\fdeleteAllConfFiles\fR
+Delete all configuration files, must be
 started with root privileges, ie use gksudo as non root user.
 
 .SH AUTHORS

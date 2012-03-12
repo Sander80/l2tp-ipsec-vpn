@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionInformationDialog.cpp 112 2011-12-26 03:00:40Z werner $
+ * $Id: ConnectionInformationDialog.cpp 114 2012-01-22 05:07:35Z werner $
  *
  * File:   ConnectionInformationDialog.cpp
  * Author: Werner Jaeger
@@ -70,7 +70,7 @@ void ConnectionInformationDialog::onConectionStateChanged(const ConnectionState*
       {
          const NetworkInterface interface(pNewState->ptpInterface());
          const NetworkInterface::AddressEntries addressEntries(interface.addressEntries());
-         const NetworkInterface::InternetInterfaceInfo internetInterfaceInfo(NetworkInterface::internetInterfaceInfo());
+         const NetworkInterface::DefaultGatewayInfo internetInterfaceInfo(NetworkInterface::defaultGatewayInfo());
 
          m_Widget.m_pTabWidget->setCurrentIndex(0);
          m_Widget.m_pTabWidget->setTabEnabled(0, true);

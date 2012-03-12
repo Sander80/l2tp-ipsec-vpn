@@ -1,5 +1,5 @@
 #
-# $Id: Makefile 105 2011-08-16 00:56:38Z werner $
+# $Id: Makefile 125 2012-03-12 14:06:09Z werner $
 #
 # File:   Makefile
 # Author: Werner Jaeger
@@ -31,7 +31,7 @@ DEFAULTCONF=Release
 CONF ?= ${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release 
+ALLCONFS=Debug Release
 
 # various directories
 BUILDDIR = build/${CONF}
@@ -40,17 +40,61 @@ DOCDIR = docs/api
 DISTDIR = dist/${CONF}
 TESTDIR = build/TestFiles
 
+QMAKE_TARGET = L2tpIPsecVpn
+
 # build
 build: nbproject/qt-${CONF}.mk
-	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/L2tpIPsecVpn
+	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 
 # install
 install: nbproject/qt-${CONF}.mk
-	make -f nbproject/qt-${CONF}.mk install
+	make -f nbproject/qt-${CONF}.mk QMAKE_TARGE=$(QMAKE_TARGET) install
+
+	@if [ "$${INSTALL_ROOT}" = "" ]; then \
+	   $(QMAKE_TARGET) applySettings || true; \
+	   invoke-rc.d rsyslog restart; \
+	fi
 
 # uninstall
 uninstall: nbproject/qt-${CONF}.mk
-	make -f nbproject/qt-${CONF}.mk uninstall
+   # if applet is running try to terminate it
+	@PIDS=$$(pidof ${QMAKE_TARGET} || true); \
+	if [ -n "$${PIDS}" ]; then \
+		echo "Trying to terminate ${QMAKE_TARGET} applet" >&2; \
+		kill $${PIDS} || true; \
+	fi
+
+   # Remove all generated configuration files
+	@echo "Trying to delete all generated config files" >&2
+	$(QMAKE_TARGET) deleteAllConfFiles || true
+
+   # Remove lock files and sockets
+	rm -f $(INSTALL_ROOT)/tmp/$(QMAKE_TARGET)-*
+
+	# Remove syslog pipe and restart syslog service
+	rm -f $(INSTALL_ROOT)/var/log/l2tpipsecvpn.pipe
+	invoke-rc.d rsyslog restart
+
+	make -f nbproject/qt-${CONF}.mk QMAKE_TARGE=$(QMAKE_TARGET) uninstall
+
+lupdate:
+	mv nbproject/qt-${DEFAULTCONF}.pro .
+	lupdate qt-${DEFAULTCONF}.pro
+	mv qt-${DEFAULTCONF}.pro nbproject
+
+lrelease:
+	mv nbproject/qt-${DEFAULTCONF}.pro .
+	lrelease -compress -nounfinished -removeidentical qt-${DEFAULTCONF}.pro
+	mv qt-${DEFAULTCONF}.pro nbproject
+
+ts2pot:
+	lconvert -if ts -of pot -o nls/nls.pot nls/L2tpIPsecVpn_de.ts
+
+ts2po:
+	lconvert -if ts -of po -o nls/de.po nls/L2tpIPsecVpn_de.ts
+
+po2ts:
+	lconvert -if po -of ts -o nls/L2tpIPsecVpn_de.ts nls/de.po
 
 # clean
 clean:
@@ -63,7 +107,7 @@ clean:
 	rm -f nbproject/*.bash
 	rm -f *.mk
 
-# clobber 
+# clobber
 clobber:
 	@for CONF in ${ALLCONFS}; \
 	do \
@@ -92,6 +136,11 @@ help:
 	@echo "    clobber"
 	@echo "    install"
 	@echo "    uninstall"
+	@echo "    lupdate"
+	@echo "    lrelease"
+	@echo "    ts2pot"
+	@echo "    ts2po"
+	@echo "    po2ts"
 	@echo "    test"
 	@echo "    help"
 	@echo ""
@@ -101,6 +150,11 @@ help:
 	@echo "    make clobber"
 	@echo "    make [CONF=<CONFIGURATION>] [INSTALL_ROOT=<Base directory to install in>] install"
 	@echo "    make [INSTALL_ROOT=<Base directory to uninstall from>] uninstall"
+	@echo "    make lupdate"
+	@echo "    make lrelease"
+	@echo "    make ts2pot"
+	@echo "    make ts2po"
+	@echo "    make po2ts"
 	@echo "    make test"
 	@echo "    make help"
 	@echo ""
@@ -110,6 +164,11 @@ help:
 	@echo "Target 'install' will install a specific configuration of the program"
 	@echo "       in [INSTALL_ROOT]/usr/bin/"
 	@echo "Target 'uninstall' will uninstall the program from [INSTALL_ROOT]/usr/bin/"
+	@echo "Target 'lupdate' reads the project file, finds the translatable strings in the specified source, header and interface files, and updates the translation files (.ts files) specified in it."
+	@echo "Target 'lrelease' reads the project file and converts the translation files (.ts files) specified in it into Qt message files (.qm files) used by the application to translate."
+	@echo "Target 'ts2pot' converts a translation file (.ts file) to a GNU Portable Object Template File (.pot file)."
+	@echo "Target 'ts2po'  converts all translation files (.ts files) to GNU Portable Object Files (.po files)."
+	@echo "Target 'po2ts' converts all GNU Portable Object Files (.po files) to translation files (.ts files)."
 	@echo "Target 'test' will run the test suite."
 	@echo "Target 'help' prints this message"
 	@echo ""

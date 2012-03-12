@@ -1,5 +1,5 @@
 /*
- * $Id: VPNControlTask.h 92 2011-06-17 05:54:54Z werner $
+ * $Id: VPNControlTask.h 119 2012-03-02 10:11:22Z werner $
  *
  * File:   VPNControlTask.h
  * Author: Werner Jaeger
@@ -78,6 +78,7 @@ private:
    void runAndWait(VpnClientConnection::Command iCommand, const QString strArguments = "");
    void emitErrorMsg(const QString& strErrorContext);
    void clearVpnLogPipe();
+   static bool plutoIsRunning();
 
    VpnControlDaemonClient* m_pControlClient;
    QString m_strConnectionName;

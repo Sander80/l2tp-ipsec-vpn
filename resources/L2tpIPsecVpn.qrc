@@ -20,4 +20,7 @@
       <file alias="openssl.cnf.tpl">openssl.cnf.tpl</file>
       <file alias="ipsec.secrets.tpl">ipsec.secrets.tpl</file>
    </qresource>
+   <qresource  prefix="/nls">
+      <file alias="de">../nls/L2tpIPsecVpn_de.qm</file>
+   </qresource>
 </RCC>

@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 8.0),
                libqt4-dev (>= 4.6.2),
                libssl-dev (>= 0.9.8),
                qt4-qmake (>= 4.6.2)
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Vcs-bzr: lp:l2tp-ipsec-vpn
 Vcs-Browser: http://bazaar.launchpad.net/~werner-jaeger/l2tp-ipsec-vpn/gui/files
 Homepage: https://launchpad.net/l2tp-ipsec-vpn
@@ -18,7 +18,7 @@ Homepage: https://launchpad.net/l2tp-ipsec-vpn
 Package: l2tp-ipsec-vpn
 Architecture: linux-any
 Depends: gksu (>= 2.0),
-         l2tp-ipsec-vpn-daemon (>= 0.9.5),
+         l2tp-ipsec-vpn-daemon (>= 0.9.8),
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: libengine-pkcs11-openssl (>=0.1.8-2)

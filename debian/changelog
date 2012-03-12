@@ -1,3 +1,44 @@
+l2tp-ipsec-vpn (1.0.6-1) unstable; urgency=low
+
+  * New upstream release
+    - transfered writing files connectionName.info and defaultgateway.info to
+      L2tpIPsecVpnControlDaemon
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Mon, 12 Mar 2012 14:42:11 +0100
+
+l2tp-ipsec-vpn (1.0.5-1) unstable; urgency=low
+
+  * New upstream release
+    - unified runtime path, no longer using /var/tmp/L2tpIPsecVpn
+    - enhanced install Makefile to create a world writable runtime directory
+    - enhanced uninstall Makefile to remove runtime files and directories
+    - chanaged debian copyright file to conform to the new official 1.0 Format
+    - debian watch file is now working correct
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Mon, 12 Mar 2012 06:03:21 +0100
+
+l2tp-ipsec-vpn (1.0.4-1) unstable; urgency=low
+
+  * New upstream release
+    - pure L2TP VPN without IPSEC encryption is now possible
+    - disable connection names in context menu when there is no default gateway
+    - enabled i18n and added German translation
+    - enabled size grip for all dialogs
+    - check which graphical su command (gksudo, beesu or kdesudo) is available
+      when starting connection editor
+    - added postrm maintainer script to delete all configuration and runtime
+      files on purge
+    - fixed bug unable to add static routes (LP: #932591)
+    - fixed bug If no smartcard is inserted the insert smartcard dialog is not
+      shown (LP: ##941740)
+    - fixed bug Smartcard inserted event is not detected (LP: #941741)
+    - fixed bug Invalid private key file is written when importing PKCS#12
+      certificate bundle (LP: #941743)
+    - fixed bug Running Pluto is not detected (LP: #941746)
+    - fixed bug xl2tpd overrides and ipparam settings (LP: #95152)
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Sat, 10 Mar 2012 14:43:53 +0100
+
 l2tp-ipsec-vpn (1.0.3-1) unstable; urgency=low
 
   * New upstream release

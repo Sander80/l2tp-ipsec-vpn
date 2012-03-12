@@ -1,5 +1,5 @@
 /*
- * $Id: VpnClientConnection.h 58 2011-03-25 04:21:41Z werner $
+ * $Id: VpnClientConnection.h 125 2012-03-12 14:06:09Z werner $
  *
  * File:   VpnClientConnection.h
  * Author: Werner Jaeger
@@ -53,6 +53,8 @@ public:
       CMD_L2TP_CONNECT,
       CMD_L2TP_DISCONNECT,
       CMD_CREATE_VPN_LOGPIPE,
+      CMD_WRITE_CONNECTIONNAME_INFO,
+      CMD_WRITE_DEFAULT_GATEWAY_INFO,
       CMD_QUIT,
       CMD_UNKNOWN
    };

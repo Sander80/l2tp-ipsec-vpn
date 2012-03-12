@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>451</width>
-    <height>204</height>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
     <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="m_pDialogLayout">
    <item>
@@ -51,7 +54,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="m_pEnginPathLabel">
          <property name="text">
-          <string>&amp;Engine Path;</string>
+          <string>&amp;Engine Path:</string>
          </property>
          <property name="buddy">
           <cstring>m_pEnginePathLineEdit</cstring>

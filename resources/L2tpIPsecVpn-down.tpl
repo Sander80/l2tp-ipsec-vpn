@@ -12,6 +12,12 @@
 # WARNING! All changes made in this file will be lost!
 #
 #
+if test -f /var/run/L2tpIPsecVpnControlDaemon/connectionName.info; then
+   PPP_IPPARAM={{OBJECTNAME}}-$(cat /var/run/L2tpIPsecVpnControlDaemon/connectionName.info)
+fi
+
+echo "{{FILENAME}} called with PPP_IPPARAM=$PPP_IPPARAM"
+
 # exit if PPP_IPPARAM is not set or does not start with "{{OBJECTNAME}}"
 if [ ! `echo $PPP_IPPARAM | grep "{{OBJECTNAME}}"` ]; then
   exit 0
@@ -19,8 +25,8 @@ fi
 
 . {{GETIPSECINFOLIB}}
 
-if test -f /var/run/L2tpIPsecVpn/${PPP_REMOTE} ; then
-	rm -f /var/run/L2tpIPsecVpn/${PPP_REMOTE}
+if test -f /var/run/L2tpIPsecVpnControlDaemon/${PPP_REMOTE} ; then
+	rm -f /var/run/L2tpIPsecVpnControlDaemon/${PPP_REMOTE}
 fi
 
 case $PPP_IPPARAM in

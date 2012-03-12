@@ -1,5 +1,5 @@
 /*
- * $Id: IPsecSecretsConfWriter.cpp 112 2011-12-26 03:00:40Z werner $
+ * $Id: IPsecSecretsConfWriter.cpp 114 2012-01-22 05:07:35Z werner $
  *
  * File:   IPsecSecretsConfWriter.cpp
  * Author: Werner Jaeger
@@ -56,42 +56,46 @@ void IPsecSecretsConfWriter::fill()
 
    for (int i = 0; i < iConnections; i++)
    {
-      ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
       const QString strName(settings.connection(i));
 
       if (!strName.isEmpty())
       {
-         const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
-         const QString strGateway(ipsecSetting.gateway());
-
-         if (!strGateway.isEmpty())
+         if (!settings.commonSettings(strName).disableIPSecEncryption())
          {
-            if (strGateway.at(0).isNumber())
+            ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
+
+            const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
+            const QString strGateway(ipsecSetting.gateway());
+
+            if (!strGateway.isEmpty())
             {
-               if (ipsecSetting.authBy() == AUTHBYRSASIG)
-                  pConnection->SetValue(INDICES, strGateway.toAscii().constData());
+               if (strGateway.at(0).isNumber())
+               {
+                  if (ipsecSetting.authBy() == AUTHBYRSASIG)
+                     pConnection->SetValue(INDICES, strGateway.toAscii().constData());
+                  else
+                     pConnection->SetValue(INDICES, QString(ANY + " " + strGateway).toAscii().constData());
+               }
                else
-                  pConnection->SetValue(INDICES, QString(ANY + " " + strGateway).toAscii().constData());
+               {
+                  if (ipsecSetting.authBy() == AUTHBYRSASIG)
+                     pConnection->SetValue(INDICES, QString("@" + strGateway).toAscii().constData());
+                  else
+                     pConnection->SetValue(INDICES, QString(ANY + " @" + strGateway).toAscii().constData());
+               }
+            }
+
+            if (ipsecSetting.authBy() == AUTHBYRSASIG)
+            {
+               pConnection->SetValue(KEYTYPE, RSAKEYTYPE);
+               pConnection->SetValue(KEY, QString('"' + ipsecSetting.privateKeyFilePath() + '"').toAscii().constData());
+               pConnection->SetValue(PASSPHRASE, QString('"' + ipsecSetting.privateKeyPassphrase() + '"').toAscii().constData());
             }
             else
             {
-               if (ipsecSetting.authBy() == AUTHBYRSASIG)
-                  pConnection->SetValue(INDICES, QString("@" + strGateway).toAscii().constData());
-               else
-                  pConnection->SetValue(INDICES, QString(ANY + " @" + strGateway).toAscii().constData());
+               pConnection->SetValue(KEYTYPE, PSKKEYTYPE);
+               pConnection->SetValue(KEY, QString("0t" + ipsecSetting.preSharedKey()).toAscii().constData());
             }
-         }
-
-         if (ipsecSetting.authBy() == AUTHBYRSASIG)
-         {
-            pConnection->SetValue(KEYTYPE, RSAKEYTYPE);
-            pConnection->SetValue(KEY, QString('"' + ipsecSetting.privateKeyFilePath() + '"').toAscii().constData());
-            pConnection->SetValue(PASSPHRASE, QString('"' + ipsecSetting.privateKeyPassphrase() + '"').toAscii().constData());
-         }
-         else
-         {
-            pConnection->SetValue(KEYTYPE, PSKKEYTYPE);
-            pConnection->SetValue(KEY, QString("0t" + ipsecSetting.preSharedKey()).toAscii().constData());
          }
       }
       else

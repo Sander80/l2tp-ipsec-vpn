@@ -1,5 +1,5 @@
 /*
- * $Id: main.cpp 110 2011-10-22 12:02:21Z werner $
+ * $Id: main.cpp 120 2012-03-08 04:57:41Z werner $
  *
  * File:   main.cpp
  * Author: Werner Jaeger
@@ -26,10 +26,12 @@
 #include <QDir>
 #include <QFileInfoList>
 #include <QFile>
+#include <QTranslator>
 
 #include <syslog.h>
 
 #include "pkcs11/Pkcs11.h"
+#include "settings/ConnectionSettings.h"
 #include "settings/Preferences.h"
 #include "ConnectionManager.h"
 #include "ConnectionEditor.h"
@@ -49,14 +51,19 @@ int main(int iArgc, char* pcArgv[])
 
    const L2tpIPsecVpnApplication::APPLICATIONMODE mode(L2tpIPsecVpnApplication::parseCmdLine(iArgc, pcArgv));
 
-   if (mode != L2tpIPsecVpnApplication::PASSWORD_CALLBACK && mode != L2tpIPsecVpnApplication::APPLYSETTINGS)
+   if (mode != L2tpIPsecVpnApplication::PASSWORD_CALLBACK && mode != L2tpIPsecVpnApplication::APPLYSETTINGS && mode != L2tpIPsecVpnApplication::DELETEALLCONFFILES)
       checkDesktop();
 
    L2tpIPsecVpnApplication app(iArgc, pcArgv, mode);
 
+   const QString strLocale(QLocale::system().name());
+   QTranslator translator;
+   translator.load(QString(":/nls/") + strLocale);
+   app.installTranslator(&translator);
+
    int iRet(0);
 
-   if (app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR || app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER || app.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS || app.mode() == L2tpIPsecVpnApplication::PASSWORD_CALLBACK || !app.isRunning())
+   if (app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR || app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER || app.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS || app.mode() == L2tpIPsecVpnApplication::DELETEALLCONFFILES || app.mode() == L2tpIPsecVpnApplication::PASSWORD_CALLBACK || !app.isRunning())
    {
       Q_INIT_RESOURCE(L2tpIPsecVpn);
 
@@ -96,6 +103,10 @@ int main(int iArgc, char* pcArgv[])
 
             case L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER:
                iRet = app.startConnectionEditorDialog(true);
+               break;
+
+            case L2tpIPsecVpnApplication::DELETEALLCONFFILES:
+               iRet = ConnectionSettings().deleteAllConfFiles();
                break;
 
             default:

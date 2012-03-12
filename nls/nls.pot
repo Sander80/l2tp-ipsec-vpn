@@ -1,0 +1,1321 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: de_DE\n"
+"X-Qt-Contexts: true\n"
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:14
+msgctxt "AdvancedSettingsDialog|"
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:27
+msgctxt "AdvancedSettingsDialog|"
+msgid "Compression"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:33
+msgctxt "AdvancedSettingsDialog|"
+msgid "Allow &BSD data compression"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:40
+msgctxt "AdvancedSettingsDialog|"
+msgid "Allow &Deflate data compression"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:47
+msgctxt "AdvancedSettingsDialog|"
+msgid "Use TCP &header compression"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:57
+msgctxt "AdvancedSettingsDialog|"
+msgid "Echo"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.ui:63
+msgctxt "AdvancedSettingsDialog|"
+msgid "Send PPP &echo packets"
+msgstr ""
+
+#: ../src/dialogs/AdvancedSettingsDialog.cpp:33
+msgctxt "AdvancedSettingsDialog|"
+msgid " - Advanced Settings"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:14
+msgctxt "CertificateImportDialog|"
+msgid "Import Certificate Dialog"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:36
+msgctxt "CertificateImportDialog|"
+msgid ""
+"Full path to PKCS12 (*.p12, *.pfx) encoded certificate bundle file to import"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:91
+msgctxt "CertificateImportDialog|"
+msgid "PKCS12 File:"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:101
+msgctxt "CertificateImportDialog|"
+msgid ""
+"If checked. the imported certificate is automatically selected as IPsec "
+"authentication certificate "
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:104
+msgctxt "CertificateImportDialog|"
+msgid "Use this certificate for IPsec authentication"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:126
+msgctxt "CertificateImportDialog|"
+msgid "Private key passphrase:"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:133
+msgctxt "CertificateImportDialog|"
+msgid ""
+"Enter the passphrase that shall be used to encrypt the imported private key"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:143
+msgctxt "CertificateImportDialog|"
+msgid "Verify private key passphrase:"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.ui:150
+msgctxt "CertificateImportDialog|"
+msgid "Type the private key passphrase again to confirm"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:110
+msgctxt "CertificateImportDialog|"
+msgid "PKSC#12 certificate bundle (*.p12 *.pfx)"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:110
+msgctxt "CertificateImportDialog|"
+msgid "Choose the PKCS12 certificate bundle to import ..."
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:119
+msgctxt "CertificateImportDialog|"
+msgid "Passphrase Entry Dialog"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:119
+msgctxt "CertificateImportDialog|"
+msgid ""
+"Please enter the passphrase that was used to encrypt this certificate bundle:"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:135
+msgctxt "CertificateImportDialog|"
+msgid "Content:"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:136
+msgctxt "CertificateImportDialog|"
+msgid "certificate"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:136
+msgctxt "CertificateImportDialog|"
+msgid "issued by"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:139
+msgctxt "CertificateImportDialog|"
+msgid "private key"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:141
+#, qt-format
+msgctxt "CertificateImportDialog|"
+msgid "%n root certificate(s)"
+msgid_plural "%n root certificate(s)"
+msgstr[0] ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:188
+msgctxt "CertificateImportDialog|"
+msgid "certificate file"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:195
+msgctxt "CertificateImportDialog|"
+msgid "private key file"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:201
+msgctxt "CertificateImportDialog|"
+msgid "root certificate file"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:212
+msgctxt "CertificateImportDialog|"
+msgid "Error:"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:225
+msgctxt "CertificateImportDialog|"
+msgid "A"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:225
+msgctxt "CertificateImportDialog|"
+msgid "already exists.  Do you want to replace it?"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:227
+msgctxt "CertificateImportDialog|"
+msgid "The"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:227
+msgctxt "CertificateImportDialog|"
+msgid "already exists in"
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:227
+msgctxt "CertificateImportDialog|"
+msgid ". Replacing it will overwrite its contents."
+msgstr ""
+
+#: ../src/dialogs/CertificateImportDialog.cpp:230
+msgctxt "CertificateImportDialog|"
+msgid "Importing certificates ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.ui:14
+msgctxt "ConnectionEditorDialog|"
+msgid "VPN Connections"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.ui:33
+msgctxt "ConnectionEditorDialog|"
+msgid "&Add ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.ui:43
+msgctxt "ConnectionEditorDialog|"
+msgid "&Edit ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.ui:56
+msgctxt "ConnectionEditorDialog|"
+msgid "&Delete ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.ui:112
+msgctxt "ConnectionEditorDialog|"
+msgid "&Preferences ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:107
+msgctxt "ConnectionEditorDialog|"
+msgid "You need to reconnect for your changes to take effect!"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:153
+msgctxt "ConnectionEditorDialog|"
+msgid "Apply settings"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:153
+msgctxt "ConnectionEditorDialog|"
+msgid "You do not have the permission to apply settings"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:176
+#: ../src/dialogs/ConnectionEditorDialog.cpp:212
+msgctxt "ConnectionEditorDialog|"
+msgid "New Connection"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:183
+msgctxt "ConnectionEditorDialog|"
+msgid "Connection name:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:198
+#, qt-format
+msgctxt "ConnectionEditorDialog|"
+msgid "A connection with name '%1' already exists"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:202
+#, qt-format
+msgctxt "ConnectionEditorDialog|"
+msgid ""
+"The provided name '%1' contains invalid characters.\n"
+"\n"
+"Name must start with a letter and may contain only letters, digits, periods, "
+"underscores, and hyphens.\n"
+"Maximum length is 30."
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:212
+msgctxt "ConnectionEditorDialog|"
+msgid "You do not have the permission to add a connection"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:232
+msgctxt "ConnectionEditorDialog|"
+msgid "Edit Connection"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:232
+msgctxt "ConnectionEditorDialog|"
+msgid "You do not have the permission to edit a connection"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:247
+#: ../src/dialogs/ConnectionEditorDialog.cpp:264
+msgctxt "ConnectionEditorDialog|"
+msgid "Delete Connection"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:247
+#, qt-format
+msgctxt "ConnectionEditorDialog|"
+msgid "Are you sure you wish to delete the connection '%1'?"
+msgstr ""
+
+#: ../src/dialogs/ConnectionEditorDialog.cpp:264
+msgctxt "ConnectionEditorDialog|"
+msgid "You do not have the permission to remmove a connection"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:20
+msgctxt "ConnectionInformationDialog|"
+msgid "L2TP IPSec VPN"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:33
+msgctxt "ConnectionInformationDialog|"
+msgid "Info"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:39
+msgctxt "ConnectionInformationDialog|"
+msgid "Remote Server:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:59
+msgctxt "ConnectionInformationDialog|"
+msgid "PtP Interface:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:79
+msgctxt "ConnectionInformationDialog|"
+msgid "Destination Address:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:99
+msgctxt "ConnectionInformationDialog|"
+msgid "IP Address:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:119
+msgctxt "ConnectionInformationDialog|"
+msgid "Subnet Mask:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:133
+msgctxt "ConnectionInformationDialog|"
+msgid "Primary DNS:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:153
+msgctxt "ConnectionInformationDialog|"
+msgid "Secondary DNS:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:173
+msgctxt "ConnectionInformationDialog|"
+msgid "Tenary DNS:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:196
+msgctxt "ConnectionInformationDialog|"
+msgid "Statistics ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:206
+msgctxt "ConnectionInformationDialog|"
+msgid "Internet Interface:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:220
+msgctxt "ConnectionInformationDialog|"
+msgid "Internet Interface Gateway:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionInformationDialog.ui:235
+msgctxt "ConnectionInformationDialog|"
+msgid "Logs"
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:140
+msgctxt "ConnectionManager|"
+msgid "&Disconnect"
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:141
+msgctxt "ConnectionManager|"
+msgid "&Edit Connections ..."
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:142
+msgctxt "ConnectionManager|"
+msgid "Connection &Information"
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:143
+msgctxt "ConnectionManager|"
+msgid "&About"
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:144
+msgctxt "ConnectionManager|"
+msgid "&Quit"
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:316
+#, qt-format
+msgctxt "ConnectionManager|"
+msgid "About %1"
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:318
+msgctxt "ConnectionManager|"
+msgid ""
+"Notification area applet for managing your L2tp over IPsec virtual private "
+"network connections."
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:451
+#, qt-format
+msgctxt "ConnectionManager|"
+msgid "Click to establish a vpn connection to '%1'"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:14
+msgctxt "ConnectionSettingsDialog|"
+msgid "Connection Settings"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:32
+msgctxt "ConnectionSettingsDialog|"
+msgid "Connection &name:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:63
+msgctxt "ConnectionSettingsDialog|"
+msgid "Connect &automatically"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:86
+msgctxt "ConnectionSettingsDialog|"
+msgid "IPsec"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:109
+msgctxt "ConnectionSettingsDialog|"
+msgid "&Remote Server:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:131
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"IPv4 address or domain name of the remote access server that you want to "
+"connect to.\n"
+"\n"
+"Examples:\n"
+"1.2.3.4\n"
+"ipsec.server.edu"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:142
+msgctxt "ConnectionSettingsDialog|"
+msgid "Server &Identity:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:161
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"Leave empty if you don't want to check peers's identity,\n"
+"otherwise enter the peer's identity \n"
+"\n"
+"This is mostly a distinguished name like 'CN=cisco-fcs-ber'."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:173
+msgctxt "ConnectionSettingsDialog|"
+msgid "Use &pre-shared key for authentication"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:193
+msgctxt "ConnectionSettingsDialog|"
+msgid "Use &Certificate for authentication"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:228
+msgctxt "ConnectionSettingsDialog|"
+msgid "Private &key:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:238
+msgctxt "ConnectionSettingsDialog|"
+msgid "Full path to a X.509 pem encoded private key file"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:248
+msgctxt "ConnectionSettingsDialog|"
+msgid "Passphrase:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:285
+msgctxt "ConnectionSettingsDialog|"
+msgid "Import ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:296
+msgctxt "ConnectionSettingsDialog|"
+msgid "L2TP"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:302
+msgctxt "ConnectionSettingsDialog|"
+msgid "If checked, l2tpd will attempt to redial if the call get disconected."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:305
+msgctxt "ConnectionSettingsDialog|"
+msgid "Redial"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:318
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"If Checked, the length bit present in the l2tp packet payload will be used."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:321
+msgctxt "ConnectionSettingsDialog|"
+msgid "Length bit"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:345
+msgctxt "ConnectionSettingsDialog|"
+msgid "Timeout:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:364
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"Wait N seconds before redial. The redial option must be set to yes to use "
+"this option."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:380
+msgctxt "ConnectionSettingsDialog|"
+msgid "Attempts:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:402
+msgctxt "ConnectionSettingsDialog|"
+msgid "Will give up redial tries after N attempts."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:415
+msgctxt "ConnectionSettingsDialog|"
+msgid "PPP"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:421
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"With this option set, pppd will agree to authenticate itself to the peer "
+"exclusively using EAP."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:424
+msgctxt "ConnectionSettingsDialog|"
+msgid "Use Extensible Authentication Protocol (EAP)"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:434
+msgctxt "ConnectionSettingsDialog|"
+msgid "Properties ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:441
+msgctxt "ConnectionSettingsDialog|"
+msgid "Allow these protocols"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:449
+msgctxt "ConnectionSettingsDialog|"
+msgid "Unencrypted password (PAP)"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:452
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"With this option set, pppd will agree to authenticate itself to the peer "
+"using PAP."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:460
+msgctxt "ConnectionSettingsDialog|"
+msgid "Challenge Authentication Protocol (CHAP)"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:463
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"With this option set, pppd will agree to authenticate itself to the peer "
+"using CHAP."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:471
+msgctxt "ConnectionSettingsDialog|"
+msgid "Microsoft CHAP (MS-Chap)"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:474
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"With this option set, pppd will agree to authenticate itself to the peer "
+"using MS-CHAP."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:482
+msgctxt "ConnectionSettingsDialog|"
+msgid "Microsoft CHAP Version 2 (MS-CHAPv2)"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:485
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"With this option set, pppd will agree to authenticate itself to the peer "
+"using MS-CHAPv2."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:505
+msgctxt "ConnectionSettingsDialog|"
+msgid "User name:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:515
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"Set the name used for authenticating the local system to the remote access "
+"server."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:522
+msgctxt "ConnectionSettingsDialog|"
+msgid "Password:"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:532
+msgctxt "ConnectionSettingsDialog|"
+msgid ""
+"Enter your password.\n"
+"\n"
+"If left empty you'll be ask each time you try to establish a connection."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:547
+msgctxt "ConnectionSettingsDialog|"
+msgid "Peer authentication ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:554
+msgctxt "ConnectionSettingsDialog|"
+msgid "IP settings ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:561
+msgctxt "ConnectionSettingsDialog|"
+msgid "Advanced ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.ui:579
+msgctxt "ConnectionSettingsDialog|"
+msgid "&Disable IPSEC Encryption"
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.cpp:182
+msgctxt "ConnectionSettingsDialog|"
+msgid "Choose private key ..."
+msgstr ""
+
+#: ../src/dialogs/ConnectionSettingsDialog.cpp:182
+msgctxt "ConnectionSettingsDialog|"
+msgid "PEM private keys (*.pem)"
+msgstr ""
+
+#: ../src/models/ConnectionsModel.cpp:74
+msgctxt "ConnectionsModel|"
+msgid "Name"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:14
+msgctxt "EapSettingsDialog|"
+msgid "EAP settings"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:33
+msgctxt "EapSettingsDialog|"
+msgid "When connecting"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:39
+msgctxt "EapSettingsDialog|"
+msgid "Use my smart card"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:46
+msgctxt "EapSettingsDialog|"
+msgid "Use a certificate on this computer"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:71
+msgctxt "EapSettingsDialog|"
+msgid "User certificate:"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:81
+msgctxt "EapSettingsDialog|"
+msgid "Full path to a X.509 encoded personal certificate file"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:102
+msgctxt "EapSettingsDialog|"
+msgid "Private key:"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:112
+msgctxt "EapSettingsDialog|"
+msgid "Full path to a X.509 pem encoded private key file"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:136
+msgctxt "EapSettingsDialog|"
+msgid "Passphrase:"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:146
+msgctxt "EapSettingsDialog|"
+msgid ""
+"Enter the PIN or passphrase for your private key.\n"
+"\n"
+"If left empty you'll be ask each time you try to establish a connection."
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:179
+msgctxt "EapSettingsDialog|"
+msgid "CA Certificate:"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.ui:189
+msgctxt "EapSettingsDialog|"
+msgid "Full path to a X.509 pem encoded Certificate Authority certificate file"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.cpp:40
+msgctxt "EapSettingsDialog|"
+msgid " - EAP Settings"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.cpp:78
+#: ../src/dialogs/EapSettingsDialog.cpp:87
+msgctxt "EapSettingsDialog|"
+msgid "Choose your personal certificate ..."
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.cpp:87
+#: ../src/dialogs/EapSettingsDialog.cpp:117
+msgctxt "EapSettingsDialog|"
+msgid "PEM certificates (*.pem)"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.cpp:102
+#: ../src/dialogs/EapSettingsDialog.cpp:108
+msgctxt "EapSettingsDialog|"
+msgid "Choose your private key ..."
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.cpp:108
+msgctxt "EapSettingsDialog|"
+msgid "PEM private keys (*.pem)"
+msgstr ""
+
+#: ../src/dialogs/EapSettingsDialog.cpp:117
+msgctxt "EapSettingsDialog|"
+msgid "Choose a Certificate Authority certificate ..."
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:14
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Interface Statistics"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:30
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Transmitted bytes:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:44
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Transmitted packets:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:58
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Transmission errors:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:88
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Received bytes:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:102
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Received packets:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:116
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Reception errors:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:146
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Connected since:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:160
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Connection time:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.ui:197
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Collisions:"
+msgstr ""
+
+#: ../src/dialogs/InterfaceStatisticsDialog.cpp:89
+msgctxt "InterfaceStatisticsDialog|"
+msgid "Days"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:14
+msgctxt "IpSettingsDialog|"
+msgid "IpSettingsDialog"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:36
+msgctxt "IpSettingsDialog|"
+msgid ""
+"If checked the peer is asked for up to 2 DNS server addresses, otherwise "
+"provide the desired primary and secundary DNS server addresses manually in "
+"the edit boxes below."
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:39
+msgctxt "IpSettingsDialog|"
+msgid "Obtain DNS server addresses automatically"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:52
+msgctxt "IpSettingsDialog|"
+msgid "Preferred DNS server:"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:68
+msgctxt "IpSettingsDialog|"
+msgid ""
+"Ip addresses of preferred domain name server used to resolve host names. "
+"Address must be entered as IPv4 address.\n"
+"\n"
+"Example:\n"
+"1.2.3.4"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:94
+msgctxt "IpSettingsDialog|"
+msgid ""
+"Ip addresses of alternate domain name server used to resolve host names. "
+"Address must be entered as IPv4 address.\n"
+"\n"
+"Example:\n"
+"1.2.3.4"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:84
+msgctxt "IpSettingsDialog|"
+msgid "Alternate DNS server:"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:110
+msgctxt "IpSettingsDialog|"
+msgid "Search domains:"
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:120
+msgctxt "IpSettingsDialog|"
+msgid ""
+"Domains used when resolving hostnames.\n"
+"Use spaces to separate multiple domains."
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.ui:143
+msgctxt "IpSettingsDialog|"
+msgid "Routes ..."
+msgstr ""
+
+#: ../src/dialogs/IpSettingsDialog.cpp:34
+msgctxt "IpSettingsDialog|"
+msgid " - Ip Settings"
+msgstr ""
+
+#: ../src/L2tpIPsecVpnApplication.cpp:107
+msgctxt "L2tpIPsecVpnApplication|"
+msgid "I couldn't find any graphical SU command (gksudo, beesu or kdesudo)."
+msgstr ""
+
+#: ../src/dialogs/PeerAuthenticationDialog.ui:14
+msgctxt "PeerAuthenticationDialog|"
+msgid "PeerAuthenticationDialog"
+msgstr ""
+
+#: ../src/dialogs/PeerAuthenticationDialog.ui:32
+msgctxt "PeerAuthenticationDialog|"
+msgid "Remote name:"
+msgstr ""
+
+#: ../src/dialogs/PeerAuthenticationDialog.ui:42
+msgctxt "PeerAuthenticationDialog|"
+msgid ""
+"Set the assumed name of the remote system for authentication purposes.\n"
+"\n"
+"If not empty, the name reported by the peer is checked against this name and "
+"connection will be refused if the reported name is different."
+msgstr ""
+
+#: ../src/dialogs/PeerAuthenticationDialog.cpp:33
+msgctxt "PeerAuthenticationDialog|"
+msgid " - Peer Authentication Settings"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:110
+msgctxt "Pkcs12|"
+msgid "Writing certificate to"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:110 ../src/util/Pkcs12.cpp:140
+#: ../src/util/Pkcs12.cpp:171 ../src/util/Pkcs12.cpp:206
+msgctxt "Pkcs12|"
+msgid "failed"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:118
+msgctxt "Pkcs12|"
+msgid "No certificate found"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:140
+msgctxt "Pkcs12|"
+msgid "Writing root certificate to"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:171
+msgctxt "Pkcs12|"
+msgid "Writing private key to"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:179
+msgctxt "Pkcs12|"
+msgid "No private key found"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:204
+msgctxt "Pkcs12|"
+msgid "Wrong passphrase"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:206
+msgctxt "Pkcs12|"
+msgid "Parse PKCS#12 file"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:220
+msgctxt "Pkcs12|"
+msgid "The file"
+msgstr ""
+
+#: ../src/util/Pkcs12.cpp:220
+msgctxt "Pkcs12|"
+msgid "is not a valid PKCS#12 certificate bundle"
+msgstr ""
+
+#: ../src/models/PppRoutesModel.cpp:115
+msgctxt "PppRoutesModel|"
+msgid "Address"
+msgstr ""
+
+#: ../src/models/PppRoutesModel.cpp:119
+msgctxt "PppRoutesModel|"
+msgid "Netmask"
+msgstr ""
+
+#: ../src/models/PppRoutesModel.cpp:123
+msgctxt "PppRoutesModel|"
+msgid "Comment"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:14
+msgctxt "PreferencesEditorDialog|"
+msgid "Preferences"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:31
+msgctxt "PreferencesEditorDialog|"
+msgid "OpenSSL"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:37
+msgctxt "PreferencesEditorDialog|"
+msgid "Engine &ID:"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:47
+#: ../src/dialogs/PreferencesEditorDialog.ui:50
+msgctxt "PreferencesEditorDialog|"
+msgid "Unique identifier for OpenSSL engine"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:57
+msgctxt "PreferencesEditorDialog|"
+msgid "&Engine Path:"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:67
+#: ../src/dialogs/PreferencesEditorDialog.ui:74
+msgctxt "PreferencesEditorDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans'; font-size:9pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Full path to a "
+"shared library implementing the <a "
+"href=\"http://www.openssl.org/docs/crypto/engine.html\"><span style=\" "
+"text-decoration: underline; color:#0000ff;\">OpenSSL engine "
+"interface</span></a></p></body></html>"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:99
+msgctxt "PreferencesEditorDialog|"
+msgid "&PKCS 11 Path:"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.ui:109
+#: ../src/dialogs/PreferencesEditorDialog.ui:116
+msgctxt "PreferencesEditorDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans'; font-size:9pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Full path to a "
+"shared library implementing the <a "
+"href=\"http://www.rsa.com/rsalabs/node.asp?id=2133\"><span style=\" "
+"text-decoration: underline; color:#0000ff;\">Cryptographic Token "
+"Interface</span></a></p></body></html>"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:69
+msgctxt "PreferencesEditorDialog|"
+msgid "Choose path of engine library ..."
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:79
+msgctxt "PreferencesEditorDialog|"
+msgid "Choose path of PKCS11 library ..."
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:133
+msgctxt "QObject|"
+msgid "I couldn't detect any system tray on this system."
+msgstr ""
+
+#: ../src/ConnectionManager.cpp:249
+msgctxt "QObject|"
+msgid "No smart card reader found."
+msgstr ""
+
+#: ../src/ConnectionState.cpp:74
+msgctxt "QObject|"
+msgid "Not Connected"
+msgstr ""
+
+#: ../src/ConnectionState.cpp:74 ../src/ConnectionState.cpp:82
+#: ../src/ConnectionState.cpp:101 ../src/ConnectionState.cpp:120
+#: ../src/ConnectionState.cpp:128
+msgctxt "QObject|"
+msgid "Click to show details"
+msgstr ""
+
+#: ../src/ConnectionState.cpp:82
+msgctxt "QObject|"
+msgid "Connecting to "
+msgstr ""
+
+#: ../src/ConnectionState.cpp:101
+msgctxt "QObject|"
+msgid "Disconnecting from "
+msgstr ""
+
+#: ../src/ConnectionState.cpp:120
+msgctxt "QObject|"
+msgid "Connected to "
+msgstr ""
+
+#: ../src/ConnectionState.cpp:128
+#, qt-format
+msgctxt "QObject|"
+msgid "Error %1 occurred when disconnecting from "
+msgstr ""
+
+#: ../src/ConnectionState.cpp:128
+#, qt-format
+msgctxt "QObject|"
+msgid "Error %1 occurred when connecting to "
+msgstr ""
+
+#: ../src/conf/AbstractConfWriter.cpp:147
+#, qt-format
+msgctxt "QObject|"
+msgid "Failed to open configuration file '%1'."
+msgstr ""
+
+#: ../src/conf/AbstractConfWriter.cpp:150
+#, qt-format
+msgctxt "QObject|"
+msgid "Failed to backup file '%1'."
+msgstr ""
+
+#: ../src/conf/AbstractConfWriter.cpp:153
+#, qt-format
+msgctxt "QObject|"
+msgid "Failed to create directory '%1'."
+msgstr ""
+
+#: ../src/conf/AbstractConfWriter.cpp:156
+#, qt-format
+msgctxt "QObject|"
+msgid "Failed to expand template '%1'."
+msgstr ""
+
+#: ../src/conf/AbstractConfWriter.cpp:159
+#, qt-format
+msgctxt "QObject|"
+msgid "Failed to get template '%1'."
+msgstr ""
+
+#: ../src/conf/AbstractConfWriter.cpp:174
+#, qt-format
+msgctxt "QObject|"
+msgid "Failed to open template file ':/templates/%1.tpl'."
+msgstr ""
+
+#: ../src/conf/ConfWriter.cpp:83
+msgctxt "QObject|"
+msgid "An error occurred while writing "
+msgstr ""
+
+#: ../src/conf/IPsecConfWriter.cpp:75
+#: ../src/conf/IPsecSecretsConfWriter.cpp:102 ../src/conf/L2tpConfWriter.cpp:85
+#: ../src/conf/PppDownScriptWriter.cpp:68 ../src/conf/PppUpScriptWriter.cpp:85
+#, qt-format
+msgctxt "QObject|"
+msgid "No such connection: '%1'."
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:42
+msgctxt "QObject|"
+msgid "Dynamic library files (*.dll)"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:45
+msgctxt "QObject|"
+msgid "Shared library files (*.so)"
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:118 ../src/main.cpp:119
+#, qt-format
+msgctxt "QObject|"
+msgid "I couldn't load PKCS11 library %1."
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:123
+#, qt-format
+msgctxt "QObject|"
+msgid "%1 is not a valid OpenSSL engine library."
+msgstr ""
+
+#: ../src/dialogs/PreferencesEditorDialog.cpp:126
+#: ../src/dialogs/PreferencesEditorDialog.cpp:129
+#: ../src/dialogs/PreferencesEditorDialog.cpp:132
+#, qt-format
+msgctxt "QObject|"
+msgid "%1 must not be empty."
+msgstr ""
+
+#: ../src/pkcs11/SmartCardState.cpp:35
+msgctxt "QObject|"
+msgid "Please insert your smart card ..."
+msgstr ""
+
+#: ../src/util/ErrorEx.h:70
+msgctxt "QObject|"
+msgid "Out of Memory"
+msgstr ""
+
+#: ../src/util/SecretsChecker.cpp:80
+msgctxt "QObject|"
+msgid "Please enter your PIN:"
+msgstr ""
+
+#: ../src/util/SecretsChecker.cpp:82
+msgctxt "QObject|"
+msgid "Please enter your passphrase:"
+msgstr ""
+
+#: ../src/util/SecretsChecker.cpp:88
+msgctxt "QObject|"
+msgid "Please enter your password:"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:14
+msgctxt "RouteSettingsDialog|"
+msgid "RouteSettingsDialog"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:42
+msgctxt "RouteSettingsDialog|"
+msgid "Add"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:52
+msgctxt "RouteSettingsDialog|"
+msgid "Delete ..."
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:65
+msgctxt "RouteSettingsDialog|"
+msgid ""
+"route packages with the destination addresses listed here through the PPP "
+"tunnel."
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:82
+msgctxt "RouteSettingsDialog|"
+msgid "Use following explicit routes to intranet locations (split tunneling)"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:89
+msgctxt "RouteSettingsDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans'; font-size:9pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Based on the <span "
+"style=\" font-weight:600;\">Use default gateway on remote network</span> "
+"setting, one of the following occurs when the VPN connection is active: "
+"</p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">When the <span style=\" font-weight:600;\">Use default "
+"gateway on remote network</span> check box is cleared, Internet locations "
+"are reachable and intranet locations are not reachable, except for those "
+"matching the network ID of the Internet address class of the assigned IP "
+"address. </li>\n"
+"<li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When the<span "
+"style=\" font-weight:600;\"> Use default gateway on remote network</span> "
+"check box is selected (the default setting), all intranet locations are "
+"reachable and Internet locations are not reachable, except for the address "
+"of the VPN server and locations available through other routes. "
+"</li></ul></body></html>"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.ui:98
+msgctxt "RouteSettingsDialog|"
+msgid "Use default gateway on the remote network"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.cpp:48
+msgctxt "RouteSettingsDialog|"
+msgid "Edit routes for VPN connection "
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.cpp:79
+msgctxt "RouteSettingsDialog|"
+msgid "Delete Route"
+msgstr ""
+
+#: ../src/dialogs/RouteSettingsDialog.cpp:79
+#, qt-format
+msgctxt "RouteSettingsDialog|"
+msgid "Are you sure you wish to delete the route '%1'?"
+msgstr ""
+
+#: ../src/dialogs/SmartCardObjectsDialog.ui:14
+msgctxt "SmartCardObjectsDialog|"
+msgid "SmartCardObjectsDialog"
+msgstr ""
+
+#: ../src/VPNControlTask.cpp:518 ../src/VPNControlTask.cpp:520
+msgctxt "VPNControlTask|"
+msgid "A critical error occurred"
+msgstr ""
+
+#: ../src/VPNControlTask.cpp:518
+msgctxt "VPNControlTask|"
+msgid "L2tpIPsecVpnControlDaemon is not started"
+msgstr ""
+
+#: ../src/VPNControlTask.cpp:520
+#, qt-format
+msgctxt "VPNControlTask|"
+msgid "Create vpn syslog pipe command failed with exit code: %1"
+msgstr ""

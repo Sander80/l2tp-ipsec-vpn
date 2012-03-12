@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionManager.cpp 112 2011-12-26 03:00:40Z werner $
+ * $Id: ConnectionManager.cpp 125 2012-03-12 14:06:09Z werner $
  *
  * File:   ConnectionManager.cpp
  * Author: Werner Jaeger
@@ -51,10 +51,10 @@
 */
 
 static const int PTPINTERFACE_CHECK_UP_TIME(30000);
-static const int PTPINTERFACE_CHECK_DOWN_TIME(20000);
-static const int VPN_TASK_TIMOUT(40000);
+static const int PTPINTERFACE_CHECK_DOWN_TIME(30000);
+static const int VPN_TASK_TIMOUT(80000);
 
-static const QString strRuntimePath("/var/run/L2tpIPsecVpn/");
+static const QString strRuntimePath("/var/run/L2tpIPsecVpnControlDaemon/");
 static const char* const strAbout(
    "<p><center><small>Copyright &copy; 2010-2012 Werner Jaeger</small></center></p>"
    "<p><center><a href='http://wiki.l2tpipsecvpn.tuxfamily.org/'>Help</a></center></p>"
@@ -116,7 +116,7 @@ int ConnectionManager::exec()
    if (iRet == 0)
    {
       createTrayIcon();
-      onStatusChanged();
+      updateContextMenu(true);
 
       const ConnectionSettings settings;
       const int iSize = settings.connections();
@@ -172,7 +172,7 @@ void ConnectionManager::createTrayIcon()
    connect(m_pTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 }
 
-void ConnectionManager::onStatusChanged()
+void ConnectionManager::updateContextMenu(bool fStatusChanged)
 {
    if (m_pState->isState(ConnectionState::Connected))
    {
@@ -192,16 +192,19 @@ void ConnectionManager::onStatusChanged()
    else if (m_pState->isState(ConnectionState::Error))
    {
       enableAllConnections(true);
-      action(DISC)->setEnabled(false);
+      action(DISC)->setEnabled(NetworkInterface::defaultGateway().size() == 1);
    }
    else
    {
-      enableAllConnections(true);
+      enableAllConnections(NetworkInterface::defaultGateway().size() == 1);
       action(DISC)->setEnabled(false);
    }
 
-   m_pConnectionInformation->onConectionStateChanged(m_pState, m_pVPNControlTask->connectionName());
-   showMessage();
+   if (fStatusChanged)
+   {
+      m_pConnectionInformation->onConectionStateChanged(m_pState, m_pVPNControlTask->connectionName());
+      showMessage();
+   }
 }
 
 void ConnectionManager::vpnConnect(const QString& strConnectionName)
@@ -232,7 +235,7 @@ void ConnectionManager::vpnConnect(const QString& strConnectionName)
 
                delete m_pState;
                m_pState = new Connecting(m_pTrayIcon, strGateway);
-               onStatusChanged();
+               updateContextMenu(true);
 
                m_pVPNControlTask->setConnectionName(strConnectionName);
                m_pVPNControlTask->setAction(VPNControlTask::Connect);
@@ -274,7 +277,7 @@ void ConnectionManager::vpnDisconnect(bool fDontChangeStatus)
          delete m_pState;
          m_pState = new Disconnecting(m_pTrayIcon, strGateway);
 
-         onStatusChanged();
+         updateContextMenu(true);
       }
 
       m_pVPNControlTask->setAction(VPNControlTask::Disconnect);
@@ -325,7 +328,12 @@ void ConnectionManager::iconActivated(QSystemTrayIcon::ActivationReason reason)
          showMessage();
          break;
 
+      case QSystemTrayIcon::Context:
+         updateContextMenu(false);
+         break;
+
       case QSystemTrayIcon::Trigger:
+         updateContextMenu(false);
          m_pTrayIconMenu->popup(QCursor::pos());
          break;
 
@@ -349,7 +357,7 @@ void ConnectionManager::detectConnectionState()
    const ConnectionInfo connectionInfo(connectionNameOfUpAndRunningPtpInterface());
    if (!connectionInfo.first.isNull())
    {
-      if (NetworkInterface::defaultGateway().size() == 1)
+      if (NetworkInterface::writeDefaultGatewayInfo())
          connected(connectionInfo.first, connectionInfo.second);
       else
          vpnDisconnect(true);
@@ -527,7 +535,7 @@ void ConnectionManager::onRouteDeleted(NetworkInterface interface, unsigned int 
    {
       if (!m_fRoutePriorityIsChanging)
       {
-         if (m_pState && m_pState->isState(ConnectionState::Connected) && interface.isIPsecPysicalGateway() && !interface.hasDefaultGateway())
+         if (m_pState && m_pState->isState(ConnectionState::Connected) && interface.isDefaultGateway() && !interface.hasDefaultGateway())
             vpnDisconnect();
       }
       else
@@ -563,7 +571,7 @@ void ConnectionManager::onPtpInterfaceIsGoingDown(NetworkInterface interface)
       if (!strConnectionName.isNull())
          disConnected();
    }
-   if (m_pState && m_pState->isState(ConnectionState::Connected) && interface.isIPsecPysicalGateway())
+   if (m_pState && m_pState->isState(ConnectionState::Connected) && interface.isDefaultGateway())
       vpnDisconnect();
 
 //   qDebug() << "ConnectionManager::onPtpInterfaceIsGoingDown(" << interface.name().c_str() << ") -> finished";
@@ -614,7 +622,7 @@ void ConnectionManager::connected(const QString& strConnectionName, const Networ
 
    m_pState = new Connected(m_pTrayIcon, strGateway, ptpInterface);
 
-   onStatusChanged();
+   updateContextMenu(true);
 }
 
 void ConnectionManager::disConnected()
@@ -623,7 +631,7 @@ void ConnectionManager::disConnected()
 
    m_pState = new NotConnected(m_pTrayIcon);
 
-   onStatusChanged();
+   updateContextMenu(true);
 }
 
 void ConnectionManager::error(int iErrorCode)
@@ -636,7 +644,7 @@ void ConnectionManager::error(int iErrorCode)
 
       delete m_pState;
       m_pState = new Error(m_pTrayIcon, strGateway, iErrorCode, fDisconnecting);
-      onStatusChanged();
+      updateContextMenu(true);
 
       vpnDisconnect(true);
    }

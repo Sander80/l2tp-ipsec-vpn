@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionSettings.h 109 2011-09-18 08:50:58Z werner $
+ * $Id: ConnectionSettings.h 120 2012-03-08 04:57:41Z werner $
  *
  * File:   ConnectionSettings.h
  * Author: Werner Jaeger
@@ -54,6 +54,8 @@ public:
    L2tpSettings l2tpSettings(const QString& strName) const;
    PppSettings pppSettings(const QString& strName) const;
 
+   int deleteAllConfFiles();
+
 protected:
    explicit ConnectionSettings(int iConnectionNo);
    ConnectionSettings(const ConnectionSettings& orig);
@@ -87,6 +89,9 @@ public:
 
    bool setAutoConnect(bool fAutoConnect) const;
    bool autoConnect() const;
+
+   bool setDisableIPSecEncryption(bool fDisableIPSecEncryption) const;
+   bool disableIPSecEncryption() const;
 
 private:
    explicit CommonSettings(int iConnectionNo) : ConnectionSettings(iConnectionNo) {}
