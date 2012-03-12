@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterface.cpp 109 2011-09-18 08:50:58Z werner $
+ * $Id: NetworkInterface.cpp 125 2012-03-12 14:06:09Z werner $
  *
  * File:   NetworkInterface.cpp
  * Author: Werner Jaeger
@@ -24,6 +24,8 @@
 
 //#include <QDebug>
 
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <net/if.h>
 #include <ifaddrs.h>
@@ -31,9 +33,12 @@
 #include <sstream>
 #include <fstream>
 
+#include "util/VpnControlDaemonClient.h"
+
 #include "NetworkInterface.h"
 
 const char* const pcProcNetDevPath("/proc/net/dev");
+const char* const pcDefaultGatewayInfoPath("/var/run/L2tpIPsecVpnControlDaemon/defaultgateway.info");
 const NetworkInterface NetworkInterface::null(NetworkInterface("", 0, 0));
 
 NetworkInterface::NetworkInterface(const NetworkInterface& orig) : m_strName(orig.m_strName), m_iIndex(orig.m_iIndex), m_Flags(orig.m_Flags), m_AddressEntries(orig.m_AddressEntries), m_RouteEntries(orig.m_RouteEntries)
@@ -51,15 +56,15 @@ bool NetworkInterface::hasDefaultGateway() const
 
    AddressEntries::const_iterator it(m_RouteEntries.begin());
 
-   while (!fRet && it != m_RouteEntries.end())
-      fRet = (*it++).ip().isNull();
+   for (; !fRet && it != m_RouteEntries.end(); it++)
+      fRet = (*it).ip().isNull();// && !(*it).broadcast().isNull();
 
    return(fRet);
 }
 
-bool NetworkInterface::isIPsecPysicalGateway() const
+bool NetworkInterface::isDefaultGateway() const
 {
-   return(NetworkInterface::internetInterfaceInfo().interfaceName().compare(m_strName) == 0);
+   return(NetworkInterface::defaultGatewayInfo().interfaceName().compare(m_strName) == 0);
 }
 
 bool NetworkInterface::removeAddressEntry(const QNetworkAddressEntry& addressEntry)
@@ -144,7 +149,7 @@ NetworkInterface::InterfaceMap NetworkInterface::defaultGateway(void)
 
       istringstream strFormat(strLine);
       strFormat >> strInterfaceName >> hex >> iDestinationAddress >> hex >> iGatewayAddress ;
-      if (!strFormat.good())
+      if (!strFormat.good() || iGatewayAddress == 0)
          iDestinationAddress = -1;
    }
 
@@ -156,9 +161,9 @@ NetworkInterface::InterfaceMap NetworkInterface::defaultGateway(void)
       std::pair<InterfaceMap::iterator, bool> ret = interfaces.insert(entry);
 
       QNetworkAddressEntry routeEntry;
-      routeEntry.setIp(QHostAddress(iDestinationAddress));
+      routeEntry.setIp(QHostAddress(be32toh(iDestinationAddress)));
       routeEntry.setNetmask(QHostAddress());
-      routeEntry.setBroadcast(QHostAddress(iGatewayAddress));
+      routeEntry.setBroadcast(QHostAddress(be32toh(iGatewayAddress)));
 
       (*ret.first).second.addRouteEntry(routeEntry);
    }
@@ -287,7 +292,7 @@ NetworkInterface::Statistic NetworkInterface::statistic(const std::string& strIn
    return(Statistic(receivedValues, transmittedValues));
 }
 
-NetworkInterface::InternetInterfaceInfo NetworkInterface::internetInterfaceInfo()
+NetworkInterface::DefaultGatewayInfo NetworkInterface::defaultGatewayInfo()
 {
    using namespace std;
 
@@ -295,11 +300,11 @@ NetworkInterface::InternetInterfaceInfo NetworkInterface::internetInterfaceInfo(
    string strGateway;
    string strIPAddress;
 
-   ifstream ipsecInfo("/var/run/pluto/ipsec.info", ios::in);
-   while (ipsecInfo)
+   ifstream defaultGatewayInfo(pcDefaultGatewayInfoPath, ios::in);
+   while (defaultGatewayInfo)
    {
       string strLine;
-      getline(ipsecInfo, strLine);
+      getline(defaultGatewayInfo, strLine);
 
       if (strLine.length() > 0)
       {
@@ -318,7 +323,40 @@ NetworkInterface::InternetInterfaceInfo NetworkInterface::internetInterfaceInfo(
       }
    }
 
-   return(InternetInterfaceInfo(strInterfaceName, strGateway, strIPAddress));
+   return(DefaultGatewayInfo(strInterfaceName, strGateway, strIPAddress));
+}
+
+bool NetworkInterface::writeDefaultGatewayInfo()
+{
+   bool fRet(false);
+
+   const InterfaceMap defInterfaces(defaultGateway());
+
+   if (defInterfaces.size() > 0)
+   {
+      const NetworkInterface nif((*defInterfaces.begin()).second);
+
+      if (nif.routeEntries().size() > 0)
+      {
+         using namespace std;
+
+         const QNetworkAddressEntry ae(nif.routeEntries()[0]);
+
+         stringstream strDefaultGatewayInfo;
+
+         strDefaultGatewayInfo << "defaultroutephys=" << nif.m_strName << '\3';
+         strDefaultGatewayInfo << "defaultroutevirt=none" << '\3';
+         strDefaultGatewayInfo << "defaultrouteaddr=" << ipAddress(nif.m_strName) << '\3';
+         strDefaultGatewayInfo << "defaultroutenexthop=" << ae.broadcast().toString().toStdString() << '\3';
+         if (!strDefaultGatewayInfo.fail())
+         {
+            int iRet(VpnControlDaemonClient::execute(VpnClientConnection::CMD_WRITE_DEFAULT_GATEWAY_INFO, QString::fromStdString(strDefaultGatewayInfo.str())));
+            fRet = (iRet == 0);
+         }
+      }
+   }
+
+   return(fRet);
 }
 
 NetworkInterface::InterfaceFlags NetworkInterface::convertFlags(uint iRawFlags)
@@ -331,4 +369,25 @@ NetworkInterface::InterfaceFlags NetworkInterface::convertFlags(uint iRawFlags)
    flags |= (iRawFlags & IFF_POINTOPOINT) ? IsPointToPoint : InterfaceFlag(0);
    flags |= (iRawFlags & IFF_MULTICAST) ? CanMulticast : InterfaceFlag(0);
    return(flags);
+}
+
+std::string NetworkInterface::ipAddress(const std::string strInterfaceName)
+{
+   std::string strIpAddress;
+
+   struct ifaddrs* pInterfaceAddresses;
+
+   if (::getifaddrs(&pInterfaceAddresses) == 0)
+   {
+      for (const struct ifaddrs* pIter = pInterfaceAddresses; pIter != NULL && strIpAddress.empty(); pIter = pIter->ifa_next)
+      {
+         if (pIter->ifa_addr && (pIter->ifa_addr->sa_family == AF_INET || pIter->ifa_addr->sa_family == AF_INET6))
+         {
+            if (strInterfaceName.compare(pIter->ifa_name) == 0)
+               strIpAddress = QHostAddress(pIter->ifa_addr).toString().toStdString();
+         }
+      }
+      ::freeifaddrs(pInterfaceAddresses);
+   }
+   return(strIpAddress);
 }

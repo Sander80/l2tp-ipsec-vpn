@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionManager.h 110 2011-10-22 12:02:21Z werner $
+ * $Id: ConnectionManager.h 115 2012-01-24 23:58:29Z werner $
  *
  * File:   ConnectionManager.h
  * Author: Werner Jaeger
@@ -83,7 +83,7 @@ private:
 
    void createActions();
    void createTrayIcon();
-   void onStatusChanged();
+   void updateContextMenu(bool fStatusChanged);
    void vpnConnect(const QString& strConnectionName);
    void enableAllConnections(bool fEnable) const;
    void connected(const QString& strConnectionName, const NetworkInterface& ptpInterface);

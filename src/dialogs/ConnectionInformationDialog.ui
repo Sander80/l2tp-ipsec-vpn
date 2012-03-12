@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>L2TP IPSec VPN</string>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="m_pDialogLayout">
    <item>
     <widget class="QTabWidget" name="m_pTabWidget">

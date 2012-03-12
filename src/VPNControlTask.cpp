@@ -1,5 +1,5 @@
 /*
- * $Id: VPNControlTask.cpp 92 2011-06-17 05:54:54Z werner $
+ * $Id: VPNControlTask.cpp 125 2012-03-12 14:06:09Z werner $
  *
  * File:   VPNControlTask.cpp
  * Author: Werner Jaeger
@@ -23,7 +23,9 @@
 */
 
 #include <QProcess>
+#include <QDir>
 #include <QFile>
+#include <QFileInfoList>
 #include <QTextStream>
 #include <QSocketNotifier>
 #include <QMessageBox>
@@ -33,14 +35,16 @@
 #include <fcntl.h>
 
 #include "conf/ConfWriter.h"
+#include "settings/ConnectionSettings.h"
 #include "util/VpnControlDaemonClient.h"
+
 #include "VPNControlTask.h"
 #include "ConnectionManager.h"
 
-static const QFile ipsecInfo("/var/run/pluto/ipsec.info");
 static const QFile xl2tpdPid("/var/run/xl2tpd.pid");
 
 static const char* const strVpnLogPipeName("/var/log/l2tpipsecvpn.pipe");
+static const char* const PROCDIR("/proc/");
 
 static const QRegExp RE_LOG_SPLITLINE("\\s(?=\\w+\\[\\d+\\]\\:\\s)");
 static const QRegExp RE_LOG_CAP_CERTIFICATEID("\\'(\\d\\:\\d{1,3})\\'");
@@ -56,6 +60,7 @@ static const char* const STR_LOG_MATCH_PEERAUTHFAILED("but I couldn't find any s
 
 static const int ERR_INTERRUPTED(98);
 static const int ERR_CONNECTING_TO_CONTROL_DAEMON(99);
+static const int ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO(230);
 static const int ERR_IPSEC_SA_NOT_ESTABLISHED(300);
 static const int ERR_LOADING_CERTIFICATE(400);
 static const int ERR_AUTHENTICATION_FAILED(404);
@@ -111,7 +116,7 @@ void VPNControlTask::setAction(Action action)
 
 int VPNControlTask::restartPcscDaemon()
 {
-//   qDebug() << "VPNControlTask::restartPcscDaemon()";
+//   qDebug() << "VPNControlTask::restartPcscDaemon()";connectionName
 
    if (createControlClient())
    {
@@ -164,7 +169,7 @@ void VPNControlTask::run()
  * \brief Tries to stop this running thread.
  *
  * \param iWaitMiliSeconds wait at most this time.
- * \retun true if the thread was stopped successfully, false otherwise.
+ * \return true if the thread was stopped successfully, false otherwise.
  */
 bool VPNControlTask::stop(unsigned long iWaitMiliSeconds)
 {
@@ -207,18 +212,29 @@ void VPNControlTask::runConnect()
 {
 //   qDebug() << "VPNControlTask::runConnect()";
 
-   if (ipsecInfo.exists())
+   const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
+
+   if (VPNControlTask::plutoIsRunning())
    {
       runAndWait(VpnClientConnection::CMD_STOP_IPSECD);
 
-      while (ipsecInfo.exists())
+      while (VPNControlTask::plutoIsRunning())
          sleep(1);
    }
 
    if (xl2tpdPid.exists())
       runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
 
-   runAndWait(VpnClientConnection::CMD_START_IPSECD);
+   if (!NetworkInterface::writeDefaultGatewayInfo())
+   {
+      m_iReturnCode = ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO;
+      emitErrorMsg("");
+   }
+   else if (!commonSettings.disableIPSecEncryption())
+      runAndWait(VpnClientConnection::CMD_START_IPSECD);
+
+   if (m_iReturnCode == 0)
+      runAndWait(VpnClientConnection::CMD_WRITE_CONNECTIONNAME_INFO, m_strConnectionName);
 
    if (m_iReturnCode == 0)
    {
@@ -226,25 +242,30 @@ void VPNControlTask::runConnect()
 
       if (m_iReturnCode == 0)
       {
-         if (!m_fIPSecConnectionAdded)
-            exec();
-
-         // avoid need --listen before --initiate error
-         runAndWait(VpnClientConnection::CMD_IPSEC_READY);
-
-         if (m_iReturnCode == 0)
+         if (!commonSettings.disableIPSecEncryption())
          {
-            runAndWait(VpnClientConnection::CMD_IPSEC_UP, m_strConnectionName);
+            if (!m_fIPSecConnectionAdded)
+               exec();
 
-            if (m_iReturnCode == 0 && !m_fIPSecConnectionIsUp)
-            {
-               m_iReturnCode = ERR_IPSEC_SA_NOT_ESTABLISHED;
-               emitErrorMsg("IPsec");
-            }
+            // avoid need --listen before --initiate error
+            runAndWait(VpnClientConnection::CMD_IPSEC_READY);
 
             if (m_iReturnCode == 0)
-               runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+            {
+               runAndWait(VpnClientConnection::CMD_IPSEC_UP, m_strConnectionName);
+
+               if (m_iReturnCode == 0 && !m_fIPSecConnectionIsUp)
+               {
+                  m_iReturnCode = ERR_IPSEC_SA_NOT_ESTABLISHED;
+                  emitErrorMsg("IPsec");
+               }
+
+               if (m_iReturnCode == 0)
+                  runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+            }
          }
+         else
+            runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
       }
    }
 //   qDebug() << "VPNControlTask::runConnect() -> finished";
@@ -254,10 +275,12 @@ void VPNControlTask::runDisconnect()
 {
 //   qDebug() << "VPNControlTask::runDisconnect()";
 
+   const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
+
    if (xl2tpdPid.exists())
       runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
 
-   if (m_iReturnCode == 0)
+   if (m_iReturnCode == 0 && !commonSettings.disableIPSecEncryption())
       runAndWait(VpnClientConnection::CMD_STOP_IPSECD);
 
 //   qDebug() << "VPNControlTask::runDisconnect() -> finished";
@@ -440,6 +463,10 @@ void VPNControlTask::emitErrorMsg(const QString& strErrorContext)
          *m_pErrorStream << "Failed to start syslog daemon '" << strErrorContext << "'";
          break;
 
+      case ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO:
+         *m_pErrorStream << "No default gateway found or failed to write default gateway information '" << strErrorContext << "'";
+         break;
+
       case ERR_IPSEC_SA_NOT_ESTABLISHED:
          *m_pErrorStream << "'" << strErrorContext << "' failed to negotiate or establish security associations";
          break;
@@ -489,6 +516,49 @@ void VPNControlTask::clearVpnLogPipe()
    {
       const int iResult(VpnControlDaemonClient::execute(VpnClientConnection::CMD_CREATE_VPN_LOGPIPE, m_vpnLogPipe.fileName()));
       if (iResult != VpnClientConnection::OK)
-         QMessageBox::critical(NULL, tr("A critical error occurred"), tr("Create vpn syslog pipe command failed with exit code: %1").arg(iResult));
+      {
+         if (iResult == 1)
+            QMessageBox::critical(NULL, tr("A critical error occurred"), tr("L2tpIPsecVpnControlDaemon is not started"));
+         else
+            QMessageBox::critical(NULL, tr("A critical error occurred"), tr("Create vpn syslog pipe command failed with exit code: %1").arg(iResult));
+      }
    }
+}
+
+/**
+ * Lookup /proc to see if pluto is running
+ **/
+bool VPNControlTask::plutoIsRunning()
+{
+   const uint uiUid(0);
+
+   QFileInfoList procList(QDir(PROCDIR).entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot));
+
+   bool fDone(false);
+   for (QFileInfoList::const_iterator procIt(procList.constBegin()); !fDone && procIt != procList.constEnd(); procIt++)
+   {
+      bool fOk(false);
+      QString strPid((*procIt).fileName());
+      strPid.toUInt(&fOk);
+
+      if (fOk) // pid must be numeric, ignore every thing else
+      {
+         // is this process owned by the user
+         if (uiUid == (*procIt).ownerId())
+         {
+            // we have a valid pid
+            // open the cmdline file to determine what's the name of the process running
+            QFile cmdLineFile(PROCDIR + strPid + "/cmdline");
+            if (cmdLineFile.open(QFile::ReadOnly))
+            {
+               const QString strCli(cmdLineFile.readAll());
+               if (strCli.startsWith("pluto"))
+                  fDone = true;
+            }
+            else
+               qWarning() << "Failed to open proc command line file" << cmdLineFile.fileName();
+         }
+      }
+   }
+   return(fDone);
 }

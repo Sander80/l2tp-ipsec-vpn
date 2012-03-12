@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="79">
+<configurationDescriptor version="80">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -25,7 +25,6 @@
       <itemPath>src/models/IPsecCertificateListModel.h</itemPath>
       <itemPath>src/conf/IPsecConfWriter.h</itemPath>
       <itemPath>src/conf/IPsecSecretsConfWriter.h</itemPath>
-      <itemPath>src/dialogs/IPsecSettingsDialog.h</itemPath>
       <itemPath>src/dialogs/InterfaceStatisticsDialog.h</itemPath>
       <itemPath>src/dialogs/IpSettingsDialog.h</itemPath>
       <itemPath>src/conf/L2tpConfWriter.h</itemPath>
@@ -95,7 +94,6 @@
       <itemPath>src/models/IPsecCertificateListModel.cpp</itemPath>
       <itemPath>src/conf/IPsecConfWriter.cpp</itemPath>
       <itemPath>src/conf/IPsecSecretsConfWriter.cpp</itemPath>
-      <itemPath>src/dialogs/IPsecSettingsDialog.cpp</itemPath>
       <itemPath>src/dialogs/InterfaceStatisticsDialog.cpp</itemPath>
       <itemPath>src/dialogs/InterfaceStatisticsDialog.ui</itemPath>
       <itemPath>src/dialogs/IpSettingsDialog.cpp</itemPath>
@@ -175,7 +173,7 @@
       <qt>
         <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
         <target>L2tpIPsecVpn</target>
-        <version>1.0.3</version>
+        <version>1.0.6</version>
         <modules>core gui network</modules>
         <mocDir>src/generated</mocDir>
         <rccDir>src/generated</rccDir>
@@ -198,6 +196,7 @@
           <Elem>networkmenu.path=/usr/share/applications</Elem>
           <Elem>networkmenu.files = resources/L2tpIPsecVpn-Applet.desktop</Elem>
           <Elem>INSTALLS += networkmenu</Elem>
+          <Elem>TRANSLATIONS = nls/L2tpIPsecVpn_de.ts</Elem>
         </defs>
       </qt>
       <compileType>
@@ -212,7 +211,7 @@
       </compileType>
       <packaging>
         <packType>Tar</packType>
-        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.3.tar</output>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.6.tar</output>
         <packFileList>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
@@ -279,7 +278,7 @@
       <qt>
         <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
         <target>L2tpIPsecVpn</target>
-        <version>1.0.3</version>
+        <version>1.0.6</version>
         <buildMode>1</buildMode>
         <modules>core gui network</modules>
         <mocDir>src/generated</mocDir>
@@ -303,6 +302,7 @@
           <Elem>networkmenu.path=/usr/share/applications</Elem>
           <Elem>networkmenu.files = resources/L2tpIPsecVpn-Applet.desktop</Elem>
           <Elem>INSTALLS += networkmenu</Elem>
+          <Elem>TRANSLATIONS = nls/L2tpIPsecVpn_de.ts</Elem>
         </defs>
       </qt>
       <compileType>
@@ -317,7 +317,7 @@
       </compileType>
       <packaging>
         <packType>Tar</packType>
-        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.3.tar</output>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.6.tar</output>
         <packFileList>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"

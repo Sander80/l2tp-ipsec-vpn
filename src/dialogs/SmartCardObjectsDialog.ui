@@ -17,6 +17,9 @@
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
     <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QListView" name="m_pSmartCardObjectsListView"/>

@@ -17,6 +17,9 @@
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
     <normaloff>:/images/connectEstablished.png</normaloff>:/images/connectEstablished.png</iconset>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
   <layout class="QGridLayout" name="m_pGridLayout">
    <property name="horizontalSpacing">
     <number>9</number>

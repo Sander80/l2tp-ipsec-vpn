@@ -1,5 +1,5 @@
 /*
- * $Id: ConfWriter.h 13 2010-09-17 09:12:39Z werner $
+ * $Id: ConfWriter.h 120 2012-03-08 04:57:41Z werner $
  *
  * File:   ConfWriter.h
  * Author: Werner Jaeger
@@ -28,7 +28,7 @@
 class ConfWriter
 {
 public:
-   typedef enum { IPsec, L2TP, PPP, RSYSLOG, GETIPSECINFO, PPPUPSCRIPT, PPPDNSCONF, PPPDOWNSCRIPT, OPENSSL, IPsecSECRET} Conf;
+   typedef enum { IPsec, L2TP, PPP, RSYSLOG, GETIPSECINFO, PPPUPSCRIPT, PPPDNSCONF, PPPDOWNSCRIPT, OPENSSL, IPsecSECRET, END} Conf;
 
    static bool write(Conf conf, const QString& strInstance = "");
    static const QString& fileName(Conf conf, const QString& strInstance = "");

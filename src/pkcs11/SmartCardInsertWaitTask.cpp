@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardInsertWaitTask.cpp 35 2011-01-28 01:43:49Z werner $
+ * $Id: SmartCardInsertWaitTask.cpp 120 2012-03-08 04:57:41Z werner $
  *
  * File:   SmartCardInsertWaitTask.cpp
  * Author: Werner Jaeger
@@ -42,7 +42,7 @@ void SmartCardInsertWaitTask::run()
       do
       {
          m_iRet = m_pkcs11.slotList().count();
-         msleep(100);
+         QThread::sleep(1);
       }
       while (m_iRet == 0 && !m_fStop);
    }

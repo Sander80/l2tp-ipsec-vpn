@@ -1,5 +1,5 @@
 /*
- * $Id: L2tpIPsecVpnApplication.h 86 2011-04-20 05:27:21Z werner $
+ * $Id: L2tpIPsecVpnApplication.h 120 2012-03-08 04:57:41Z werner $
  *
  * File:   L2tpIPsecVpnApplication.h
  * Author: Werner Jaeger
@@ -42,6 +42,7 @@ public:
       CONNECTION_EDITOR,
       CONNECTION_EDITOR_STARTER,
       APPLYSETTINGS,
+      DELETEALLCONFFILES,
       PASSWORD_CALLBACK
    };
 
@@ -56,6 +57,7 @@ public:
    int startConnectionEditorDialog(bool fDetached = false) const;
 
    static APPLICATIONMODE parseCmdLine(int& iArgc, char** ppArgv);
+   static QString getGrahicalSUCmdLine();
 
 signals:
    void connectionAdded(const QString& strConnectionName);

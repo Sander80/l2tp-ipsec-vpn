@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionEditorDialog.cpp 86 2011-04-20 05:27:21Z werner $
+ * $Id: ConnectionEditorDialog.cpp 120 2012-03-08 04:57:41Z werner $
  *
  * File:   ConnectionEditorDialog.cpp
  * Author: Werner Jaeger
@@ -117,8 +117,8 @@ bool ConnectionEditorDialog::applySettings(ConnectionsModel* pConnectionsModel, 
             fRet = ConfWriter::write(ConfWriter::PPP, strConnectionName);
             if (fRet)
             {
-               const QString strDNSConfInstance( QCoreApplication::instance()->objectName() + "-" +strConnectionName);
-               const QString strDNSConfFile(ConfWriter::fileName(ConfWriter::PPPDNSCONF,strDNSConfInstance));
+               const QString strDNSConfInstance(QCoreApplication::instance()->objectName() + "-" +strConnectionName);
+               const QString strDNSConfFile(ConfWriter::fileName(ConfWriter::PPPDNSCONF, strDNSConfInstance));
                const PppIpSettings ipSettings(pConnectionSettings->pppSettings(strConnectionName).ipSettings());
 
                if (ipSettings.usePeerDns() || (ipSettings.alternateDnsServerAddress().isEmpty() && ipSettings.preferredDnsServerAddress().isEmpty() && ipSettings.searchDomains().isEmpty()))
