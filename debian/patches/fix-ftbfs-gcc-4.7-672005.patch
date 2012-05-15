@@ -1,0 +1,52 @@
+Description: add missing includes to avoid FTBFS with gcc 4.7
+Origin: vendor
+Bug-Debian: http://bugs.debian.org/672005
+Forwarded: no
+Author: Paul Tagliamonte <tag@pault.ag>
+Reviewed-by: gregor herrmann <gregoa@debian.org>
+Last-Update: 2012-05-15
+
+diff -Nuarp l2tp-ipsec-vpn-1.0.6/src/ConnectionManager.cpp l2tp-ipsec-vpn-1.0.6.new/src/ConnectionManager.cpp
+--- l2tp-ipsec-vpn-1.0.6/src/ConnectionManager.cpp	2012-03-12 16:32:47.000000000 -0400
++++ l2tp-ipsec-vpn-1.0.6.new/src/ConnectionManager.cpp	2012-05-09 22:31:56.054159256 -0400
+@@ -27,6 +27,7 @@
+ #include <QMenu>
+ #include <QTimer>
+ #include <QMessageBox>
++#include <unistd.h>
+ //#include <QDebug>
+ 
+ #include "pkcs11/SmartCardState.h"
+diff -Nuarp l2tp-ipsec-vpn-1.0.6/src/main.cpp l2tp-ipsec-vpn-1.0.6.new/src/main.cpp
+--- l2tp-ipsec-vpn-1.0.6/src/main.cpp	2012-03-12 16:32:47.000000000 -0400
++++ l2tp-ipsec-vpn-1.0.6.new/src/main.cpp	2012-05-09 22:31:56.054159256 -0400
+@@ -29,6 +29,7 @@
+ #include <QTranslator>
+ 
+ #include <syslog.h>
++#include <unistd.h>
+ 
+ #include "pkcs11/Pkcs11.h"
+ #include "settings/ConnectionSettings.h"
+diff -Nuarp l2tp-ipsec-vpn-1.0.6/src/PasswordCallback.cpp l2tp-ipsec-vpn-1.0.6.new/src/PasswordCallback.cpp
+--- l2tp-ipsec-vpn-1.0.6/src/PasswordCallback.cpp	2012-03-12 16:32:47.000000000 -0400
++++ l2tp-ipsec-vpn-1.0.6.new/src/PasswordCallback.cpp	2012-05-09 22:31:56.054159256 -0400
+@@ -25,6 +25,7 @@
+ #include <QObject>
+ 
+ #include <stdlib.h>
++#include <unistd.h>
+ // #include <syslog.h>
+ 
+ #include "settings/ConnectionSettings.h"
+diff -Nuarp l2tp-ipsec-vpn-1.0.6/src/util/NetworkInterfaceMonitor.cpp l2tp-ipsec-vpn-1.0.6.new/src/util/NetworkInterfaceMonitor.cpp
+--- l2tp-ipsec-vpn-1.0.6/src/util/NetworkInterfaceMonitor.cpp	2012-03-12 16:32:47.000000000 -0400
++++ l2tp-ipsec-vpn-1.0.6.new/src/util/NetworkInterfaceMonitor.cpp	2012-05-09 22:36:42.874143944 -0400
+@@ -29,6 +29,7 @@
+ #include <linux/rtnetlink.h>
+ #include <net/if.h>
+ #include <arpa/inet.h>
++#include <unistd.h>
+ 
+ #include "NetworkInterfaceMonitor.h"
+ #include "NetworkInterface.h"

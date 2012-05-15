@@ -1,3 +1,12 @@
+l2tp-ipsec-vpn (1.0.6-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix "FTBFS: src/main.cpp:210:15: error: '::getuid' has not been
+    declared": add patch from Paul Tagliamonte (missing includes).
+    (Closes: #672005)
+
+ -- gregor herrmann <gregoa@debian.org>  Tue, 15 May 2012 17:25:02 +0200
+
 l2tp-ipsec-vpn (1.0.6-1) unstable; urgency=low
 
   * New upstream release

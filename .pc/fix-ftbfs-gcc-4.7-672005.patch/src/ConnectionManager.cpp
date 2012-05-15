@@ -27,7 +27,6 @@
 #include <QMenu>
 #include <QTimer>
 #include <QMessageBox>
-#include <unistd.h>
 //#include <QDebug>
 
 #include "pkcs11/SmartCardState.h"

@@ -29,7 +29,6 @@
 #include <linux/rtnetlink.h>
 #include <net/if.h>
 #include <arpa/inet.h>
-#include <unistd.h>
 
 #include "NetworkInterfaceMonitor.h"
 #include "NetworkInterface.h"

@@ -25,7 +25,6 @@
 #include <QObject>
 
 #include <stdlib.h>
-#include <unistd.h>
 // #include <syslog.h>
 
 #include "settings/ConnectionSettings.h"

@@ -29,7 +29,6 @@
 #include <QTranslator>
 
 #include <syslog.h>
-#include <unistd.h>
 
 #include "pkcs11/Pkcs11.h"
 #include "settings/ConnectionSettings.h"
