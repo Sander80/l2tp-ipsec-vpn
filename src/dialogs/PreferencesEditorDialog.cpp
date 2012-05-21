@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesEditorDialog.cpp 64 2011-04-05 03:39:39Z werner $
+ * $Id: PreferencesEditorDialog.cpp 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   PreferencesEditorDialog.cpp
  * Author: wejaeger
@@ -108,7 +108,7 @@ void PreferencesEditorDialog::accept()
                   writeSettings();
                   QDialog::accept();
                }
-               catch (ErrorEx error)
+               catch (const ErrorEx& error)
                {
                   QMessageBox::critical(NULL, QCoreApplication::applicationName(), error.getString());
 

@@ -1,5 +1,5 @@
 /*
- * $Id: CertificateImportDialog.cpp 118 2012-02-15 08:21:26Z werner $
+ * $Id: CertificateImportDialog.cpp 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   CertificateImportDialog.cpp
  * Author: wejaeger
@@ -213,7 +213,7 @@ void CertificateImportDialog::showError()
    m_Widget.m_pInfoTextEdit->insertHtml("<div style='color:red'>" + m_pPkcs12->error() + "</div>");
 }
 
-bool CertificateImportDialog::checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString strType) const
+bool CertificateImportDialog::checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString& strType) const
 {
    bool fRet(true);
 

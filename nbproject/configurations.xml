@@ -173,7 +173,7 @@
       <qt>
         <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
         <target>L2tpIPsecVpn</target>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
         <modules>core gui network</modules>
         <mocDir>src/generated</mocDir>
         <rccDir>src/generated</rccDir>
@@ -203,15 +203,12 @@
         <ccTool>
           <incDir>
             <pElem>src</pElem>
-            <pElem>/usr/include/qt4</pElem>
-            <pElem>/usr/include/qt4/QtCore</pElem>
-            <pElem>/usr/include/qt4/QtNetwork</pElem>
           </incDir>
         </ccTool>
       </compileType>
       <packaging>
         <packType>Tar</packType>
-        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.6.tar</output>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.7.tar</output>
         <packFileList>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
@@ -278,7 +275,7 @@
       <qt>
         <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
         <target>L2tpIPsecVpn</target>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
         <buildMode>1</buildMode>
         <modules>core gui network</modules>
         <mocDir>src/generated</mocDir>
@@ -309,15 +306,12 @@
         <ccTool>
           <incDir>
             <pElem>src</pElem>
-            <pElem>/usr/include/qt4</pElem>
-            <pElem>/usr/include/qt4/QtCore</pElem>
-            <pElem>/usr/include/qt4/QtNetwork</pElem>
           </incDir>
         </ccTool>
       </compileType>
       <packaging>
         <packType>Tar</packType>
-        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.6.tar</output>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.7.tar</output>
         <packFileList>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"

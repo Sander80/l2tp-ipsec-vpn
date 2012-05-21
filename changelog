@@ -1,3 +1,15 @@
+1.0.7
+ - to be compatible with more linux distributions use service command
+   instead of invoke-rc.d command to start and stop runlevel services
+ - corrected wrong desktop check
+ - corrected platform specific qt includes
+ - in Makefile configure the appropriate qmake command (qmake or qmake-qt4)
+ - fixed FTBFS because gcc-4.7 no longer includes unistd.h
+ - fixed bug connection editor crashes on selecting a certificate or private
+   key from smart card (LP: #975822)
+ - fixed bug trayicon doesn't scale properly (LP: #98616)
+ - provided a separate error status icon
+
 1.0.6
  - transfered writing files connectionName.info and defaultgateway.info to
    L2tpIPsecVpnControlDaemon

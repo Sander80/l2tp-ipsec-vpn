@@ -1,5 +1,5 @@
 /*
- * $Id: L2tpIPsecVpnApplication.cpp 125 2012-03-12 14:06:09Z werner $
+ * $Id: L2tpIPsecVpnApplication.cpp 148 2012-05-29 05:37:04Z wejaeger $
  *
  * File:   L2tpIPsecVpnApplication.cpp
  * Author: Werner Jaeger
@@ -29,6 +29,8 @@
 #include <QMessageBox>
 
 #include "localpeer/LocalPeer.h"
+#include "util/ErrorEx.h"
+
 #include "ConnectionManager.h"
 #include "L2tpIPsecVpnApplication.h"
 #include "ConnectionEditor.h"
@@ -43,12 +45,12 @@ static QString const APPLICATIONNAME("L2TP IPsec VPN Manager");
 static QString const CONNECTION_ADDED_MSG_PREFIX("connectionAdded:");
 static QString const CONNECTION_REMOVED_MSG_PREFIX("connectionRemoved:");
 
-L2tpIPsecVpnApplication::L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPLICATIONMODE appMode) : QApplication(iArgc, ppArgv, appMode != PASSWORD_CALLBACK && appMode != APPLYSETTINGS), m_Mode(appMode), m_pProcess(new QProcess), m_pLocalPeer(new LocalPeer())
+L2tpIPsecVpnApplication::L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPLICATIONMODE appMode) : QApplication(iArgc, ppArgv, appMode != PASSWORD_CALLBACK && appMode != APPLYSETTINGS && appMode != DELETEALLCONFFILES), m_Mode(appMode), m_pProcess(new QProcess), m_pLocalPeer(new LocalPeer())
 {
    setOrganizationName("WernerJaeger");
    setOrganizationDomain("wejaeger.com");
    setApplicationName(APPLICATIONNAME);
-   setApplicationVersion("1.0.6");
+   setApplicationVersion("1.0.7");
    setObjectName("L2tpIPsecVpn");
    qRegisterMetaType<NetworkInterface>("NetworkInterface");
    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
@@ -64,6 +66,23 @@ L2tpIPsecVpnApplication::~L2tpIPsecVpnApplication()
 {
    delete m_pLocalPeer;
    delete m_pProcess;
+}
+
+bool L2tpIPsecVpnApplication::notify(QObject* pReceiver, QEvent* pEvent)
+{
+   bool fRet(false);
+
+   try
+   {
+      fRet = QApplication::notify(pReceiver, pEvent);
+   }
+   catch(const ErrorEx& e)
+   {
+      qCritical() << "Exception thrown:" << e.getString();
+      QMessageBox::critical(NULL, applicationName(), e.getString());
+   }
+
+   return(fRet);
 }
 
 bool L2tpIPsecVpnApplication::isRunning()
@@ -104,7 +123,7 @@ int L2tpIPsecVpnApplication::startConnectionEditorDialog(bool fDetached) const
    }
    else
    {
-      QMessageBox::critical(NULL, applicationName(), tr("I couldn't find any graphical SU command (gksudo, beesu or kdesudo)."));
+      QMessageBox::critical(NULL, applicationName(), tr("I couldn't find any graphical SU command (gksudo, beesu kdesudo or kdesu)."));
       iRet = -1;
    }
 
@@ -134,6 +153,9 @@ L2tpIPsecVpnApplication::APPLICATIONMODE L2tpIPsecVpnApplication::parseCmdLine(i
    {
       if (::strcmp(pcArgv[i], CONNECTIONEDITOR_CMD_SWITCH) == 0)
       {
+         if (i + 2 < iArgc && DESKTOP_SESSION_CMD_SWITCH == pcArgv[i + 1])
+            ::setenv(DESKTOP_SESSION, pcArgv[i + 2], 0);
+
          retMode = CONNECTION_EDITOR;
          fDone = true;
       }
@@ -152,8 +174,6 @@ L2tpIPsecVpnApplication::APPLICATIONMODE L2tpIPsecVpnApplication::parseCmdLine(i
          retMode = DELETEALLCONFFILES;
          fDone = true;
       }
-      else if (i + 1 < iArgc && DESKTOP_SESSION_CMD_SWITCH == pcArgv[i])
-         ::setenv(DESKTOP_SESSION, pcArgv[i + 1], 0);
       else if (pcArgv[i][0] == '-')
          iQtArgs++;
    }
@@ -168,12 +188,20 @@ QString L2tpIPsecVpnApplication::getGrahicalSUCmdLine()
 {
    QString strRet("");
 
-   if (QFile::exists("/usr/bin/gksudo"))
+   if (QFile::exists("/usr/bin/beesu"))
+   {
+      const char* const pcUser(::getenv("USER"));
+      if (pcUser)
+         strRet = "beesu -m export USER=" + QString(pcUser) + "; ";
+      else
+         strRet = "beesu -m ";
+   }
+   else if (QFile::exists("/usr/bin/gksudo"))
       strRet = "gksudo -D \"" + APPLICATIONNAME + "\" ";
-   else if (QFile::exists("/usr/bin/beesu"))
-      strRet = "beesu ";
    else if (QFile::exists("/usr/bin/kdesudo"))
       strRet = "kdesudo ";
+   else if (QFile::exists("/usr/bin/kdesu"))
+      strRet = "kdesu ";
 
    return(strRet);
 }

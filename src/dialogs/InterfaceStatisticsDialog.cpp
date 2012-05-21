@@ -1,5 +1,5 @@
 /*
- * $Id: InterfaceStatisticsDialog.cpp 67 2011-04-07 15:38:50Z werner $
+ * $Id: InterfaceStatisticsDialog.cpp 133 2012-05-02 09:13:26Z wejaeger $
  *
  * File:   InterfaceStatisticsDialog.cpp
  * Author: wejaeger
@@ -24,8 +24,8 @@
 
 #include <QTimer>
 #include <QLocale>
-#include <qt4/QtCore/qfileinfo.h>
-#include <qt4/QtCore/qdatetime.h>
+#include <QFileInfo>
+#include <QDateTime>
 
 #include "util/NetworkInterface.h"
 #include "InterfaceStatisticsDialog.h"

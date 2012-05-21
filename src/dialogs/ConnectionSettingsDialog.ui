@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
-    <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+    <normaloff>:/images/configure</normaloff>:/images/configure</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -272,7 +272,7 @@ This is mostly a distinguished name like 'CN=cisco-fcs-ber'.</string>
             </property>
             <property name="icon">
              <iconset resource="../../resources/L2tpIPsecVpn.qrc">
-              <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+              <normaloff>:/images/search</normaloff>:/images/search</iconset>
             </property>
            </widget>
           </item>

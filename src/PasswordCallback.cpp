@@ -1,5 +1,5 @@
 /*
- * $Id: PasswordCallback.cpp 24 2010-10-07 12:35:00Z werner $
+ * $Id: PasswordCallback.cpp 144 2012-05-21 07:31:37Z wejaeger $
  *
  * File:   PasswordCallback.cpp
  * Author: Werner Jaeger
@@ -22,10 +22,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QObject>
-
 #include <stdlib.h>
 // #include <syslog.h>
+#include <unistd.h>
+
+#include <QObject>
 
 #include "settings/ConnectionSettings.h"
 #include "util/SecretsChecker.h"

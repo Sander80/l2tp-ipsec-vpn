@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/L2tpIPsecVpn.qrc">
-    <normaloff>:/images/configure.png</normaloff>:/images/configure.png</iconset>
+    <normaloff>:/images/configure</normaloff>:/images/configure</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>

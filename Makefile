@@ -1,5 +1,5 @@
 #
-# $Id: Makefile 125 2012-03-12 14:06:09Z werner $
+# $Id: Makefile 144 2012-05-21 07:31:37Z wejaeger $
 #
 # File:   Makefile
 # Author: Werner Jaeger
@@ -22,7 +22,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-QMAKE = qmake-qt4
+QMAKE := $(shell if [ -f /usr/bin/qmake ]; then echo "qmake"; else echo "qmake-qt4"; fi)
 
 # default configuration is release
 DEFAULTCONF=Release
@@ -52,7 +52,7 @@ install: nbproject/qt-${CONF}.mk
 
 	@if [ "$${INSTALL_ROOT}" = "" ]; then \
 	   $(QMAKE_TARGET) applySettings || true; \
-	   invoke-rc.d rsyslog restart; \
+	   service rsyslog restart; \
 	fi
 
 # uninstall
@@ -73,7 +73,7 @@ uninstall: nbproject/qt-${CONF}.mk
 
 	# Remove syslog pipe and restart syslog service
 	rm -f $(INSTALL_ROOT)/var/log/l2tpipsecvpn.pipe
-	invoke-rc.d rsyslog restart
+	service rsyslog restart
 
 	make -f nbproject/qt-${CONF}.mk QMAKE_TARGE=$(QMAKE_TARGET) uninstall
 
@@ -125,6 +125,9 @@ test: build build-tests
 	    ./${TEST} || true; \
 	fi
 
+srccheck:
+	cppcheck -q -I src -I ${GENDIR} --enable=all src
+
 # help
 help:
 	@echo "This makefile supports the following configurations:"
@@ -134,6 +137,7 @@ help:
 	@echo "    build  (default target)"
 	@echo "    clean"
 	@echo "    clobber"
+	@echo "    srccheck"
 	@echo "    install"
 	@echo "    uninstall"
 	@echo "    lupdate"
@@ -161,6 +165,7 @@ help:
 	@echo "Target 'build' will build a specific configuration."
 	@echo "Target 'clean' will remove all built files from a specific configuration."
 	@echo "Target 'clobber' will remove all built files from all configurations"
+	@echo "Target 'srccheck' performs a static source code check using cppcheck"
 	@echo "Target 'install' will install a specific configuration of the program"
 	@echo "       in [INSTALL_ROOT]/usr/bin/"
 	@echo "Target 'uninstall' will uninstall the program from [INSTALL_ROOT]/usr/bin/"

@@ -1,5 +1,5 @@
 /*
- * $Id: main.cpp 120 2012-03-08 04:57:41Z werner $
+ * $Id: main.cpp 149 2012-05-29 08:42:45Z wejaeger $
  *
  * File:   main.cpp
  * Author: Werner Jaeger
@@ -22,13 +22,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <pwd.h>
+#include <syslog.h>
+#include <unistd.h>
+
 #include <QMessageBox>
 #include <QDir>
 #include <QFileInfoList>
 #include <QFile>
 #include <QTranslator>
-
-#include <syslog.h>
 
 #include "pkcs11/Pkcs11.h"
 #include "settings/ConnectionSettings.h"
@@ -177,21 +179,21 @@ static void checkDesktop()
             {
                // we have a valid pid
                // open the cmdline file to determine what's the name of the process running
-               QFile cmdLineFile(PROCDIR + strPid + "/cmdline");
+               QFile cmdLineFile(PROCDIR + strPid + "/comm");
                if (cmdLineFile.open(QFile::ReadOnly))
                {
                   const QString strCli(cmdLineFile.readAll());
-                  if (strCli.endsWith("gnome-session"))
+                  if (strCli.startsWith("gnome-session"))
                   {
                     fDone = true;
                     ::setenv(DESKTOP_SESSION, "gnome", 0);
                   }
-                  else if (strCli.endsWith("kcmserver"))
+                  else if (strCli.startsWith("ksmserver"))
                   {
                      fDone = true;
                      ::setenv(DESKTOP_SESSION, "kde", 0);
                   }
-                  else if (strCli.endsWith("xfce-mcs-manage"))
+                  else if (strCli.startsWith("xfce4-session"))
                   {
                      fDone = true;
                      ::setenv(DESKTOP_SESSION, "xfce", 0);
@@ -215,6 +217,16 @@ static uint effectiveUid()
       const uid_t uiSudoUid(::strtol(pcSudoUid, NULL, 0));
       if (uiSudoUid)
          uiUid = uiSudoUid;
+   }
+   else
+   {
+      const char* const pcUser(::getenv("USER"));
+      if (pcUser)
+      {
+         const struct passwd* pPasswd(::getpwnam(pcUser));
+         if (pPasswd)
+            uiUid = pPasswd->pw_uid;
+      }
    }
 
    return(uiUid);
