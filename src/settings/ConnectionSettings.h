@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionSettings.h 120 2012-03-08 04:57:41Z werner $
+ * $Id: ConnectionSettings.h 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   ConnectionSettings.h
  * Author: Werner Jaeger
@@ -69,8 +69,8 @@ protected:
    int getIntValue(const QString& strPath, int iDefault = 0) const;
    bool setValue(bool fValue, const QString& strPath) const;
    bool getBoolValue(const QString& strPath, bool fDefault = false) const;
-   bool setRouteProperty(const QString& strValue, int iRow, const QString strPropertyName) const;
-   QString routeProperty(int iRow, const QString strPropertyName) const;
+   bool setRouteProperty(const QString& strValue, int iRow, const QString& strPropertyName) const;
+   QString routeProperty(int iRow, const QString& strPropertyName) const;
 
 private:
    ConnectionSettings& operator=(const ConnectionSettings& orig);

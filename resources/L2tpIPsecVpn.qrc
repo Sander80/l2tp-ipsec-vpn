@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RCC version="1.0">
    <qresource prefix="/images">
-      <file alias="configure.png">configure.png</file>
-      <file alias="busy.gif">busy.gif</file>
-      <file alias="connectEstablished.png">connectEstablished.png</file>
-      <file alias="connectNo.png">connectNo.png</file>
-      <file alias="search.png">search.png</file>
-      <file alias="logo.png">logo.png</file>
+      <file alias="configure">configure.png</file>
+      <file alias="busy">busy.gif</file>
+      <file alias="connectEstablished">connectEstablished.png</file>
+      <file alias="connectError">connectError.png</file>
+      <file alias="connectNo">connectNo.png</file>
+      <file alias="search">search.png</file>
+      <file alias="logo">logo.png</file>
    </qresource>
    <qresource prefix="/templates">
       <file alias="ipsec.conf.tpl">ipsec.conf.tpl</file>

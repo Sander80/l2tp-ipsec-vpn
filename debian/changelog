@@ -1,3 +1,19 @@
+l2tp-ipsec-vpn (1.0.7-1) unstable; urgency=low
+
+  * New upstream release
+    - to be compatible with more linux distributions use service command 
+      instead of invoke-rc.d command to start and stop runlevel services
+    - corrected wrong desktop check
+    - corrected platform specific qt includes
+    - fixed FTBFS because gcc-4.7 no longer includes unistd.h
+    - in Makefile configure the appropriate qmake command (qmake or qmake-qt4)
+    - fixed bug connection editor crashes on selecting a certificate or private 
+      key from smart card (LP: #975822)
+    - fixed bug trayicon doesn't scale properly (LP: #98616)
+    - provided a separate error status icon
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Mon, 21 May 2012 09:26:48 +0200
+
 l2tp-ipsec-vpn (1.0.6-1.1) unstable; urgency=low
 
   * Non-maintainer upload.

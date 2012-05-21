@@ -3,7 +3,7 @@
 TEMPLATE = app
 DESTDIR = dist/Debug
 TARGET = L2tpIPsecVpn
-VERSION = 1.0.6
+VERSION = 1.0.7
 CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += debug 
 QT = core gui network
@@ -19,7 +19,7 @@ UI_DIR = src/generated
 QMAKE_CC = gcc
 QMAKE_CXX = g++
 DEFINES += 
-INCLUDEPATH += src /usr/include/qt4 /usr/include/qt4/QtCore /usr/include/qt4/QtNetwork 
+INCLUDEPATH += src 
 LIBS += 
 LIBS+=-lctemplate
 LIBS+=-lcrypto

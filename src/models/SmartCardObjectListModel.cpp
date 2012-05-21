@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardObjectListModel.cpp 38 2011-02-05 02:01:47Z werner $
+ * $Id: SmartCardObjectListModel.cpp 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   SmartCardObjectListModel.cpp
  * Author: Werner Jaeger
@@ -91,7 +91,7 @@ void SmartCardObjectListModel::readTokens()
       {
          for (int iSlotId = 0; iSlotId < slotList.count(); iSlotId++)
          {
-            p11.startSession(iSlotId);
+            p11.startSession(slotList.at(iSlotId));
 
             switch (m_ObjectType)
             {

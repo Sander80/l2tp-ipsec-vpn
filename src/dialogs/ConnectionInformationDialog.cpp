@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionInformationDialog.cpp 114 2012-01-22 05:07:35Z werner $
+ * $Id: ConnectionInformationDialog.cpp 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   ConnectionInformationDialog.cpp
  * Author: Werner Jaeger
@@ -80,7 +80,7 @@ void ConnectionInformationDialog::onConectionStateChanged(const ConnectionState*
          m_Widget.m_pInternetInterfaceGateway->setText(internetInterfaceInfo.gateway().c_str());
          m_Widget.m_pInterfaceName->setText(interface.name().c_str());
 
-         if (addressEntries.size() > 0)
+         if (!addressEntries.empty())
          {
             m_Widget.m_pRemoteHost->setText(addressEntries[0].broadcast().toString());
             m_Widget.m_pIPAddress->setText(addressEntries[0].ip().toString());

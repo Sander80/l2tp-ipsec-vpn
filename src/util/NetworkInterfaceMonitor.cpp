@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterfaceMonitor.cpp 108 2011-09-17 10:04:41Z werner $
+ * $Id: NetworkInterfaceMonitor.cpp 144 2012-05-21 07:31:37Z wejaeger $
  *
  * File:   NetworkInterfaceMonitor.cpp
  * Author: Werner Jaeger
@@ -24,11 +24,11 @@
 
 //#include <QDebug>
 
-#include <netpacket/packet.h>
-#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <linux/rtnetlink.h>
 #include <net/if.h>
-#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netpacket/packet.h>
 #include <unistd.h>
 
 #include "NetworkInterfaceMonitor.h"

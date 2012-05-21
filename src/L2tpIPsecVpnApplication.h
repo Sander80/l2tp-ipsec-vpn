@@ -1,5 +1,5 @@
 /*
- * $Id: L2tpIPsecVpnApplication.h 120 2012-03-08 04:57:41Z werner $
+ * $Id: L2tpIPsecVpnApplication.h 130 2012-04-08 06:18:04Z wejaeger $
  *
  * File:   L2tpIPsecVpnApplication.h
  * Author: Werner Jaeger
@@ -48,6 +48,9 @@ public:
 
    L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPLICATIONMODE appMode);
    virtual ~L2tpIPsecVpnApplication();
+
+   // reimplemented from QApplication so we can throw exceptions in slots
+   virtual bool notify(QObject* pReceiver, QEvent* pEvent);
 
    bool isRunning();
    APPLICATIONMODE mode() const;

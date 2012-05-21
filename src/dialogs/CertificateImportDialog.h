@@ -1,5 +1,5 @@
 /*
- * $Id: CertificateImportDialog.h 69 2011-04-12 04:33:22Z werner $
+ * $Id: CertificateImportDialog.h 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   CertificateImportDialog.h
  * Author: wejaeger
@@ -61,7 +61,7 @@ private:
    bool writePems() const;
    void showError();
 
-   bool checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString strType) const;
+   bool checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString& strType) const;
 
    Ui::CertificateImportDialog m_Widget;
 

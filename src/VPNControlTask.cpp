@@ -1,5 +1,5 @@
 /*
- * $Id: VPNControlTask.cpp 125 2012-03-12 14:06:09Z werner $
+ * $Id: VPNControlTask.cpp 143 2012-05-11 10:33:15Z wejaeger $
  *
  * File:   VPNControlTask.cpp
  * Author: Werner Jaeger
@@ -57,6 +57,7 @@ static const char* const STR_LOG_MATCH_AUTHFAILURE("Authentication failure");
 static const char* const STR_LOG_MATCH_AUTHFAILED("LCP terminated by peer (Authentication failed)");
 static const char* const STR_LOG_MATCH_NO_DATA("No data from BIO_read");
 static const char* const STR_LOG_MATCH_PEERAUTHFAILED("but I couldn't find any suitable secret (password) for it to use to do so.");
+static const char* const STR_CONNECT_TIMEOUT("(Timeout)");
 
 static const int ERR_INTERRUPTED(98);
 static const int ERR_CONNECTING_TO_CONTROL_DAEMON(99);
@@ -66,6 +67,7 @@ static const int ERR_LOADING_CERTIFICATE(400);
 static const int ERR_AUTHENTICATION_FAILED(404);
 static const int ERR_WRONG_CERTIFICATE(405);
 static const int ERR_NO_SECRET_FOUND(406);
+static const int ERR_CONNECT_TIMEOUT(410);
 
 QFile VPNControlTask::m_vpnLogPipe(strVpnLogPipeName);
 
@@ -261,11 +263,17 @@ void VPNControlTask::runConnect()
                }
 
                if (m_iReturnCode == 0)
+               {
+                  sleep(1);
                   runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+               }
             }
          }
          else
+         {
+            sleep(1);
             runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+         }
       }
    }
 //   qDebug() << "VPNControlTask::runConnect() -> finished";
@@ -335,6 +343,11 @@ qint64 VPNControlTask::readLogLine(char* data, qint64 iMaxSize)
       else if (::strstr(data, STR_LOG_MATCH_PEERAUTHFAILED))
       {
          m_iReturnCode = ERR_NO_SECRET_FOUND;
+         emitErrorMsg(connectionName());
+      }
+      else if (::strstr(data, STR_CONNECT_TIMEOUT))
+      {
+         m_iReturnCode = ERR_CONNECT_TIMEOUT;
          emitErrorMsg(connectionName());
       }
       else if (!m_fIPSecConnectionAdded)
@@ -485,6 +498,10 @@ void VPNControlTask::emitErrorMsg(const QString& strErrorContext)
 
       case ERR_NO_SECRET_FOUND:
          *m_pErrorStream << "No secret found to authenticate  '" << strErrorContext << "'";
+         break;
+
+      case ERR_CONNECT_TIMEOUT:
+         *m_pErrorStream << "Connection attempt to '" << strErrorContext << "' timed out";
          break;
 
       default:

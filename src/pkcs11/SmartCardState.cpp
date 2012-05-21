@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardState.cpp 35 2011-01-28 01:43:49Z werner $
+ * $Id: SmartCardState.cpp 133 2012-05-02 09:13:26Z wejaeger $
  *
  * File:   SmartCardState.cpp
  * Author: Werner Jaeger
@@ -23,9 +23,9 @@
  */
 
 #include <QCoreApplication>
-#include <qt4/QtCore/qglobal.h>
-#include <qt4/QtGui/qmessagebox.h>
-#include <qt4/QtGui/qpushbutton.h>
+#include <qglobal.h>
+#include <QMessageBox>
+#include <QPushButton>
 
 #include "pkcs11/Pkcs11.h"
 #include "SmartCardState.h"

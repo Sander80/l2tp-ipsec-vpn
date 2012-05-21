@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterface.h 114 2012-01-22 05:07:35Z werner $
+ * $Id: NetworkInterface.h 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   NetworkInterface.h
  * Author: Werner Jaeger
@@ -174,7 +174,7 @@ private:
    void setFlags(uint iRawFlags) { m_Flags = convertFlags(iRawFlags); }
 
    static InterfaceFlags convertFlags(uint iRawFlags);
-   static std::string ipAddress(const std::string strInterfaceName);
+   static std::string ipAddress(const std::string& strInterfaceName);
 
    const std::string m_strName;
    const unsigned int m_iIndex;

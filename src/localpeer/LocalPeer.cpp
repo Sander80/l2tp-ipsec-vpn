@@ -1,5 +1,5 @@
 /*
- * $Id: LocalPeer.cpp 78 2011-04-17 12:07:06Z werner $
+ * $Id: LocalPeer.cpp 146 2012-05-28 11:37:01Z wejaeger $
  *
  * File:   LocalPeer.cpp
  * Author:  Werner Jaeger
@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <pwd.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -176,11 +177,22 @@ QString LocalPeer::hexUid()
    QString strHexUid(QString::number(::getuid(), 16));
 
    const char* const pcSudoUid(::getenv("SUDO_UID"));
+
    if (pcSudoUid)
    {
       const int uiSudoUid(::strtol(pcSudoUid, NULL, 0));
       if (uiSudoUid)
          strHexUid = QString::number(uiSudoUid, 16);
+   }
+   else
+   {
+      const char* const pcUser(::getenv("USER"));
+      if (pcUser)
+      {
+         const struct passwd* pPasswd(::getpwnam(pcUser));
+         if (pPasswd)
+            strHexUid = QString::number(pPasswd->pw_uid, 16);
+      }
    }
 
    return(strHexUid);

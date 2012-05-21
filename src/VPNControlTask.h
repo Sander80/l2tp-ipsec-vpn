@@ -1,5 +1,5 @@
 /*
- * $Id: VPNControlTask.h 119 2012-03-02 10:11:22Z werner $
+ * $Id: VPNControlTask.h 139 2012-05-08 18:07:50Z wejaeger $
  *
  * File:   VPNControlTask.h
  * Author: Werner Jaeger

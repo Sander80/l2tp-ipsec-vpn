@@ -8,7 +8,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-# Log xl2tpd and pppd generated log messages to a pipe
+# Log xl2tpd pppd and ipsec generated log messages to a pipe
 :syslogtag,contains,"xl2tpd[" |/var/log/l2tpipsecvpn.pipe
 :syslogtag,contains,"pppd[" |/var/log/l2tpipsecvpn.pipe
 :syslogtag,contains,"ipsec__plutorun:" |/var/log/l2tpipsecvpn.pipe

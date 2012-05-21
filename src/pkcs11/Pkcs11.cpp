@@ -1,5 +1,5 @@
 /*
- * $Id: Pkcs11.cpp 119 2012-03-02 10:11:22Z werner $
+ * $Id: Pkcs11.cpp 130 2012-04-08 06:18:04Z wejaeger $
  *
  * File:   Pkcs11.cpp
  * Author: Werner Jaeger
@@ -26,32 +26,29 @@
 #include "util/ErrorEx.h"
 #include "Pkcs11.h"
 
-CK_FUNCTION_LIST* Pkcs11::m_p11 = NULL;
-lt_dlhandle Pkcs11::m_pLoadedModuleHandle = NULL;
+CK_FUNCTION_LIST* Pkcs11::m_p11(NULL);
+lt_dlhandle Pkcs11::m_pLoadedModuleHandle(NULL);
 
 Pkcs11::Pkcs11() : m_ulSessionHandle(CK_INVALID_HANDLE), m_ulSlotId(0), m_ulObjectHandle(CK_INVALID_HANDLE)
 {
-   m_p11->C_Initialize(NULL_PTR);
 }
 
 Pkcs11::~Pkcs11()
 {
    if (m_ulSessionHandle != CK_INVALID_HANDLE && m_p11)
       m_p11->C_CloseSession(m_ulSessionHandle);
-
-   m_p11->C_Finalize(NULL_PTR);
 }
 
 void Pkcs11::startSession(unsigned long ulSlot, bool fRW)
 {
    CK_RV rv;
-   const unsigned long ulFlags = CKF_SERIAL_SESSION | (fRW ? CKF_RW_SESSION : 0);
+   const unsigned long ulFlags(CKF_SERIAL_SESSION | (fRW ? CKF_RW_SESSION : 0));
 
    if (m_ulSessionHandle != CK_INVALID_HANDLE)
    {
       rv = m_p11->C_CloseSession(m_ulSessionHandle);
       if (rv != CKR_OK)
-         pk11error("C_OpenSession", rv);
+         pk11error("C_CloseSession", rv);
    }
 
    rv = m_p11->C_OpenSession(ulSlot, ulFlags, NULL, NULL, &m_ulSessionHandle);
@@ -65,7 +62,7 @@ unsigned long Pkcs11::slotsAvailable() const
 {
    unsigned long ulNumSlots(0L);
 
-   const CK_RV rv = m_p11->C_GetSlotList(CK_FALSE, NULL_PTR, &ulNumSlots);
+   const CK_RV rv(m_p11->C_GetSlotList(CK_FALSE, NULL_PTR, &ulNumSlots));
 
    if (rv != CKR_OK)
       pk11error("C_GetSlotList", rv);
@@ -76,9 +73,9 @@ unsigned long Pkcs11::slotsAvailable() const
 QList<unsigned long> Pkcs11::slotList() const
 {
    CK_RV rv;
-   CK_SLOT_ID* p11Slots = NULL;
+   CK_SLOT_ID* p11Slots(NULL);
    QList<unsigned long> slotList;
-   unsigned long ulNumSlots = 0L;
+   unsigned long ulNumSlots(0L);
 
    /* This one helps to avoid errors.
     * Fist time it fails, 2nd time it works */
@@ -109,7 +106,7 @@ QList<unsigned long> Pkcs11::slotList() const
          if ((slotInfo.flags & CKF_TOKEN_PRESENT) == CKF_TOKEN_PRESENT)
             slotList << p11Slots[ul];
       }
-    }
+   }
 
    if (p11Slots)
       ::free(p11Slots);
@@ -122,11 +119,11 @@ QList<CK_MECHANISM_TYPE> Pkcs11::mechanismList(unsigned long ulSlot) const
    QList<CK_MECHANISM_TYPE> mechanismList;
 
    unsigned long ulCount;
-   CK_RV rv = m_p11->C_GetMechanismList(ulSlot, NULL, &ulCount);
+   CK_RV rv(m_p11->C_GetMechanismList(ulSlot, NULL, &ulCount));
 
    if (ulCount != 0)
    {
-      CK_MECHANISM_TYPE* const pMechanismType = reinterpret_cast<CK_MECHANISM_TYPE*>(::malloc(ulCount * sizeof(*pMechanismType)));
+      CK_MECHANISM_TYPE* const pMechanismType(reinterpret_cast<CK_MECHANISM_TYPE*>(::malloc(ulCount * sizeof(*pMechanismType))));
       ErrorEx::checkOutOfMemory(pMechanismType);
 
       rv = m_p11->C_GetMechanismList(ulSlot, pMechanismType, &ulCount);
@@ -141,18 +138,18 @@ QList<CK_MECHANISM_TYPE> Pkcs11::mechanismList(unsigned long ulSlot) const
 
 void Pkcs11::logout() const
 {
-   const CK_RV rv = m_p11->C_Logout(m_ulSessionHandle);
+   const CK_RV rv(m_p11->C_Logout(m_ulSessionHandle));
    if (rv != CKR_OK && rv != CKR_USER_NOT_LOGGED_IN)
       pk11error("C_Logout", rv);
 }
 
 bool Pkcs11::needsLogin(bool fAsSecurityOfficer) const
 {
-   bool fRet = true;
+   bool fRet(true);
 
    CK_SESSION_INFO sinfo;
 
-   const CK_RV rv = m_p11->C_GetSessionInfo(m_ulSessionHandle, &sinfo);
+   const CK_RV rv(m_p11->C_GetSessionInfo(m_ulSessionHandle, &sinfo));
    if (rv != CKR_OK)
       pk11error("C_GetSessionInfo", rv);
 
@@ -194,7 +191,7 @@ void Pkcs11::login(const unsigned char* pcPin, unsigned long ulPinlen, bool fAsS
 {
    const unsigned long ulUser(fAsSecurityOfficer ? CKU_SO : CKU_USER);
 
-   const CK_RV rv = m_p11->C_Login(m_ulSessionHandle, ulUser, const_cast<unsigned char*>(pcPin), ulPinlen);
+   const CK_RV rv(m_p11->C_Login(m_ulSessionHandle, ulUser, const_cast<unsigned char*>(pcPin), ulPinlen));
    if (rv != CKR_OK && rv != CKR_USER_ALREADY_LOGGED_IN)
       pk11error("C_Login", rv);
 }
@@ -266,7 +263,7 @@ CK_OBJECT_HANDLE Pkcs11::createObject(const Pkcs11Attlist& attrs) const
    CK_OBJECT_HANDLE ulObjectHandle;
 
    const unsigned long ulNum(attrs.get(&pAttributes));
-   const CK_RV rv = m_p11->C_CreateObject(m_ulSessionHandle, pAttributes, ulNum, &ulObjectHandle);
+   const CK_RV rv(m_p11->C_CreateObject(m_ulSessionHandle, pAttributes, ulNum, &ulObjectHandle));
    if (rv != CKR_OK)
       pk11error("C_CreateObject", rv);
 
@@ -279,7 +276,7 @@ QList<CK_OBJECT_HANDLE> Pkcs11::objectList(const Pkcs11Attlist& atts) const
 
    CK_ATTRIBUTE* pAttribute;
    const unsigned long ulNoOfAttributes(atts.get(&pAttribute));
-   CK_RV rv = m_p11->C_FindObjectsInit(m_ulSessionHandle, pAttribute, ulNoOfAttributes);
+   CK_RV rv(m_p11->C_FindObjectsInit(m_ulSessionHandle, pAttribute, ulNoOfAttributes));
 
    if (rv != CKR_OK)
       pk11error("C_FindObjectsInit", rv);
@@ -305,7 +302,7 @@ QList<CK_OBJECT_HANDLE> Pkcs11::objectList(const Pkcs11Attlist& atts) const
    return(objectHandleList);
 }
 
-bool Pkcs11::loadLibrary(const QString strFilePath, bool fSilent)
+bool Pkcs11::loadLibrary(const QString& strFilePath, bool fSilent)
 {
    if (!Pkcs11::closeLibrary(strFilePath, fSilent))
       return(false);
@@ -349,7 +346,16 @@ bool Pkcs11::loadLibrary(const QString strFilePath, bool fSilent)
    {
       if (c_get_function_list(&m_p11) == CKR_OK)
       {
-         m_p11->C_Initialize(NULL_PTR);
+         const CK_RV rv(m_p11->C_Initialize(NULL_PTR));
+
+         if (rv != CKR_OK)
+         {
+            if (fSilent)
+               return(false);
+
+            pk11error("C_Initialize", rv);
+         }
+
          return(true);
       }
    }
@@ -364,7 +370,7 @@ bool Pkcs11::loadLibrary(const QString strFilePath, bool fSilent)
    return(false);
 }
 
-bool Pkcs11::closeLibrary(const QString strFilePath, bool fSilent)
+bool Pkcs11::closeLibrary(const QString& strFilePath, bool fSilent)
 {
    bool fRet(true);
 
@@ -483,7 +489,7 @@ static const char* CKR2Str(unsigned long ulReturnValue)
    return ("unknown PKCS11 error");
 }
 
-void Pkcs11::pk11error(const QString strfunc, int iReturnValue)
+void Pkcs11::pk11error(const QString& strfunc, int iReturnValue)
 {
    ErrorEx err("PKCS#11 function " + strfunc + " failed: " + ::CKR2Str(iReturnValue) + "\n");
    throw err;

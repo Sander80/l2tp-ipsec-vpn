@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionManager.cpp 125 2012-03-12 14:06:09Z werner $
+ * $Id: ConnectionManager.cpp 144 2012-05-21 07:31:37Z wejaeger $
  *
  * File:   ConnectionManager.cpp
  * Author: Werner Jaeger
@@ -22,12 +22,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <unistd.h>
+
 #include <QSystemTrayIcon>
 #include <QAction>
 #include <QMenu>
 #include <QTimer>
 #include <QMessageBox>
-#include <unistd.h>
 //#include <QDebug>
 
 #include "pkcs11/SmartCardState.h"
@@ -310,7 +311,7 @@ void ConnectionManager::showConnectionInformation() const
 void ConnectionManager::about() const
 {
    QIcon logo;
-   logo.addFile(QString::fromUtf8(":/images/logo.png"), QSize(), QIcon::Normal, QIcon::Off);
+   logo.addFile(QString::fromUtf8(":/images/logo"), QSize(), QIcon::Normal, QIcon::Off);
 
    QMessageBox about;
    about.setWindowIcon(logo);
@@ -658,7 +659,7 @@ ConnectionManager::ConnectionInfo ConnectionManager::connectionNameOfUpAndRunnin
    NetworkInterface::InterfaceMap interfaces = NetworkInterface::pointToPointInterfaces();
 
    NetworkInterface::InterfaceMap::const_iterator itInterfaces = interfaces.begin();
-   for (; strConnectionName.isNull() && itInterfaces != interfaces.end(); itInterfaces++)
+   for (; strConnectionName.isNull() && itInterfaces != interfaces.end(); ++itInterfaces)
       strConnectionName = ConnectionManager::connectionName((*itInterfaces).second);
 
   return(ConnectionInfo(strConnectionName, strConnectionName.isNull() ? NetworkInterface::null : (*--itInterfaces).second));

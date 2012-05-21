@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterface.cpp 125 2012-03-12 14:06:09Z werner $
+ * $Id: NetworkInterface.cpp 129 2012-04-07 10:15:46Z wejaeger $
  *
  * File:   NetworkInterface.cpp
  * Author: Werner Jaeger
@@ -371,7 +371,7 @@ NetworkInterface::InterfaceFlags NetworkInterface::convertFlags(uint iRawFlags)
    return(flags);
 }
 
-std::string NetworkInterface::ipAddress(const std::string strInterfaceName)
+std::string NetworkInterface::ipAddress(const std::string& strInterfaceName)
 {
    std::string strIpAddress;
 
