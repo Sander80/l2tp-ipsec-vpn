@@ -1,3 +1,21 @@
+l2tp-ipsec-vpn (1.0.9-1) unstable; urgency=low
+
+  * New upstream release
+    - fixed bug removes files that were installed by another package 
+      (Closes: #684962)
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Fri, 12 Oct 2012 06:00:13 +0200
+
+l2tp-ipsec-vpn (1.0.8-1) unstable; urgency=low
+
+  * New upstream release
+    - fixed bug wrong email address choosen as username in EAP TLS
+      authentication
+    - now caching EAP-TLS autentication certificate in /etc/ipsec.d/certs
+      directory
+
+ -- Werner Jaeger <werner_jaeger@web.de>  Fri, 3 Aug 2012 17:38:43 +0200
+
 l2tp-ipsec-vpn (1.0.7-1) unstable; urgency=low
 
   * New upstream release

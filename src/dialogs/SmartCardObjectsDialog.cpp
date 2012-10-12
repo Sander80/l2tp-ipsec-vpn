@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardObjectsDialog.cpp 13 2010-09-17 09:12:39Z werner $
+ * $Id: SmartCardObjectsDialog.cpp 151 2012-08-03 16:42:07Z wejaeger $
  *
  * File:   SmartCardObjectsDialog.cpp
  * Author: Werner Jaeger
@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QMessageBox>
 
 #include "SmartCardObjectsDialog.h"
 
@@ -39,7 +40,7 @@ const QString SmartCardObjectsDialog::selectedItem() const
 {
    QString strItem;
 
-   const QModelIndex currentIndex = m_Widget.m_pSmartCardObjectsListView->currentIndex();
+   const QModelIndex currentIndex(m_Widget.m_pSmartCardObjectsListView->currentIndex());
    if (currentIndex.isValid())
       strItem = m_pModel->data(currentIndex, Qt::UserRole).toString();
 
@@ -50,11 +51,28 @@ const QString SmartCardObjectsDialog::selectedUserName() const
 {
    QString strUserName;
 
-   const QModelIndex currentIndex = m_Widget.m_pSmartCardObjectsListView->currentIndex();
+   const QModelIndex currentIndex(m_Widget.m_pSmartCardObjectsListView->currentIndex());
    if (currentIndex.isValid())
       strUserName = m_pModel->data(currentIndex, Qt::UserRole + 1).toString();
 
    return(strUserName);
 }
 
+void SmartCardObjectsDialog::accept()
+{
+   if (m_pModel->objectType() == SmartCardObjectListModel::Certificate)
+   {
+      const QModelIndex currentIndex(m_Widget.m_pSmartCardObjectsListView->currentIndex());
+
+      if (currentIndex.isValid())
+      {
+         if (m_pModel->storeCert(currentIndex))
+            QDialog::accept();
+         else
+            QMessageBox::critical(NULL, windowTitle(), tr("Failed to write certificate file '%1'.").arg(selectedItem()));
+      }
+   }
+   else
+      QDialog::accept();
+}
 

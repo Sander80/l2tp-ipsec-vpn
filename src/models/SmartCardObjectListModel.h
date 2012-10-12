@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardObjectListModel.h 13 2010-09-17 09:12:39Z werner $
+ * $Id: SmartCardObjectListModel.h 151 2012-08-03 16:42:07Z wejaeger $
  *
  * File:   SmartCardObjectListModel.h
  * Author: Werner Jaeger
@@ -42,6 +42,8 @@ public:
 
    int rowCount(const QModelIndex& parent = QModelIndex()) const;
    QVariant data(const QModelIndex& index, int iRole = Qt::DisplayRole) const;
+   bool storeCert(const QModelIndex& index) const;
+   const ObjectType& objectType() const { return(m_ObjectType); }
 
 private:
    SmartCardObjectListModel(const SmartCardObjectListModel& orig);

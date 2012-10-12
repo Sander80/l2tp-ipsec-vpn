@@ -1,5 +1,5 @@
 /*
- * $Id: CertificateInfo.h 69 2011-04-12 04:33:22Z werner $
+ * $Id: CertificateInfo.h 151 2012-08-03 16:42:07Z wejaeger $
  *
  * File:   CertificateInfo.h
  * Author: Werner Jaeger
@@ -44,6 +44,7 @@ public:
    QString cn() const;
    QString issuer() const;
    QString email() const;
+   bool toPem(const QString& strPemFilePath) const;
 
 private:
    CertificateInfo(const CertificateInfo& orig);
