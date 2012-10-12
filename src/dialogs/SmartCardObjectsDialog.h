@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardObjectsDialog.h 13 2010-09-17 09:12:39Z werner $
+ * $Id: SmartCardObjectsDialog.h 151 2012-08-03 16:42:07Z wejaeger $
  *
  * File:   SmartCardObjectsDialog.h
  * Author: Werner Jaeger
@@ -38,6 +38,9 @@ public:
 
    const QString selectedItem() const;
    const QString selectedUserName() const;
+
+private slots:
+   void accept();
 
 private:
    SmartCardObjectsDialog(const SmartCardObjectsDialog& orig);

@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardObjectListModel.cpp 129 2012-04-07 10:15:46Z wejaeger $
+ * $Id: SmartCardObjectListModel.cpp 151 2012-08-03 16:42:07Z wejaeger $
  *
  * File:   SmartCardObjectListModel.cpp
  * Author: Werner Jaeger
@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QFile>
 
 #include "pkcs11/Pkcs11.h"
 #include "util/CertificateInfo.h"
@@ -78,6 +79,16 @@ QVariant SmartCardObjectListModel::data(const QModelIndex& index, int iRole) con
     }
 
    return(ret);
+}
+
+bool SmartCardObjectListModel::storeCert(const QModelIndex& index) const
+{
+   bool fRet(m_ObjectType == Certificate);
+
+   if (fRet)
+      fRet = m_pSmartCardObjects->at(index.row())->certificateInfo().toPem(idValue(index.row()));
+
+   return(fRet);
 }
 
 void SmartCardObjectListModel::readTokens()
@@ -142,7 +153,13 @@ QString SmartCardObjectListModel::idValue(int i) const
    QString strRet;
 
    if (i < m_pSmartCardObjects->count())
-      strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->objectId();
+   {
+      if (objectType() == Certificate)
+         strRet = "/etc/ipsec.d/certs/" + m_pSmartCardObjects->at(i)->objectLabel() + ".pem";
+      else
+         strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->objectId();
+   }
+
 
    return(strRet);
 }
