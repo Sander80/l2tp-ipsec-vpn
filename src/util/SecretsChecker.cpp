@@ -82,10 +82,11 @@ bool SecretsChecker::check() const
       const PppEapSettings eapSettings(pppSettings.eapSettings());
       if (eapSettings.privateKeyPassword().isEmpty())
       {
-         if (eapSettings.privateKeyPath().startsWith(Preferences().openSSLSettings().engineId()))
-            fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your PIN:"), pppSettings);
-         else
-            fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your passphrase:"), pppSettings);
+         if (eapSettings.privateKeyPath().startsWith(Preferences().openSSLSettings().engineId())) {
+            //fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your PIN:"), pppSettings);
+	 } else {
+            //fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your passphrase:"), pppSettings);
+	 }
       }
    }
    else
@@ -111,8 +112,6 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
    const int iConnections = settings.connections();
 
    QString strSecret;
-//   printf("%s\n",strIdentity.toStdString().c_str());
-  // printf("%d\n",iConnections);
    if (iConnections > 0)
    {
       for (int i = 0; strSecret.isNull() && i < iConnections; i++)
@@ -122,12 +121,10 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
          const PppEapSettings eapSettings(pppSettings.eapSettings());
          if (eapSettings.privateKeyPath() == strIdentity)
          {
-    //         printf("We are in %d \n", i);
             strSecret = eapSettings.privateKeyPassword();
-            if (strSecret.isEmpty()) {
-      //          printf("Reading\n");
-               strSecret = readSecret(pppSettings);
-        //        printf("Read: %s\n", strSecret.toStdString().c_str());
+	    if (strSecret.isEmpty()) {
+		    strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password);
+
             }
          }
          else if (pppSettings.userName() == strIdentity)
@@ -139,7 +136,6 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
       }
    }
 
-   //printf("Read: %s\n", strSecret.toStdString().c_str());
    return(strSecret);
 }
 
