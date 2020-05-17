@@ -637,7 +637,7 @@ compiler_moc_header_clean:
 src/generated/moc_ConnectionEditor.cpp: src/ConnectionEditor.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionEditor.h -o src/generated/moc_ConnectionEditor.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionEditor.h -o src/generated/moc_ConnectionEditor.cpp
 
 src/generated/moc_ConnectionManager.cpp: src/ConnectionManager.h \
 		src/util/NetworkInterface.h \
@@ -1221,7 +1221,7 @@ uninstall_target: FORCE
 
 install_data: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn || mkdir -p $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/logo.png $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
+	-$(QINSTALL_PROGRAM) resources/logo.png $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
 	-strip $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
 
 uninstall_data: FORCE
@@ -1231,7 +1231,7 @@ uninstall_data: FORCE
 
 install_startupmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/etc/xdg/autostart || mkdir -p $(INSTALL_ROOT)/etc/xdg/autostart
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/L2tpIPsecVpn.desktop $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
+	-$(QINSTALL_PROGRAM) resources/L2tpIPsecVpn.desktop $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
 	-strip $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
 
 uninstall_startupmenu: FORCE
@@ -1241,7 +1241,7 @@ uninstall_startupmenu: FORCE
 
 install_preferencesmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/applications || mkdir -p $(INSTALL_ROOT)/usr/share/applications
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/L2TP-Ipsec-VPN-Manager.desktop $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
+	-$(QINSTALL_PROGRAM) resources/L2TP-Ipsec-VPN-Manager.desktop $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
 	-strip $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
 
 uninstall_preferencesmenu: FORCE
@@ -1251,7 +1251,7 @@ uninstall_preferencesmenu: FORCE
 
 install_networkmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/applications || mkdir -p $(INSTALL_ROOT)/usr/share/applications
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/L2tpIPsecVpn-Applet.desktop $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
+	-$(QINSTALL_PROGRAM) resources/L2tpIPsecVpn-Applet.desktop $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
 	-strip $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
 
 uninstall_networkmenu: FORCE
