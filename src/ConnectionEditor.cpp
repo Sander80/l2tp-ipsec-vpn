@@ -1,3 +1,5 @@
+#include <QtWidgets/QMessageBox>
+
 /*
  * $Id: ConnectionEditor.cpp 87 2011-04-20 09:21:12Z werner $
  *
@@ -48,13 +50,16 @@ int ConnectionEditor::exec()
 {
    int iRet(0);
 
+
+   //QMessageBox::critical(NULL, "Cannot start", "kkk");
+
    if (!m_pConnectionEditorDialog)
    {
       ConnectionsModel* pConnectionsModel(new ConnectionsModel());
       ConnectionSettings* pConnectionSettings(new ConnectionSettings());
       iRet = (ConnectionEditorDialog::applySettings(pConnectionsModel, pConnectionSettings) ? 0 : 1);
       delete pConnectionsModel;
-      delete pConnectionSettings;
+     delete pConnectionSettings;
    }
    else
       iRet = (m_pConnectionEditorDialog->exec() == QDialog::Accepted ? 0 : 1);

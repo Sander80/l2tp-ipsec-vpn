@@ -27,13 +27,16 @@
 #include <unistd.h>
 
 #include <QObject>
-
 #include "settings/ConnectionSettings.h"
 #include "util/SecretsChecker.h"
 #include "L2tpIPsecVpnApplication.h"
 #include "PasswordCallback.h"
 
 PasswordCallback::PasswordCallback(L2tpIPsecVpnApplication& application) : m_Application(application)
+{
+}
+
+PasswordCallback::PasswordCallback(QCoreApplication& application) : m_Application(application)
 {
 }
 
@@ -44,25 +47,29 @@ PasswordCallback::~PasswordCallback()
 int PasswordCallback::exec() const
 {
 //   ::syslog(LOG_DEBUG|LOG_AUTH, "%s", "Executing password callback");
-
+//abort();
    int iRet(1);
-
-   const QString strPassword(SecretsChecker::getSecret(m_Application.argv()[1]));
-
+//   printf("%s\n",m_Application.arguments()[1].toStdString().c_str());
+   const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str()));
+//return 0;
+//   printf("%s\n",strPassword.toStdString().c_str());
+//   const QString strPassword(m_Application.arguments()[1]);
    if (!strPassword.isNull())
    {
+//       return 0;
       const int iPwdLength = strPassword.length();
-      const int iPwdFileDescriptor = ::atoi(m_Application.argv()[3]);
+      const int iPwdFileDescriptor = m_Application.arguments()[3].toInt();
       if (iPwdFileDescriptor >= 0)
       {
-         const int iWritten = ::write(iPwdFileDescriptor, strPassword.toAscii().constData(), iPwdLength);
+         const int iWritten = ::write(iPwdFileDescriptor, strPassword.toLatin1().constData(), iPwdLength);
          if (iWritten == iPwdLength)
          {
 //            ::syslog(LOG_DEBUG|LOG_AUTH, "%s", "Password found");
             iRet = 0;
+            return iRet;
          }
       }
    }
-
+//   abort();
    return(iRet);
 }

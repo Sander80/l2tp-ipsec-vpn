@@ -22,10 +22,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QInputDialog>
-#include <QMessageBox>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMessageBox>
 #include <QFile>
+#include <QMetaType>
+#include <QLocalSocket>
+#include <QProcess>
 
+#include "util/ErrorEx.h"
 #include "conf/ConfWriter.h"
 #include "models/ConnectionsModel.h"
 #include "settings/ConnectionSettings.h"
@@ -38,7 +42,6 @@
 ConnectionEditorDialog::ConnectionEditorDialog(QWidget* pParent) : QDialog(pParent), m_pConnectionsModel(new ConnectionsModel()), m_pConnectionSettings(new ConnectionSettings())
 {
    m_Widget.setupUi(this);
-
    m_Widget.m_pConnections->setModel(m_pConnectionsModel);
    m_Widget.m_pConnections->horizontalHeader()->setStretchLastSection(true);
    m_Widget.m_pConnections->setSelectionBehavior(QAbstractItemView::SelectRows);

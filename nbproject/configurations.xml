@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="84">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -167,13 +167,14 @@
   <confs>
     <conf name="Debug" type="4">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <qt>
         <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
         <target>L2tpIPsecVpn</target>
-        <version>1.0.9</version>
+        <version>1.1.0</version>
         <modules>core gui network</modules>
         <mocDir>src/generated</mocDir>
         <rccDir>src/generated</rccDir>
@@ -210,6 +211,132 @@
         <packType>Tar</packType>
         <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-1.0.9.tar</output>
         <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
                             from="${OUTPUT_PATH}"
@@ -266,16 +393,386 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <item path="resources/L2tpIPsecVpn.qrc" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ConnectionEditor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ConnectionEditor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ConnectionManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ConnectionManager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ConnectionState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ConnectionState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/L2tpIPsecVpnApplication.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/L2tpIPsecVpnApplication.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/PasswordCallback.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/PasswordCallback.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/VPNControlTask.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/VPNControlTask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/AbstractConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/AbstractConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/ConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/ConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/GetIPsecInfoScriptWriter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/conf/GetIPsecInfoScriptWriter.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/conf/IPsecConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/IPsecConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/IPsecSecretsConfWriter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/conf/IPsecSecretsConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/L2tpConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/L2tpConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/OpensslConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/OpensslConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PPPConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PPPConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PppDnsConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PppDnsConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PppDownScriptWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PppDownScriptWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PppUpScriptWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PppUpScriptWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/RSysLogConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/RSysLogConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/AdvancedSettingsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/AdvancedSettingsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/AdvancedSettingsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/CertificateImportDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/CertificateImportDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/CertificateImportDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionEditorDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionEditorDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionEditorDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionInformationDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionInformationDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionInformationDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionSettingsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionSettingsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionSettingsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/EapSettingsDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/dialogs/EapSettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/EapSettingsDialog.ui" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/InterfaceStatisticsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/InterfaceStatisticsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/InterfaceStatisticsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/IpSettingsDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/dialogs/IpSettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/IpSettingsDialog.ui" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/PeerAuthenticationDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PeerAuthenticationDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PeerAuthenticationDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PreferencesEditorDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PreferencesEditorDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PreferencesEditorDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/RouteSettingsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/RouteSettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/RouteSettingsDialog.ui" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/SmartCardObjectsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/SmartCardObjectsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/SmartCardObjectsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/localpeer/LocalPeer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/localpeer/LocalPeer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/localpeer/LockedFile.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/localpeer/LockedFile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/models/ConnectionsModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/models/ConnectionsModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/IPsecCertificateListModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/models/IPsecCertificateListModel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/models/PppRoutesModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/models/PppRoutesModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/SmartCardObjectListModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/models/SmartCardObjectListModel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/models/SmartCardTokenListModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11Attribute.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11Attribute.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInsertWaitTask.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInsertWaitTask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/pkcs11.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/settings/ConnectionSettings.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/settings/ConnectionSettings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/settings/Preferences.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/settings/Preferences.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/settings/Settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/settings/Settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/CertificateInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/CertificateInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/EncSecrets.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/EncSecrets.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/ErrorEx.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/GlobalFunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/GlobalFunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/Libtool.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/Libtool.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterfaceMonitor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterfaceMonitor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/Pkcs12.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/Pkcs12.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/SecretsChecker.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/SecretsChecker.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/VpnControlDaemonClient.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/util/VpnControlDaemonClient.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="4">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <qt>
         <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
         <target>L2tpIPsecVpn</target>
-        <version>1.0.9</version>
+        <version>1.1.0</version>
         <buildMode>1</buildMode>
         <modules>core gui network</modules>
         <mocDir>src/generated</mocDir>
@@ -319,6 +816,132 @@
                             perm="755"
                             owner="root"
                             group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
         </packFileList>
       </packaging>
       <folder path="TestFiles">
@@ -369,6 +992,375 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <item path="resources/L2tpIPsecVpn.qrc" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ConnectionEditor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ConnectionEditor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ConnectionManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ConnectionManager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ConnectionState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ConnectionState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/L2tpIPsecVpnApplication.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/L2tpIPsecVpnApplication.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/PasswordCallback.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/PasswordCallback.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/VPNControlTask.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/VPNControlTask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/AbstractConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/AbstractConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/ConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/ConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/GetIPsecInfoScriptWriter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/conf/GetIPsecInfoScriptWriter.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/conf/IPsecConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/IPsecConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/IPsecSecretsConfWriter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/conf/IPsecSecretsConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/L2tpConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/L2tpConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/OpensslConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/OpensslConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PPPConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PPPConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PppDnsConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PppDnsConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PppDownScriptWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PppDownScriptWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/PppUpScriptWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/PppUpScriptWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/conf/RSysLogConfWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/conf/RSysLogConfWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/AdvancedSettingsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/AdvancedSettingsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/AdvancedSettingsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/CertificateImportDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/CertificateImportDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/CertificateImportDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionEditorDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionEditorDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionEditorDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionInformationDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionInformationDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionInformationDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionSettingsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionSettingsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/ConnectionSettingsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/EapSettingsDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/dialogs/EapSettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/EapSettingsDialog.ui" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/InterfaceStatisticsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/InterfaceStatisticsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/InterfaceStatisticsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/IpSettingsDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/dialogs/IpSettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/IpSettingsDialog.ui" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/PeerAuthenticationDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PeerAuthenticationDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PeerAuthenticationDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PreferencesEditorDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PreferencesEditorDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/PreferencesEditorDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/RouteSettingsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/RouteSettingsDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/RouteSettingsDialog.ui" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/dialogs/SmartCardObjectsDialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/SmartCardObjectsDialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/dialogs/SmartCardObjectsDialog.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/localpeer/LocalPeer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/localpeer/LocalPeer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/localpeer/LockedFile.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/localpeer/LockedFile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/models/ConnectionsModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/models/ConnectionsModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/IPsecCertificateListModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/models/IPsecCertificateListModel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/models/PppRoutesModel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/models/PppRoutesModel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/SmartCardObjectListModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/models/SmartCardObjectListModel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/models/SmartCardTokenListModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11Attribute.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/Pkcs11Attribute.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInsertWaitTask.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardInsertWaitTask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pkcs11/SmartCardState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pkcs11/pkcs11.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/settings/ConnectionSettings.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/settings/ConnectionSettings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/settings/Preferences.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/settings/Preferences.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/settings/Settings.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/settings/Settings.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/CertificateInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/CertificateInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/EncSecrets.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/EncSecrets.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/ErrorEx.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/GlobalFunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/GlobalFunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/Libtool.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/Libtool.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterfaceMonitor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/util/NetworkInterfaceMonitor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/Pkcs12.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/Pkcs12.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/SecretsChecker.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/util/SecretsChecker.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util/VpnControlDaemonClient.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/util/VpnControlDaemonClient.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterfaceMonitor.h 13 2010-09-17 09:12:39Z werner $
+ * $Id: NetworkInterfaceMonitor.h 163 2017-12-29 10:44:44Z wejaeger $
  *
  * File:   NetworkInterfaceMonitor.h
  * Author: Werner Jaeger
@@ -50,8 +50,8 @@ protected:
 signals:
    void routeAdded(NetworkInterface interface, unsigned int iPriority) const;
    void routeDeleted(NetworkInterface interface, unsigned int iPriority) const;
-   void ptpInterfaceIsUpAnRunning(NetworkInterface interface) const;
-   void ptpInterfaceIsGoingDown(NetworkInterface interface) const;
+   void addressAdded(NetworkInterface interface) const;
+   void ptpInterfaceIsDeleted(NetworkInterface interface) const;
 
 private:
    NetworkInterfaceMonitor(const NetworkInterfaceMonitor& orig);
@@ -60,6 +60,8 @@ private:
    void handleRoutingMessage(struct nlmsghdr* pNetLinkMessageHeader);
    void handleInterfaceInfoMessage(struct nlmsghdr* pNetLinkMessageHeader);
    void handleAddressMessage(struct nlmsghdr* pNetLinkMessageHeader);
+   static int getInterfaceFlagByIndex(const int iIndex);
+
 
 #ifndef QT_NO_DEBUG
    static void debugFlags(unsigned iFlags);

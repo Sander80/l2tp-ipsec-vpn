@@ -22,7 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QFileDialog>
+#include <QtWidgets/QFileDialog>
 #include <QDir>
 
 #include "pkcs11/Pkcs11.h"

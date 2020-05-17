@@ -367,42 +367,42 @@ Die Länge darf 30 Zeichen nicht überschreiten.</translation>
 <context>
     <name>ConnectionManager</name>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="140"/>
+        <location filename="../src/ConnectionManager.cpp" line="145"/>
         <source>&amp;Disconnect</source>
         <translation>Verbindung &amp;trennen</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="141"/>
+        <location filename="../src/ConnectionManager.cpp" line="146"/>
         <source>&amp;Edit Connections ...</source>
         <translation>Verbindungen &amp;bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="142"/>
+        <location filename="../src/ConnectionManager.cpp" line="147"/>
         <source>Connection &amp;Information</source>
         <translation>&amp;Verbindungsinformationen</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="143"/>
+        <location filename="../src/ConnectionManager.cpp" line="148"/>
         <source>&amp;About</source>
         <translation>&amp;Info</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="144"/>
+        <location filename="../src/ConnectionManager.cpp" line="149"/>
         <source>&amp;Quit</source>
         <translation>Bee&amp;nden</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="316"/>
+        <location filename="../src/ConnectionManager.cpp" line="321"/>
         <source>About %1</source>
         <translation>Info %1</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="318"/>
+        <location filename="../src/ConnectionManager.cpp" line="323"/>
         <source>Notification area applet for managing your L2tp over IPsec virtual private network connections.</source>
         <translation>Ein Applet für das Benachrichtigungsfeld, mit dem Sie L2tp/IPsec VPN Verbindungen verwalten können.</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="451"/>
+        <location filename="../src/ConnectionManager.cpp" line="456"/>
         <source>Click to establish a vpn connection to &apos;%1&apos;</source>
         <translation>Hier klicken um eine VPN Verbindung zu %1 herzustellen</translation>
     </message>
@@ -896,8 +896,12 @@ Trennen Sie mehrere Domänen durch Leerzeichen.</translation>
 <context>
     <name>L2tpIPsecVpnApplication</name>
     <message>
-        <location filename="../src/L2tpIPsecVpnApplication.cpp" line="107"/>
         <source>I couldn&apos;t find any graphical SU command (gksudo, beesu or kdesudo).</source>
+        <translation type="obsolete">Kein graphisches SU kommando ((gksudo, beesu or kdesudo) gefunden.</translation>
+    </message>
+    <message>
+        <location filename="../src/L2tpIPsecVpnApplication.cpp" line="126"/>
+        <source>I couldn&apos;t find any graphical SU command (gksudo, beesu kdesudo or kdesu).</source>
         <translation>Kein graphisches SU kommando ((gksudo, beesu or kdesudo) gefunden.</translation>
     </message>
 </context>
@@ -1077,12 +1081,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="133"/>
+        <location filename="../src/ConnectionManager.cpp" line="138"/>
         <source>I couldn&apos;t detect any system tray on this system.</source>
         <translation>Ich konnte keine Systemleiste auf diesem System erkennen.</translation>
     </message>
     <message>
-        <location filename="../src/ConnectionManager.cpp" line="249"/>
+        <location filename="../src/ConnectionManager.cpp" line="254"/>
         <source>No smart card reader found.</source>
         <translation>Kein Smartcard Lesegerät gefunden.</translation>
     </message>
@@ -1164,8 +1168,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/conf/IPsecConfWriter.cpp" line="75"/>
         <location filename="../src/conf/IPsecSecretsConfWriter.cpp" line="102"/>
         <location filename="../src/conf/L2tpConfWriter.cpp" line="85"/>
-        <location filename="../src/conf/PppDownScriptWriter.cpp" line="68"/>
-        <location filename="../src/conf/PppUpScriptWriter.cpp" line="85"/>
+        <location filename="../src/conf/PppDownScriptWriter.cpp" line="81"/>
+        <location filename="../src/conf/PppUpScriptWriter.cpp" line="96"/>
         <source>No such connection: &apos;%1&apos;.</source>
         <translation>Den Verbindungsnamen &apos;%1&apos; gibt es nicht.</translation>
     </message>
@@ -1181,7 +1185,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/dialogs/PreferencesEditorDialog.cpp" line="118"/>
-        <location filename="../src/main.cpp" line="119"/>
+        <location filename="../src/main.cpp" line="121"/>
         <source>I couldn&apos;t load PKCS11 library %1.</source>
         <translation>Konnte PKCS11 Bibliothek %1 nicht laden.</translation>
     </message>
@@ -1208,17 +1212,17 @@ p, li { white-space: pre-wrap; }
         <translation>Kein freier Speicher mehr verfügbar</translation>
     </message>
     <message>
-        <location filename="../src/util/SecretsChecker.cpp" line="80"/>
+        <location filename="../src/util/SecretsChecker.cpp" line="82"/>
         <source>Please enter your PIN:</source>
         <translation>Geben Sie bitte Ihre PIN ein:</translation>
     </message>
     <message>
-        <location filename="../src/util/SecretsChecker.cpp" line="82"/>
+        <location filename="../src/util/SecretsChecker.cpp" line="84"/>
         <source>Please enter your passphrase:</source>
         <translation>Geben Sie bitte Ihr Kennwort ein:</translation>
     </message>
     <message>
-        <location filename="../src/util/SecretsChecker.cpp" line="88"/>
+        <location filename="../src/util/SecretsChecker.cpp" line="90"/>
         <source>Please enter your password:</source>
         <translation>Geben Sie bitte Ihr Passwort ein:</translation>
     </message>
@@ -1232,11 +1236,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/dialogs/RouteSettingsDialog.ui" line="42"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="121"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/dialogs/RouteSettingsDialog.ui" line="52"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="111"/>
         <source>Delete ...</source>
         <translation>Löschen ...</translation>
     </message>
@@ -1246,12 +1252,12 @@ p, li { white-space: pre-wrap; }
         <translation>Leite Pakete mit den hier gelisteten Zieladressen durch den PPP Tunnel.</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="82"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="88"/>
         <source>Use following explicit routes to intranet locations (split tunneling)</source>
         <translation>Verwende folgende expliziten Routen (Split-Tunnel-Steuerung)</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="89"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="95"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1262,22 +1268,33 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="98"/>
-        <source>Use default gateway on the remote network</source>
-        <translation>Verwende Standard-Gateway</translation>
+        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="104"/>
+        <source>Use default gateway on the remote network except for</source>
+        <translation>Sende alle anfragen über den VPN Tunnel ausser</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="48"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.ui" line="131"/>
+        <source>route packages with the destination addresses listed here through the default interfacel.</source>
+        <translation>Leite Pakete mit den hier gelisteten Zieladressen nicht durch den VPN Tunnel.</translation>
+    </message>
+    <message>
+        <source>Use default gateway on the remote network</source>
+        <translation type="obsolete">Verwende Standard-Gateway</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="61"/>
         <source>Edit routes for VPN connection </source>
         <translation>Routen für VPN Verbindung bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="79"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="106"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="132"/>
         <source>Delete Route</source>
         <translation>Route löschen</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="79"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="106"/>
+        <location filename="../src/dialogs/RouteSettingsDialog.cpp" line="132"/>
         <source>Are you sure you wish to delete the route &apos;%1&apos;?</source>
         <translation>Sind Sie sicher, dass Sie Route &apos;%1&apos; löschen wollen?</translation>
     </message>
@@ -1289,22 +1306,27 @@ p, li { white-space: pre-wrap; }
         <source>SmartCardObjectsDialog</source>
         <translation>Smartcard Objekte</translation>
     </message>
+    <message>
+        <location filename="../src/dialogs/SmartCardObjectsDialog.cpp" line="72"/>
+        <source>Failed to write certificate file &apos;%1&apos;.</source>
+        <translation>Fehler beim Schreiben der  Konfigurationsdatei &apos;%1&apos; .</translation>
+    </message>
 </context>
 <context>
     <name>VPNControlTask</name>
     <message>
-        <location filename="../src/VPNControlTask.cpp" line="518"/>
-        <location filename="../src/VPNControlTask.cpp" line="520"/>
+        <location filename="../src/VPNControlTask.cpp" line="539"/>
+        <location filename="../src/VPNControlTask.cpp" line="541"/>
         <source>A critical error occurred</source>
         <translation>Es ist ein kritischer Fehler aufgetreten</translation>
     </message>
     <message>
-        <location filename="../src/VPNControlTask.cpp" line="518"/>
+        <location filename="../src/VPNControlTask.cpp" line="539"/>
         <source>L2tpIPsecVpnControlDaemon is not started</source>
         <translation>L2tpIPsecVpnControlDaemon ist nicht gestartet</translation>
     </message>
     <message>
-        <location filename="../src/VPNControlTask.cpp" line="520"/>
+        <location filename="../src/VPNControlTask.cpp" line="541"/>
         <source>Create vpn syslog pipe command failed with exit code: %1</source>
         <translation>Das Kommando zum Erzeugen eine Syslog-Pipe is fehlgeschlagen. Rückgabewert %1</translation>
     </message>

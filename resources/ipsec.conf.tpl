@@ -1,5 +1,4 @@
-# {{FILENAME}} - Openswan IPsec configuration file
-# $Id$
+# {{FILENAME}} - Strongswan IPsec configuration file
 
 # Manual: ipsec.conf(5)
 
@@ -8,34 +7,30 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-version	2.0	# conforms to second version of ipsec.conf specification
-
 config setup
-	# plutodebug="parsing emitting control private"
-	plutodebug=none
 	strictcrlpolicy=no
-	nat_traversal=yes
-	interfaces=%defaultroute
-	oe=off
-	# which IPsec stack to use. netkey,klips,mast,auto or none
-	protostack=netkey
+	
 
 conn %default
-	keyingtries=3
-	pfs=no
+	ikelifetime=60m
+	keylife=20m
+	rekeymargin=3m
 	rekey=yes
-	type=transport
+	keyingtries=1
+	keyexchange=ikev1
+	authby=secret
+	ike=aes128-sha1-modp1024,3des-sha1-modp1024!
+	esp=aes128-sha1-modp1024,3des-sha1-modp1024!
 	left=%defaultroute
 	leftprotoport=17/1701
 	rightprotoport=17/1701
-
-# Add connections here.
+	type=transport
 
 {{#CONN_SECTION}}
 conn {{NAME}}
    authby={{AUTHBY}}
    {{LEFTCERT}}
 	right={{GATEWAY}}
-	rightid="{{IDENTITY}}"
+	rightid=%any
 	auto=add
 {{/CONN_SECTION}}

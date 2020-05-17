@@ -22,7 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QSystemTrayIcon>
+#include <QtWidgets/QSystemTrayIcon>
 #include <QMovie>
 
 #include "ConnectionManager.h"

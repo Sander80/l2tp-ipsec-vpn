@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardObjectListModel.cpp 151 2012-08-03 16:42:07Z wejaeger $
+ * $Id: SmartCardObjectListModel.cpp 157 2017-06-21 10:11:43Z wejaeger $
  *
  * File:   SmartCardObjectListModel.cpp
  * Author: Werner Jaeger
@@ -55,7 +55,7 @@ QVariant SmartCardObjectListModel::data(const QModelIndex& index, int iRole) con
       switch (iRole)
       {
          case Qt::DisplayRole:
-            ret = value(index.row()).toAscii().constData();
+            ret = value(index.row()).toLatin1().constData();
             break;
 
          case Qt::ToolTipRole:
@@ -69,11 +69,12 @@ QVariant SmartCardObjectListModel::data(const QModelIndex& index, int iRole) con
             break;
 
          case Qt::UserRole:
-            ret = idValue(index.row()).toAscii().constData();
+            ret = idValue(index.row()).toLatin1().constData();
             break;
 
          case Qt::UserRole + 1:
-            ret = m_pSmartCardObjects->at(index.row())->certificateInfo().email();
+            if (m_ObjectType == Certificate) 
+               ret = m_pSmartCardObjects->at(index.row())->certificateInfo().email();
             break;
       }
     }
@@ -122,8 +123,9 @@ void SmartCardObjectListModel::readTokens()
                   certificateAttributeList << Pkcs11AttrUlong(CKA_CERTIFICATE_TYPE, CKC_X_509);
                   const QList<CK_OBJECT_HANDLE> certificateObjectHandleList(p11.objectList(certificateAttributeList));
 
-                  for (int iObjectHandle = 0; iObjectHandle < certificateObjectHandleList.count(); iObjectHandle++)
+                  for (int iObjectHandle = 0; iObjectHandle < certificateObjectHandleList.count(); iObjectHandle++) {
                      m_pSmartCardObjects->append(new SmartCardInfo(p11, certificateObjectHandleList[iObjectHandle]));
+		  }
                }
                break;
             }
@@ -131,18 +133,21 @@ void SmartCardObjectListModel::readTokens()
       }
    }
 }
-
 QString SmartCardObjectListModel::value(int i) const
 {
    QString strRet;
 
    if (i < m_pSmartCardObjects->count())
    {
-      strRet.append(m_pSmartCardObjects->at(i)->cardLabel());
-      strRet.append(", " + m_pSmartCardObjects->at(i)->manufacturer());
+      strRet.append(m_pSmartCardObjects->at(i)->manufacturer());
       strRet.append(", " + m_pSmartCardObjects->at(i)->slotId());
       strRet.append(", " + m_pSmartCardObjects->at(i)->objectId());
       strRet.append(", " + m_pSmartCardObjects->at(i)->objectLabel());
+     /* if (!m_pSmartCardObjects->at(i)->m_pCertificateInfo) 
+		strRet.append("NOT LOADED!!!");
+      else
+      		strRet.append(", " + m_pSmartCardObjects->at(i)->certificateInfo().serialNumber());*/
+      strRet.append(", " + m_pSmartCardObjects->at(i)->cardLabel().trimmed());
    }
 
    return(strRet);
@@ -154,10 +159,11 @@ QString SmartCardObjectListModel::idValue(int i) const
 
    if (i < m_pSmartCardObjects->count())
    {
-      if (objectType() == Certificate)
-         strRet = "/etc/ipsec.d/certs/" + m_pSmartCardObjects->at(i)->objectLabel() + ".pem";
-      else
+      //if (objectType() == Certificate)
+      //   strRet = "/etc/ipsec.d/certs/" + m_pSmartCardObjects->at(i)->objectLabel() + ".pem";
+      //else
          strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->objectId();
+         //strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->certificateInfo().cn();
    }
 
 

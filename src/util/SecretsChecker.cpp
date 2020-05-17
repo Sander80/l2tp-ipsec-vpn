@@ -1,5 +1,5 @@
 /*
- * $Id: SecretsChecker.cpp 38 2011-02-05 02:01:47Z werner $
+ * $Id: SecretsChecker.cpp 161 2017-12-25 10:26:31Z wejaeger $
  *
  * File:   SecretsChecker.cpp
  * Author: wejaeger
@@ -23,7 +23,8 @@
  */
 
 #include <QCoreApplication>
-#include <QInputDialog>
+#include <QtWidgets/QInputDialog>
+#include <QTextStream>
 #include <QDir>
 #include <QFile>
 
@@ -33,13 +34,15 @@
 #include "SecretsChecker.h"
 #include "VPNControlTask.h"
 
+QMutex SecretsChecker::MUTEX(QMutex::NonRecursive);
+
 static unsigned char const KEY[] = { 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 static unsigned char const IV[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
 
 /*!
  * \class SecretsChecker
  *
- * \brief Checks if all secrets for a given conection name are available.
+ * \brief Checks if all secrets for a given connection name are available.
  */
 
 /*!
@@ -63,7 +66,7 @@ SecretsChecker::~SecretsChecker()
  * is temporarily stored.
  *
  * \return false if secret is not stored in the connection settings and user
- *         cancled the dialog when asked for the secret, true otherwise.
+ *         canceled the dialog when asked for the secret, true otherwise.
  */
 bool SecretsChecker::check() const
 {
@@ -71,8 +74,11 @@ bool SecretsChecker::check() const
 
    const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
 
+//QTextStream(stdout) << "checkSec" << endl;
+
    if (!pppSettings.refuseEap())
    {
+//QTextStream(stdout) << "checkSec 1" << endl;
       const PppEapSettings eapSettings(pppSettings.eapSettings());
       if (eapSettings.privateKeyPassword().isEmpty())
       {
@@ -84,6 +90,7 @@ bool SecretsChecker::check() const
    }
    else
    {
+//QTextStream(stdout) << "checkSec 2" << endl;
       if (pppSettings.password().isEmpty())
          fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your password:"), pppSettings);
    }
@@ -104,7 +111,8 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
    const int iConnections = settings.connections();
 
    QString strSecret;
-
+//   printf("%s\n",strIdentity.toStdString().c_str());
+  // printf("%d\n",iConnections);
    if (iConnections > 0)
    {
       for (int i = 0; strSecret.isNull() && i < iConnections; i++)
@@ -112,12 +120,15 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
          const QString strConnectionName(settings.connection(i));
          const PppSettings pppSettings(settings.pppSettings(strConnectionName));
          const PppEapSettings eapSettings(pppSettings.eapSettings());
-
          if (eapSettings.privateKeyPath() == strIdentity)
          {
+    //         printf("We are in %d \n", i);
             strSecret = eapSettings.privateKeyPassword();
-            if (strSecret.isEmpty())
+            if (strSecret.isEmpty()) {
+      //          printf("Reading\n");
                strSecret = readSecret(pppSettings);
+        //        printf("Read: %s\n", strSecret.toStdString().c_str());
+            }
          }
          else if (pppSettings.userName() == strIdentity)
          {
@@ -128,24 +139,33 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
       }
    }
 
+   //printf("Read: %s\n", strSecret.toStdString().c_str());
    return(strSecret);
 }
 
 bool SecretsChecker::promptAndStoreSecret(const QString& strTitle, const QString& strLabel, const PppSettings& pppSettings)
 {
-   bool fOk;
-
-   const QString strPassword = QInputDialog::getText(NULL, strTitle, strLabel, QLineEdit::Password, "", &fOk);
+   bool fOk = MUTEX.tryLock();
 
    if (fOk)
    {
-      QFile secretsFile(getSecretsFilePath(pppSettings));
-      fOk = secretsFile.open(QIODevice::WriteOnly);
-      if (fOk)
-      {
-         EncSecrets secrets(KEY, IV, strPassword.toAscii().constData());
-         fOk = secretsFile.write(secrets.getbuf()) != -1;
-      }
+       const QString strPassword = QInputDialog::getText(NULL, strTitle, strLabel, QLineEdit::Password, "", &fOk);
+QTextStream(stdout) << "promt 1" << endl;
+
+       if (fOk)
+       {
+QTextStream(stdout) << "promt 2" + getSecretsFilePath(pppSettings) << endl;
+          QFile secretsFile(getSecretsFilePath(pppSettings));
+          fOk = secretsFile.open(QIODevice::WriteOnly);
+          if (fOk)
+          {
+QTextStream(stdout) << "promt 3" << endl;
+             EncSecrets secrets(KEY, IV, strPassword.toLatin1().constData());
+             fOk = secretsFile.write(secrets.getbuf()) != -1;
+QTextStream(stdout) << "promt 4: " << fOk << endl;
+          }
+       }
+       MUTEX.unlock();
    }
 
    return(fOk);
@@ -154,7 +174,7 @@ bool SecretsChecker::promptAndStoreSecret(const QString& strTitle, const QString
 QString SecretsChecker::readSecret(const PppSettings& pppSettings)
 {
    QString strSecret;
-
+//printf("%s\n",getSecretsFilePath(pppSettings).toStdString().c_str());
    QFile secretsFile(getSecretsFilePath(pppSettings));
    if (secretsFile.exists())
    {
@@ -172,5 +192,8 @@ QString SecretsChecker::readSecret(const PppSettings& pppSettings)
 
 QString SecretsChecker::getSecretsFilePath(const PppSettings& pppSettings)
 {
-   return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + pppSettings.userName()));
+   if(pppSettings.userName() != "")
+       return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + pppSettings.userName()));
+   else
+       return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + "tmpsecret"));
 }

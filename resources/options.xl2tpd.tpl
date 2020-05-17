@@ -20,10 +20,7 @@ ktune
 noproxyarp
 asyncmap 0
 noauth
-crtscts
-lock
 hide-password
-modem
 noipx
 
 ipparam {{IPPARAM}}
@@ -34,7 +31,7 @@ promptprog "{{APPPFILEPATH}}"
 {{/REFUSE_SECTION}}
 remotename "{{REMOTENAME}}"
 name "{{NAME}}"
-
+{{#PASSWORD_SECTION}}password "{{PASSWORD}}"{{/PASSWORD_SECTION}}
 {{#CERT_SECTION}}{{CERTENTRY}}
 {{/CERT_SECTION}}
 {{USEPEERDNS}}

@@ -59,7 +59,7 @@ private:
    QString m_strSlotId;
    QString m_strObjectLabel;
    QString m_strObjectId;
-
+public:
    CertificateInfo* m_pCertificateInfo;
 };
 

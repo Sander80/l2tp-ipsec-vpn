@@ -58,7 +58,7 @@ QVariant IPsecCertificateListModel::data(const QModelIndex& index, int iRole) co
       switch (iRole)
       {
          case Qt::DisplayRole:
-            ret = value(index.row()).toAscii().constData();
+            ret = value(index.row()).toLatin1().constData();
             break;
 
          case Qt::ToolTipRole:

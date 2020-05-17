@@ -23,7 +23,7 @@
  */
 
 #include <QObject>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 #include "IPsecConfWriter.h"
 #include "IPsecSecretsConfWriter.h"
 #include "L2tpConfWriter.h"

@@ -90,20 +90,20 @@ void AbstractConfWriter::addErrorMsg(const QString& strErrorMsg)
 
 void AbstractConfWriter::save()
 {
-   dictionary()->SetValue(FILENAME, fileName().toAscii().constData());
-   dictionary()->SetValue(CREATIONDATE, QDateTime::currentDateTime().toString().toAscii().constData());
-   dictionary()->SetValue(APPNAME, QCoreApplication::instance()->applicationName().toAscii().constData());
-   dictionary()->SetValue(APPVERSION, QCoreApplication::instance()->applicationVersion().toAscii().constData());
-   dictionary()->SetValue(APPPFILEPATH, QCoreApplication::instance()->applicationFilePath().toAscii().constData());
+   dictionary()->SetValue(FILENAME, fileName().toLatin1().constData());
+   dictionary()->SetValue(CREATIONDATE, QDateTime::currentDateTime().toString().toLatin1().constData());
+   dictionary()->SetValue(APPNAME, QCoreApplication::instance()->applicationName().toLatin1().constData());
+   dictionary()->SetValue(APPVERSION, QCoreApplication::instance()->applicationVersion().toLatin1().constData());
+   dictionary()->SetValue(APPPFILEPATH, QCoreApplication::instance()->applicationFilePath().toLatin1().constData());
 
    std::string strOut;
-   ctemplate::Template* const pTpl = ctemplate::Template::GetTemplate(templateKey().toAscii().constData(), ctemplate::DO_NOT_STRIP);
+   ctemplate::Template* const pTpl = ctemplate::Template::GetTemplate(templateKey().toLatin1().constData(), ctemplate::DO_NOT_STRIP);
 
    if (pTpl)
    {
       if (pTpl->Expand(&strOut, dictionary()))
       {
-   //   ctemplate::ExpandTemplate(key().toAscii().constData(), ctemplate::DO_NOT_STRIP, dictionary(), &strOut);
+   //   ctemplate::ExpandTemplate(key().toLatin1().constData(), ctemplate::DO_NOT_STRIP, dictionary(), &strOut);
 
          QFile outFile(fileName());
          QDir outFileDir(QFileInfo(outFile).absoluteDir());
@@ -119,7 +119,7 @@ void AbstractConfWriter::save()
          if (fOk)
          {
 //            if (outFile.exists())
-//               fOk = outFile.copy(fileName() + "." + QDateTime::currentDateTime().toString("yyyyMMddhhmmss").toAscii().constData() + ".~");
+//               fOk = outFile.copy(fileName() + "." + QDateTime::currentDateTime().toString("yyyyMMddhhmmss").toLatin1().constData() + ".~");
 
             if (fOk)
             {
@@ -180,5 +180,5 @@ void AbstractConfWriter::newDictionary()
    if (m_pDictionary)
       delete m_pDictionary;
 
-   m_pDictionary = new ctemplate::TemplateDictionary(m_strTemplateKey.toAscii().constData());
+   m_pDictionary = new ctemplate::TemplateDictionary(m_strTemplateKey.toLatin1().constData());
 }

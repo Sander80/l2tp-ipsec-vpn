@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterfaceMonitor.cpp 144 2012-05-21 07:31:37Z wejaeger $
+ * $Id: NetworkInterfaceMonitor.cpp 163 2017-12-29 10:44:44Z wejaeger $
  *
  * File:   NetworkInterfaceMonitor.cpp
  * Author: Werner Jaeger
@@ -26,6 +26,10 @@
 
 #include <arpa/inet.h>
 #include <linux/rtnetlink.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
+#include <errno.h>
 #include <net/if.h>
 #include <netinet/in.h>
 #include <netpacket/packet.h>
@@ -61,8 +65,8 @@ void NetworkInterfaceMonitor::subscribe(const QObject* pSubscriber)
       m_Subscribers.append(pSubscriber);
       connect(this, SIGNAL(routeAdded(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteAdded(NetworkInterface, unsigned int)));
       connect(this, SIGNAL(routeDeleted(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteDeleted(NetworkInterface, unsigned int)));
-      connect(this, SIGNAL(ptpInterfaceIsUpAnRunning(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsUpAnRunning(NetworkInterface)));
-      connect(this, SIGNAL(ptpInterfaceIsGoingDown(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsGoingDown(NetworkInterface)));
+      connect(this, SIGNAL(addressAdded(NetworkInterface)), pSubscriber, SLOT(onAddressAdded(NetworkInterface)));
+      connect(this, SIGNAL(ptpInterfaceIsDeleted(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsDeleted(NetworkInterface)));
    }
 }
 
@@ -74,8 +78,8 @@ void NetworkInterfaceMonitor::unSubscribe(const QObject* pSubscriber)
       {
          disconnect(this, SIGNAL(routeAdded(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteAdded(NetworkInterface, unsigned int)));
          disconnect(this, SIGNAL(routeDeleted(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteDeleted(NetworkInterface, unsigned int)));
-         disconnect(this, SIGNAL(ptpInterfaceIsUpAnRunning(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsUpAnRunning(NetworkInterface)));
-         disconnect(this, SIGNAL(ptpInterfaceIsGoingDown(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsGoingDown(NetworkInterface)));
+         disconnect(this, SIGNAL(addressAdded(NetworkInterface)), pSubscriber, SLOT(onAddressAdded(NetworkInterface)));
+         disconnect(this, SIGNAL(ptpInterfaceIsDeleted(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsGoingDown(NetworkInterface)));
       }
    }
 }
@@ -216,8 +220,9 @@ void NetworkInterfaceMonitor::handleRoutingMessage(struct nlmsghdr* pNetLinkMess
       NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
       if (itInterfaces == m_Interfaces.end())
       {
-         const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, ::if_nametoindex(acInterfaceName), IFF_UP | IFF_RUNNING)));
-         itInterfaces = m_Interfaces.insert(entry).first;
+          const int iIndex(::if_nametoindex(acInterfaceName));
+          const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, iIndex, getInterfaceFlagByIndex(iIndex))));
+          itInterfaces = m_Interfaces.insert(entry).first;
       }
 
       QNetworkAddressEntry routeEntry;
@@ -310,18 +315,6 @@ void NetworkInterfaceMonitor::handleInterfaceInfoMessage(struct nlmsghdr* pNetLi
          const NetworkInterface::InterfaceFlags oldFlags((*itInterfaces).second.flags());
 
          (*itInterfaces).second.setFlags(pInterfaceInfoMessage->ifi_flags);
-
-         if ((pInterfaceInfoMessage->ifi_flags & IFF_UP) && (pInterfaceInfoMessage->ifi_flags & IFF_RUNNING) && !(oldFlags.testFlag(NetworkInterface::IsUp) && oldFlags.testFlag(NetworkInterface::IsRunning)))
-         {
-//            qDebug() << "Interface" << acInterfaceName << "is up and running";
-            emit ptpInterfaceIsUpAnRunning((*itInterfaces).second);
-         }
-
-         if (oldFlags.testFlag(NetworkInterface::IsUp) && oldFlags.testFlag(NetworkInterface::IsRunning) && !((pInterfaceInfoMessage->ifi_flags & IFF_UP) && (pInterfaceInfoMessage->ifi_flags & IFF_RUNNING)))
-         {
-//            qDebug() << "Interface" << acInterfaceName << "is going down";
-            emit ptpInterfaceIsGoingDown((*itInterfaces).second);
-         }
       }
       else
       {
@@ -336,6 +329,7 @@ void NetworkInterfaceMonitor::handleInterfaceInfoMessage(struct nlmsghdr* pNetLi
       if (itInterfaces != m_Interfaces.end())
       {
 //         qDebug() << "Interface" << acInterfaceName << "deleted";
+         emit ptpInterfaceIsDeleted((*itInterfaces).second);
          m_Interfaces.erase(itInterfaces);
       }
    }
@@ -347,12 +341,14 @@ void NetworkInterfaceMonitor::handleAddressMessage(struct nlmsghdr* pNetLinkMess
 //   qDebug() << "Address message: family =" << pInterfaceAddressMessage->ifa_family << "flags =" << pInterfaceAddressMessage->ifa_flags << "index =" << pInterfaceAddressMessage->ifa_index << "prefix len =" << pInterfaceAddressMessage->ifa_prefixlen << "scope =" << pInterfaceAddressMessage->ifa_scope;
 
    // strings to hold content of an entry of the route table
-   char acInterfaceName[IFNAMSIZ], acIp[INET6_ADDRSTRLEN], acBroadcast[INET6_ADDRSTRLEN];
+   char acInterfaceName[IFNAMSIZ], acIp[INET6_ADDRSTRLEN], acBroadcast[INET6_ADDRSTRLEN], acDst[INET6_ADDRSTRLEN];
 
    // init all the strings
    ::bzero(acInterfaceName, sizeof (acInterfaceName));
    ::bzero(acIp, sizeof(acIp));
    ::bzero(acBroadcast, sizeof(acBroadcast));
+   ::bzero(acDst, sizeof(acDst));
+
 
    ::if_indextoname(pInterfaceAddressMessage->ifa_index, acInterfaceName);
 
@@ -366,7 +362,7 @@ void NetworkInterfaceMonitor::handleAddressMessage(struct nlmsghdr* pNetLinkMess
       switch (pAddressAttributes->rta_type)
       {
          case IFA_ADDRESS:       // 1
-            ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acBroadcast, INET6_ADDRSTRLEN);
+            ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acDst, INET6_ADDRSTRLEN);
             break;
          case IFA_LOCAL:         // 2
             ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acIp, INET6_ADDRSTRLEN);
@@ -374,6 +370,7 @@ void NetworkInterfaceMonitor::handleAddressMessage(struct nlmsghdr* pNetLinkMess
          case IFA_LABEL:         // 3
             break;
          case IFA_BROADCAST:     // 4
+            ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acBroadcast, INET6_ADDRSTRLEN);
             break;
          case IFA_ANYCAST:       // 5
             break;
@@ -388,24 +385,68 @@ void NetworkInterfaceMonitor::handleAddressMessage(struct nlmsghdr* pNetLinkMess
    NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
    if (itInterfaces == m_Interfaces.end())
    {
-      const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, ::if_nametoindex(acInterfaceName), IFF_UP | IFF_RUNNING)));
-      itInterfaces = m_Interfaces.insert(entry).first;
+       const int iIndex(::if_nametoindex(acInterfaceName));
+       const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, iIndex, getInterfaceFlagByIndex(iIndex))));
+       itInterfaces = m_Interfaces.insert(entry).first;
    }
 
    QNetworkAddressEntry addressEntry;
    addressEntry.setIp(QHostAddress(acIp));
    addressEntry.setPrefixLength(pInterfaceAddressMessage->ifa_prefixlen);
-   addressEntry.setBroadcast(QHostAddress(acBroadcast));
+
+   if ((*itInterfaces).second.isPtP())
+      addressEntry.setBroadcast(QHostAddress(acDst));
+   else
+      addressEntry.setBroadcast(QHostAddress(acBroadcast));
 
    (*itInterfaces).second.clearAddressEntries();
    (*itInterfaces).second.addAddressEntry(addressEntry);
 
-//   if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWADDR)
+   if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWADDR)
+   {
 //      qDebug() << "Address added:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broadcast =" << acBroadcast;
+        emit addressAdded((*itInterfaces).second);
+   }
 //   else
-//      qDebug() << "Address deleted:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broad =" << acBroadcast;
+//      qDebug() << "Address deleted:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broadcast =" << acBroadcast;
 }
 
+int NetworkInterfaceMonitor::getInterfaceFlagByIndex(const int iIndex)
+{
+    int iRet(EINVAL);
+
+    if (iIndex >= 0)
+    {
+        const int iSocketFd(::socket(AF_INET, SOCK_DGRAM, IPPROTO_IP));
+        if (iSocketFd >= 0)
+        {
+            struct ifreq ifr;
+            ifr.ifr_ifindex = iIndex;
+            if (::ioctl(iSocketFd, SIOCGIFNAME, &ifr) >= 0)
+            {
+               /* Interface flags. */
+               if (::ioctl(iSocketFd, SIOCGIFFLAGS, &ifr) == -1)
+                  iRet = 0;
+               else
+                  iRet = ifr.ifr_ifru.ifru_flags;
+            }
+
+            int iResult;
+            do
+            {
+                iResult = ::close(iSocketFd);
+            } while (iResult == -1 && errno == EINTR);
+        }
+        else
+            iRet = errno;
+
+    }
+    else
+        iRet = errno = EINVAL;
+
+
+    return (iRet);
+}
 
 #ifndef QT_NO_DEBUG
 void NetworkInterfaceMonitor::debugFlags(unsigned iFlags)

@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionManager.h 115 2012-01-24 23:58:29Z werner $
+ * $Id: ConnectionManager.h 161 2017-12-25 10:26:31Z wejaeger $
  *
  * File:   ConnectionManager.h
  * Author: Werner Jaeger
@@ -26,7 +26,7 @@
 #define	_CONNECTIONMANAGER_H
 
 #include <QObject>
-#include <QSystemTrayIcon>
+#include <QtWidgets/QSystemTrayIcon>
 #include <QPair>
 
 #include "util/NetworkInterface.h"
@@ -51,6 +51,7 @@ public:
 
 private slots:
    void vpnConnect(QAction* pAction);
+   void vpnConnect(const QString& strConnectionName);
    void vpnDisconnect(bool fDontChangeStatus = false);
    void editConnections() const;
    void showConnectionInformation() const;
@@ -68,10 +69,13 @@ private slots:
    void onConnectionRemoved(const QString& strName);
    void onRouteAdded(NetworkInterface interface, unsigned int iPriority);
    void onRouteDeleted(NetworkInterface interface, unsigned int iPriority);
-   void onPtpInterfaceIsUpAnRunning(NetworkInterface interface);
-   void onPtpInterfaceIsGoingDown(NetworkInterface interface);
+   void onAddressAdded(NetworkInterface interface);
+   void onPtpInterfaceIsDeleted(NetworkInterface interface);
    void onCheckPtpInterfaceIsUp();
    void onCheckPtpInterfaceIsDown();
+
+signals:
+   void autoConnect(const QString& strConnectionName);
 
 private:
    typedef QList<QAction*> ActionList;
@@ -84,7 +88,6 @@ private:
    void createActions();
    void createTrayIcon();
    void updateContextMenu(bool fStatusChanged);
-   void vpnConnect(const QString& strConnectionName);
    void enableAllConnections(bool fEnable) const;
    void connected(const QString& strConnectionName, const NetworkInterface& ptpInterface);
    void disConnected();
@@ -105,7 +108,6 @@ private:
    QMenu* m_pTrayIconMenu;
    VPNControlTask* m_pVPNControlTask;
    volatile bool m_fIsExecuting;
-   volatile bool m_fRoutePriorityIsChanging;
 };
 
 #endif	/* _CONNECTIONMANAGER_H */

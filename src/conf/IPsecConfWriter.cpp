@@ -63,12 +63,12 @@ void IPsecConfWriter::fill()
 
             const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
 
-            pConnection->SetValue(NAME, strName.toAscii().constData());
-            pConnection->SetValue(GATEWAY, ipsecSetting.gateway().toAscii().constData());
-            pConnection->SetValue(IDENTITY, ipsecSetting.identity().toAscii().constData());
-            pConnection->SetValue(AUTHBY, ipsecSetting.authBy().toAscii().constData());
+            pConnection->SetValue(NAME, strName.toLatin1().constData());
+            pConnection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
+            pConnection->SetValue(IDENTITY, ipsecSetting.identity().toLatin1().constData());
+            pConnection->SetValue(AUTHBY, ipsecSetting.authBy().toLatin1().constData());
             if (ipsecSetting.authBy() == RSASIG)
-               pConnection->SetFormattedValue(LEFTCERT, LEFTCERTLINE, ipsecSetting.certificateFileName().toAscii().constData());
+               pConnection->SetFormattedValue(LEFTCERT, LEFTCERTLINE, ipsecSetting.certificateFileName().toLatin1().constData());
          }
       }
       else

@@ -1,5 +1,5 @@
 /*
- * $Id: NetworkInterface.cpp 129 2012-04-07 10:15:46Z wejaeger $
+ * $Id: NetworkInterface.cpp 163 2017-12-29 10:44:44Z wejaeger $
  *
  * File:   NetworkInterface.cpp
  * Author: Werner Jaeger
@@ -57,7 +57,7 @@ bool NetworkInterface::hasDefaultGateway() const
    AddressEntries::const_iterator it(m_RouteEntries.begin());
 
    for (; !fRet && it != m_RouteEntries.end(); it++)
-      fRet = (*it).ip().isNull();// && !(*it).broadcast().isNull();
+      fRet = (*it).ip().toIPv4Address() == 0 && !(*it).broadcast().isNull();
 
    return(fRet);
 }
@@ -107,6 +107,14 @@ NetworkInterface::InterfaceMap NetworkInterface::pointToPointInterfaces(void)
    {
       for (const struct ifaddrs* pIter = pInterfaceAddresses; pIter != NULL; pIter = pIter->ifa_next)
       {
+      /*
+      QTextStream(stdout) << pIter->ifa_name << endl;
+         if (pIter->ifa_addr && (pIter->ifa_addr->sa_family == AF_INET || pIter->ifa_addr->sa_family == AF_INET6) && pIter->ifa_flags & IFF_RUNNING  && pIter->ifa_flags & IFF_POINTOPOINT )
+         {
+      QTextStream(stdout) << "founded" << endl;
+         
+         }
+      */
          if (pIter->ifa_addr && (pIter->ifa_addr->sa_family == AF_INET || pIter->ifa_addr->sa_family == AF_INET6) && pIter->ifa_flags & IFF_POINTOPOINT && pIter->ifa_flags & IFF_RUNNING)
          {
             const InterfaceMapEntry entry(std::make_pair(pIter->ifa_name, NetworkInterface(pIter->ifa_name, ::if_nametoindex(pIter->ifa_name), pIter->ifa_flags)));
@@ -126,6 +134,7 @@ NetworkInterface::InterfaceMap NetworkInterface::pointToPointInterfaces(void)
       }
       ::freeifaddrs(pInterfaceAddresses);
    }
+   
    return(interfaces);
 }
 

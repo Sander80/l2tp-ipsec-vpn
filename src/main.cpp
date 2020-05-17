@@ -26,7 +26,8 @@
 #include <syslog.h>
 #include <unistd.h>
 
-#include <QMessageBox>
+
+#include <QtWidgets/QMessageBox>
 #include <QDir>
 #include <QFileInfoList>
 #include <QFile>
@@ -45,16 +46,32 @@ static const char* const PROCDIR("/proc/");
 
 static void checkDesktop();
 static uint effectiveUid();
-void messageOutput(QtMsgType type, const char* pcMsg);
+void messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+	//const char* pcMsg);
 
 int main(int iArgc, char* pcArgv[])
 {
-   qInstallMsgHandler(messageOutput);
+   qInstallMessageHandler(messageOutput);
 
    const L2tpIPsecVpnApplication::APPLICATIONMODE mode(L2tpIPsecVpnApplication::parseCmdLine(iArgc, pcArgv));
 
+
    if (mode != L2tpIPsecVpnApplication::PASSWORD_CALLBACK && mode != L2tpIPsecVpnApplication::APPLYSETTINGS && mode != L2tpIPsecVpnApplication::DELETEALLCONFFILES)
-      checkDesktop();
+    checkDesktop();
+
+   
+   if (mode == L2tpIPsecVpnApplication::PASSWORD_CALLBACK) {
+        //L2tpIPsecVpnApplication app(iArgc, pcArgv, mode);
+        QCoreApplication app(iArgc, pcArgv, mode);
+        app.setOrganizationName("WernerJaeger");
+        app.setOrganizationDomain("wejaeger.com");
+        app.setApplicationName("L2TP IPsec VPN Manager");
+
+        PasswordCallback callback(app);
+        int iRet = callback.exec(); 
+        return iRet;
+   }
+
 
    L2tpIPsecVpnApplication app(iArgc, pcArgv, mode);
 
@@ -64,6 +81,7 @@ int main(int iArgc, char* pcArgv[])
    app.installTranslator(&translator);
 
    int iRet(0);
+
 
    if (app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR || app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER || app.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS || app.mode() == L2tpIPsecVpnApplication::DELETEALLCONFFILES || app.mode() == L2tpIPsecVpnApplication::PASSWORD_CALLBACK || !app.isRunning())
    {
@@ -98,8 +116,8 @@ int main(int iArgc, char* pcArgv[])
 
             case L2tpIPsecVpnApplication::PASSWORD_CALLBACK:
             {
-               PasswordCallback callback(app);
-               iRet = callback.exec();
+                PasswordCallback callback(app);
+                iRet = callback.exec();
             }
             break;
 
@@ -120,32 +138,35 @@ int main(int iArgc, char* pcArgv[])
       else
          QMessageBox::critical(NULL, app.applicationName(), QObject::tr("I couldn't load PKCS11 library %1.").arg(Preferences().openSSLSettings().pkcs11Path()));
    }
-
    return(iRet);
 }
 
-void messageOutput(QtMsgType type, const char* pcMsg)
+void messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+//, const char* pcMsg)
 {
    switch (type)
    {
      case QtDebugMsg:
 #ifndef QT_NO_DEBUG
-        ::syslog(LOG_DEBUG, "%s", pcMsg);
+        ::syslog(LOG_DEBUG, "%s (%s:%u, %s)", msg.toStdString().c_str(), context.file, context.line, context.function);
 #endif
          break;
 
      case QtWarningMsg:
-        ::syslog(LOG_WARNING, "%s", pcMsg);
+        ::syslog(LOG_WARNING, "%s (%s:%u, %s)", msg.toStdString().c_str(), context.file, context.line, context.function);
          break;
 
      case QtCriticalMsg:
-        ::syslog(LOG_CRIT, "%s", pcMsg);
+        ::syslog(LOG_CRIT, "%s (%s:%u, %s)", msg.toStdString().c_str(), context.file, context.line, context.function);
          break;
 
      case QtFatalMsg:
-        ::syslog(LOG_EMERG, "%s", pcMsg);
+        ::syslog(LOG_EMERG, "%s (%s:%u, %s)", msg.toStdString().c_str(), context.file, context.line, context.function);
          abort();
-     }
+     case QtInfoMsg:
+	 break;
+     }	
+    
  }
 
 /**

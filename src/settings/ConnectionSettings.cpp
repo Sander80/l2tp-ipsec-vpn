@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionSettings.cpp 153 2012-10-11 04:47:46Z wejaeger $
+ * $Id: ConnectionSettings.cpp 165 2017-12-30 14:12:45Z wejaeger $
  *
  * File:   ConnectionSettings.cpp
  * Author: Werner Jaeger
@@ -40,7 +40,6 @@ static const char* const VALIDNAMEPATTERN = "^[a-zA-Z][0-9a-zA-Z\\-\\._]{0,29}$"
 
 /** Arrays*/
 static const QString CONNECTIONS = "Connections";
-static const QString ROUTES = "Routes";
 
 /** Groups */
 static const QString COMMON = "Common";
@@ -299,7 +298,7 @@ bool ConnectionSettings::setSecret(const QString& strValue, const QString& strPa
    {
       qSettings()->beginReadArray(CONNECTIONS);
       qSettings()->setArrayIndex(m_iConnectionNo);
-      EncSecrets secrets(KEY, IV, strValue.trimmed().toAscii().constData());
+      EncSecrets secrets(KEY, IV, strValue.trimmed().toLatin1().constData());
       if  (qSettings()->value(strPath) != secrets.getbuf())
          qSettings()->setValue(strPath, secrets.getbuf());
       qSettings()->endArray();
@@ -317,7 +316,7 @@ QString ConnectionSettings::getSecret(const QString& strPath) const
       qSettings()->beginReadArray(CONNECTIONS);
       qSettings()->setArrayIndex(m_iConnectionNo);
       strRet = qSettings()->value(strPath, "").toString();
-      EncSecrets secrets(strRet.toAscii().constData());
+      EncSecrets secrets(strRet.toLatin1().constData());
       strRet = secrets.retrieve(KEY, IV);
       qSettings()->endArray();
    }
@@ -387,7 +386,7 @@ bool ConnectionSettings::getBoolValue(const QString& strPath, bool fDefault) con
    return(fRet);
 }
 
-bool ConnectionSettings::setRouteProperty(const QString& strValue, int iRow, const QString& strPropertyName) const
+bool ConnectionSettings::setRouteProperty(const QString& strRouteSectionName, const QString& strValue, int iRow, const QString& strPropertyName) const
 {
    bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
 
@@ -397,7 +396,7 @@ bool ConnectionSettings::setRouteProperty(const QString& strValue, int iRow, con
       qSettings()->setArrayIndex(m_iConnectionNo);
       qSettings()->beginGroup(IP);
 
-      const int iSize(qSettings()->beginReadArray(ROUTES));
+      const int iSize(qSettings()->beginReadArray(strRouteSectionName));
       if (iRow < iSize)
       {
          qSettings()->setArrayIndex(iRow);
@@ -416,7 +415,7 @@ bool ConnectionSettings::setRouteProperty(const QString& strValue, int iRow, con
    return(fRet);
 }
 
-QString ConnectionSettings::routeProperty(int iRow, const QString& strPropertyName) const
+QString ConnectionSettings::routeProperty(const QString& strRouteSectionName, int iRow, const QString& strPropertyName) const
 {
    QString strRet;
 
@@ -426,7 +425,7 @@ QString ConnectionSettings::routeProperty(int iRow, const QString& strPropertyNa
       qSettings()->setArrayIndex(m_iConnectionNo);
       qSettings()->beginGroup(IP);
 
-      const int iSize(qSettings()->beginReadArray(ROUTES));
+      const int iSize(qSettings()->beginReadArray(strRouteSectionName));
       if (iRow < iSize)
       {
          qSettings()->setArrayIndex(iRow);
@@ -808,7 +807,7 @@ bool PppIpSettings::useDefaultGateway() const
    return(getBoolValue(IP + '/' + USEDEFAULTGATEWAY, true));
 }
 
-int PppIpSettings::routes() const
+int PppIpSettings::routes(const QString& strRouteSectionName) const
 {
    int iSize(0);
 
@@ -817,7 +816,7 @@ int PppIpSettings::routes() const
       qSettings()->beginReadArray(CONNECTIONS);
       qSettings()->setArrayIndex(connectionNo());
       qSettings()->beginGroup(IP);
-      iSize = qSettings()->beginReadArray(ROUTES);
+      iSize = qSettings()->beginReadArray(strRouteSectionName);
       qSettings()->endArray();
       qSettings()->endGroup();
       qSettings()->endArray();
@@ -826,37 +825,37 @@ int PppIpSettings::routes() const
    return(iSize);
 }
 
-bool PppIpSettings::setRouteAddress(int iRow, const QString& strAddress) const
+bool PppIpSettings::setRouteAddress(const QString& strRouteSectionName, int iRow, const QString& strAddress) const
 {
-   return(setRouteProperty(strAddress, iRow, IPADDRESS));
+   return(setRouteProperty(strRouteSectionName, strAddress, iRow, IPADDRESS));
 }
 
-QString PppIpSettings::routeAddress(int iRow) const
+QString PppIpSettings::routeAddress(const QString& strRouteSectionName, int iRow) const
 {
-   return(routeProperty(iRow, IPADDRESS));
+   return(routeProperty(strRouteSectionName, iRow, IPADDRESS));
 }
 
-bool PppIpSettings::setRouteNetmask(int iRow, const QString& strNetMask) const
+bool PppIpSettings::setRouteNetmask(const QString& strRouteSectionName, int iRow, const QString& strNetMask) const
 {
-   return(setRouteProperty(strNetMask, iRow, IPNETMASK));
+   return(setRouteProperty(strRouteSectionName, strNetMask, iRow, IPNETMASK));
 }
 
-QString PppIpSettings::routeNetmask(int iRow) const
+QString PppIpSettings::routeNetmask(const QString& strRouteSectionName, int iRow) const
 {
-   return(routeProperty(iRow, IPNETMASK));
+   return(routeProperty(strRouteSectionName, iRow, IPNETMASK));
 }
 
-bool PppIpSettings::setRouteComment(int iRow, const QString& strComment) const
+bool PppIpSettings::setRouteComment(const QString& strRouteSectionName, int iRow, const QString& strComment) const
 {
-   return(setRouteProperty(strComment, iRow, COMMENT));
+   return(setRouteProperty(strRouteSectionName, strComment, iRow, COMMENT));
 }
 
-QString PppIpSettings::routeComment(int iRow) const
+QString PppIpSettings::routeComment(const QString& strRouteSectionName, int iRow) const
 {
-   return(routeProperty(iRow, COMMENT));
+   return(routeProperty(strRouteSectionName, iRow, COMMENT));
 }
 
-bool PppIpSettings::addRoute() const
+bool PppIpSettings::addRoute(const QString& strRouteSectionName) const
 {
    bool fAdded(false);
 
@@ -868,7 +867,7 @@ bool PppIpSettings::addRoute() const
       qSettings()->setArrayIndex(connectionNo());
       qSettings()->beginGroup(IP);
 
-      qSettings()->beginWriteArray(ROUTES);
+      qSettings()->beginWriteArray(strRouteSectionName);
       qSettings()->setArrayIndex(iSize);
       qSettings()->setValue(IPADDRESS, "");
       qSettings()->setValue(IPNETMASK, "");
@@ -882,7 +881,7 @@ bool PppIpSettings::addRoute() const
    return(fAdded);
 }
 
-bool PppIpSettings::removeRoute(int iRow) const
+bool PppIpSettings::removeRoute(const QString& strRouteSectionName, int iRow) const
 {
    bool fRemoved(false);
 
@@ -892,7 +891,7 @@ bool PppIpSettings::removeRoute(int iRow) const
       qSettings()->setArrayIndex(connectionNo());
       qSettings()->beginGroup(IP);
 
-      fRemoved = ConnectionSettings::removeArrayItem(ROUTES, iRow);
+      fRemoved = ConnectionSettings::removeArrayItem(strRouteSectionName, iRow);
 
       qSettings()->endGroup();
       qSettings()->endArray();

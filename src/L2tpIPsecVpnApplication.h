@@ -25,7 +25,7 @@
 #ifndef L2TPIPSECVPNAPPLICATION_H
 #define	L2TPIPSECVPNAPPLICATION_H
 
-#include <QApplication>
+#include <QtWidgets/QApplication>
 
 class ConnectionManager;
 class QProcess;

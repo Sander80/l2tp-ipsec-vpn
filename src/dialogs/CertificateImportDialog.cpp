@@ -22,11 +22,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QFileDialog>
-#include <QInputDialog>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QInputDialog>
 #include <QDir>
 #include <QFile>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 
 #include "util/GlobalFunctions.h"
 #include "util/Pkcs12.h"

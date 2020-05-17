@@ -1,5 +1,4 @@
 # {{FILENAME}} - secrets for IKE/IPsec authentication
-# $Id$
 
 # Manual: ipsec.secrets(5)
 
@@ -17,5 +16,5 @@
 # or configuration of other implementations, can be extracted conveniently
 # with "ipsec showhostkey".
 #
-{{#CONN_SECTION}}{{INDICES}}: {{KEYTYPE}} {{KEY}} {{PASSPHRASE}}
+{{#CONN_SECTION}}{{INDICES}} : {{KEYTYPE}} {{KEY}} {{PASSPHRASE}}
 {{/CONN_SECTION}}

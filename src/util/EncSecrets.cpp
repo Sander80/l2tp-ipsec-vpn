@@ -103,7 +103,7 @@ QString EncSecrets::retrieve(const unsigned char acKey[16], const unsigned char 
    const int iTotal = decode(pcBfbuf);
    const int iOutLen = ::EncSecrets::decrypt(pcBfbuf, iTotal, pcAscbuf, acKey, acIv);
 
-   const QString strRet = QString::fromAscii(pcAscbuf, iOutLen);
+   const QString strRet = QString::fromLatin1(pcAscbuf, iOutLen);
 
    ::free(pcBfbuf);
    ::free(pcAscbuf);
@@ -114,31 +114,34 @@ QString EncSecrets::retrieve(const unsigned char acKey[16], const unsigned char 
 // Base64 encodes pcBfbuf.
 int EncSecrets::encode(const unsigned char* pcBfbuf, int iOutlen)
 {
-   EVP_ENCODE_CTX ectx;
+   EVP_ENCODE_CTX* ectx = EVP_ENCODE_CTX_new();
    int iLen, iTotal = 0;
 
-   ::EVP_EncodeInit(&ectx);
-   ::EVP_EncodeUpdate(&ectx, m_pcB64buf, &iLen, pcBfbuf, iOutlen);
+   ::EVP_EncodeInit(ectx);
+   ::EVP_EncodeUpdate(ectx, m_pcB64buf, &iLen, pcBfbuf, iOutlen);
    iTotal += iLen;
 
-   ::EVP_EncodeFinal(&ectx, m_pcB64buf + iLen, &iLen);
+   ::EVP_EncodeFinal(ectx, m_pcB64buf + iLen, &iLen);
    iTotal += iLen;
 
+   EVP_ENCODE_CTX_free(ectx);
    return(iTotal);
 }
 
 // Base64 decodification.
 int EncSecrets::decode(unsigned char* pcBfbuf)
 {
-   EVP_ENCODE_CTX ectx;
+//   EVP_ENCODE_CTX ectx;
+   EVP_ENCODE_CTX* ectx = EVP_ENCODE_CTX_new();
    int iLen, iTotal = 0;
 
-   ::EVP_DecodeInit(&ectx);
-   ::EVP_DecodeUpdate(&ectx, pcBfbuf, &iLen, m_pcB64buf, ::strlen(reinterpret_cast<char*>(m_pcB64buf)));
+   ::EVP_DecodeInit(ectx);
+   ::EVP_DecodeUpdate(ectx, pcBfbuf, &iLen, m_pcB64buf, ::strlen(reinterpret_cast<char*>(m_pcB64buf)));
    iTotal += iLen;
 
-   ::EVP_DecodeFinal(&ectx, pcBfbuf + iLen, &iLen);
+   ::EVP_DecodeFinal(ectx, pcBfbuf + iLen, &iLen);
    iTotal += iLen;
+   EVP_ENCODE_CTX_free(ectx);
 
    return(iTotal);
 }
@@ -146,20 +149,23 @@ int EncSecrets::decode(unsigned char* pcBfbuf)
 // Blowfish encrypts pcAscbuf into pcBfbuf.
 int EncSecrets::encrypt(const char* pcAscbuf, const unsigned char acIv[8], const unsigned char acKey[16], unsigned char* pcBfbuf)
 {
-   EVP_CIPHER_CTX ctx;
+ //  EVP_CIPHER_CTX ctx;
+   EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
    int iOutlen = 0;
    int iTmplen;
 
-   ::EVP_CIPHER_CTX_init(&ctx);
-   ::EVP_EncryptInit_ex(&ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
+   ::EVP_CIPHER_CTX_init(ctx);
+   ::EVP_EncryptInit_ex(ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
 
-   if(::EVP_EncryptUpdate(&ctx, pcBfbuf, &iOutlen, reinterpret_cast<const unsigned char*>(pcAscbuf), ::strlen(pcAscbuf)))
+   if(::EVP_EncryptUpdate(ctx, pcBfbuf, &iOutlen, reinterpret_cast<const unsigned char*>(pcAscbuf), ::strlen(pcAscbuf)))
    {
-      if(::EVP_EncryptFinal_ex(&ctx, pcBfbuf + iOutlen, &iTmplen))
+      if(::EVP_EncryptFinal_ex(ctx, pcBfbuf + iOutlen, &iTmplen))
          iOutlen += iTmplen;
    }
 
-   ::EVP_CIPHER_CTX_cleanup(&ctx);
+   ::EVP_CIPHER_CTX_cleanup(ctx);
+
+   EVP_CIPHER_CTX_free(ctx);
 
    return(iOutlen);
 }
@@ -167,21 +173,22 @@ int EncSecrets::encrypt(const char* pcAscbuf, const unsigned char acIv[8], const
 // Blowfish decryption.
 int EncSecrets::decrypt(const unsigned char* pcBfbuf, int iTotal, char* pcAscbuf, const unsigned char acKey[16], const unsigned char acIv[8])
 {
-   EVP_CIPHER_CTX ctx;
+//   EVP_CIPHER_CTX ctx;
+   EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
    int iOutlen = 0;
    int iTmplen;
 
-   ::EVP_CIPHER_CTX_init(&ctx);
-   ::EVP_DecryptInit_ex(&ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
+   ::EVP_CIPHER_CTX_init(ctx);
+   ::EVP_DecryptInit_ex(ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
 
-   if(::EVP_DecryptUpdate(&ctx, reinterpret_cast<unsigned char*>(pcAscbuf), &iOutlen, pcBfbuf, iTotal))
+   if(::EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(pcAscbuf), &iOutlen, pcBfbuf, iTotal))
    {
-      if(::EVP_DecryptFinal(&ctx, reinterpret_cast<unsigned char*>(pcAscbuf + iOutlen), &iTmplen))
+      if(::EVP_DecryptFinal(ctx, reinterpret_cast<unsigned char*>(pcAscbuf + iOutlen), &iTmplen))
          iOutlen += iTmplen;
    }
 
-   ::EVP_CIPHER_CTX_cleanup(&ctx);
-
+   ::EVP_CIPHER_CTX_cleanup(ctx);
+   EVP_CIPHER_CTX_free(ctx);
    return(iOutlen);
 }
 

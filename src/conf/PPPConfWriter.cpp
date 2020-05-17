@@ -29,6 +29,7 @@
 
 static const char* const REFUSE_SECTION = "REFUSE_SECTION";
 static const char* const CERT_SECTION = "CERT_SECTION";
+static const char* const PASSWORD_SECTION = "PASSWORD_SECTION";
 
 static const char* const REFUSEEAPLINE = "refuse-eap";
 static const char* const REFUSEPAPLINE = "refuse-pap";
@@ -48,6 +49,7 @@ static const QString KEYLINE = "key ";
 static const char* const IPPARAM = "IPPARAM";
 static const char* const REMOTENAME = "REMOTENAME";
 static const char* const NAME = "NAME";
+static const char* const PASSWORD = "PASSWORD";
 static const char* const USEPEERDNS = "USEPEERDNS";
 static const char* const NOBSDCOMP = "NOBSDCOMP";
 static const char* const NODEFLATE = "NODEFLATE";
@@ -66,12 +68,16 @@ PPPConfWriter::~PPPConfWriter()
 
 void PPPConfWriter::fill()
 {
-   dictionary()->SetValue(IPPARAM, (QCoreApplication::instance()->objectName() + "-" + instance()).toAscii().constData());
+   dictionary()->SetValue(IPPARAM, (QCoreApplication::instance()->objectName() + "-" + instance()).toLatin1().constData());
 
    const PppSettings pppSettings = ConnectionSettings().pppSettings(instance());
 
-   dictionary()->SetValue(REMOTENAME, pppSettings.remoteName().toAscii().constData());
-   dictionary()->SetValue(NAME, pppSettings.userName().toAscii().constData());
+   dictionary()->SetValue(REMOTENAME, pppSettings.remoteName().toLatin1().constData());
+   dictionary()->SetValue(NAME, pppSettings.userName().toLatin1().constData());
+
+//   dictionary()->SetValue(PASSWORD, pppSettings.password().toLatin1().constData());
+
+
 
    if (pppSettings.ipSettings().usePeerDns())
       dictionary()->SetValue(USEPEERDNS, USEPEERDNSLINE);
@@ -86,7 +92,7 @@ void PPPConfWriter::fill()
        dictionary()->SetValue(NOVJ, NOVJLINE);
 
    if (pppSettings.lcpEchoInterval() != -1)
-       dictionary()->SetValue(LCPECHOINTERVAL, QString(LCPECHOINTERVALLINE + QString::number(pppSettings.lcpEchoInterval())).toAscii().constData());
+       dictionary()->SetValue(LCPECHOINTERVAL, QString(LCPECHOINTERVALLINE + QString::number(pppSettings.lcpEchoInterval())).toLatin1().constData());
 
    const bool fRefuseEap = pppSettings.refuseEap();
    if (fRefuseEap) addRefuseEntry(REFUSEEAPLINE);
@@ -95,18 +101,30 @@ void PPPConfWriter::fill()
    if (!fRefuseEap || pppSettings.refuseMsChap()) addRefuseEntry(REFUSEMSCHAPLINE);
    if (!fRefuseEap || pppSettings.refuseMsChapV2()) addRefuseEntry(REFUSEMSCHAPV2LINE);
 
-   const PppEapSettings eapSettings = pppSettings.eapSettings();
-   if (!eapSettings.certificatePath().isEmpty()) addCertEntry((CERTLINE + "\"" + eapSettings.certificatePath() + "\"").toAscii().constData());
-   if (!eapSettings.caCertificatePath().isEmpty()) addCertEntry((CALINE + "\"" + eapSettings.caCertificatePath() + "\"").toAscii().constData());
-   if (!eapSettings.privateKeyPath().isEmpty()) addCertEntry((KEYLINE + "\"" + eapSettings.privateKeyPath() + "\"").toAscii().constData());
+    if(fRefuseEap)
+    {
+	addPasswordEntry(pppSettings.password());
+
+    }
+    else
+    {
+	const PppEapSettings eapSettings = pppSettings.eapSettings();
+	if (!eapSettings.certificatePath().isEmpty()) addCertEntry((CERTLINE + "\"" + eapSettings.certificatePath() + "\"").toLatin1().constData());
+	if (!eapSettings.caCertificatePath().isEmpty()) addCertEntry((CALINE + "\"" + eapSettings.caCertificatePath() + "\"").toLatin1().constData());
+	if (!eapSettings.privateKeyPath().isEmpty()) addCertEntry((KEYLINE + "\"" + eapSettings.privateKeyPath() + "\"").toLatin1().constData());
+    }
 }
 
 void PPPConfWriter::addRefuseEntry(const QString& strRefuse) const
 {
-   dictionary()->AddSectionDictionary(REFUSE_SECTION)->SetValue(REFUSEPROTOCOL, strRefuse.toAscii().constData());
+   dictionary()->AddSectionDictionary(REFUSE_SECTION)->SetValue(REFUSEPROTOCOL, strRefuse.toLatin1().constData());
 }
 
 void PPPConfWriter::addCertEntry(const QString& strCertEntry) const
 {
-   dictionary()->AddSectionDictionary(CERT_SECTION)->SetValue(CERTENTRY, strCertEntry.toAscii().constData());
+   dictionary()->AddSectionDictionary(CERT_SECTION)->SetValue(CERTENTRY, strCertEntry.toLatin1().constData());
+}
+void PPPConfWriter::addPasswordEntry(const QString& strPasswordEntry) const
+{
+   dictionary()->AddSectionDictionary(PASSWORD_SECTION)->SetValue(PASSWORD, strPasswordEntry.toLatin1().constData());
 }

@@ -163,9 +163,11 @@ bool Pkcs12::privateKey2Pem(const QString& strFilenamePath, const QString& strPa
    {
       FILE* const pPemFile(::fopen(strFilenamePath.toUtf8().constData(), "wb"));
 
+      RSA * rsa = EVP_PKEY_get0_RSA(m_pKey); // this is new!
+
       if (pPemFile)
       {
-         if (::PEM_write_RSAPrivateKey(pPemFile, m_pKey->pkey.rsa, ::EVP_des_ede3_cbc(), NULL, 0, passwordCallback, strPassphrase.toUtf8().data()))
+         if (::PEM_write_RSAPrivateKey(pPemFile, rsa, ::EVP_des_ede3_cbc(), NULL, 0, passwordCallback, strPassphrase.toUtf8().data()))
             fRet = true;
          else
             m_strError = tr("Writing private key to") + "" + strFilenamePath + "" + tr("failed");

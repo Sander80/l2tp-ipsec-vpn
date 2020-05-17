@@ -28,8 +28,8 @@
 #include <QString>
 #include <stdlib.h>
 #include <openssl/bn.h>
-
-#include "pkcs11.h"
+#include "src/util/GlobalFunctions.h"
+#include "Pkcs11.h"
 
 class Pkcs11Attlist;
 

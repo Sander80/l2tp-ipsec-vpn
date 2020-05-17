@@ -66,10 +66,10 @@ void L2tpConfWriter::fill()
          const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
          const L2tpSettings l2tpSetting(settings.l2tpSettings(strName));
 
-         pLacSection->SetValue(NAME, strName.toAscii().constData());
-         pLacSection->SetValue(GATEWAY, ipsecSetting.gateway().toAscii().constData());
+         pLacSection->SetValue(NAME, strName.toLatin1().constData());
+         pLacSection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
 
-         pLacSection->SetValue(PPPOPTFILE, ConfWriter::fileName(ConfWriter::PPP, strName).toAscii().constData());
+         pLacSection->SetValue(PPPOPTFILE, ConfWriter::fileName(ConfWriter::PPP, strName).toLatin1().constData());
          pLacSection->SetValue(LENGTHBIT, l2tpSetting.lengthBit() ? YES : NO);
 
          if (l2tpSetting.redial())

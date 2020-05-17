@@ -69,10 +69,15 @@ bool VpnControlDaemonClient::start(VpnClientConnection::Command iCommand, const 
 
    if (m_pSocket->state() == QLocalSocket::ConnectedState)
    {
-      if (strArguments.isNull())
-         m_pSocket->write((QString::number(iCommand) + '\n').toAscii().constData());
-      else
-         m_pSocket->write((QString::number(iCommand) + " " + strArguments + '\n').toAscii().constData());
+
+      if (strArguments.isNull()) {
+	 QTextStream(stdout) << (QString::number(iCommand) + '\n').toLatin1().constData() <<endl;
+         m_pSocket->write((QString::number(iCommand) + '\n').toLatin1().constData());
+      }
+      else {
+	 QTextStream(stdout) << (QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData() <<endl;
+         m_pSocket->write((QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData());
+      }
 
       fRet = true;
    }

@@ -1,5 +1,5 @@
 /*
- * $Id: SecretsChecker.h 24 2010-10-07 12:35:00Z werner $
+ * $Id: SecretsChecker.h 161 2017-12-25 10:26:31Z wejaeger $
  *
  * File:   SecretsChecker.h
  * Author: wejaeger
@@ -27,6 +27,7 @@
 
 #include <QString>
 #include <QFile>
+#include <QMutex>
 
 class PppSettings;
 class PppEapSettings;
@@ -52,6 +53,8 @@ private:
    static QString getSecretsFilePath(const PppSettings& pppSettings);
 
    const QString& m_strConnectionName;
+
+   static QMutex MUTEX;
 };
 
 #endif	/* SECRETSCHECKER_H */

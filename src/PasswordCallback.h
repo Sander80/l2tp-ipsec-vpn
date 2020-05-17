@@ -25,12 +25,15 @@
 #ifndef PASSWORDCALLBACK_H
 #define	PASSWORDCALLBACK_H
 
+#include <QCoreApplication>
+
 class L2tpIPsecVpnApplication;
 
 class PasswordCallback
 {
 public:
    PasswordCallback(L2tpIPsecVpnApplication& application);
+   PasswordCallback(QCoreApplication& application);
    virtual ~PasswordCallback();
 
    int exec() const;
@@ -39,7 +42,8 @@ private:
    PasswordCallback(const PasswordCallback& orig);
    PasswordCallback& operator=(const PasswordCallback& orig);
 
-   L2tpIPsecVpnApplication& m_Application;
+   //L2tpIPsecVpnApplication& m_Application;
+   QCoreApplication& m_Application;
 };
 
 #endif	/* PASSWORDCALLBACK_H */

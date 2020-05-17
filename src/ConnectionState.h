@@ -25,7 +25,7 @@
 #ifndef CONNECTIONSTATE_H
 #define	CONNECTIONSTATE_H
 
-#include <QSystemTrayIcon>
+#include <QtWidgets/QSystemTrayIcon>
 
 #include "util/NetworkInterface.h"
 

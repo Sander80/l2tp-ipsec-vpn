@@ -44,8 +44,25 @@ case $PPP_IPPARAM in
     /sbin/route add -net {{IPADDRESS}} netmask {{IPNETMASK}} dev ${PPP_IFACE}{{/ROUTE_SECTION}}{{#DEFAULT_GATEWAY_SECTION}}
     /sbin/route add -net 0.0.0.0 dev ${PPP_IFACE}
     /sbin/route add -net 0.0.0.0 gw ${DFLT_GWY} metric 100 dev ${EXT_INTF}
-    /sbin/route del -net 0.0.0.0 gw ${DFLT_GWY} metric 0 dev ${EXT_INTF}{{/DEFAULT_GATEWAY_SECTION}}
+    /sbin/route del -net 0.0.0.0 gw ${DFLT_GWY} metric 0 dev ${EXT_INTF} || true {{/DEFAULT_GATEWAY_SECTION}}{{#NOROUTE_SECTION}}
+    /sbin/route add -net {{IPADDRESS}} netmask {{IPNETMASK}} gw ${DFLT_GWY} dev ${EXT_INTF}{{/NOROUTE_SECTION}}
 	 ;;
 
 {{/CONN_SECTION}}
 esac
+
+
+# copied from http://www.ussg.iu.edu/hypermail/lin...02.1/0146.html
+# uncomment for CentOS
+#if [ -n "$USEPEERDNS" -a -f /etc/ppp/resolv.conf ]; then
+#	rm -f /etc/ppp/resolv.prev
+#	if [ -f /etc/resolv.conf ]; then
+#		cp /etc/resolv.conf /etc/ppp/resolv.prev
+#		grep search /etc/ppp/resolv.prev > /etc/resolv.conf || true
+#		cat /etc/ppp/resolv.conf >> /etc/resolv.conf
+#		grep nameserver /etc/ppp/resolv.prev >> /etc/resolv.conf || true
+#	else
+#		cp /etc/ppp/resolv.conf /etc
+#	fi
+#	chmod 644 /etc/resolv.conf
+#fi 

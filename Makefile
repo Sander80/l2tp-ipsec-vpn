@@ -99,7 +99,6 @@ po2ts:
 # clean
 clean:
 	rm -rf ${BUILDDIR}/*
-	rm -rf ${GENDIR}/*
 	rm -rf ${DOCDIR}
 	rm -rf ${DISTDIR}/*
 	rm -rf ${TESTDIR}/*

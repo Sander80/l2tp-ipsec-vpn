@@ -37,7 +37,7 @@ void OpensslConfWriter::fill()
 {
    const OpenSSLSettings opensslSettings(Preferences().openSSLSettings());
 
-   dictionary()->SetValue(ENGINEID, opensslSettings.engineId().toAscii().constData());
-   dictionary()->SetValue(DYNAMICPATH, opensslSettings.enginePath().toAscii().constData());
-   dictionary()->SetValue(MODULEPATH, opensslSettings.pkcs11Path().toAscii().constData());
+   dictionary()->SetValue(ENGINEID, opensslSettings.engineId().toLatin1().constData());
+   dictionary()->SetValue(DYNAMICPATH, opensslSettings.enginePath().toLatin1().constData());
+   dictionary()->SetValue(MODULEPATH, opensslSettings.pkcs11Path().toLatin1().constData());
 }

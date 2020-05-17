@@ -1,5 +1,5 @@
 /*
- * $Id: VPNControlTask.cpp 143 2012-05-11 10:33:15Z wejaeger $
+ * $Id: VPNControlTask.cpp 163 2017-12-29 10:44:44Z wejaeger $
  *
  * File:   VPNControlTask.cpp
  * Author: Werner Jaeger
@@ -28,7 +28,7 @@
 #include <QFileInfoList>
 #include <QTextStream>
 #include <QSocketNotifier>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 //#include <QDebug>
 
 #include <unistd.h>
@@ -50,11 +50,12 @@ static const QRegExp RE_LOG_SPLITLINE("\\s(?=\\w+\\[\\d+\\]\\:\\s)");
 static const QRegExp RE_LOG_CAP_CERTIFICATEID("\\'(\\d\\:\\d{1,3})\\'");
 
 static const QString STR_LOG_MATCH_IPSEC_CONNECTIONADDED("added connection description ");
-static const char* const STR_LOG_MATCH_IPSECSAESTABLISHED("IPsec SA established");
+static const char* const STR_LOG_MATCH_IPSECSAESTABLISHED("established successfully");
 
 static const char* const STR_LOG_MATCH_CERTIFICATELOADERROR("Error loading certificate");
 static const char* const STR_LOG_MATCH_AUTHFAILURE("Authentication failure");
 static const char* const STR_LOG_MATCH_AUTHFAILED("LCP terminated by peer (Authentication failed)");
+static const char* const STR_LOG_MATCH_PAP_AUTHFAILED("PAP authentication failed");
 static const char* const STR_LOG_MATCH_NO_DATA("No data from BIO_read");
 static const char* const STR_LOG_MATCH_PEERAUTHFAILED("but I couldn't find any suitable secret (password) for it to use to do so.");
 static const char* const STR_CONNECT_TIMEOUT("(Timeout)");
@@ -70,6 +71,9 @@ static const int ERR_NO_SECRET_FOUND(406);
 static const int ERR_CONNECT_TIMEOUT(410);
 
 QFile VPNControlTask::m_vpnLogPipe(strVpnLogPipeName);
+
+
+
 
 VPNControlTask::VPNControlTask(QObject* pParent) : QThread(pParent), m_pControlClient(new VpnControlDaemonClient), m_Action(Connect), m_iReturnCode(0),
    m_fIPSecConnectionAdded(false), m_fIPSecConnectionIsUp(false), m_pByteArray(new QByteArray()), m_pErrorStream(new QTextStream(m_pByteArray))
@@ -212,7 +216,8 @@ void VPNControlTask::deleteControlClient()
 
 void VPNControlTask::runConnect()
 {
-//   qDebug() << "VPNControlTask::runConnect()";
+    //qDebug() << "VPNControlTask::runConnect()";
+   
 
    const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
 
@@ -223,6 +228,7 @@ void VPNControlTask::runConnect()
       while (VPNControlTask::plutoIsRunning())
          sleep(1);
    }
+
 
    if (xl2tpdPid.exists())
       runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
@@ -244,38 +250,49 @@ void VPNControlTask::runConnect()
 
       if (m_iReturnCode == 0)
       {
+      
          if (!commonSettings.disableIPSecEncryption())
          {
-            if (!m_fIPSecConnectionAdded)
-               exec();
+            // if (!m_fIPSecConnectionAdded)
+            //   exec();
+   QTextStream(stdout) << "test 1" << endl;
 
             // avoid need --listen before --initiate error
+            sleep(3);
             runAndWait(VpnClientConnection::CMD_IPSEC_READY);
+   QTextStream(stdout) << "test 2" << endl;
 
             if (m_iReturnCode == 0)
             {
                runAndWait(VpnClientConnection::CMD_IPSEC_UP, m_strConnectionName);
 
+   QTextStream(stdout) << "test 3" << endl;
                if (m_iReturnCode == 0 && !m_fIPSecConnectionIsUp)
                {
                   m_iReturnCode = ERR_IPSEC_SA_NOT_ESTABLISHED;
                   emitErrorMsg("IPsec");
                }
 
+   QTextStream(stdout) << "test 4" << endl;
                if (m_iReturnCode == 0)
                {
-                  sleep(1);
+                  sleep(3);
                   runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+//sleep(20);
+   QTextStream(stdout) << "test 5" << endl;
                }
             }
          }
          else
          {
-            sleep(1);
+            sleep(3);
             runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
          }
       }
    }
+   
+  //sleep(20); 
+   QTextStream(stdout) << "test 6" << endl;
 //   qDebug() << "VPNControlTask::runConnect() -> finished";
 }
 
@@ -296,17 +313,20 @@ void VPNControlTask::runDisconnect()
 
 void VPNControlTask::runAndWait(VpnClientConnection::Command iCommand, const QString strArguments)
 {
-//   qDebug() << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ")";
+   QTextStream(stdout) <<  "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ")" << endl;
 
    if (!m_pControlClient->start(iCommand, strArguments))
    {
       m_iReturnCode = ERR_CONNECTING_TO_CONTROL_DAEMON;
+      QTextStream(stdout) << "error" << endl;
       emitErrorMsg("");
    }
-   else
-      exec();
+   else {
+      QTextStream(stdout) << "exec" << endl;
+      QTextStream(stdout) <<  exec() << endl;
+   }
 
-//   qDebug() << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished";
+   QTextStream(stdout) << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished" << endl;
 }
 
 qint64 VPNControlTask::readLogLine(char* data, qint64 iMaxSize)
@@ -319,7 +339,7 @@ qint64 VPNControlTask::readLogLine(char* data, qint64 iMaxSize)
    {
       const QString strLine(data);
       const QStringList astrParts(strLine.split(RE_LOG_SPLITLINE));
-      ::strcpy(data, astrParts.last().toAscii().data());
+      ::strcpy(data, astrParts.last().toLatin1().data());
       iRet = ::strlen(data);
 
       if (::strstr(data, STR_LOG_MATCH_CERTIFICATELOADERROR) != NULL)
@@ -330,7 +350,7 @@ qint64 VPNControlTask::readLogLine(char* data, qint64 iMaxSize)
          else
             emitErrorMsg("unknown");
       }
-      if (::strstr(data, STR_LOG_MATCH_AUTHFAILED) != NULL || ::strstr(data, STR_LOG_MATCH_AUTHFAILURE) != NULL)
+      if (::strstr(data, STR_LOG_MATCH_AUTHFAILED) != NULL || ::strstr(data, STR_LOG_MATCH_AUTHFAILURE) != NULL || ::strstr(data, STR_LOG_MATCH_PAP_AUTHFAILED) != NULL)
       {
          m_iReturnCode = ERR_AUTHENTICATION_FAILED;
          emitErrorMsg(connectionName());
@@ -372,7 +392,7 @@ qint64 VPNControlTask::readErrorLine(char* data, qint64 iMaxSize)
    if (!strLine.isNull())
    {
       strLine.append("\n");
-      ::strcpy(data, strLine.toAscii().data());
+      ::strcpy(data, strLine.toLatin1().data());
       iRet = ::strlen(data);
    }
 
@@ -403,9 +423,11 @@ void VPNControlTask::onResult(int iReturnCode, const QString& strCommand)
 void VPNControlTask::onCommandOutput(const QString& strOutputLine)
 {
 //   qDebug() << "VPNControlTask::onCommandOutput(const String&" << strOutputLine << ")";
-
+    QTextStream(stdout) << strOutputLine << endl;
    if (!m_fIPSecConnectionIsUp)
+    {
       m_fIPSecConnectionIsUp = strOutputLine.contains(STR_LOG_MATCH_IPSECSAESTABLISHED);
+    }
 
    emit commandOutputReceived(strOutputLine);
 
@@ -516,7 +538,7 @@ void VPNControlTask::emitErrorMsg(const QString& strErrorContext)
 
 void VPNControlTask::clearVpnLogPipe()
 {
-   const int iVpnPipeFileDescriptor(::open(m_vpnLogPipe.fileName().toAscii().data(), O_RDONLY | O_NONBLOCK));
+   const int iVpnPipeFileDescriptor(::open(m_vpnLogPipe.fileName().toLatin1().data(), O_RDONLY | O_NONBLOCK));
 
    if (iVpnPipeFileDescriptor != -1)
    {
@@ -569,7 +591,7 @@ bool VPNControlTask::plutoIsRunning()
             if (cmdLineFile.open(QFile::ReadOnly))
             {
                const QString strCli(cmdLineFile.readAll());
-               if (strCli.startsWith("pluto"))
+               if (strCli.endsWith("charon"))
                   fDone = true;
             }
             else

@@ -1,5 +1,5 @@
 /*
- * $Id: PppRoutesModel.cpp 13 2010-09-17 09:12:39Z werner $
+ * $Id: PppRoutesModel.cpp 165 2017-12-30 14:12:45Z wejaeger $
  *
  * File:   PppRoutesModel.cpp
  * Author: Werner Jaeger
@@ -24,7 +24,7 @@
 
 #include "PppRoutesModel.h"
 
-PppRoutesModel::PppRoutesModel(const QString& strConnectionName, QObject* pParent) : QAbstractTableModel(pParent), m_PppIpSettings(ConnectionSettings().pppSettings(strConnectionName).ipSettings())
+PppRoutesModel::PppRoutesModel(const QString& strConnectionName, const bool fIsPPPRoute, QObject* pParent) : QAbstractTableModel(pParent), m_fIsPPPRoute(fIsPPPRoute), m_PppIpSettings(ConnectionSettings().pppSettings(strConnectionName).ipSettings())
 {
 }
 
@@ -34,7 +34,7 @@ PppRoutesModel::~PppRoutesModel()
 
 int PppRoutesModel::rowCount(const QModelIndex& /* parent */) const
 {
-   return(m_PppIpSettings.routes());
+   return(m_fIsPPPRoute ? m_PppIpSettings.routes() : m_PppIpSettings.noRoutes());
 }
 
 int PppRoutesModel::columnCount(const QModelIndex& /* parent */) const
@@ -53,15 +53,15 @@ bool PppRoutesModel::setData(const QModelIndex& index, const QVariant& value, in
          switch (index.column())
          {
             case 0:
-               fRet = m_PppIpSettings.setRouteAddress(index.row(), value.toString());
+               fRet = m_fIsPPPRoute ? m_PppIpSettings.setRouteAddress(index.row(), value.toString()) : m_PppIpSettings.setNoRouteAddress(index.row(), value.toString());
                break;
 
             case 1:
-               fRet = m_PppIpSettings.setRouteNetmask(index.row(), value.toString());
+               fRet = m_fIsPPPRoute ? m_PppIpSettings.setRouteNetmask(index.row(), value.toString()) : m_PppIpSettings.setNoRouteNetmask(index.row(), value.toString());
                break;
 
             case 2:
-               fRet = m_PppIpSettings.setRouteComment(index.row(), value.toString());
+               fRet = m_fIsPPPRoute ? m_PppIpSettings.setRouteComment(index.row(), value.toString()) : m_PppIpSettings.setNoRouteComment(index.row(), value.toString());
                break;
          }
       }
@@ -84,15 +84,15 @@ QVariant PppRoutesModel::data(const QModelIndex& index, int iRole) const
          switch (index.column())
          {
             case 0:
-               ret = m_PppIpSettings.routeAddress(index.row());
+               ret = m_fIsPPPRoute ? m_PppIpSettings.routeAddress(index.row()) : m_PppIpSettings.noRouteAddress(index.row());
                break;
 
             case 1:
-               ret = m_PppIpSettings.routeNetmask(index.row());
+               ret = m_fIsPPPRoute ? m_PppIpSettings.routeNetmask(index.row()) : m_PppIpSettings.noRouteNetmask(index.row());
                break;
 
             case 2:
-               ret = m_PppIpSettings.routeComment(index.row());
+               ret = m_fIsPPPRoute ? m_PppIpSettings.routeComment(index.row()) : m_PppIpSettings.noRouteComment(index.row());
                break;
          }
       }
@@ -137,9 +137,9 @@ bool PppRoutesModel::addRow()
 {
    bool fRet = true;
 
-   const int iRow = m_PppIpSettings.routes();
+   const int iRow =  m_fIsPPPRoute ? m_PppIpSettings.routes() : m_PppIpSettings.noRoutes();
    beginInsertRows(QModelIndex(), iRow, iRow);
-   fRet = m_PppIpSettings.addRoute();
+   fRet =  m_fIsPPPRoute ? m_PppIpSettings.addRoute() :  m_PppIpSettings.addNoRoute();
    endInsertRows();
 
    return(fRet);
@@ -150,7 +150,7 @@ bool PppRoutesModel::removeRow(int iRow)
    bool fRet;
 
    beginRemoveRows(QModelIndex(), iRow, iRow);
-   fRet = m_PppIpSettings.removeRoute(iRow);
+   fRet =  m_fIsPPPRoute ? m_PppIpSettings.removeRoute(iRow) : m_PppIpSettings.removeNoRoute(iRow);
    endRemoveRows();
 
    return(fRet);

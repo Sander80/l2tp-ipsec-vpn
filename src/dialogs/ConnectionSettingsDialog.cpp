@@ -22,8 +22,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QMessageBox>
-#include <QFileDialog>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QFileDialog>
 
 #include "settings/ConnectionSettings.h"
 #include "models/ConnectionsModel.h"
@@ -165,7 +165,7 @@ void ConnectionSettingsDialog::onUseEapRadioButtonToggled(bool fEnabled)
    {
       m_Widget.m_pPppPropertiesButton->setEnabled(true);
       m_Widget.m_pPppAllowProtocolsListWidget->setEnabled(false);
-      m_Widget.m_pPppUserNameEdit->setEnabled(false);
+      m_Widget.m_pPppUserNameEdit->setEnabled(true);
       m_Widget.m_pPppPwdEdit->setEnabled(false);
    }
    else
@@ -256,7 +256,7 @@ void ConnectionSettingsDialog::readPppSettings(const PppSettings& pppSettings) c
       m_Widget.m_pPppUseEAPRadioButton->setChecked(true);
       m_Widget.m_pPppAllowProtocolsListWidget->setEnabled(false);
       m_Widget.m_pPppPropertiesButton->setEnabled(true);
-      m_Widget.m_pPppUserNameEdit->setEnabled(false);
+      m_Widget.m_pPppUserNameEdit->setEnabled(true);
       m_Widget.m_pPppPwdEdit->setEnabled(false);
    }
    else

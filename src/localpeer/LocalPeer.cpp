@@ -30,6 +30,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QDir>
+#include <QDataStream>
 
 #include "LocalPeer.h"
 

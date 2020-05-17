@@ -1,5 +1,5 @@
 /*
- * $Id: PppRoutesModel.h 13 2010-09-17 09:12:39Z werner $
+ * $Id: PppRoutesModel.h 165 2017-12-30 14:12:45Z wejaeger $
  *
  * File:   PppRoutesModel.h
  * Author: Werner Jaeger
@@ -33,7 +33,7 @@ class PppRoutesModel : public QAbstractTableModel
    Q_OBJECT
 
 public:
-   explicit PppRoutesModel(const QString& strConnectionName, QObject* pParent = 0);
+   explicit PppRoutesModel(const QString& strConnectionName, const bool fIsPPPRoute, QObject* pParent = 0);
    virtual ~PppRoutesModel();
 
    int rowCount(const QModelIndex& parent = QModelIndex()) const;
@@ -49,6 +49,7 @@ private:
    PppRoutesModel(const PppRoutesModel& orig);
    PppRoutesModel& operator=(const PppRoutesModel& orig);
 
+   const bool m_fIsPPPRoute;
    const PppIpSettings m_PppIpSettings;
 };
 

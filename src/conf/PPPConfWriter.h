@@ -42,6 +42,7 @@ private:
 
    void addRefuseEntry(const QString& strRefuse) const;
    void addCertEntry(const QString& strCertEntry) const;
+   void addPasswordEntry(const QString& strPasswordEntry) const;
 };
 
 #endif	/* PPPCONFWRITER_H */

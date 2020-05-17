@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 
 #include "SmartCardObjectsDialog.h"
 
@@ -60,6 +60,7 @@ const QString SmartCardObjectsDialog::selectedUserName() const
 
 void SmartCardObjectsDialog::accept()
 {
+
    if (m_pModel->objectType() == SmartCardObjectListModel::Certificate)
    {
       const QModelIndex currentIndex(m_Widget.m_pSmartCardObjectsListView->currentIndex());
@@ -73,6 +74,7 @@ void SmartCardObjectsDialog::accept()
       }
    }
    else
+   
       QDialog::accept();
 }
 

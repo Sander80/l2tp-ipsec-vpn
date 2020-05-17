@@ -50,7 +50,7 @@ private:
    CertificateInfo(const CertificateInfo& orig);
    CertificateInfo& operator=(const CertificateInfo& orig);
 
-   QString alternateSubjectName(const QSsl::AlternateNameEntryType type) const;
+   QString alternativeSubjectName(const QSsl::AlternativeNameEntryType type) const;
 
    static QSslCertificate* readCert(const QString& strFilePath);
 

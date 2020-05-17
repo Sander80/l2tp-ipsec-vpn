@@ -57,7 +57,7 @@ public:
 
    const char* getCString() const
    {
-      return(m_strMsg.toAscii());
+      return(m_strMsg.toLatin1());
    }
 
    bool isEmpty() const

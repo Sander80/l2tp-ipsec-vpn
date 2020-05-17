@@ -1,5 +1,5 @@
 /*
- * $Id: RouteSettingsDialog.h 64 2011-04-05 03:39:39Z werner $
+ * $Id: RouteSettingsDialog.h 165 2017-12-30 14:12:45Z wejaeger $
  *
  * File:   RouteSettingsDialog.h
  * Author: Werner Jaeger
@@ -40,6 +40,8 @@ public:
 private slots:
    void addRoute() const;
    void removeRoute() const;
+   void addNoRoute() const;
+   void removeNoRoute() const;
    void onHelpRequested() const;
    void accept();
 
@@ -53,7 +55,9 @@ private:
    Ui::RouteSettingsDialog m_Widget;
 
    const QString m_strConnectionName;
-   PppRoutesModel* m_pRoutesModel;
+   PppRoutesModel* m_pPPPRoutesModel;
+   PppRoutesModel* m_pNoRoutesModel;
+
 };
 
 #endif	/* _ROUTESETTINGSDIALOG_H */

@@ -28,9 +28,17 @@
 
 CK_FUNCTION_LIST* Pkcs11::m_p11(NULL);
 lt_dlhandle Pkcs11::m_pLoadedModuleHandle(NULL);
+//CK_SESSION_HANDLE Pkcs11::m_ulObjectHandle(CK_INVALID_HANDLE);
+//int Pkcs11::m_ulSlotId(0);
+//CK_SESSION_HANDLE Pkcs11::m_ulSessionHandle(CK_INVALID_HANDLE);
+//bool Pkcs11::_loaded(false);
 
-Pkcs11::Pkcs11() : m_ulSessionHandle(CK_INVALID_HANDLE), m_ulSlotId(0), m_ulObjectHandle(CK_INVALID_HANDLE)
+Pkcs11::Pkcs11()
 {
+	m_ulSessionHandle = CK_INVALID_HANDLE;
+	m_ulSlotId = 0;
+	m_ulObjectHandle = CK_INVALID_HANDLE;
+//	_loaded = false;
 }
 
 Pkcs11::~Pkcs11()
@@ -58,7 +66,7 @@ void Pkcs11::startSession(unsigned long ulSlot, bool fRW)
    m_ulSlotId = ulSlot;
 }
 
-unsigned long Pkcs11::slotsAvailable() const
+unsigned long Pkcs11::slotsAvailable()
 {
    unsigned long ulNumSlots(0L);
 
@@ -70,7 +78,7 @@ unsigned long Pkcs11::slotsAvailable() const
    return(ulNumSlots);
 }
 
-QList<unsigned long> Pkcs11::slotList() const
+QList<unsigned long> Pkcs11::slotList()
 {
    CK_RV rv;
    CK_SLOT_ID* p11Slots(NULL);
@@ -114,7 +122,7 @@ QList<unsigned long> Pkcs11::slotList() const
    return(slotList);
 }
 
-QList<CK_MECHANISM_TYPE> Pkcs11::mechanismList(unsigned long ulSlot) const
+QList<CK_MECHANISM_TYPE> Pkcs11::mechanismList(unsigned long ulSlot) 
 {
    QList<CK_MECHANISM_TYPE> mechanismList;
 
@@ -136,14 +144,14 @@ QList<CK_MECHANISM_TYPE> Pkcs11::mechanismList(unsigned long ulSlot) const
    return(mechanismList);
 }
 
-void Pkcs11::logout() const
+void Pkcs11::logout() 
 {
    const CK_RV rv(m_p11->C_Logout(m_ulSessionHandle));
    if (rv != CKR_OK && rv != CKR_USER_NOT_LOGGED_IN)
       pk11error("C_Logout", rv);
 }
 
-bool Pkcs11::needsLogin(bool fAsSecurityOfficer) const
+bool Pkcs11::needsLogin(bool fAsSecurityOfficer) 
 {
    bool fRet(true);
 
@@ -187,7 +195,7 @@ bool Pkcs11::needsLogin(bool fAsSecurityOfficer) const
    return(fRet);
 }
 
-void Pkcs11::login(const unsigned char* pcPin, unsigned long ulPinlen, bool fAsSecurityOfficer) const
+void Pkcs11::login(const unsigned char* pcPin, unsigned long ulPinlen, bool fAsSecurityOfficer) 
 {
    const unsigned long ulUser(fAsSecurityOfficer ? CKU_SO : CKU_USER);
 
@@ -196,14 +204,14 @@ void Pkcs11::login(const unsigned char* pcPin, unsigned long ulPinlen, bool fAsS
       pk11error("C_Login", rv);
 }
 
-void Pkcs11::setPin(const unsigned char* pcOldPin, unsigned long ulOldPinLen, const unsigned char* pcPin, unsigned long ulPinLen) const
+void Pkcs11::setPin(const unsigned char* pcOldPin, unsigned long ulOldPinLen, const unsigned char* pcPin, unsigned long ulPinLen) 
 {
    const CK_RV rv(m_p11->C_SetPIN(m_ulSessionHandle, const_cast<unsigned char*>(pcOldPin), ulOldPinLen, const_cast<unsigned char*>(pcPin), ulPinLen));
    if (rv != CKR_OK)
       pk11error("C_SetPIN", rv);
 }
 
-void Pkcs11::initPin(const unsigned char* pcPin, unsigned long ulPinLen) const
+void Pkcs11::initPin(const unsigned char* pcPin, unsigned long ulPinLen) 
 {
    const CK_RV rv(m_p11->C_InitPIN(m_ulSessionHandle, const_cast<unsigned char*>(pcPin), ulPinLen));
    if (rv != CKR_OK)
@@ -231,7 +239,7 @@ QStringList Pkcs11::tokenInfo() const
    return(tokenInfo(m_ulSlotId));
 }
 
-bool Pkcs11::protectedAuthenticationPath(CK_SLOT_ID ulSlotId) const
+bool Pkcs11::protectedAuthenticationPath(CK_SLOT_ID ulSlotId) 
 {
    CK_TOKEN_INFO tokenInfo;
    const CK_RV rv(m_p11->C_GetTokenInfo(ulSlotId, &tokenInfo));
@@ -242,7 +250,7 @@ bool Pkcs11::protectedAuthenticationPath(CK_SLOT_ID ulSlotId) const
    return(!!(tokenInfo.flags & CKF_PROTECTED_AUTHENTICATION_PATH));
 }
 
-bool Pkcs11::protectedAuthenticationPath() const
+bool Pkcs11::protectedAuthenticationPath() 
 {
    return(protectedAuthenticationPath(m_ulSlotId));
 }
@@ -252,12 +260,12 @@ void Pkcs11::loadAttribute(Pkcs11Attribute& attribute, CK_OBJECT_HANDLE ulObject
    attribute.load(m_ulSessionHandle, ulObjectHandle);
 }
 
-void Pkcs11::storeAttribute(Pkcs11Attribute& attribute, CK_OBJECT_HANDLE ulObjectHandle) const
+void Pkcs11::storeAttribute(Pkcs11Attribute& attribute, CK_OBJECT_HANDLE ulObjectHandle) 
 {
    attribute.store(m_ulSessionHandle, ulObjectHandle);
 }
 
-CK_OBJECT_HANDLE Pkcs11::createObject(const Pkcs11Attlist& attrs) const
+CK_OBJECT_HANDLE Pkcs11::createObject(const Pkcs11Attlist& attrs) 
 {
    CK_ATTRIBUTE *pAttributes;
    CK_OBJECT_HANDLE ulObjectHandle;
@@ -270,7 +278,7 @@ CK_OBJECT_HANDLE Pkcs11::createObject(const Pkcs11Attlist& attrs) const
    return(ulObjectHandle);
 }
 
-QList<CK_OBJECT_HANDLE> Pkcs11::objectList(const Pkcs11Attlist& atts) const
+QList<CK_OBJECT_HANDLE> Pkcs11::objectList(const Pkcs11Attlist& atts)
 {
    QList<CK_OBJECT_HANDLE> objectHandleList;
 
@@ -356,6 +364,8 @@ bool Pkcs11::loadLibrary(const QString& strFilePath, bool fSilent)
             pk11error("C_Initialize", rv);
          }
 
+	 //Pkcs11::_loaded = true;
+
          return(true);
       }
    }
@@ -389,6 +399,8 @@ bool Pkcs11::closeLibrary(const QString& strFilePath, bool fSilent)
 
    m_p11 = NULL;
    m_pLoadedModuleHandle = NULL;
+
+   //Pkcs11::_loaded = false;
 
    return(fRet);
 }

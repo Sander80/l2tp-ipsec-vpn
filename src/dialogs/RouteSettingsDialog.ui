@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>439</width>
-    <height>248</height>
+    <height>287</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
    <property name="spacing">
     <number>9</number>
    </property>
-   <item row="2" column="1">
+   <item row="8" column="1">
     <widget class="QPushButton" name="m_pAddButton">
      <property name="text">
       <string>Add</string>
@@ -46,7 +46,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="9" column="1">
     <widget class="QPushButton" name="m_pDeleteButton">
      <property name="text">
       <string>Delete ...</string>
@@ -56,7 +56,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" rowspan="3">
+   <item row="8" column="0" rowspan="3">
     <widget class="QTableView" name="m_pRoutesTableView">
      <property name="focusPolicy">
       <enum>Qt::WheelFocus</enum>
@@ -66,7 +66,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
+   <item row="11" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="m_pButtonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -76,8 +76,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="QRadioButton" name="m_pUseExplicitRoutesRadioButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>Use following explicit routes to intranet locations (split tunneling)</string>
      </property>
@@ -95,7 +101,34 @@ p, li { white-space: pre-wrap; }
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When the&lt;span style=&quot; font-weight:600;&quot;&gt; Use default gateway on remote network&lt;/span&gt; check box is selected (the default setting), all intranet locations are reachable and Internet locations are not reachable, except for the address of the VPN server and locations available through other routes. &lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string>Use default gateway on the remote network</string>
+      <string>Use default gateway on the remote network except for</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="m_pDeleteNoRouteButton">
+     <property name="text">
+      <string>Delete ...</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="m_pAddNoRouteButton">
+     <property name="text">
+      <string>Add</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="3">
+    <widget class="QTableView" name="m_pNoRoutesTableView">
+     <property name="toolTip">
+      <string>route packages with the destination addresses listed here through the default interfacel.</string>
      </property>
     </widget>
    </item>
@@ -153,7 +186,7 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>219</x>
-     <y>24</y>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>387</x>
@@ -169,7 +202,7 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>219</x>
-     <y>24</y>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>387</x>
@@ -185,11 +218,59 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>219</x>
-     <y>24</y>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>172</x>
      <y>137</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseExplicitRoutesRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_pAddNoRouteButton</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>56</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseExplicitRoutesRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_pDeleteNoRouteButton</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseExplicitRoutesRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_pNoRoutesTableView</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>172</x>
+     <y>72</y>
     </hint>
    </hints>
   </connection>

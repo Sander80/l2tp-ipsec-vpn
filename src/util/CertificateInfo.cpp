@@ -80,7 +80,7 @@ QString CertificateInfo::cn() const
    QString strRet;
 
    if (isReadable())
-      strRet = m_pQSslCertificate->subjectInfo(QSslCertificate::CommonName);
+      strRet = m_pQSslCertificate->subjectInfo(QSslCertificate::CommonName).join(" ");
 
    return(strRet);
 }
@@ -90,7 +90,7 @@ QString CertificateInfo::issuer() const
    QString strRet;
 
    if (isReadable())
-      strRet = m_pQSslCertificate->issuerInfo(QSslCertificate::CommonName);
+      strRet = m_pQSslCertificate->issuerInfo(QSslCertificate::CommonName).join(" ");
 
    return(strRet);
 }
@@ -102,9 +102,9 @@ QString CertificateInfo::email() const
    if (isReadable())
    {
       const QByteArray tag("emailAddress");
-      strRet = m_pQSslCertificate->subjectInfo(tag);
+      strRet = m_pQSslCertificate->subjectInfo(tag).join(" ");
       if (strRet.isNull())
-         strRet = alternateSubjectName(QSsl::EmailEntry);
+         strRet = alternativeSubjectName(QSsl::EmailEntry);
    }
 
    return(strRet);
@@ -125,17 +125,17 @@ bool CertificateInfo::toPem(const QString& strPemFilePath) const
    return(fRet);
 }
 
-QString CertificateInfo::alternateSubjectName(const QSsl::AlternateNameEntryType type) const
+QString CertificateInfo::alternativeSubjectName(const QSsl::AlternativeNameEntryType type) const
 {
    QString strRet;
 
    if (isReadable())
    {
-      const QMultiMap<QSsl::AlternateNameEntryType, QString> alternateSubjectNames(m_pQSslCertificate->alternateSubjectNames());
+      QMultiMap<QSsl::AlternativeNameEntryType, QString> alternativeSubjectNames(m_pQSslCertificate->subjectAlternativeNames());
 
-      const QMultiMap<QSsl::AlternateNameEntryType, QString>::iterator it(alternateSubjectNames.constFind(type));
+      QMultiMap<QSsl::AlternativeNameEntryType, QString>::iterator it(alternativeSubjectNames.find(type));
 
-      if (it != alternateSubjectNames.end())
+      if (it != alternativeSubjectNames.end())
          strRet = it.value();
    }
 

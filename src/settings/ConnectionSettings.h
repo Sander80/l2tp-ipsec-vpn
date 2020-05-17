@@ -1,5 +1,5 @@
 /*
- * $Id: ConnectionSettings.h 129 2012-04-07 10:15:46Z wejaeger $
+ * $Id: ConnectionSettings.h 165 2017-12-30 14:12:45Z wejaeger $
  *
  * File:   ConnectionSettings.h
  * Author: Werner Jaeger
@@ -35,6 +35,9 @@ class PppSettings;
 class PppEapSettings;
 class PppIpSettings;
 
+static const QString ROUTES = "Routes";
+static const QString NOROUTES = "NoRoutes";
+
 class ConnectionSettings : public Settings
 {
 public:
@@ -69,8 +72,8 @@ protected:
    int getIntValue(const QString& strPath, int iDefault = 0) const;
    bool setValue(bool fValue, const QString& strPath) const;
    bool getBoolValue(const QString& strPath, bool fDefault = false) const;
-   bool setRouteProperty(const QString& strValue, int iRow, const QString& strPropertyName) const;
-   QString routeProperty(int iRow, const QString& strPropertyName) const;
+   bool setRouteProperty(const QString& strRouteSectionName, const QString& strValue, int iRow, const QString& strPropertyName) const;
+   QString routeProperty(const QString& strRouteSectionName, int iRow, const QString& strPropertyName) const;
 
 private:
    ConnectionSettings& operator=(const ConnectionSettings& orig);
@@ -231,19 +234,40 @@ public:
 
    bool setUseDefaultGateway(bool fUse) const;
    bool useDefaultGateway() const;
-   int routes() const;
-   bool setRouteAddress(int iRow, const QString& strAddress) const;
-   QString routeAddress(int iRow) const;
-   bool setRouteNetmask(int iRow, const QString& strNetMask) const;
-   QString routeNetmask(int iRow) const;
-   bool setRouteComment(int iRow, const QString& strComment) const;
-   QString routeComment(int iRow) const;
-   bool addRoute() const;
-   bool removeRoute(int iRow) const;
+
+   int routes() const { return(routes(ROUTES)); }
+   bool setRouteAddress(int iRow, const QString& strAddress) const { return(setRouteAddress(ROUTES, iRow, strAddress)); }
+   QString routeAddress(int iRow) const { return(routeAddress(ROUTES, iRow)); }
+   bool setRouteNetmask(int iRow, const QString& strNetMask) const { return(setRouteNetmask(ROUTES, iRow, strNetMask)); }
+   QString routeNetmask(int iRow) const { return(routeNetmask(ROUTES, iRow)); }
+   bool setRouteComment(int iRow, const QString& strComment) const { return(setRouteComment(ROUTES, iRow, strComment)); }
+   QString routeComment(int iRow) const { return(routeComment(ROUTES, iRow)); }
+   bool addRoute() const { return(addRoute(ROUTES)); }
+   bool removeRoute(int iRow) const { return(removeRoute(ROUTES, iRow)); }
+
+   int noRoutes() const { return(routes(NOROUTES)); }
+   bool setNoRouteAddress(int iRow, const QString& strAddress) const { return(setRouteAddress(NOROUTES, iRow, strAddress)); }
+   QString noRouteAddress(int iRow) const { return(routeAddress(NOROUTES, iRow)); }
+   bool setNoRouteNetmask(int iRow, const QString& strNetMask) const { return(setRouteNetmask(NOROUTES, iRow, strNetMask)); }
+   QString noRouteNetmask(int iRow) const { return(routeNetmask(NOROUTES, iRow)); }
+   bool setNoRouteComment(int iRow, const QString& strComment) const { return(setRouteComment(NOROUTES, iRow, strComment)); }
+   QString noRouteComment(int iRow) const { return(routeComment(NOROUTES, iRow)); }
+   bool addNoRoute() const { return(addRoute(NOROUTES)); }
+   bool removeNoRoute(int iRow) const { return(removeRoute(NOROUTES, iRow)); }
 
 private:
    explicit PppIpSettings(int iConnectionNo) : PppSettings(iConnectionNo) {}
    PppIpSettings& operator=(const PppIpSettings& orig);
+
+   int routes(const QString& strRouteSectionName) const;
+   bool setRouteAddress(const QString& strRouteSectionName, int iRow, const QString& strAddress) const;
+   QString routeAddress(const QString& strRouteSectionName, int iRow) const;
+   bool setRouteNetmask(const QString& strRouteSectionName, int iRow, const QString& strNetMask) const;
+   QString routeNetmask(const QString& strRouteSectionName, int iRow) const;
+   bool setRouteComment(const QString& strRouteSectionName, int iRow, const QString& strComment) const;
+   QString routeComment(const QString& strRouteSectionName, int iRow) const;
+   bool addRoute(const QString& strRouteSectionName) const;
+   bool removeRoute(const QString& strRouteSectionName, int iRow) const;
 
    friend class PppSettings;
 };

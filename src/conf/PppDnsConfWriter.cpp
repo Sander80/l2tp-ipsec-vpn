@@ -46,11 +46,11 @@ void PppDnsConfWriter::fill()
    const bool fUsePeerDns = ipSettings.usePeerDns();
 
    if (!fUsePeerDns && !ipSettings.preferredDnsServerAddress().isEmpty())
-      dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.preferredDnsServerAddress().toAscii().constData());
+      dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.preferredDnsServerAddress().toLatin1().constData());
 
    if (!fUsePeerDns && !ipSettings.alternateDnsServerAddress().isEmpty())
-      dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.alternateDnsServerAddress().toAscii().constData());
+      dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.alternateDnsServerAddress().toLatin1().constData());
 
    if (!fUsePeerDns && !ipSettings.searchDomains().isEmpty())
-      dictionary()->AddSectionDictionary(SEARCH_SECTION)->SetValue(SEARCHLIST, ipSettings.searchDomains().toAscii().constData());
+      dictionary()->AddSectionDictionary(SEARCH_SECTION)->SetValue(SEARCHLIST, ipSettings.searchDomains().toLatin1().constData());
 }

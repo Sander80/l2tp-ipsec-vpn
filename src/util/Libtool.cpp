@@ -39,7 +39,7 @@ Libtool::~Libtool()
 
 bool Libtool::hasSymbol(const QString& strSymbolName) const
 {
-   return(loaded() && !!::lt_dlsym(m_pLoadedModuleHandle, strSymbolName.toAscii().constData()));
+   return(loaded() && !!::lt_dlsym(m_pLoadedModuleHandle, strSymbolName.toLatin1().constData()));
 }
 
 void Libtool::exit() const

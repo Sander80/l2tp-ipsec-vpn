@@ -1,5 +1,5 @@
 /*
- * $Id: SmartCardInfo.cpp 36 2011-01-28 08:23:14Z werner $
+ * $Id: SmartCardInfo.cpp 157 2017-06-21 10:11:43Z wejaeger $
  *
  * File:   SmartCardInfo.cpp
  * Author: Werner Jaeger
@@ -81,18 +81,26 @@ void SmartCardInfo::loadToken(const Pkcs11& p11, CK_OBJECT_HANDLE ulObjectHandle
       // ignore
    }
 
-   m_strSlotId.setNum(p11.slotId());
+   m_strSlotId.setNum(p11.m_ulSlotId);
 
    Pkcs11AttrData x509ValueAttribute(CKA_VALUE);
-   p11.loadAttribute(x509ValueAttribute, ulObjectHandle);
-   const unsigned char* pcValue;
 
-   const unsigned long ulLen(x509ValueAttribute.getValue(&pcValue));
+   try
+   {
+       p11.loadAttribute(x509ValueAttribute, ulObjectHandle);
+       const unsigned char* pcValue;
 
-   if (m_pCertificateInfo)
-      delete m_pCertificateInfo;
+       const unsigned long ulLen(x509ValueAttribute.getValue(&pcValue));
 
-   m_pCertificateInfo = new CertificateInfo(QByteArray::fromRawData(reinterpret_cast<const char*>(pcValue), ulLen));
+       if (m_pCertificateInfo)
+          delete m_pCertificateInfo;
+
+       m_pCertificateInfo = new CertificateInfo(QByteArray::fromRawData(reinterpret_cast<const char*>(pcValue), ulLen));
+   }
+   catch (ErrorEx &e)
+   {
+       // ignore
+   }
 }
 
 QString SmartCardInfo::BNOneLine(const BIGNUM* pBigNumber)
@@ -102,7 +110,8 @@ QString SmartCardInfo::BNOneLine(const BIGNUM* pBigNumber)
    {
       char* pcHex = ::BN_bn2hex(pBigNumber);
       strRet = pcHex;
-      ::CRYPTO_free(pcHex);
+//      ::CRYPTO_free(pcHex);
+      ::OPENSSL_free(pcHex);
    }
    return(strRet);
 }
