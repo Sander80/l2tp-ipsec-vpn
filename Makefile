@@ -102,7 +102,6 @@ clean:
 	rm -rf ${DOCDIR}
 	rm -rf ${DISTDIR}/*
 	rm -rf ${TESTDIR}/*
-	rm -f nbproject/*.mk
 	rm -f nbproject/*.bash
 	rm -f *.mk
 
