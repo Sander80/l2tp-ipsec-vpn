@@ -42,11 +42,11 @@ TESTDIR = build/TestFiles
 
 QMAKE_TARGET = L2tpIPsecVpn
 
+.PHONY: build
+
 # build
 #build: nbproject/qt-${CONF}.mk
-build: ${DISTDIR}/${QMAKE_TARGET}
-
-${DISTDIR}/${QMAKE_TARGET}:
+build:
 	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 
