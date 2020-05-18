@@ -23,3 +23,6 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'make'
+- task: CmdLine@2
+  inputs:
+    script: 'make clean'
