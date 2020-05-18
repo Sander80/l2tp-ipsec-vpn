@@ -1222,7 +1222,6 @@ uninstall_target: FORCE
 install_data: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn || mkdir -p $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn
 	-$(QINSTALL_PROGRAM) resources/logo.png $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
-	-strip $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
 
 uninstall_data: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
@@ -1232,7 +1231,6 @@ uninstall_data: FORCE
 install_startupmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/etc/xdg/autostart || mkdir -p $(INSTALL_ROOT)/etc/xdg/autostart
 	-$(QINSTALL_PROGRAM) resources/L2tpIPsecVpn.desktop $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
-	-strip $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
 
 uninstall_startupmenu: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
@@ -1242,7 +1240,6 @@ uninstall_startupmenu: FORCE
 install_preferencesmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/applications || mkdir -p $(INSTALL_ROOT)/usr/share/applications
 	-$(QINSTALL_PROGRAM) resources/L2TP-Ipsec-VPN-Manager.desktop $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
-	-strip $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
 
 uninstall_preferencesmenu: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
@@ -1252,7 +1249,6 @@ uninstall_preferencesmenu: FORCE
 install_networkmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/applications || mkdir -p $(INSTALL_ROOT)/usr/share/applications
 	-$(QINSTALL_PROGRAM) resources/L2tpIPsecVpn-Applet.desktop $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
-	-strip $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
 
 uninstall_networkmenu: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
