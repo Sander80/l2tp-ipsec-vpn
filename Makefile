@@ -45,6 +45,8 @@ QMAKE_TARGET = L2tpIPsecVpn
 # build
 #build: nbproject/qt-${CONF}.mk
 build: ${DISTDIR}/${QMAKE_TARGET}
+
+${DISTDIR}/${QMAKE_TARGET}:
 	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 
