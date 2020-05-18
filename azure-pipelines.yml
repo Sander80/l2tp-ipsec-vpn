@@ -12,6 +12,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: |
-    make
-  displayName: 'make'
+- task: CmdLine@2
+  inputs:
+    script: 'make'
