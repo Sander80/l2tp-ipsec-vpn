@@ -315,7 +315,8 @@ void VPNControlTask::runAndWait(VpnClientConnection::Command iCommand, const QSt
    }
    else {
       //QTextStream(stdout) << "exec" << endl;
-      QTextStream(stdout) <<  exec() << endl;
+   //   QTextStream(stdout) <<  exec() << endl;
+      exec();
    }
 
    //QTextStream(stdout) << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished" << endl;
