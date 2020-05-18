@@ -19,7 +19,7 @@ steps:
     script: 'sudo apt-get update'
 - task: CmdLine@2
   inputs:
-    script: 'sudo apt-get install qt5-qmake qt5-default'
+    script: 'sudo apt-get install build-essential automake cmake libtool libltdl-dev libssl-dev libcrypto++-dev pkg-config libpcsclite-dev debhelper qt5-qmake qt5-default'
 - task: CmdLine@2
   inputs:
     script: 'make'
