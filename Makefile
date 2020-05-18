@@ -58,6 +58,7 @@ install: nbproject/qt-${CONF}.mk
 	mkdir -p /etc/systemd/system/xl2tpd.service.d/
 	envsubst < resources/override.conf > /etc/systemd/system/xl2tpd.service.d/override.conf
 	systemctl daemon-reload
+	cp resources/org.freedesktop.policykit.L2tpIPsecVpn.policy /usr/share/polkit-1/actions/
 
 # uninstall
 uninstall: nbproject/qt-${CONF}.mk
@@ -67,8 +68,9 @@ uninstall: nbproject/qt-${CONF}.mk
 		echo "Trying to terminate ${QMAKE_TARGET} applet" >&2; \
 		kill $${PIDS} || true; \
 	fi
-	rm /etc/systemd/system/xl2tpd.service.d/override.conf
+	rm -f /etc/systemd/system/xl2tpd.service.d/override.conf
 	systemctl daemon-reload
+	rm -f /usr/share/polkit-1/actions/org.freedesktop.policykit.L2tpIPsecVpn.policy
 
    # Remove all generated configuration files
 	@echo "Trying to delete all generated config files" >&2
