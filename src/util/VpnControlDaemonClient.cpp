@@ -71,11 +71,11 @@ bool VpnControlDaemonClient::start(VpnClientConnection::Command iCommand, const 
    {
 
       if (strArguments.isNull()) {
-	 QTextStream(stdout) << (QString::number(iCommand) + '\n').toLatin1().constData() <<endl;
+	 //QTextStream(stdout) << (QString::number(iCommand) + '\n').toLatin1().constData() <<endl;
          m_pSocket->write((QString::number(iCommand) + '\n').toLatin1().constData());
       }
       else {
-	 QTextStream(stdout) << (QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData() <<endl;
+	 //QTextStream(stdout) << (QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData() <<endl;
          m_pSocket->write((QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData());
       }
 

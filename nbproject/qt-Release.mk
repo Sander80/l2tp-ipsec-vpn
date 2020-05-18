@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = L2tpIPsecVpn1.1.0
-DISTDIR = /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/build/Release/L2tpIPsecVpn1.1.0
+DISTDIR = build/Release/L2tpIPsecVpn1.1.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) -lctemplate -lcrypto -lltdl /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Network.so /usr/lib/x86_64-linux-gnu/libQt5Core.so /usr/lib/x86_64-linux-gnu/libGL.so -lpthread   
@@ -637,136 +637,136 @@ compiler_moc_header_clean:
 src/generated/moc_ConnectionEditor.cpp: src/ConnectionEditor.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionEditor.h -o src/generated/moc_ConnectionEditor.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionEditor.h -o src/generated/moc_ConnectionEditor.cpp
 
 src/generated/moc_ConnectionManager.cpp: src/ConnectionManager.h \
 		src/util/NetworkInterface.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionManager.h -o src/generated/moc_ConnectionManager.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionManager.h -o src/generated/moc_ConnectionManager.cpp
 
 src/generated/moc_ConnectionState.cpp: src/ConnectionState.h \
 		src/util/NetworkInterface.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionState.h -o src/generated/moc_ConnectionState.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ConnectionState.h -o src/generated/moc_ConnectionState.cpp
 
 src/generated/moc_L2tpIPsecVpnApplication.cpp: src/L2tpIPsecVpnApplication.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/L2tpIPsecVpnApplication.h -o src/generated/moc_L2tpIPsecVpnApplication.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/L2tpIPsecVpnApplication.h -o src/generated/moc_L2tpIPsecVpnApplication.cpp
 
 src/generated/moc_VPNControlTask.cpp: src/VPNControlTask.h \
 		src/VpnClientConnection.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/VPNControlTask.h -o src/generated/moc_VPNControlTask.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/VPNControlTask.h -o src/generated/moc_VPNControlTask.cpp
 
 src/generated/moc_AdvancedSettingsDialog.cpp: src/dialogs/AdvancedSettingsDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/AdvancedSettingsDialog.h -o src/generated/moc_AdvancedSettingsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/AdvancedSettingsDialog.h -o src/generated/moc_AdvancedSettingsDialog.cpp
 
 src/generated/moc_CertificateImportDialog.cpp: src/dialogs/CertificateImportDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/CertificateImportDialog.h -o src/generated/moc_CertificateImportDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/CertificateImportDialog.h -o src/generated/moc_CertificateImportDialog.cpp
 
 src/generated/moc_ConnectionEditorDialog.cpp: src/dialogs/ConnectionEditorDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/ConnectionEditorDialog.h -o src/generated/moc_ConnectionEditorDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/ConnectionEditorDialog.h -o src/generated/moc_ConnectionEditorDialog.cpp
 
 src/generated/moc_ConnectionInformationDialog.cpp: src/dialogs/ConnectionInformationDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/ConnectionInformationDialog.h -o src/generated/moc_ConnectionInformationDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/ConnectionInformationDialog.h -o src/generated/moc_ConnectionInformationDialog.cpp
 
 src/generated/moc_ConnectionSettingsDialog.cpp: src/dialogs/ConnectionSettingsDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/ConnectionSettingsDialog.h -o src/generated/moc_ConnectionSettingsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/ConnectionSettingsDialog.h -o src/generated/moc_ConnectionSettingsDialog.cpp
 
 src/generated/moc_EapSettingsDialog.cpp: src/dialogs/EapSettingsDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/EapSettingsDialog.h -o src/generated/moc_EapSettingsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/EapSettingsDialog.h -o src/generated/moc_EapSettingsDialog.cpp
 
 src/generated/moc_InterfaceStatisticsDialog.cpp: src/dialogs/InterfaceStatisticsDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/InterfaceStatisticsDialog.h -o src/generated/moc_InterfaceStatisticsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/InterfaceStatisticsDialog.h -o src/generated/moc_InterfaceStatisticsDialog.cpp
 
 src/generated/moc_IpSettingsDialog.cpp: src/dialogs/IpSettingsDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/IpSettingsDialog.h -o src/generated/moc_IpSettingsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/IpSettingsDialog.h -o src/generated/moc_IpSettingsDialog.cpp
 
 src/generated/moc_PeerAuthenticationDialog.cpp: src/dialogs/PeerAuthenticationDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/PeerAuthenticationDialog.h -o src/generated/moc_PeerAuthenticationDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/PeerAuthenticationDialog.h -o src/generated/moc_PeerAuthenticationDialog.cpp
 
 src/generated/moc_PreferencesEditorDialog.cpp: src/dialogs/PreferencesEditorDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/PreferencesEditorDialog.h -o src/generated/moc_PreferencesEditorDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/PreferencesEditorDialog.h -o src/generated/moc_PreferencesEditorDialog.cpp
 
 src/generated/moc_RouteSettingsDialog.cpp: src/dialogs/RouteSettingsDialog.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/RouteSettingsDialog.h -o src/generated/moc_RouteSettingsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/RouteSettingsDialog.h -o src/generated/moc_RouteSettingsDialog.cpp
 
 src/generated/moc_SmartCardObjectsDialog.cpp: src/dialogs/SmartCardObjectsDialog.h \
 		src/models/SmartCardObjectListModel.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/SmartCardObjectsDialog.h -o src/generated/moc_SmartCardObjectsDialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/dialogs/SmartCardObjectsDialog.h -o src/generated/moc_SmartCardObjectsDialog.cpp
 
 src/generated/moc_LocalPeer.cpp: src/localpeer/LocalPeer.h \
 		src/localpeer/LockedFile.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/localpeer/LocalPeer.h -o src/generated/moc_LocalPeer.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/localpeer/LocalPeer.h -o src/generated/moc_LocalPeer.cpp
 
 src/generated/moc_ConnectionsModel.cpp: src/models/ConnectionsModel.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/ConnectionsModel.h -o src/generated/moc_ConnectionsModel.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/ConnectionsModel.h -o src/generated/moc_ConnectionsModel.cpp
 
 src/generated/moc_IPsecCertificateListModel.cpp: src/models/IPsecCertificateListModel.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/IPsecCertificateListModel.h -o src/generated/moc_IPsecCertificateListModel.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/IPsecCertificateListModel.h -o src/generated/moc_IPsecCertificateListModel.cpp
 
 src/generated/moc_PppRoutesModel.cpp: src/models/PppRoutesModel.h \
 		src/settings/ConnectionSettings.h \
 		src/settings/Settings.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/PppRoutesModel.h -o src/generated/moc_PppRoutesModel.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/PppRoutesModel.h -o src/generated/moc_PppRoutesModel.cpp
 
 src/generated/moc_SmartCardObjectListModel.cpp: src/models/SmartCardObjectListModel.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/SmartCardObjectListModel.h -o src/generated/moc_SmartCardObjectListModel.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/models/SmartCardObjectListModel.h -o src/generated/moc_SmartCardObjectListModel.cpp
 
 src/generated/moc_SmartCardState.cpp: src/pkcs11/SmartCardState.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/pkcs11/SmartCardState.h -o src/generated/moc_SmartCardState.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/pkcs11/SmartCardState.h -o src/generated/moc_SmartCardState.cpp
 
 src/generated/moc_NetworkInterfaceMonitor.cpp: src/util/NetworkInterfaceMonitor.h \
 		src/util/NetworkInterface.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/util/NetworkInterfaceMonitor.h -o src/generated/moc_NetworkInterfaceMonitor.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/util/NetworkInterfaceMonitor.h -o src/generated/moc_NetworkInterfaceMonitor.cpp
 
 src/generated/moc_VpnControlDaemonClient.cpp: src/util/VpnControlDaemonClient.h \
 		src/VpnClientConnection.h \
 		src/generated/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject -I/home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/nbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/util/VpnControlDaemonClient.h -o src/generated/moc_VpnControlDaemonClient.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include src/generated/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -Inbproject -Inbproject/src -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/util/VpnControlDaemonClient.h -o src/generated/moc_VpnControlDaemonClient.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1221,7 +1221,7 @@ uninstall_target: FORCE
 
 install_data: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn || mkdir -p $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/logo.png $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
+	-$(QINSTALL_PROGRAM) resources/logo.png $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
 	-strip $(INSTALL_ROOT)/usr/share/L2tpIPsecVpn/logo.png
 
 uninstall_data: FORCE
@@ -1231,7 +1231,7 @@ uninstall_data: FORCE
 
 install_startupmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/etc/xdg/autostart || mkdir -p $(INSTALL_ROOT)/etc/xdg/autostart
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/L2tpIPsecVpn.desktop $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
+	-$(QINSTALL_PROGRAM) resources/L2tpIPsecVpn.desktop $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
 	-strip $(INSTALL_ROOT)/etc/xdg/autostart/L2tpIPsecVpn.desktop
 
 uninstall_startupmenu: FORCE
@@ -1241,7 +1241,7 @@ uninstall_startupmenu: FORCE
 
 install_preferencesmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/applications || mkdir -p $(INSTALL_ROOT)/usr/share/applications
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/L2TP-Ipsec-VPN-Manager.desktop $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
+	-$(QINSTALL_PROGRAM) resources/L2TP-Ipsec-VPN-Manager.desktop $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
 	-strip $(INSTALL_ROOT)/usr/share/applications/L2TP-Ipsec-VPN-Manager.desktop
 
 uninstall_preferencesmenu: FORCE
@@ -1251,7 +1251,7 @@ uninstall_preferencesmenu: FORCE
 
 install_networkmenu: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/applications || mkdir -p $(INSTALL_ROOT)/usr/share/applications
-	-$(QINSTALL_PROGRAM) /home/sander/Desktop/adfyr/l2tp-ipsec/l2tp-ipsec-vpn/resources/L2tpIPsecVpn-Applet.desktop $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
+	-$(QINSTALL_PROGRAM) resources/L2tpIPsecVpn-Applet.desktop $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
 	-strip $(INSTALL_ROOT)/usr/share/applications/L2tpIPsecVpn-Applet.desktop
 
 uninstall_networkmenu: FORCE

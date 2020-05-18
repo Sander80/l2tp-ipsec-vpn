@@ -27,6 +27,7 @@
 #include <unistd.h>
 
 #include <QObject>
+#include <QtWidgets/QInputDialog>
 #include "settings/ConnectionSettings.h"
 #include "util/SecretsChecker.h"
 #include "L2tpIPsecVpnApplication.h"
@@ -46,17 +47,10 @@ PasswordCallback::~PasswordCallback()
 
 int PasswordCallback::exec() const
 {
-//   ::syslog(LOG_DEBUG|LOG_AUTH, "%s", "Executing password callback");
-//abort();
    int iRet(1);
-//   printf("%s\n",m_Application.arguments()[1].toStdString().c_str());
    const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str()));
-//return 0;
-//   printf("%s\n",strPassword.toStdString().c_str());
-//   const QString strPassword(m_Application.arguments()[1]);
    if (!strPassword.isNull())
    {
-//       return 0;
       const int iPwdLength = strPassword.length();
       const int iPwdFileDescriptor = m_Application.arguments()[3].toInt();
       if (iPwdFileDescriptor >= 0)
@@ -64,12 +58,10 @@ int PasswordCallback::exec() const
          const int iWritten = ::write(iPwdFileDescriptor, strPassword.toLatin1().constData(), iPwdLength);
          if (iWritten == iPwdLength)
          {
-//            ::syslog(LOG_DEBUG|LOG_AUTH, "%s", "Password found");
             iRet = 0;
             return iRet;
          }
       }
    }
-//   abort();
    return(iRet);
 }

@@ -17,6 +17,10 @@
 #error "(The moc has changed too much.)"
 #endif
 
+#ifndef QT_INIT_METAOBJECT
+#  define QT_INIT_METAOBJECT
+#endif
+
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED

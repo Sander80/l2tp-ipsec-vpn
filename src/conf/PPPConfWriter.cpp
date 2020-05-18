@@ -75,7 +75,7 @@ void PPPConfWriter::fill()
    dictionary()->SetValue(REMOTENAME, pppSettings.remoteName().toLatin1().constData());
    dictionary()->SetValue(NAME, pppSettings.userName().toLatin1().constData());
 
-//   dictionary()->SetValue(PASSWORD, pppSettings.password().toLatin1().constData());
+   dictionary()->SetValue(PASSWORD, pppSettings.password().toLatin1().constData());
 
 
 
