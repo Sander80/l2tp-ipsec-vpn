@@ -12,6 +12,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: |
-    make
-  displayName: 'make'
+- checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+  clean: true  # whether to fetch clean each time
+- task: CmdLine@2
+  inputs:
+    script: 'sudo apt-get update'
+- task: CmdLine@2
+  inputs:
+    script: 'sudo apt-get install build-essential automake cmake libtool libltdl-dev libssl-dev libcrypto++-dev pkg-config libpcsclite-dev debhelper qt5-qmake qt5-default strongswan xl2tpd libctemplate3 libctemplate-dev libpam0g-dev libpcap0.8-dev'
+- task: CmdLine@2
+  inputs:
+    script: 'make'
