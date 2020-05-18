@@ -44,6 +44,7 @@ QMAKE_TARGET = L2tpIPsecVpn
 
 # build
 build: nbproject/qt-${CONF}.mk
+	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 
 # install
@@ -109,6 +110,7 @@ clean:
 	rm -rf ${TESTDIR}/*
 	rm -f nbproject/*.bash
 	rm -f *.mk
+	rm -f src/generated/*.cpp
 
 # clobber
 clobber:
