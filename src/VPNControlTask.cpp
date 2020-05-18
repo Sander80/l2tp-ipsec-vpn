@@ -255,31 +255,25 @@ void VPNControlTask::runConnect()
          {
             // if (!m_fIPSecConnectionAdded)
             //   exec();
-   QTextStream(stdout) << "test 1" << endl;
 
             // avoid need --listen before --initiate error
             sleep(3);
             runAndWait(VpnClientConnection::CMD_IPSEC_READY);
-   QTextStream(stdout) << "test 2" << endl;
 
             if (m_iReturnCode == 0)
             {
                runAndWait(VpnClientConnection::CMD_IPSEC_UP, m_strConnectionName);
 
-   QTextStream(stdout) << "test 3" << endl;
                if (m_iReturnCode == 0 && !m_fIPSecConnectionIsUp)
                {
                   m_iReturnCode = ERR_IPSEC_SA_NOT_ESTABLISHED;
                   emitErrorMsg("IPsec");
                }
 
-   QTextStream(stdout) << "test 4" << endl;
                if (m_iReturnCode == 0)
                {
                   sleep(3);
                   runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
-//sleep(20);
-   QTextStream(stdout) << "test 5" << endl;
                }
             }
          }
@@ -291,8 +285,6 @@ void VPNControlTask::runConnect()
       }
    }
    
-  //sleep(20); 
-   QTextStream(stdout) << "test 6" << endl;
 //   qDebug() << "VPNControlTask::runConnect() -> finished";
 }
 
@@ -313,7 +305,7 @@ void VPNControlTask::runDisconnect()
 
 void VPNControlTask::runAndWait(VpnClientConnection::Command iCommand, const QString strArguments)
 {
-   QTextStream(stdout) <<  "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ")" << endl;
+   //QTextStream(stdout) <<  "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ")" << endl;
 
    if (!m_pControlClient->start(iCommand, strArguments))
    {
@@ -322,11 +314,11 @@ void VPNControlTask::runAndWait(VpnClientConnection::Command iCommand, const QSt
       emitErrorMsg("");
    }
    else {
-      QTextStream(stdout) << "exec" << endl;
+      //QTextStream(stdout) << "exec" << endl;
       QTextStream(stdout) <<  exec() << endl;
    }
 
-   QTextStream(stdout) << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished" << endl;
+   //QTextStream(stdout) << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished" << endl;
 }
 
 qint64 VPNControlTask::readLogLine(char* data, qint64 iMaxSize)
