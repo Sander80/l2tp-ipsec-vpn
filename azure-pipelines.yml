@@ -14,10 +14,10 @@ pool:
 steps:
 - task: CmdLine@2
   inputs:
-    script: 'apt-get update'
+    script: 'sudo apt-get update'
 - task: CmdLine@2
   inputs:
-    script: 'apt-get install qt5-qmake qt5-default'
+    script: 'sudo apt-get install qt5-qmake qt5-default'
 - task: CmdLine@2
   inputs:
     script: 'make'
