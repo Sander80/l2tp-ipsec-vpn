@@ -1,2 +1,4 @@
 *.o
 dist/Release/L2tpIPsecVpn
+.qmake.stash
+qttmp-Release.mk
