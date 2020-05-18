@@ -1,3 +1,6 @@
+2.beta
+ - massive upgrade by Alexander Smirnov
+
 1.1.0
  - new feature you can now add ip addresses that should not be routed through
    VPN tunnel

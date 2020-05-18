@@ -3,7 +3,7 @@
 TEMPLATE = app
 DESTDIR = dist/Release
 TARGET = L2tpIPsecVpn
-VERSION = 1.1.0
+VERSION = 2.beta
 CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += release 
 PKGCONFIG +=

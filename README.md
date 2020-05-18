@@ -2,10 +2,12 @@
 
 Fork of https://github.com/gdm85/l2tp-ipsec-vpn by Werner Jaeger
 
-Many upgrades were made to get this code working on modern Linux distributions (including Ubuntu 20.04)
+Many upgrades were made to get this code working on modern Linux distributions (including Ubuntu 20.04) by Alexander Smirnov.
 - upgrade from QT4 to QT5
 - upgrade from OpenSSL 1.0 to OpenSSL 1.1
 - upgrade to pkexec calls for sudo password requests
+
+Special thankt to Vasily Shokov and Mikhalicin Peter.
 
 Some files were brought in by some other developer (the "generated files folder" sources, now they are a part of the distribution).
 The code does no longer depend on any gui-based build environment.
