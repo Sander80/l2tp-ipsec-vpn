@@ -54,7 +54,7 @@ install: nbproject/qt-${CONF}.mk
 	   $(QMAKE_TARGET) applySettings || true; \
 	   service rsyslog restart; \
 	fi
-	mkdir /etc/systemd/system/xl2tpd.service.d/
+	mkdir -p /etc/systemd/system/xl2tpd.service.d/
 	envsubst < resources/override.conf > /etc/systemd/system/xl2tpd.service.d/override.conf
 	systemctl daemon-reload
 
