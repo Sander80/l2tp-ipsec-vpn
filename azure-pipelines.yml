@@ -22,7 +22,7 @@ steps:
     script: 'sudo apt-get install build-essential automake cmake libtool libltdl-dev libssl-dev libcrypto++-dev pkg-config libpcsclite-dev debhelper qt5-qmake qt5-default strongswan xl2tpd libctemplate3 libctemplate-dev libpam0g-dev libpcap0.8-dev'
 - task: CmdLine@2
   inputs:
-    script: 'make'
+    script: 'make clean'
 - task: CmdLine@2
   inputs:
-    script: 'make clean'
+    script: 'make'
