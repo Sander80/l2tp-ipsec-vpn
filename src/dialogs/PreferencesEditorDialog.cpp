@@ -25,6 +25,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QCoreApplication>
+#include <QtGui/QRegExpValidator>
 
 #include "pkcs11/Pkcs11.h"
 #include "settings/Preferences.h"

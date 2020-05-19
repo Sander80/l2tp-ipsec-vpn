@@ -2,13 +2,9 @@
 dist/Release/L2tpIPsecVpn
 .qmake.stash
 qttmp-Release.mk
-src/generated/*.cpp
-src/generated/moc_predefs.h
+src/generated/*
 nbproject/qt-Release.mk
 l2tp-ipsec-vpn-daemon/dist/Release/L2tpIPsecVpnControlDaemon
 l2tp-ipsec-vpn-daemon/nbproject/qt-Release.mk
-l2tp-ipsec-vpn-daemon/src/generated/moc_VpnClientConnection.cpp
-l2tp-ipsec-vpn-daemon/src/generated/moc_VpnControlDaemon.cpp
-l2tp-ipsec-vpn-daemon/src/generated/moc_VpnControlDaemonApplication.cpp
-l2tp-ipsec-vpn-daemon/src/generated/moc_predefs.h
+l2tp-ipsec-vpn-daemon/src/generated/*
 

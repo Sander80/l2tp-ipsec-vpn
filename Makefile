@@ -48,6 +48,7 @@ QMAKE_TARGET = L2tpIPsecVpn
 build: nbproject/qt-${CONF}.mk binary
 
 binary:
+	make -f nbproject/qt-${CONF}.mk compiler_uic_make_all
 	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 	make -C l2tp-ipsec-vpn-daemon
@@ -119,7 +120,7 @@ clean:
 	rm -rf ${TESTDIR}/*
 	rm -f nbproject/*.bash
 	rm -f *.mk
-	rm -f src/generated/*.cpp
+	rm -f src/generated/*
 	rm -f nbproject/qt-Release.mk
 	make -C l2tp-ipsec-vpn-daemon clean
 
