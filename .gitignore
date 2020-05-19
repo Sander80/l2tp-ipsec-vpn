@@ -4,6 +4,7 @@ dist/Release/L2tpIPsecVpn
 qttmp-Release.mk
 src/generated/*.cpp
 src/generated/moc_predefs.h
+nbproject/qt-Release.mk
 l2tp-ipsec-vpn-daemon/dist/Release/L2tpIPsecVpnControlDaemon
 l2tp-ipsec-vpn-daemon/nbproject/qt-Release.mk
 l2tp-ipsec-vpn-daemon/src/generated/moc_VpnClientConnection.cpp

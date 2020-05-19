@@ -42,11 +42,12 @@ TESTDIR = build/TestFiles
 
 QMAKE_TARGET = L2tpIPsecVpn
 
-.PHONY: build
+.PHONY: binary
 
 # build
-#build: nbproject/qt-${CONF}.mk
-build:
+build: nbproject/qt-${CONF}.mk binary
+
+binary:
 	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 	make -C l2tp-ipsec-vpn-daemon
@@ -119,6 +120,7 @@ clean:
 	rm -f nbproject/*.bash
 	rm -f *.mk
 	rm -f src/generated/*.cpp
+	rm -f nbproject/qt-Release.mk
 	make -C l2tp-ipsec-vpn-daemon clean
 
 # clobber
@@ -209,7 +211,7 @@ nbproject/qt-Pkcs12Tests.mk: tests/Pkcs12Tests.pro
 	${QMAKE} -o qttmp-Pkcs12Tests.mk "BUILDDIR=${BUILDDIR}" "OBJECTS_DIR=${TESTDIR}" "DESTDIR=${TESTDIR}" tests/Pkcs12Tests.pro
 	mv -f qttmp-Pkcs12Tests.mk nbproject/qt-Pkcs12Tests.mk
 
-#nbproject/qt-${CONF}.mk: nbproject/qt-${CONF}.pro
-#	${QMAKE} -o qttmp-${CONF}.mk -after "OBJECTS_DIR=${BUILDDIR}" "DESTDIR=${DISTDIR}" nbproject/qt-${CONF}.pro
-#	mv -f qttmp-${CONF}.mk nbproject/qt-${CONF}.mk
+nbproject/qt-${CONF}.mk: nbproject/qt-${CONF}.pro
+	${QMAKE} -o qttmp-${CONF}.mk -after "OBJECTS_DIR=${BUILDDIR}" "DESTDIR=${DISTDIR}" nbproject/qt-${CONF}.pro
+	mv -f qttmp-${CONF}.mk nbproject/qt-${CONF}.mk
 
