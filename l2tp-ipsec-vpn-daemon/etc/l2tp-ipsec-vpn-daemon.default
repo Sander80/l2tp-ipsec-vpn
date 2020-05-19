@@ -1,0 +1,15 @@
+# $Id$
+#
+# Defaults for l2tp-ipsec-vpn-daemon initscript
+# sourced by /etc/init.d/l2tp-ipsec-vpn-daemon
+# installed at /etc/default/l2tp-ipsec-vpn-daemon
+
+#
+# This is a POSIX shell fragment
+#
+
+# Additional options that are passed to the Daemon.
+DAEMON_OPTS=""
+
+# Set RUN_CONTROL_DAEMON=no to prevent starting the daemon at boot time.
+RUN_CONTROL_DAEMON=yes

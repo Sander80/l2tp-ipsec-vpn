@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="80">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>src/VpnClientConnection.h</itemPath>
+      <itemPath>src/VpnClientConnectionInternal.h</itemPath>
+      <itemPath>src/VpnControlDaemon.h</itemPath>
+      <itemPath>src/VpnControlDaemonApplication.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>src/VpnClientConnection.cpp</itemPath>
+      <itemPath>src/VpnControlDaemon.cpp</itemPath>
+      <itemPath>src/VpnControlDaemonApplication.cpp</itemPath>
+      <itemPath>src/main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="4">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <qt>
+        <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
+        <target>L2tpIPsecVpnControlDaemon</target>
+        <version>0.9.9</version>
+        <modules>core network</modules>
+        <mocDir>src/generated</mocDir>
+        <rccDir>src/generated</rccDir>
+        <uiDir>src/generated</uiDir>
+        <defs>
+          <Elem>target.path = /usr/lib/l2tp-ipsec-vpn-daemon</Elem>
+          <Elem>INSTALLS += target</Elem>
+        </defs>
+      </qt>
+      <compileType>
+      </compileType>
+      <packaging>
+        <packType>Tar</packType>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-daemon-0.9.9.tar</output>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+      </packaging>
+    </conf>
+    <conf name="Release" type="4">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <qt>
+        <destdir>${CND_DISTDIR}/${CND_CONF}</destdir>
+        <target>L2tpIPsecVpnControlDaemon</target>
+        <version>0.9.9</version>
+        <buildMode>1</buildMode>
+        <modules>core network</modules>
+        <mocDir>src/generated</mocDir>
+        <rccDir>src/generated</rccDir>
+        <uiDir>src/generated</uiDir>
+        <defs>
+          <Elem>target.path = /usr/lib/l2tp-ipsec-vpn-daemon</Elem>
+          <Elem>INSTALLS += target</Elem>
+        </defs>
+      </qt>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <packaging>
+        <packType>Tar</packType>
+        <output>${CND_DISTDIR}/${CND_CONF}/package/l2tp-ipsec-vpn-daemon-0.9.9.tar</output>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+      </packaging>
+    </conf>
+  </confs>
+</configurationDescriptor>

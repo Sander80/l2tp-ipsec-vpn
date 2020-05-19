@@ -49,10 +49,12 @@ QMAKE_TARGET = L2tpIPsecVpn
 build:
 	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
+	make -C l2tp-ipsec-vpn-daemon
 
 # install
 install: nbproject/qt-${CONF}.mk
 	make -f nbproject/qt-${CONF}.mk QMAKE_TARGE=$(QMAKE_TARGET) install
+	make -C l2tp-ipsec-vpn-daemon install
 
 	@if [ "$${INSTALL_ROOT}" = "" ]; then \
 	   $(QMAKE_TARGET) applySettings || true; \
@@ -74,6 +76,7 @@ uninstall: nbproject/qt-${CONF}.mk
 	rm -f /etc/systemd/system/xl2tpd.service.d/override.conf
 	systemctl daemon-reload
 	rm -f /usr/share/polkit-1/actions/org.freedesktop.policykit.L2tpIPsecVpn.policy
+	make -C l2tp-ipsec-vpn-daemon uninstall
 
    # Remove all generated configuration files
 	@echo "Trying to delete all generated config files" >&2
@@ -116,6 +119,7 @@ clean:
 	rm -f nbproject/*.bash
 	rm -f *.mk
 	rm -f src/generated/*.cpp
+	make -C l2tp-ipsec-vpn-daemon clean
 
 # clobber
 clobber:
