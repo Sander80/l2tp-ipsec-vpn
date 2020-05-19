@@ -42,12 +42,12 @@ TESTDIR = build/TestFiles
 
 QMAKE_TARGET = L2tpIPsecVpn
 
-.PHONY: binary
+.PHONY: build
 
 # build
-build: nbproject/qt-${CONF}.mk binary
-
-binary:
+build: 
+	${QMAKE} -o qttmp-${CONF}.mk -after "OBJECTS_DIR=${BUILDDIR}" "DESTDIR=${DISTDIR}" nbproject/qt-${CONF}.pro
+	mv -f qttmp-${CONF}.mk nbproject/qt-${CONF}.mk
 	make -f nbproject/qt-${CONF}.mk compiler_uic_make_all
 	make -f nbproject/qt-${CONF}.mk mocables
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
