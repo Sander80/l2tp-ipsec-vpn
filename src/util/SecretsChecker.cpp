@@ -122,9 +122,8 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
          if (eapSettings.privateKeyPath() == strIdentity)
          {
             strSecret = eapSettings.privateKeyPassword();
-	    if (strSecret.isEmpty()) {
-		    strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password);
-
+            if (strSecret.isEmpty()) {
+                strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password);
             }
          }
          else if (pppSettings.userName() == strIdentity)
