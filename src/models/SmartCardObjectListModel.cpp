@@ -73,8 +73,11 @@ QVariant SmartCardObjectListModel::data(const QModelIndex& index, int iRole) con
             break;
 
          case Qt::UserRole + 1:
-            if (m_ObjectType == Certificate) 
-               ret = m_pSmartCardObjects->at(index.row())->certificateInfo().email();
+            if (m_ObjectType == Certificate) {
+                ret = m_pSmartCardObjects->at(index.row())->certificateInfo().cn();
+                // email() was used previously, but cn() standing for CommonName is the right user name in CertificateInfo
+                // https://doc.qt.io/qt-5/qsslcertificate.html
+            }
             break;
       }
     }
