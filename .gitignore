@@ -7,4 +7,4 @@ nbproject/qt-Release.mk
 l2tp-ipsec-vpn-daemon/dist/Release/L2tpIPsecVpnControlDaemon
 l2tp-ipsec-vpn-daemon/nbproject/qt-Release.mk
 l2tp-ipsec-vpn-daemon/src/generated/*
-
+*.swp
