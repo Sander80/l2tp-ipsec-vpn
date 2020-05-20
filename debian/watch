@@ -1,3 +1,0 @@
-# http://wiki.debian.org/debian/watch/
-version=3
-http://launchpad.net/l2tp-ipsec-vpn/+download https://launchpad.net/l2tp-ipsec-vpn/.*/l2tp-ipsec-vpn_(.+).tar.gz
