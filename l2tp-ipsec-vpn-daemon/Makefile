@@ -61,6 +61,7 @@ endif
 
 # build
 build: 
+	rm -f qttmp-${CONF}.mk
 	${QMAKE} -o qttmp-${CONF}.mk -after "OBJECTS_DIR=${BUILDDIR}" "DESTDIR=${DISTDIR}" nbproject/qt-${CONF}.pro
 	mv -f qttmp-${CONF}.mk nbproject/qt-${CONF}.mk
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/L2tpIPsecVpnControlDaemon
