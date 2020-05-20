@@ -42,8 +42,8 @@ private:
    PasswordCallback(const PasswordCallback& orig);
    PasswordCallback& operator=(const PasswordCallback& orig);
 
-   //L2tpIPsecVpnApplication& m_Application;
-   QCoreApplication& m_Application;
+   L2tpIPsecVpnApplication& m_Application;
+   //QCoreApplication& m_Application;
 };
 
 #endif	/* PASSWORDCALLBACK_H */

@@ -37,9 +37,9 @@ PasswordCallback::PasswordCallback(L2tpIPsecVpnApplication& application) : m_App
 {
 }
 
-PasswordCallback::PasswordCallback(QCoreApplication& application) : m_Application(application)
-{
-}
+//PasswordCallback::PasswordCallback(QCoreApplication& application) : m_Application(application)
+//{
+//}
 
 PasswordCallback::~PasswordCallback()
 {

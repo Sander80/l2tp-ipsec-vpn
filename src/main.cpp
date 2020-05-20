@@ -60,19 +60,6 @@ int main(int iArgc, char* pcArgv[])
     checkDesktop();
 
    
-   if (mode == L2tpIPsecVpnApplication::PASSWORD_CALLBACK) {
-        L2tpIPsecVpnApplication app(iArgc, pcArgv, mode);
-        //QCoreApplication app(iArgc, pcArgv, mode);
-        app.setOrganizationName("WernerJaeger");
-        app.setOrganizationDomain("wejaeger.com");
-        app.setApplicationName("L2TP IPsec VPN Manager");
-
-        PasswordCallback callback(app);
-        int iRet = callback.exec(); 
-        return iRet;
-   }
-
-
    L2tpIPsecVpnApplication app(iArgc, pcArgv, mode);
 
    const QString strLocale(QLocale::system().name());
