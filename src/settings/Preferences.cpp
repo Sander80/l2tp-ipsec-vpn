@@ -31,8 +31,8 @@
 static const char* const EngineDefaultLibrary = "engine_pkcs11.dll";
 static const char* const PKCS11DefaultLibrary = "opensc-pkcs11.dll";
 #else
-static const char* const EngineDefaultLibrary = "/usr/lib/engines/engine_pkcs11.so";
-static const char* const PKCS11DefaultLibrary = "/usr/lib/opensc-pkcs11.so";
+static const char* const EngineDefaultLibrary = "/usr/lib/x86_64-linux-gnu/engines-1.1/pkcs11.so";
+static const char* const PKCS11DefaultLibrary = "/usr/lib/librtpkcs11ecp.so";
 #endif
 
 static const char* const DefaultEngineId = "pkcs11";
