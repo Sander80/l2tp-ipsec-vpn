@@ -12,6 +12,7 @@ openssl_conf = openssl_def
 
 [ openssl_def ]
 engines = engine_section
+ssl_conf = ssl_sect
 
 [ engine_section ]
 {{ENGINEID}} = {{ENGINEID}}_section
@@ -21,3 +22,9 @@ engine_id = {{ENGINEID}}
 dynamic_path = {{DYNAMICPATH}}
 MODULE_PATH = {{MODULEPATH}}
 init=0
+
+[ssl_sect]
+system_default = ssl_default_sect
+
+[ssl_default_sect]
+CipherString = DEFAULT:@SECLEVEL=1
