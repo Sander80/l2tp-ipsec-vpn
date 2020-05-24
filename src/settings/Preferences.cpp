@@ -43,6 +43,7 @@ static const QString OPENSSL = "OpenSSL";
 static const QString ENGINEPATH = PREFERENCES + '/' + OPENSSL + '/' + "enginePath";
 static const QString PKCS11PATH = PREFERENCES + '/' + OPENSSL + '/' + "pkcs11Path";
 static const QString ENGINEID = PREFERENCES + '/' + OPENSSL + '/' + "engineId";
+static const QString NOLOWERSEC = PREFERENCES + '/' + OPENSSL + '/' + "noLowerSec";
 
 Preferences::Preferences()
 {
@@ -73,6 +74,23 @@ bool OpenSSLSettings::setEnginePath(const QString& strEnginePath) const
 QString OpenSSLSettings::enginePath() const
 {
    return(qSettings()->value(ENGINEPATH, QFile(EngineDefaultLibrary).exists() ? EngineDefaultLibrary : "").toString());
+}
+
+bool OpenSSLSettings::noLowerSec() const
+{
+   return(qSettings()->value(NOLOWERSEC) == "#");
+}
+
+
+bool OpenSSLSettings::setNoLowerSec(const bool noLowerSec) const
+{
+    if (noLowerSec) { 
+        qSettings()->setValue(NOLOWERSEC, "#");
+    } else {
+        qSettings()->setValue(NOLOWERSEC, "");
+    }
+
+    return(true);
 }
 
 bool OpenSSLSettings::setPkcs11Path(const QString& strModulePath) const

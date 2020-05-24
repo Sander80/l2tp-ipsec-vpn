@@ -136,6 +136,26 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="3" column="0">
+        <widget class="QLabel" name="m_pLowerSecLabel">
+         <property name="text">
+          <string>Enable security level 1:</string>
+         </property>
+         <property name="buddy">
+          <cstring>m_pLowerSecFlag</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="m_pLowerSecFlag">
+         <property name="toolTip">
+          <string>Set the flag to enable lower security level</string>
+         </property>
+         <property name="whatsThis">
+          <string>Set the flag to enable lower security level</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
         <spacer name="m_pOpenSSLVerticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

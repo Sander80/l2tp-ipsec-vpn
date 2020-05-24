@@ -52,6 +52,8 @@ public:
    QString pkcs11Path() const;
    bool setEngineId(const QString& strEngineId) const;
    QString engineId() const;
+   bool setNoLowerSec(const bool noLowerSec) const;
+   bool noLowerSec() const;
 
 private:
    OpenSSLSettings() {}

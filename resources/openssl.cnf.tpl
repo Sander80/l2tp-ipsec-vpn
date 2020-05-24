@@ -27,4 +27,4 @@ init=0
 system_default = ssl_default_sect
 
 [ssl_default_sect]
-CipherString = DEFAULT:@SECLEVEL=1
+{{NOLOWERSEC}}CipherString = DEFAULT:@SECLEVEL=1

@@ -28,6 +28,7 @@
 static const char* const ENGINEID = "ENGINEID";
 static const char* const DYNAMICPATH = "DYNAMICPATH";
 static const char* const MODULEPATH = "MODULEPATH";
+static const char* const NOLOWERSEC = "NOLOWERSEC";
 
 OpensslConfWriter::OpensslConfWriter(const QString& strTemplateKey, const QString& strWriteTo) : AbstractConfWriter(strTemplateKey, strWriteTo)
 {
@@ -40,4 +41,9 @@ void OpensslConfWriter::fill()
    dictionary()->SetValue(ENGINEID, opensslSettings.engineId().toLatin1().constData());
    dictionary()->SetValue(DYNAMICPATH, opensslSettings.enginePath().toLatin1().constData());
    dictionary()->SetValue(MODULEPATH, opensslSettings.pkcs11Path().toLatin1().constData());
+   bool noLowerSec = opensslSettings.noLowerSec();
+   if (noLowerSec) 
+        dictionary()->SetValue(NOLOWERSEC, "#");
+   else
+        dictionary()->SetValue(NOLOWERSEC, "");
 }

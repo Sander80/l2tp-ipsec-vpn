@@ -140,6 +140,7 @@ void PreferencesEditorDialog::readSettings() const
    m_Widget.m_pEngineIDLineEdit->setText(settings.engineId());
    m_Widget.m_pEnginePathLineEdit->setText(settings.enginePath());
    m_Widget.m_pPkcs11PathLineEdit->setText(settings.pkcs11Path());
+   m_Widget.m_pLowerSecFlag->setChecked(!settings.noLowerSec());
 }
 
 bool PreferencesEditorDialog::writeSettings() const
@@ -149,6 +150,7 @@ bool PreferencesEditorDialog::writeSettings() const
    bool fRet(settings.setEngineId(m_Widget.m_pEngineIDLineEdit->text()));
    if (fRet) fRet = settings.setEnginePath(m_Widget.m_pEnginePathLineEdit->text());
    if (fRet) fRet = settings.setPkcs11Path(m_Widget.m_pPkcs11PathLineEdit->text());
+   if (fRet) fRet = settings.setNoLowerSec(!m_Widget.m_pLowerSecFlag->isChecked());
 
    return(fRet);
 }
