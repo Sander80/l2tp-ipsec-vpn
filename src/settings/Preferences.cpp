@@ -78,7 +78,7 @@ QString OpenSSLSettings::enginePath() const
 
 bool OpenSSLSettings::noLowerSec() const
 {
-   return(qSettings()->value(NOLOWERSEC) == "#");
+   return(qSettings()->value(NOLOWERSEC, "#") == "#");
 }
 
 
