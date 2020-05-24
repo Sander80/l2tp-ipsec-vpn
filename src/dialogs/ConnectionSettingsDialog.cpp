@@ -121,8 +121,10 @@ bool ConnectionSettingsDialog::writeSettings() const
 void ConnectionSettingsDialog::onEapProperties()const
 {
    EapSettingsDialog eapSettings(m_strConnectionName);
-   if (eapSettings.exec() == QDialog::Accepted)
-      readSettings();
+   if (eapSettings.exec() == QDialog::Accepted) {
+       const ConnectionSettings settings;
+       m_Widget.m_pPppUserNameEdit->setText(PppSettings(settings.pppSettings(m_strConnectionName)).userName());
+   }
 }
 
 void ConnectionSettingsDialog::onPeerAuthentication() const
