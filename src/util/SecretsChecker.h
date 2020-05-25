@@ -40,7 +40,7 @@ public:
 
    bool check() const;
 
-   static QString getSecret(const QString& strIdentity);
+   static QString getSecret(const QString& strIdentity, bool* fok);
 
 private:
    SecretsChecker(const SecretsChecker& orig);

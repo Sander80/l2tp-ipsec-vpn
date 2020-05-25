@@ -106,10 +106,11 @@ bool SecretsChecker::check() const
  *
  * \return the secret or a QString::null if failed to retrieve.
  */
-QString SecretsChecker::getSecret(const QString& strIdentity)
+QString SecretsChecker::getSecret(const QString& strIdentity, bool* fok)
 {
    const ConnectionSettings settings;
    const int iConnections = settings.connections();
+   *fok=false;
 
    QString strSecret;
    if (iConnections > 0)
@@ -123,14 +124,17 @@ QString SecretsChecker::getSecret(const QString& strIdentity)
          {
             strSecret = eapSettings.privateKeyPassword();
             if (strSecret.isEmpty()) {
-                strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password);
-            }
+                strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password, "", fok);
+            } else {
+                *fok = true;
+	    }
          }
          else if (pppSettings.userName() == strIdentity)
          {
             strSecret = pppSettings.password();
             if (strSecret.isEmpty())
                strSecret = readSecret(pppSettings);
+            *fok = true;
          }
       }
    }

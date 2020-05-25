@@ -48,8 +48,9 @@ PasswordCallback::~PasswordCallback()
 int PasswordCallback::exec() const
 {
    int iRet(1);
-   const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str()));
-   if (!strPassword.isNull())
+   bool fok = true;
+   const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str(), &fok));
+   if (fok)
    {
       const int iPwdLength = strPassword.length();
       const int iPwdFileDescriptor = m_Application.arguments()[3].toInt();
