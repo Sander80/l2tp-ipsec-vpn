@@ -32,6 +32,10 @@
 #include "util/SecretsChecker.h"
 #include "L2tpIPsecVpnApplication.h"
 #include "PasswordCallback.h"
+#include <QtWidgets/QMessageBox>
+#include <QDir>
+#include <sys/types.h>
+#include <unistd.h>
 
 PasswordCallback::PasswordCallback(L2tpIPsecVpnApplication& application) : m_Application(application)
 {
@@ -47,22 +51,53 @@ PasswordCallback::~PasswordCallback()
 
 int PasswordCallback::exec() const
 {
-   int iRet(1);
-   bool fok = true;
-   const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str(), &fok));
-   if (fok)
-   {
-      const int iPwdLength = strPassword.length();
-      const int iPwdFileDescriptor = m_Application.arguments()[3].toInt();
-      if (iPwdFileDescriptor >= 0)
-      {
-         const int iWritten = ::write(iPwdFileDescriptor, strPassword.toLatin1().constData(), iPwdLength);
-         if (iWritten == iPwdLength)
-         {
-            iRet = 0;
-            return iRet;
-         }
-      }
-   }
-   return(iRet);
+    int iRet(1);
+    bool fok = true;
+    pid_t ppid = getppid();
+    char buf[16];
+    char buf_file[16];
+    std::string filename = QDir(QDir::tempPath()).absolutePath().toStdString() + "/l2tp-ipsec-vpn.tmp";
+    if (ppid) {
+        sprintf(buf, "%d", ppid);
+        FILE *fp = fopen(filename.c_str(), "r");
+        if (fp) {
+            if (fgets(buf_file,16,fp)) {
+                if (!strncmp(buf,buf_file,16)) {
+                    return 1;
+                    // same pid requesting for answer again, but we already hit cancel
+                }
+            }
+            fclose(fp);
+        }
+    }
+    
+    const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str(), &fok));
+
+    if (fok)
+    {
+        const int iPwdLength = strPassword.length();
+        const int iPwdFileDescriptor = m_Application.arguments()[3].toInt();
+        if (iPwdFileDescriptor >= 0)
+        {
+            const int iWritten = ::write(iPwdFileDescriptor, strPassword.toLatin1().constData(), iPwdLength);
+            if (iWritten == iPwdLength)
+            {
+                iRet = 0;
+                return iRet;
+            }
+        }
+        // we have an answer, let us remove the bad pid file
+        unlink(filename.c_str());
+    }
+    else {
+        // we hit cancel, should save bad pid
+        if (ppid) {
+            FILE *fpw = fopen(filename.c_str(), "w");
+            if (fpw) {
+                fputs(buf, fpw);
+                fclose(fpw);
+            }
+        }
+    }
+    return(iRet);
 }

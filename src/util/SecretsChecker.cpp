@@ -74,11 +74,9 @@ bool SecretsChecker::check() const
 
    const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
 
-//QTextStream(stdout) << "checkSec" << endl;
 
    if (!pppSettings.refuseEap())
    {
-//QTextStream(stdout) << "checkSec 1" << endl;
       const PppEapSettings eapSettings(pppSettings.eapSettings());
       if (eapSettings.privateKeyPassword().isEmpty())
       {
@@ -91,7 +89,6 @@ bool SecretsChecker::check() const
    }
    else
    {
-//QTextStream(stdout) << "checkSec 2" << endl;
       if (pppSettings.password().isEmpty())
          fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your password:"), pppSettings);
    }
@@ -149,19 +146,15 @@ bool SecretsChecker::promptAndStoreSecret(const QString& strTitle, const QString
    if (fOk)
    {
        const QString strPassword = QInputDialog::getText(NULL, strTitle, strLabel, QLineEdit::Password, "", &fOk);
-QTextStream(stdout) << "promt 1" << endl;
 
        if (fOk)
        {
-QTextStream(stdout) << "promt 2" + getSecretsFilePath(pppSettings) << endl;
           QFile secretsFile(getSecretsFilePath(pppSettings));
           fOk = secretsFile.open(QIODevice::WriteOnly);
           if (fOk)
           {
-QTextStream(stdout) << "promt 3" << endl;
              EncSecrets secrets(KEY, IV, strPassword.toLatin1().constData());
              fOk = secretsFile.write(secrets.getbuf()) != -1;
-QTextStream(stdout) << "promt 4: " << fOk << endl;
           }
        }
        MUTEX.unlock();
