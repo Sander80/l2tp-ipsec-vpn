@@ -191,9 +191,6 @@
           <Elem>startupmenu.path = /etc/xdg/autostart</Elem>
           <Elem>startupmenu.files = resources/L2tpIPsecVpn.desktop</Elem>
           <Elem>INSTALLS += startupmenu</Elem>
-          <Elem>preferencesmenu.path = /usr/share/applications</Elem>
-          <Elem>preferencesmenu.files = resources/L2TP-Ipsec-VPN-Manager.desktop</Elem>
-          <Elem>INSTALLS += preferencesmenu</Elem>
           <Elem>networkmenu.path=/usr/share/applications</Elem>
           <Elem>networkmenu.files = resources/L2tpIPsecVpn-Applet.desktop</Elem>
           <Elem>INSTALLS += networkmenu</Elem>
@@ -790,9 +787,6 @@
           <Elem>startupmenu.path = /etc/xdg/autostart</Elem>
           <Elem>startupmenu.files = resources/L2tpIPsecVpn.desktop</Elem>
           <Elem>INSTALLS += startupmenu</Elem>
-          <Elem>preferencesmenu.path = /usr/share/applications</Elem>
-          <Elem>preferencesmenu.files = resources/L2TP-Ipsec-VPN-Manager.desktop</Elem>
-          <Elem>INSTALLS += preferencesmenu</Elem>
           <Elem>networkmenu.path=/usr/share/applications</Elem>
           <Elem>networkmenu.files = resources/L2tpIPsecVpn-Applet.desktop</Elem>
           <Elem>INSTALLS += networkmenu</Elem>
