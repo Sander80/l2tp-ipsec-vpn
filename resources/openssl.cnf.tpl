@@ -8,11 +8,12 @@
 #
 # WARNING! All changes made in this file will be lost!
 #
+
 openssl_conf = openssl_def
 
 [ openssl_def ]
 engines = engine_section
-ssl_conf = ssl_sect
+{{NOLOWERSEC}}ssl_conf = ssl_sect
 
 [ engine_section ]
 {{ENGINEID}} = {{ENGINEID}}_section
@@ -23,8 +24,8 @@ dynamic_path = {{DYNAMICPATH}}
 MODULE_PATH = {{MODULEPATH}}
 init=0
 
-[ssl_sect]
-system_default = ssl_default_sect
+{{NOLOWERSEC}}[ssl_sect]
+{{NOLOWERSEC}}system_default = ssl_default_sect
 
-[ssl_default_sect]
+{{NOLOWERSEC}}[ssl_default_sect]
 {{NOLOWERSEC}}CipherString = DEFAULT:@SECLEVEL=1
