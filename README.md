@@ -6,11 +6,11 @@ Many upgrades were made to get this code working on modern Linux distributions (
 - upgrade from QT4 to QT5
 - upgrade from OpenSSL 1.0 to OpenSSL 1.1
 - upgrade to pkexec calls for sudo password requests
+- the code does no longer depend on any gui-based build environment
+- option to decrease security level to 1 (in case your server does not support level 2 which is default in Ubuntu 20.04)
+- no more storing password in temporary files in case it is not saved in the configuration
 
-Special thankt to Vasily Shokov and Mikhalicin Peter.
-
-Some files were brought in by some other developer (the "generated files folder" sources, now they are a part of the distribution).
-The code does no longer depend on any gui-based build environment.
+Special thanks to Vasily Shokov and Mikhalicin Peter.
 
 To get the code working, you need some libraries
 
