@@ -51,7 +51,7 @@ L2tpIPsecVpnApplication::L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPL
 {
 
    setOrganizationName("WernerJaeger");
-   setOrganizationDomain("wejaeger.com");
+   setOrganizationDomain("sander.su");
    setApplicationName(APPLICATIONNAME);
    setApplicationVersion("2.beta");
    setObjectName("L2tpIPsecVpn");
