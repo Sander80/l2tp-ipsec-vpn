@@ -30,8 +30,8 @@
 #include "ConfWriter.h"
 #include "L2tpConfWriter.h"
 
-static const char* const YES = "yes";
-static const char* const NO = "no";
+static const char* const ANSWER_YES = "yes";
+static const char* const ANSWER_NO = "no";
 static const char* const REDIALTIMEOUTLINE = "redial timeout = %u";
 static const char* const REDIALATTEMPTSLINE = "max redials = %u";
 
@@ -72,16 +72,16 @@ void L2tpConfWriter::fill()
          pLacSection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
 
          pLacSection->SetValue(PPPOPTFILE, ConfWriter::fileName(ConfWriter::PPP, strName).toLatin1().constData());
-         pLacSection->SetValue(LENGTHBIT, l2tpSetting.lengthBit() ? YES : NO);
+         pLacSection->SetValue(LENGTHBIT, l2tpSetting.lengthBit() ? ANSWER_YES : ANSWER_NO);
 
          if (l2tpSetting.redial())
          {
-            pLacSection->SetValue(REDIAL, YES);
+            pLacSection->SetValue(REDIAL, ANSWER_YES);
             pLacSection->SetFormattedValue(REDIALTIMEOUT, REDIALTIMEOUTLINE, l2tpSetting.redialTimeout());
             pLacSection->SetFormattedValue(REDIALATTEMPTS, REDIALATTEMPTSLINE, l2tpSetting.redialAttempts());
          }
          else
-            pLacSection->SetValue(REDIAL, NO);
+            pLacSection->SetValue(REDIAL, ANSWER_NO);
       }
       else
          addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
