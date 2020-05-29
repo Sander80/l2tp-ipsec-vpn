@@ -31,6 +31,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "GlobalFunctions.h"
+#include <stdlib.h>
+#include <QDir>
+#include <QMessageBox>
+#include <pwd.h>
+#include <stdio.h>
 
 static QString HOSTNAMEPATTERN("([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}");
 static QString IPV4PATTERN("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
@@ -83,12 +88,17 @@ QByteArray fileName2ByteArray(const QString& strFileName)
 
 void showHelp(const QString& strFragment)
 {
-    QProcess process;
-    process.setProgram("pkexec");
-    if (strFragment.isNull()) 
-        process.setArguments({"--user", "sander", "L2tpIPsecVpn", "showHelp"});
-    else
-        process.setArguments({"--user", "sander", "L2tpIPsecVpn", "showHelp", strFragment.toStdString().c_str()});
-    qint64 pid;
-    process.startDetached(&pid);
+     const char* buf = getenv("PKEXEC_UID");
+     unsigned int uid = 0;
+     sscanf(buf,"%d",&uid);
+     if (uid) {
+         struct passwd *pw = getpwuid (uid);
+         if (pw)
+         {
+            const QString strProgram(QString("pkexec --user ") + 
+                pw->pw_name +
+                " L2tpIPsecVpn showHelp" + (!strFragment.isNull() ? QString(" ") + strFragment : ""));
+            QProcess::startDetached(strProgram);
+        }
+    }
 }
