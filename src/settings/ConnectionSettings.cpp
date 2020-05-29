@@ -40,6 +40,9 @@ static unsigned char const IV[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
 
 static const char* const VALIDNAMEPATTERN = "^[a-zA-Z][0-9a-zA-Z\\-\\._]{0,29}$";
 
+const QString ROUTES = "Routes";
+const QString NOROUTES = "NoRoutes";
+
 /** Arrays*/
 static const QString CONNECTIONS = "Connections";
 
