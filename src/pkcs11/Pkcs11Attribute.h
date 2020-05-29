@@ -144,6 +144,7 @@ class Pkcs11Attlist
 public:
    Pkcs11Attlist() { init(); }
    explicit Pkcs11Attlist(const Pkcs11Attlist& attrList);
+   Pkcs11Attlist& operator = (const Pkcs11Attlist& attrList);
    explicit Pkcs11Attlist(const Pkcs11Attribute& attr)
    {
       init();
