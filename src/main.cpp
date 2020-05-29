@@ -73,7 +73,7 @@ int main(int iArgc, char* pcArgv[])
 
    int iRet(0);
 
-   if (app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR || app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER || app.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS || app.mode() == L2tpIPsecVpnApplication::DELETEALLCONFFILES || app.mode() == L2tpIPsecVpnApplication::PASSWORD_CALLBACK || app.mode() == L2tpIPsecVpnApplication::SHOWHELP || !app.isRunning())
+   if (app.mode() != L2tpIPsecVpnApplication::CONNECTION_MANAGER || !app.isRunning())
    {
       Q_INIT_RESOURCE(L2tpIPsecVpn);
 
