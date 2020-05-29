@@ -58,7 +58,7 @@ void EapSettingsDialog::onUseCertificateRadioButtonToggled(bool fChecked)
 {
    PppEapSettings eapSettings(ConnectionSettings().pppSettings(m_strConnectionName).eapSettings());
 
-   if ((!fChecked && eapSettings.useSmartCard()) || (fChecked && !eapSettings.useSmartCard()))
+   if (fChecked != eapSettings.useSmartCard())
    {
       m_Widget.m_pCertificateEdit->setText(eapSettings.certificatePath());
       m_Widget.m_pPrivateKeyEdit->setText(eapSettings.privateKeyPath());
