@@ -69,8 +69,8 @@ EncSecrets::EncSecrets(const char* pcB64buf)
    // Allocates enough amount of memory to be used by the buffer.
    m_iBufferSize = ::strlen(pcB64buf);
 
-   m_pcB64buf = static_cast<unsigned char*>(::malloc(m_iBufferSize + 1));
-
+   m_pcB64buf = new unsigned char[m_iBufferSize + 2];
+   
    for(int i = 0; i < m_iBufferSize; i++)
       m_pcB64buf[i] = pcB64buf[i];
 
@@ -80,7 +80,7 @@ EncSecrets::EncSecrets(const char* pcB64buf)
 EncSecrets::~EncSecrets()
 {
    ::bzero(m_pcB64buf, m_iBufferSize);
-   ::free(m_pcB64buf);
+   delete[](m_pcB64buf);
 }
 
 /**
