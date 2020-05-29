@@ -79,11 +79,6 @@ QByteArray fileName2ByteArray(const QString& strFileName)
 #endif
 }
 
-const char* string2FileName(const QString& strFileNme)
-{
-   return(fileName2ByteArray(strFileNme).constData());
-}
-
 void showHelp(const QString& strFragment)
 {
 

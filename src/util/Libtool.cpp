@@ -55,7 +55,7 @@ lt_dlhandle Libtool::init(const QString& strLibraryFilePath)
    lt_dlhandle pModuleHandle(NULL);
 
    if (::lt_dlinit() == 0 && !strLibraryFilePath.isEmpty())
-      pModuleHandle = ::lt_dlopen(::string2FileName(strLibraryFilePath));
+      pModuleHandle = ::lt_dlopen(::fileName2ByteArray(strLibraryFilePath).constData());
 
    return(pModuleHandle);
 }

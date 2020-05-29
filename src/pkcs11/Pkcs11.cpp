@@ -340,7 +340,7 @@ bool Pkcs11::loadLibrary(const QString& strFilePath, bool fSilent)
       throw ErrorEx("PKCS11 library filename empty");
    }
 
-   m_pLoadedModuleHandle = ::lt_dlopen(::string2FileName(strFilePath));
+   m_pLoadedModuleHandle = ::lt_dlopen(::fileName2ByteArray(strFilePath).constData());
    if (m_pLoadedModuleHandle == NULL)
    {
       if (fSilent)
