@@ -107,11 +107,11 @@ void NetworkInterfaceMonitor::run()
          m_Interfaces = NetworkInterface::pointToPointInterfaces();
 
          ssize_t iLen;
-         char acBuffer[1024];
+         struct nlmsghdr acBuffer[64];
 
          while (m_iSocket != -1)
          {
-            struct nlmsghdr* pNetLinkMessageHeader = reinterpret_cast<struct nlmsghdr*>(acBuffer);
+            struct nlmsghdr* pNetLinkMessageHeader = acBuffer;
             if ((iLen = ::recv(m_iSocket, pNetLinkMessageHeader, sizeof(acBuffer), 0)) > 0)
             {
                // outer loop: loops thru all the NETLINK headers
@@ -141,7 +141,7 @@ void NetworkInterfaceMonitor::run()
                   }
                }
 //               qDebug() << "Netlink message DONE";
-               pNetLinkMessageHeader = reinterpret_cast<struct nlmsghdr*>(acBuffer);
+               pNetLinkMessageHeader = acBuffer;
             }
 //            else
 //               qDebug() << "recv returned" << iLen;
