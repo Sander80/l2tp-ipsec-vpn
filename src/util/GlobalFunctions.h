@@ -39,6 +39,7 @@ const QRegExp& hostNameListValidationRE();
 
 QString utf82QString(const void* vpValue, unsigned long ulLen);
 QByteArray fileName2ByteArray(const QString& strFileName);
+QString usedName();
 void showHelp(const QString& strFragment = QString::null);
 
 #endif	/* GLOBALFUNCTIONS_H */

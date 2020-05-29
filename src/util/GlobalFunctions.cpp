@@ -86,19 +86,27 @@ QByteArray fileName2ByteArray(const QString& strFileName)
 #endif
 }
 
+QString userName()
+{
+    const char* buf = getenv("PKEXEC_UID");
+    unsigned int uid = 0;
+    sscanf(buf,"%d",&uid);
+    if (uid) {
+        struct passwd *pw = getpwuid (uid);
+        if (pw)
+        {
+            return pw->pw_name;
+        }
+    }
+    return QString();
+}
+
+
 void showHelp(const QString& strFragment)
 {
-     const char* buf = getenv("PKEXEC_UID");
-     unsigned int uid = 0;
-     sscanf(buf,"%d",&uid);
-     if (uid) {
-         struct passwd *pw = getpwuid (uid);
-         if (pw)
-         {
-            const QString strProgram(QString("pkexec --user ") + 
-                pw->pw_name +
-                " L2tpIPsecVpn showHelp" + (!strFragment.isNull() ? QString(" ") + strFragment : ""));
-            QProcess::startDetached(strProgram);
-        }
+    QString localUserName = userName();
+    if (!localUserName.isEmpty()) {
+        const QString strProgram(QString("pkexec --user ") + localUserName + " L2tpIPsecVpn showHelp" + (!strFragment.isNull() ? QString(" ") + strFragment : ""));
+        QProcess::startDetached(strProgram);
     }
 }
