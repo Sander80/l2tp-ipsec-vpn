@@ -120,36 +120,28 @@ void AbstractConfWriter::save()
 
          if (fOk)
          {
-//            if (outFile.exists())
-//               fOk = outFile.copy(fileName() + "." + QDateTime::currentDateTime().toString("yyyyMMddhhmmss").toLatin1().constData() + ".~");
+           if (outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+           {
+              switch (m_Type)
+              {
+                 case EXECUTABLE:
+                    outFile.setPermissions(outFile.permissions() | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+                    break;
 
-            if (fOk)
-            {
-               if (outFile.open(QIODevice::WriteOnly | QIODevice::Text))
-               {
-                  switch (m_Type)
-                  {
-                     case EXECUTABLE:
-                        outFile.setPermissions(outFile.permissions() | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
-                        break;
+                 case SECRET:
+                    outFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
+                    break;
 
-                     case SECRET:
-                        outFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
-                        break;
+                 default:
+                    ;
+              }
 
-                     default:
-                        ;
-                  }
-
-                  QTextStream out(&outFile);
-                  out << strOut.data();
-                  outFile.close();
-               }
-               else
-                  addErrorMsg(QObject::tr("Failed to open configuration file '%1'.").arg(outFile.fileName()));
-            }
-            else
-               addErrorMsg(QObject::tr("Failed to backup file '%1'.").arg(outFile.fileName()));
+              QTextStream out(&outFile);
+              out << strOut.data();
+              outFile.close();
+           }
+           else
+              addErrorMsg(QObject::tr("Failed to open configuration file '%1'.").arg(outFile.fileName()));
          }
          else
             addErrorMsg(QObject::tr("Failed to create directory '%1'.").arg(outFileDir.absolutePath()));

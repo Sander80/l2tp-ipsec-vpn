@@ -37,8 +37,8 @@ class PppSettings;
 class PppEapSettings;
 class PppIpSettings;
 
-static const QString ROUTES = "Routes";
-static const QString NOROUTES = "NoRoutes";
+extern const QString ROUTES;
+extern const QString NOROUTES;
 
 class ConnectionSettings : public Settings
 {

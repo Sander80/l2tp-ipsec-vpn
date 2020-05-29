@@ -65,6 +65,7 @@ int PasswordCallback::exec() const
         if (fp) {
             if (fgets(buf_file,16,fp)) {
                 if (!strncmp(buf,buf_file,16)) {
+                    fclose(fp);
                     return 1;
                     // same pid requesting for answer again, but we already hit cancel
                 }

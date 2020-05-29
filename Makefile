@@ -54,6 +54,12 @@ build:
 	make -f nbproject/qt-${CONF}.mk ${DISTDIR}/$(QMAKE_TARGET)
 	make -C l2tp-ipsec-vpn-daemon
 
+pvs:
+	make clean
+	pvs-studio-analyzer trace -- make build
+	pvs-studio-analyzer analyze -o temp/l2tp.log
+	plog-converter -d V1042 -a GA:1,2 -t tasklist -o temp/l2tp.tasks temp/l2tp.log
+
 # install
 install: nbproject/qt-${CONF}.mk
 	make -f nbproject/qt-${CONF}.mk QMAKE_TARGE=$(QMAKE_TARGET) install
