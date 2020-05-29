@@ -27,7 +27,9 @@
 #include <QRegExp>
 #include <QUrl>
 #include <QDesktopServices>
-
+#include <QProcess>
+#include <sys/types.h>
+#include <unistd.h>
 #include "GlobalFunctions.h"
 
 static QString HOSTNAMEPATTERN("([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}");
@@ -81,11 +83,12 @@ QByteArray fileName2ByteArray(const QString& strFileName)
 
 void showHelp(const QString& strFragment)
 {
-
-   QUrl url("http://wiki.l2tpipsecvpn.tuxfamily.org/wiki/index.php?title=Main_Page");
-
-   if (!strFragment.isNull())
-      url.setFragment(strFragment);
-
-   QDesktopServices::openUrl(url);
+    QProcess process;
+    process.setProgram("pkexec");
+    if (strFragment.isNull()) 
+        process.setArguments({"--user", "sander", "L2tpIPsecVpn", "showHelp"});
+    else
+        process.setArguments({"--user", "sander", "L2tpIPsecVpn", "showHelp", strFragment.toStdString().c_str()});
+    qint64 pid;
+    process.startDetached(&pid);
 }

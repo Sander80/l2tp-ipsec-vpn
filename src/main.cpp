@@ -33,6 +33,8 @@
 #include <QDir>
 #include <QFileInfoList>
 #include <QFile>
+#include <QDesktopServices>
+#include <QUrl>
 #include <QTranslator>
 
 #include "pkcs11/Pkcs11.h"
@@ -71,8 +73,7 @@ int main(int iArgc, char* pcArgv[])
 
    int iRet(0);
 
-
-   if (app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR || app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER || app.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS || app.mode() == L2tpIPsecVpnApplication::DELETEALLCONFFILES || app.mode() == L2tpIPsecVpnApplication::PASSWORD_CALLBACK || !app.isRunning())
+   if (app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR || app.mode() == L2tpIPsecVpnApplication::CONNECTION_EDITOR_STARTER || app.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS || app.mode() == L2tpIPsecVpnApplication::DELETEALLCONFFILES || app.mode() == L2tpIPsecVpnApplication::PASSWORD_CALLBACK || app.mode() == L2tpIPsecVpnApplication::SHOWHELP || !app.isRunning())
    {
       Q_INIT_RESOURCE(L2tpIPsecVpn);
 
@@ -117,6 +118,13 @@ int main(int iArgc, char* pcArgv[])
             case L2tpIPsecVpnApplication::DELETEALLCONFFILES:
                iRet = ConnectionSettings().deleteAllConfFiles();
                break;
+
+            case L2tpIPsecVpnApplication::SHOWHELP:
+            {
+                QUrl url("http://wiki.l2tpipsecvpn.tuxfamily.org/wiki/index.php?title=Main_Page" + L2tpIPsecVpnApplication::helpSection);
+                QDesktopServices::openUrl(url);
+                break;
+            }
 
             default:
                Q_ASSERT(false);

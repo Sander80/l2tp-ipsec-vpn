@@ -42,10 +42,13 @@ static const char* const CONNECTIONEDITOR_CMD_SWITCH("connectionEditor");
 static const char* const START_CONNECTIONEDITOR_CMD_SWITCH("startConnectionEditor");
 static const char* const APPLYSETTINGS_CMD_SWITCH("applySettings");
 static const char* const DELETALLCONFFILES_CMD_SWITCH("deleteAllConfFiles");
+static const char* const SHOWHELP_CMD_SWITCH("showHelp");
 static QString const DESKTOP_SESSION_CMD_SWITCH("desktopSession");
 static QString const APPLICATIONNAME("L2TP IPsec VPN Manager");
 static QString const CONNECTION_ADDED_MSG_PREFIX("connectionAdded:");
 static QString const CONNECTION_REMOVED_MSG_PREFIX("connectionRemoved:");
+
+QString L2tpIPsecVpnApplication::helpSection("");
 
 L2tpIPsecVpnApplication::L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPLICATIONMODE appMode) : QApplication(iArgc, ppArgv, appMode != PASSWORD_CALLBACK && appMode != APPLYSETTINGS && appMode != DELETEALLCONFFILES), m_Mode(appMode), m_pProcess(new QProcess), m_pLocalPeer(new LocalPeer())
 {
@@ -177,6 +180,12 @@ L2tpIPsecVpnApplication::APPLICATIONMODE L2tpIPsecVpnApplication::parseCmdLine(i
       else if (::strcmp(pcArgv[i], DELETALLCONFFILES_CMD_SWITCH) == 0)
       {
          retMode = DELETEALLCONFFILES;
+         fDone = true;
+      }
+      else if (::strcmp(pcArgv[i], SHOWHELP_CMD_SWITCH) == 0)
+      {
+         retMode = SHOWHELP;
+         if (i + 1 < iArgc) L2tpIPsecVpnApplication::helpSection = QString("#") + pcArgv[i + 1];
          fDone = true;
       }
       else if (pcArgv[i][0] == '-')

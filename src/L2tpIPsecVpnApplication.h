@@ -45,6 +45,7 @@ public:
       CONNECTION_EDITOR_STARTER,
       APPLYSETTINGS,
       DELETEALLCONFFILES,
+      SHOWHELP,
       PASSWORD_CALLBACK
    };
 
@@ -63,6 +64,7 @@ public:
 
    static APPLICATIONMODE parseCmdLine(int& iArgc, char** ppArgv);
    static QString getGrahicalSUCmdLine();
+   static QString helpSection;
 
 signals:
    void connectionAdded(const QString& strConnectionName);
