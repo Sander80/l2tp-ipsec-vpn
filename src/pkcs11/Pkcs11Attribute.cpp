@@ -103,17 +103,18 @@ Pkcs11Attlist::Pkcs11Attlist(const Pkcs11Attlist &attrList)
    {
 		void* p = ::malloc(m_pAttributes[ul].ulValueLen);
 		ErrorEx::checkOutOfMemory(p);
+		if (!p) return;
 		::memcpy(p, m_pAttributes[ul].pValue, m_pAttributes[ul].ulValueLen);
 	}
 }
 
 Pkcs11Attlist::~Pkcs11Attlist()
 {
+	if (!m_pAttributes) return;
 	for (unsigned long ul = 0; ul < m_ulAttrLen; ul++)
 		::free(m_pAttributes[ul].pValue);
 
-	if (m_pAttributes)
-		::free(m_pAttributes);
+	::free(m_pAttributes);
 }
 
 void Pkcs11Attlist::addAttribute(const Pkcs11Attribute& attribute)
@@ -121,14 +122,17 @@ void Pkcs11Attlist::addAttribute(const Pkcs11Attribute& attribute)
 	if (m_ulAttrLen == m_ulAllocLen)
    {
 		m_ulAllocLen = m_ulAllocLen ? m_ulAllocLen * 2 : 16;
-		m_pAttributes = reinterpret_cast<CK_ATTRIBUTE*>(::realloc(m_pAttributes, m_ulAllocLen * sizeof(*m_pAttributes)));
-		ErrorEx::checkOutOfMemory(m_pAttributes);
+		CK_ATTRIBUTE* m_pAttributes_temp = reinterpret_cast<CK_ATTRIBUTE*>(::realloc(m_pAttributes, m_ulAllocLen * sizeof(*m_pAttributes)));
+		ErrorEx::checkOutOfMemory(m_pAttributes_temp);
+        if (!m_pAttributes_temp) return;
+        m_pAttributes = m_pAttributes_temp;
 	}
 
 	CK_ATTRIBUTE* const pAttr = m_pAttributes + m_ulAttrLen++;
 	pAttr->type = attribute.m_Attr.type;
 	pAttr->ulValueLen = attribute.m_Attr.ulValueLen;
 	pAttr->pValue = ::malloc(pAttr->ulValueLen);
+    if (!pAttr->pValue) return;
 	::memcpy(pAttr->pValue, attribute.m_Attr.pValue, pAttr->ulValueLen);
 }
 
