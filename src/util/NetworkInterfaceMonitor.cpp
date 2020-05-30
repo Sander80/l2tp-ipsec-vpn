@@ -126,7 +126,7 @@ void NetworkInterfaceMonitor::run()
                         break;
 
                      case NLMSG_ERROR:
-//                        qDebug() << "Netlink message ERROR";
+                        qDebug() << "Netlink message ERROR";
                         fStop = true;
                         break;
 
@@ -165,7 +165,6 @@ void NetworkInterfaceMonitor::stop()
       ::shutdown(m_iSocket, SHUT_RDWR);
       m_iSocket = -1;
       terminate();
-      wait();
    }
 }
 
