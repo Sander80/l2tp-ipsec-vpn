@@ -48,41 +48,41 @@ static const QRegExp REVALIDHOSTNAMELIST("^" + HOSTNAMEPATTERN + "(?:\\s+" + HOS
 
 const QRegExp& ipv4ValidationRE()
 {
-   return(REVALIDIPV4);
+    return(REVALIDIPV4);
 }
 
 const QRegExp& ipValidationRE()
 {
-   return(REVALIDIP);
+    return(REVALIDIP);
 }
 
 const QRegExp& gatewayValidationRE()
 {
-   return(REVALIDGATEWAY);
+    return(REVALIDGATEWAY);
 }
 
 const QRegExp& hostNameValidationRE()
 {
-   return(REVALIDHOSTNAME);
+    return(REVALIDHOSTNAME);
 }
 
 const QRegExp& hostNameListValidationRE()
 {
-   return(REVALIDHOSTNAMELIST);
+    return(REVALIDHOSTNAMELIST);
 }
 
 QString utf82QString(const void* vpValue, unsigned long ulLen)
 {
-   const QString str(QString::fromUtf8(static_cast<const char*>(vpValue), ulLen));
-   return(str.trimmed());
+    const QString str(QString::fromUtf8(static_cast<const char*>(vpValue), ulLen));
+    return(str.trimmed());
 }
 
 QByteArray fileName2ByteArray(const QString& strFileName)
 {
 #ifdef WIN32
-	return(strFileName.toLocal8Bit());
+    return(strFileName.toLocal8Bit());
 #else
-	return(strFileName.toUtf8());
+    return(strFileName.toUtf8());
 #endif
 }
 

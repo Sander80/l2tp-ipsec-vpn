@@ -34,65 +34,65 @@
 #include "SmartCardInsertWaitTask.h"
 
 SmartCardState::SmartCardState(QObject* pParent) : QObject(pParent), m_pWaitTask(NULL),
-   m_pMsgBox(new QMessageBox(QMessageBox::Information, QCoreApplication::instance()->applicationName(), QObject::tr("Please insert your smart card ..."), QMessageBox::Cancel))
+    m_pMsgBox(new QMessageBox(QMessageBox::Information, QCoreApplication::instance()->applicationName(), QObject::tr("Please insert your smart card ..."), QMessageBox::Cancel))
 {
 }
 
 SmartCardState::~SmartCardState()
 {
-   if (m_pWaitTask)
-      delete m_pWaitTask;
+    if (m_pWaitTask)
+        delete m_pWaitTask;
 
-   if (m_pMsgBox)
-      delete m_pMsgBox;
+    if (m_pMsgBox)
+        delete m_pMsgBox;
 }
 
 int SmartCardState::readersAvailable()
 {
-   int iRet(0);
+    int iRet(0);
 
-   if (Pkcs11::loaded())
-   {
-      Pkcs11 p11;
+    if (Pkcs11::loaded())
+    {
+        Pkcs11 p11;
 
-      iRet = p11.slotsAvailable();
-   }
+        iRet = p11.slotsAvailable();
+    }
 
-   return(iRet);
+    return(iRet);
 }
 
 int SmartCardState::waitForCardPresent()
 {
-   int iRet(0);
+    int iRet(0);
 
-   if (Pkcs11::loaded())
-   {
-      Pkcs11 p11;
-      iRet = p11.slotList().count();
+    if (Pkcs11::loaded())
+    {
+        Pkcs11 p11;
+        iRet = p11.slotList().count();
 
-      if (iRet == 0)
-      {
-         if (m_pWaitTask != NULL)
-            delete m_pWaitTask;
+        if (iRet == 0)
+        {
+            if (m_pWaitTask != NULL)
+                delete m_pWaitTask;
 
-         m_pWaitTask = new SmartCardInsertWaitTask(p11);
-         connect(m_pWaitTask, SIGNAL(finished()), this, SLOT(waitTaskFinished()));
-         m_pWaitTask->start();
+            m_pWaitTask = new SmartCardInsertWaitTask(p11);
+            connect(m_pWaitTask, SIGNAL(finished()), this, SLOT(waitTaskFinished()));
+            m_pWaitTask->start();
 
-         iRet = m_pMsgBox->exec();
-         if(iRet == QMessageBox::Cancel)
-         {
-            m_pWaitTask->stop();
-            iRet = 0;
-         }
-      }
-   }
+            iRet = m_pMsgBox->exec();
+            if(iRet == QMessageBox::Cancel)
+            {
+                m_pWaitTask->stop();
+                iRet = 0;
+            }
+        }
+    }
 
-   return(iRet);
+    return(iRet);
 }
 
 void SmartCardState::waitTaskFinished()
 {
-   const int iRet(m_pWaitTask->result());
-   m_pMsgBox->done(iRet);
+    const int iRet(m_pWaitTask->result());
+    m_pMsgBox->done(iRet);
 }

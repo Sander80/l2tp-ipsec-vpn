@@ -30,13 +30,13 @@
 
 AdvancedSettingsDialog::AdvancedSettingsDialog(const QString& strConnectionName, QWidget* pParent) : QDialog(pParent), m_strConnectionName(strConnectionName)
 {
-   m_Widget.setupUi(this);
+    m_Widget.setupUi(this);
 
-   setWindowTitle(strConnectionName + tr(" - Advanced Settings"));
+    setWindowTitle(strConnectionName + tr(" - Advanced Settings"));
 
-   connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
+    connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
 
-   readSettings();
+    readSettings();
 }
 
 AdvancedSettingsDialog::~AdvancedSettingsDialog()
@@ -45,33 +45,33 @@ AdvancedSettingsDialog::~AdvancedSettingsDialog()
 
 void AdvancedSettingsDialog::onHelpRequested() const
 {
-   ::showHelp("Configure_advanced_settings");
+    ::showHelp("Configure_advanced_settings");
 }
 
 void AdvancedSettingsDialog::accept()
 {
-   writeSettings();
-   QDialog::accept();
+    writeSettings();
+    QDialog::accept();
 }
 
 void AdvancedSettingsDialog::readSettings() const
 {
-   const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
+    const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
 
-   m_Widget.m_pAllowBSDCompressionCheckBox->setChecked(!pppSettings.noBSDCompression());
-   m_Widget.m_pAllowDeflateCompressionCheckBox->setChecked(!pppSettings.noDeflate());
-   m_Widget.m_pUseTCPHeaderCompressionCheckBox->setChecked(!pppSettings.noVj());
-   m_Widget.m_pSendEchoCheckBox->setChecked(pppSettings.lcpEchoInterval() != 0);
+    m_Widget.m_pAllowBSDCompressionCheckBox->setChecked(!pppSettings.noBSDCompression());
+    m_Widget.m_pAllowDeflateCompressionCheckBox->setChecked(!pppSettings.noDeflate());
+    m_Widget.m_pUseTCPHeaderCompressionCheckBox->setChecked(!pppSettings.noVj());
+    m_Widget.m_pSendEchoCheckBox->setChecked(pppSettings.lcpEchoInterval() != 0);
 }
 
 bool AdvancedSettingsDialog::writeSettings() const
 {
-   const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
+    const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
 
-   bool fRet = pppSettings.setNoBSDCompression(!m_Widget.m_pAllowBSDCompressionCheckBox->isChecked());
-   if (fRet) fRet = pppSettings.setNoDeflate(!m_Widget.m_pAllowDeflateCompressionCheckBox->isChecked());
-   if (fRet) fRet = pppSettings.setNoVj(!m_Widget.m_pUseTCPHeaderCompressionCheckBox->isChecked());
-   if (fRet) fRet = pppSettings.setLcpEchoInterval(m_Widget.m_pSendEchoCheckBox->isChecked() ? -1 : 0);
+    bool fRet = pppSettings.setNoBSDCompression(!m_Widget.m_pAllowBSDCompressionCheckBox->isChecked());
+    if (fRet) fRet = pppSettings.setNoDeflate(!m_Widget.m_pAllowDeflateCompressionCheckBox->isChecked());
+    if (fRet) fRet = pppSettings.setNoVj(!m_Widget.m_pUseTCPHeaderCompressionCheckBox->isChecked());
+    if (fRet) fRet = pppSettings.setLcpEchoInterval(m_Widget.m_pSendEchoCheckBox->isChecked() ? -1 : 0);
 
-   return(fRet);
+    return(fRet);
 }

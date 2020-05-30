@@ -31,25 +31,25 @@
 
 class LockedFile : public QFile
 {
-public:
-   enum LockMode { NoLock = 0, ReadLock, WriteLock };
+    public:
+        enum LockMode { NoLock = 0, ReadLock, WriteLock };
 
-   LockedFile();
-   LockedFile(const QString &strName);
-   virtual ~LockedFile();
+        LockedFile();
+        LockedFile(const QString &strName);
+        virtual ~LockedFile();
 
-   bool open(OpenMode mode);
+        bool open(OpenMode mode);
 
-   bool lock(LockMode mode, bool fBlock = true);
-   bool unlock();
-   bool isLocked() const;
-   LockMode lockMode() const;
+        bool lock(LockMode mode, bool fBlock = true);
+        bool unlock();
+        bool isLocked() const;
+        LockMode lockMode() const;
 
-private:
-   LockedFile(const LockedFile& orig);
-   LockedFile& operator=(const LockedFile& orig);
+    private:
+        LockedFile(const LockedFile& orig);
+        LockedFile& operator=(const LockedFile& orig);
 
-   LockMode m_LockMode;
+        LockMode m_LockMode;
 };
 
 #endif	/* LOCKEDFILE_H */

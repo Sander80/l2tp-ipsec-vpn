@@ -33,27 +33,27 @@ class ConnectionState;
 
 class ConnectionInformationDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit ConnectionInformationDialog(QWidget* pParent = 0);
-   virtual ~ConnectionInformationDialog();
+    public:
+        explicit ConnectionInformationDialog(QWidget* pParent = 0);
+        virtual ~ConnectionInformationDialog();
 
-   void clearLog() { m_Widget.m_pTextEdit->clear(); }
-   void appendLogPlainText(const char* pcText);
-   void appendLogColorText(const QColor& color, const char* pcText);
+        void clearLog() { m_Widget.m_pTextEdit->clear(); }
+        void appendLogPlainText(const char* pcText);
+        void appendLogColorText(const QColor& color, const char* pcText);
 
-public slots:
-   void onConectionStateChanged(const ConnectionState* pNewState, const QString& strConnectionName);
+        public slots:
+            void onConectionStateChanged(const ConnectionState* pNewState, const QString& strConnectionName);
 
-private slots:
-   void onStatistics() const;
+        private slots:
+            void onStatistics() const;
 
-private:
-   ConnectionInformationDialog(const ConnectionInformationDialog& orig);
-   ConnectionInformationDialog& operator=(const ConnectionInformationDialog& orig);
+    private:
+        ConnectionInformationDialog(const ConnectionInformationDialog& orig);
+        ConnectionInformationDialog& operator=(const ConnectionInformationDialog& orig);
 
-   Ui::ConnectionInformationDialog m_Widget;
+        Ui::ConnectionInformationDialog m_Widget;
 };
 
 #endif	/* CONNECTIONINFORMATIONDIALOG_H */

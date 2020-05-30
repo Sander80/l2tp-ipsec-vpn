@@ -42,136 +42,136 @@ LockedFile::LockedFile(const QString& strName) : QFile(strName), m_LockMode(NoLo
 
 LockedFile::~LockedFile()
 {
-   if (isOpen())
-      unlock();
+    if (isOpen())
+        unlock();
 }
 
 bool LockedFile::open(OpenMode mode)
 {
-   bool fRet(false);
+    bool fRet(false);
 
-   if (!(mode & QIODevice::Truncate))
-   {
-      fRet = QFile::open(mode);
+    if (!(mode & QIODevice::Truncate))
+    {
+        fRet = QFile::open(mode);
 
-      const char* const pcSudoUid(::getenv("SUDO_UID"));
-      if (fRet && pcSudoUid)
-      {
-         const uid_t uiUid(::strtol(pcSudoUid, NULL, 0));
-         if (uiUid)
-         {
-            const char* const pcSudoGid(::getenv("SUDO_GID"));
-            const uid_t uiGid(pcSudoGid ? ::strtol(pcSudoGid, NULL, 0) : 0);
-
-            if (::chown(fileName().toUtf8().constData(), uiUid, uiGid) != 0)
+        const char* const pcSudoUid(::getenv("SUDO_UID"));
+        if (fRet && pcSudoUid)
+        {
+            const uid_t uiUid(::strtol(pcSudoUid, NULL, 0));
+            if (uiUid)
             {
-               fRet = false;
-               qWarning("LockedFile::open(): Failed to chown() lock file with uid %d and gid %d.", uiUid, uiGid);
-            }
-         }
-      }
-      else if (fRet)
-      {
-         const char* const pcUser(::getenv("USER"));
-         if (pcUser)
-         {
-            const struct passwd* pPasswd(::getpwnam(pcUser));
-            if (pPasswd)
-            {
-               if (::chown(fileName().toUtf8().constData(), pPasswd->pw_uid, pPasswd->pw_gid) != 0)
-               {
-                  fRet = false;
-                  qWarning("LockedFile::open(): Failed to chown() lock file with uid %d and gid %d.", pPasswd->pw_uid, pPasswd->pw_gid);
-               }
-            }
-         }
-      }
-   }
-   else
-      qWarning("LockedFile::open(): Truncate mode not allowed.");
+                const char* const pcSudoGid(::getenv("SUDO_GID"));
+                const uid_t uiGid(pcSudoGid ? ::strtol(pcSudoGid, NULL, 0) : 0);
 
-   return(fRet);
+                if (::chown(fileName().toUtf8().constData(), uiUid, uiGid) != 0)
+                {
+                    fRet = false;
+                    qWarning("LockedFile::open(): Failed to chown() lock file with uid %d and gid %d.", uiUid, uiGid);
+                }
+            }
+        }
+        else if (fRet)
+        {
+            const char* const pcUser(::getenv("USER"));
+            if (pcUser)
+            {
+                const struct passwd* pPasswd(::getpwnam(pcUser));
+                if (pPasswd)
+                {
+                    if (::chown(fileName().toUtf8().constData(), pPasswd->pw_uid, pPasswd->pw_gid) != 0)
+                    {
+                        fRet = false;
+                        qWarning("LockedFile::open(): Failed to chown() lock file with uid %d and gid %d.", pPasswd->pw_uid, pPasswd->pw_gid);
+                    }
+                }
+            }
+        }
+    }
+    else
+        qWarning("LockedFile::open(): Truncate mode not allowed.");
+
+    return(fRet);
 }
 
 bool LockedFile::lock(LockMode mode, bool fBlock)
 {
-   bool fRet(false);
+    bool fRet(false);
 
-   if (isOpen())
-   {
-      if (mode != NoLock)
-      {
-         if (mode != m_LockMode)
-         {
-            if (m_LockMode != NoLock)
-               unlock();
-
-            struct flock fl;
-            fl.l_whence = SEEK_SET;
-            fl.l_start = 0;
-            fl.l_len = 0;
-            fl.l_type = (mode == ReadLock) ? F_RDLCK : F_WRLCK;
-
-            if (::fcntl(handle(),  fBlock ? F_SETLKW : F_SETLK, &fl) != -1)
+    if (isOpen())
+    {
+        if (mode != NoLock)
+        {
+            if (mode != m_LockMode)
             {
-               m_LockMode = mode;
-               fRet = true;
+                if (m_LockMode != NoLock)
+                    unlock();
+
+                struct flock fl;
+                fl.l_whence = SEEK_SET;
+                fl.l_start = 0;
+                fl.l_len = 0;
+                fl.l_type = (mode == ReadLock) ? F_RDLCK : F_WRLCK;
+
+                if (::fcntl(handle(),  fBlock ? F_SETLKW : F_SETLK, &fl) != -1)
+                {
+                    m_LockMode = mode;
+                    fRet = true;
+                }
+                else
+                {
+                    if (errno != EINTR && errno != EAGAIN)
+                        qWarning("LockedFile::lock(): fcntl: %s", ::strerror(errno));
+                }
             }
             else
-            {
-               if (errno != EINTR && errno != EAGAIN)
-                  qWarning("LockedFile::lock(): fcntl: %s", ::strerror(errno));
-            }
-         }
-         else
-            fRet = true;
-      }
-      else
-         fRet = unlock();
-   }
-   else
-      qWarning("LockedFile::lock(): file is not opened");
+                fRet = true;
+        }
+        else
+            fRet = unlock();
+    }
+    else
+        qWarning("LockedFile::lock(): file is not opened");
 
-   return(fRet);
+    return(fRet);
 }
 
 bool LockedFile::unlock()
 {
-   bool fRet(false);
+    bool fRet(false);
 
-   if (isOpen())
-   {
-      if (isLocked())
-      {
-         struct flock fl;
-         fl.l_whence = SEEK_SET;
-         fl.l_start = 0;
-         fl.l_len = 0;
-         fl.l_type = F_UNLCK;
+    if (isOpen())
+    {
+        if (isLocked())
+        {
+            struct flock fl;
+            fl.l_whence = SEEK_SET;
+            fl.l_start = 0;
+            fl.l_len = 0;
+            fl.l_type = F_UNLCK;
 
-         if (::fcntl(handle(), F_SETLKW, &fl) != -1)
-         {
-            m_LockMode = NoLock;
+            if (::fcntl(handle(), F_SETLKW, &fl) != -1)
+            {
+                m_LockMode = NoLock;
+                fRet = true;
+            }
+            else
+                qWarning("LockedFile::lock(): fcntl: %s", ::strerror(errno));
+        }
+        else
             fRet = true;
-         }
-         else
-            qWarning("LockedFile::lock(): fcntl: %s", ::strerror(errno));
-      }
-      else
-         fRet = true;
-   }
-   else
-      qWarning("LockedFile::unlock(): file is not opened");
+    }
+    else
+        qWarning("LockedFile::unlock(): file is not opened");
 
-   return(fRet);
+    return(fRet);
 }
 
 bool LockedFile::isLocked() const
 {
-   return(m_LockMode != NoLock);
+    return(m_LockMode != NoLock);
 }
 
 LockedFile::LockMode LockedFile::lockMode() const
 {
-   return(m_LockMode);
+    return(m_LockMode);
 }

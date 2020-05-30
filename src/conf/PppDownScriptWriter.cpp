@@ -48,38 +48,38 @@ PppDownScriptWriter::PppDownScriptWriter(const QString& strTemplateKey, const QS
 
 void PppDownScriptWriter::fill()
 {
-   dictionary()->SetValue(OBJECTNAME, QCoreApplication::instance()->objectName().toLatin1().constData());
-   dictionary()->SetValue(GETIPSECINFOLIB, ConfWriter::fileName(ConfWriter::GETIPSECINFO).toLatin1().constData());
+    dictionary()->SetValue(OBJECTNAME, QCoreApplication::instance()->objectName().toLatin1().constData());
+    dictionary()->SetValue(GETIPSECINFOLIB, ConfWriter::fileName(ConfWriter::GETIPSECINFO).toLatin1().constData());
 
-   const ConnectionSettings settings;
-   const int iConnections = settings.connections();
+    const ConnectionSettings settings;
+    const int iConnections = settings.connections();
 
-   for (int i = 0; i < iConnections; i++)
-   {
-      const QString strName(settings.connection(i));
+    for (int i = 0; i < iConnections; i++)
+    {
+        const QString strName(settings.connection(i));
 
-      if (!strName.isEmpty())
-      {
-         const PppIpSettings ipSetting(settings.pppSettings(strName).ipSettings());
-         ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
+        if (!strName.isEmpty())
+        {
+            const PppIpSettings ipSetting(settings.pppSettings(strName).ipSettings());
+            ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
 
-         pConnection->SetValue(IPPARAM, (QCoreApplication::instance()->objectName() + "-" + strName).toLatin1().constData());
-         pConnection->SetValue(GATEWAY, settings.ipsecSettings(strName).gateway().toLatin1().constData());
+            pConnection->SetValue(IPPARAM, (QCoreApplication::instance()->objectName() + "-" + strName).toLatin1().constData());
+            pConnection->SetValue(GATEWAY, settings.ipsecSettings(strName).gateway().toLatin1().constData());
 
-         if (ipSetting.useDefaultGateway())
-         {
-            pConnection->AddSectionDictionary(DEFAULT_GATEWAY_SECTION);
-
-            const int iNoRoutes(ipSetting.noRoutes());
-            for (int j = 0; j < iNoRoutes; j++)
+            if (ipSetting.useDefaultGateway())
             {
-               ctemplate::TemplateDictionary* const pNoRoute(pConnection->AddSectionDictionary(NOROUTE_SECTION));
-               pNoRoute->SetValue(IPADDRESS, ipSetting.noRouteAddress(j).toLatin1().constData());
-               pNoRoute->SetValue(IPNETMASK, ipSetting.noRouteNetmask(j).toLatin1().constData());
+                pConnection->AddSectionDictionary(DEFAULT_GATEWAY_SECTION);
+
+                const int iNoRoutes(ipSetting.noRoutes());
+                for (int j = 0; j < iNoRoutes; j++)
+                {
+                    ctemplate::TemplateDictionary* const pNoRoute(pConnection->AddSectionDictionary(NOROUTE_SECTION));
+                    pNoRoute->SetValue(IPADDRESS, ipSetting.noRouteAddress(j).toLatin1().constData());
+                    pNoRoute->SetValue(IPNETMASK, ipSetting.noRouteNetmask(j).toLatin1().constData());
+                }
             }
-         }
-      }
-      else
-         addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
-   }
+        }
+        else
+            addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
+    }
 }

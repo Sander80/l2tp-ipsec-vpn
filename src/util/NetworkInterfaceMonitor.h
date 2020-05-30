@@ -34,47 +34,47 @@
 
 class NetworkInterfaceMonitor : public QThread
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   virtual ~NetworkInterfaceMonitor();
+    public:
+        virtual ~NetworkInterfaceMonitor();
 
-   void run();
-   void stop();
-   void subscribe(const QObject* pSubscriber);
-   void unSubscribe(const QObject* pSubscriber);
+        void run();
+        void stop();
+        void subscribe(const QObject* pSubscriber);
+        void unSubscribe(const QObject* pSubscriber);
 
-   static NetworkInterfaceMonitor* instance();
+        static NetworkInterfaceMonitor* instance();
 
-protected:
-   NetworkInterfaceMonitor();
+    protected:
+        NetworkInterfaceMonitor();
 
 signals:
-   void routeAdded(NetworkInterface interface, unsigned int iPriority) const;
-   void routeDeleted(NetworkInterface interface, unsigned int iPriority) const;
-   void addressAdded(NetworkInterface interface) const;
-   void ptpInterfaceIsDeleted(NetworkInterface interface) const;
+        void routeAdded(NetworkInterface interface, unsigned int iPriority) const;
+        void routeDeleted(NetworkInterface interface, unsigned int iPriority) const;
+        void addressAdded(NetworkInterface interface) const;
+        void ptpInterfaceIsDeleted(NetworkInterface interface) const;
 
-private:
-   NetworkInterfaceMonitor(const NetworkInterfaceMonitor& orig);
-   NetworkInterfaceMonitor& operator=(const NetworkInterfaceMonitor& orig);
+    private:
+        NetworkInterfaceMonitor(const NetworkInterfaceMonitor& orig);
+        NetworkInterfaceMonitor& operator=(const NetworkInterfaceMonitor& orig);
 
-   void handleRoutingMessage(struct nlmsghdr* pNetLinkMessageHeader);
-   void handleInterfaceInfoMessage(struct nlmsghdr* pNetLinkMessageHeader);
-   void handleAddressMessage(struct nlmsghdr* pNetLinkMessageHeader);
-   static int getInterfaceFlagByIndex(const int iIndex);
+        void handleRoutingMessage(struct nlmsghdr* pNetLinkMessageHeader);
+        void handleInterfaceInfoMessage(struct nlmsghdr* pNetLinkMessageHeader);
+        void handleAddressMessage(struct nlmsghdr* pNetLinkMessageHeader);
+        static int getInterfaceFlagByIndex(const int iIndex);
 
 
 #ifndef QT_NO_DEBUG
-   static void debugFlags(unsigned iFlags);
+        static void debugFlags(unsigned iFlags);
 #endif
 
-   QList<const QObject*> m_Subscribers;
-   int m_iSocket;
+        QList<const QObject*> m_Subscribers;
+        int m_iSocket;
 
-   NetworkInterface::InterfaceMap m_Interfaces;
+        NetworkInterface::InterfaceMap m_Interfaces;
 
-   static NetworkInterfaceMonitor* m_pInstance;
+        static NetworkInterfaceMonitor* m_pInstance;
 };
 
 #endif	/* NETWORKINTERFACEMONITOR_H */

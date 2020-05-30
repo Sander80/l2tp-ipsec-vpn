@@ -40,202 +40,202 @@ static const QString PEMEXT(".pem");
 
 CertificateImportDialog::CertificateImportDialog(QWidget* pParent) : QDialog(pParent), m_pPkcs12(NULL)
 {
-   m_Widget.setupUi(this);
+    m_Widget.setupUi(this);
 
-   QPalette infoTextEditPalette(m_Widget.m_pInfoTextEdit->palette());
-   infoTextEditPalette.setColor(QPalette::Base, palette().color(backgroundRole()));
-   m_Widget.m_pInfoTextEdit->setPalette(infoTextEditPalette);
+    QPalette infoTextEditPalette(m_Widget.m_pInfoTextEdit->palette());
+    infoTextEditPalette.setColor(QPalette::Base, palette().color(backgroundRole()));
+    m_Widget.m_pInfoTextEdit->setPalette(infoTextEditPalette);
 
-   onValidateInput();
+    onValidateInput();
 
-   connect(m_Widget.m_pBrowseFilePushButton, SIGNAL(clicked()), SLOT(onCertificate()));
-   connect(m_Widget.m_pPrivateKeyPassphraseEdit, SIGNAL(textChanged(const QString &)), SLOT(onValidateInput()));
-   connect(m_Widget.m_pVerifyPrivateKeyPassphraseEdit, SIGNAL(textChanged(const QString &)), SLOT(onValidateInput()));
-   connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
+    connect(m_Widget.m_pBrowseFilePushButton, SIGNAL(clicked()), SLOT(onCertificate()));
+    connect(m_Widget.m_pPrivateKeyPassphraseEdit, SIGNAL(textChanged(const QString &)), SLOT(onValidateInput()));
+    connect(m_Widget.m_pVerifyPrivateKeyPassphraseEdit, SIGNAL(textChanged(const QString &)), SLOT(onValidateInput()));
+    connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
 }
 
 CertificateImportDialog::~CertificateImportDialog()
 {
-   if (m_pPkcs12)
-      delete m_pPkcs12;
+    if (m_pPkcs12)
+        delete m_pPkcs12;
 }
 
 const QString CertificateImportDialog::certificateFilename() const
 {
-   return(isInputValid() ? m_pPkcs12->cn() + PEMEXT : QString::null);
+    return(isInputValid() ? m_pPkcs12->cn() + PEMEXT : QString::null);
 }
 
 const QString CertificateImportDialog::certificateFilenamePath() const
 {
-   return(IPSECCERTSPATH + certificateFilename());
+    return(IPSECCERTSPATH + certificateFilename());
 }
 
 const QString CertificateImportDialog::privateKeyFilename() const
 {
-   return(isInputValid() ? m_pPkcs12->cn() + PEMEXT : QString::null);
+    return(isInputValid() ? m_pPkcs12->cn() + PEMEXT : QString::null);
 }
 
 const QString CertificateImportDialog::privateKeyFilenamePath() const
 {
-   return(IPSECPRIVATEKEYPATH + privateKeyFilename());
+    return(IPSECPRIVATEKEYPATH + privateKeyFilename());
 }
 
 const QString CertificateImportDialog::caCertificateFilename() const
 {
-   return(isInputValid() ? m_pPkcs12->issuer() + PEMEXT : QString::null);
+    return(isInputValid() ? m_pPkcs12->issuer() + PEMEXT : QString::null);
 }
 
 const QString CertificateImportDialog::caCertificateFilenamePath() const
 {
-   return(IPSECCACERTSPATH + caCertificateFilename());
+    return(IPSECCACERTSPATH + caCertificateFilename());
 }
 
 const QString CertificateImportDialog::passPhrase() const
 {
-   return(m_Widget.m_pPrivateKeyPassphraseEdit->text());
+    return(m_Widget.m_pPrivateKeyPassphraseEdit->text());
 }
 
 bool CertificateImportDialog::useAsAuthenticationCertificate() const
 {
-   return(m_Widget.m_pSeletAutomaticallyCheckBox->isChecked());
+    return(m_Widget.m_pSeletAutomaticallyCheckBox->isChecked());
 }
 
 void CertificateImportDialog::onHelpRequested() const
 {
-   ::showHelp("Import_PKCS12_certificate_bundle");
+    ::showHelp("Import_PKCS12_certificate_bundle");
 }
 
 void CertificateImportDialog::onCertificate()
 {
-   const QString strPkcs12FileNamePath(QFileDialog::getOpenFileName(this, tr("Choose the PKCS12 certificate bundle to import ..."), QDir::homePath(), tr("PKSC#12 certificate bundle (*.p12 *.pfx)")));
+    const QString strPkcs12FileNamePath(QFileDialog::getOpenFileName(this, tr("Choose the PKCS12 certificate bundle to import ..."), QDir::homePath(), tr("PKSC#12 certificate bundle (*.p12 *.pfx)")));
 
-   if (!strPkcs12FileNamePath.isNull())
-   {
-      m_Widget.m_pFileEdit->setText(strPkcs12FileNamePath);
+    if (!strPkcs12FileNamePath.isNull())
+    {
+        m_Widget.m_pFileEdit->setText(strPkcs12FileNamePath);
 
-      bool fOk(true);
-      QString strPassphrase;
-      while (fOk && strPassphrase.isNull())
-         strPassphrase = QInputDialog::getText(this, tr("Passphrase Entry Dialog"), tr("Please enter the passphrase that was used to encrypt this certificate bundle:"), QLineEdit::Password, QString(), &fOk);
+        bool fOk(true);
+        QString strPassphrase;
+        while (fOk && strPassphrase.isNull())
+            strPassphrase = QInputDialog::getText(this, tr("Passphrase Entry Dialog"), tr("Please enter the passphrase that was used to encrypt this certificate bundle:"), QLineEdit::Password, QString(), &fOk);
 
-      if (fOk && !strPassphrase.isEmpty())
-      {
-         m_Widget.m_pInfoTextEdit->clear();
+        if (fOk && !strPassphrase.isEmpty())
+        {
+            m_Widget.m_pInfoTextEdit->clear();
 
-         if (m_pPkcs12)
-         {
-            delete m_pPkcs12;
-            m_pPkcs12 = NULL;
-         }
+            if (m_pPkcs12)
+            {
+                delete m_pPkcs12;
+                m_pPkcs12 = NULL;
+            }
 
-         m_pPkcs12 =  new Pkcs12(strPkcs12FileNamePath, strPassphrase);
+            m_pPkcs12 =  new Pkcs12(strPkcs12FileNamePath, strPassphrase);
 
-         if (m_pPkcs12->error().isNull())
-         {
-            m_Widget.m_pInfoTextEdit->insertHtml("<b>" + tr("Content:") + "</b><br>");
-            m_Widget.m_pInfoTextEdit->insertHtml("1 " + tr("certificate") + " " + m_pPkcs12->cn() + " " + tr("issued by") + " " + m_pPkcs12->issuer() + "<br>");
+            if (m_pPkcs12->error().isNull())
+            {
+                m_Widget.m_pInfoTextEdit->insertHtml("<b>" + tr("Content:") + "</b><br>");
+                m_Widget.m_pInfoTextEdit->insertHtml("1 " + tr("certificate") + " " + m_pPkcs12->cn() + " " + tr("issued by") + " " + m_pPkcs12->issuer() + "<br>");
 
-            if (m_pPkcs12->hasPrivateKey())
-               m_Widget.m_pInfoTextEdit->insertHtml("1 " + tr("private key") + "<br>");
+                if (m_pPkcs12->hasPrivateKey())
+                    m_Widget.m_pInfoTextEdit->insertHtml("1 " + tr("private key") + "<br>");
 
-            m_Widget.m_pInfoTextEdit->insertHtml(tr("%n root certificate(s)", "", m_pPkcs12->caCerts()));
+                m_Widget.m_pInfoTextEdit->insertHtml(tr("%n root certificate(s)", "", m_pPkcs12->caCerts()));
 
-            m_Widget.m_pPrivateKeyPassphraseEdit->setFocus();
-         }
-         else
-            showError();
-      }
-   }
+                m_Widget.m_pPrivateKeyPassphraseEdit->setFocus();
+            }
+            else
+                showError();
+        }
+    }
 
-   onValidateInput();
+    onValidateInput();
 }
 
 void CertificateImportDialog::onValidateInput() const
 {
-   if (isInputValid())
-      m_Widget.m_pButtonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-   else
-      m_Widget.m_pButtonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
+    if (isInputValid())
+        m_Widget.m_pButtonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    else
+        m_Widget.m_pButtonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
 }
 
 void CertificateImportDialog::accept()
 {
-   if (isInputValid())
-   {
-      if (writePems())
-         QDialog::accept();
-      else
-         showError();
-   }
+    if (isInputValid())
+    {
+        if (writePems())
+            QDialog::accept();
+        else
+            showError();
+    }
 }
 
 bool CertificateImportDialog::isInputValid() const
 {
-   const QString strPassphrase(m_Widget.m_pPrivateKeyPassphraseEdit->text());
-   const QString strVerifyPassphrase(m_Widget.m_pVerifyPrivateKeyPassphraseEdit->text());
+    const QString strPassphrase(m_Widget.m_pPrivateKeyPassphraseEdit->text());
+    const QString strVerifyPassphrase(m_Widget.m_pVerifyPrivateKeyPassphraseEdit->text());
 
-   bool fRet(m_pPkcs12 && m_pPkcs12->error().isNull() && !strPassphrase.isEmpty() && strPassphrase == strVerifyPassphrase);
+    bool fRet(m_pPkcs12 && m_pPkcs12->error().isNull() && !strPassphrase.isEmpty() && strPassphrase == strVerifyPassphrase);
 
-   return(fRet);
+    return(fRet);
 }
 
 bool CertificateImportDialog::writePems() const
 {
-   bool fRet(false);
+    bool fRet(false);
 
-   if (isInputValid())
-   {
-      if (checkIfFileExistAndConfirmOverwrite(certificateFilenamePath(), tr("certificate file")))
-         fRet = m_pPkcs12->cert2Pem(certificateFilenamePath());
-      else
-         fRet = true;
+    if (isInputValid())
+    {
+        if (checkIfFileExistAndConfirmOverwrite(certificateFilenamePath(), tr("certificate file")))
+            fRet = m_pPkcs12->cert2Pem(certificateFilenamePath());
+        else
+            fRet = true;
 
-      if (fRet)
-      {
-         if (checkIfFileExistAndConfirmOverwrite(privateKeyFilenamePath(), tr("private key file")))
-            fRet = m_pPkcs12->privateKey2Pem(privateKeyFilenamePath(), m_Widget.m_pPrivateKeyPassphraseEdit->text());
-      }
+        if (fRet)
+        {
+            if (checkIfFileExistAndConfirmOverwrite(privateKeyFilenamePath(), tr("private key file")))
+                fRet = m_pPkcs12->privateKey2Pem(privateKeyFilenamePath(), m_Widget.m_pPrivateKeyPassphraseEdit->text());
+        }
 
-      if (fRet && m_pPkcs12->caCerts() > 0)
-      {
-         if (checkIfFileExistAndConfirmOverwrite(caCertificateFilenamePath(), tr("root certificate file")))
-            fRet = (m_pPkcs12->caChain2Pem(caCertificateFilenamePath()) == m_pPkcs12->caCerts());
-      }
-   }
+        if (fRet && m_pPkcs12->caCerts() > 0)
+        {
+            if (checkIfFileExistAndConfirmOverwrite(caCertificateFilenamePath(), tr("root certificate file")))
+                fRet = (m_pPkcs12->caChain2Pem(caCertificateFilenamePath()) == m_pPkcs12->caCerts());
+        }
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 void CertificateImportDialog::showError()
 {
-   m_Widget.m_pInfoTextEdit->clear();
-   m_Widget.m_pInfoTextEdit->insertHtml("<b>" + tr("Error:") + "</b><br>");
-   m_Widget.m_pInfoTextEdit->insertHtml("<div style='color:red'>" + m_pPkcs12->error() + "</div>");
+    m_Widget.m_pInfoTextEdit->clear();
+    m_Widget.m_pInfoTextEdit->insertHtml("<b>" + tr("Error:") + "</b><br>");
+    m_Widget.m_pInfoTextEdit->insertHtml("<div style='color:red'>" + m_pPkcs12->error() + "</div>");
 }
 
 bool CertificateImportDialog::checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString& strType) const
 {
-   bool fRet(true);
+    bool fRet(true);
 
-   QDir dir(strFilenamePath);
-   const QFile file(strFilenamePath);
+    QDir dir(strFilenamePath);
+    const QFile file(strFilenamePath);
 
-   if (file.exists())
-   {
-      const QString strText(tr("A") + " " + strType + " " + "named" + " \"" + dir.dirName() + "\" " + tr("already exists.  Do you want to replace it?"));
-      dir.cdUp();
-      const QString strInformativeText(tr("The") + " " + strType + " " + tr("already exists in") + " \"" + dir.path() + "\" " + tr(". Replacing it will overwrite its contents."));
+    if (file.exists())
+    {
+        const QString strText(tr("A") + " " + strType + " " + "named" + " \"" + dir.dirName() + "\" " + tr("already exists.  Do you want to replace it?"));
+        dir.cdUp();
+        const QString strInformativeText(tr("The") + " " + strType + " " + tr("already exists in") + " \"" + dir.path() + "\" " + tr(". Replacing it will overwrite its contents."));
 
-      QMessageBox msgBox;
-      msgBox.setWindowTitle(tr("Importing certificates ..."));
-      msgBox.setText(strText);
-      msgBox.setInformativeText(strInformativeText);
-      msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-      msgBox.setDefaultButton(QMessageBox::No);
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Importing certificates ..."));
+        msgBox.setText(strText);
+        msgBox.setInformativeText(strInformativeText);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
 
-      if (msgBox.exec() != QMessageBox::Yes)
-         fRet = false;
-   }
+        if (msgBox.exec() != QMessageBox::Yes)
+            fRet = false;
+    }
 
-   return(fRet);
+    return(fRet);
 }

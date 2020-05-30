@@ -31,21 +31,21 @@ class VpnControlDaemon;
 
 class VpnControlDaemonApplication : public QCoreApplication
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   VpnControlDaemonApplication(int iArgc, char** ppArgv);
-   virtual ~VpnControlDaemonApplication();
+    public:
+        VpnControlDaemonApplication(int iArgc, char** ppArgv);
+        virtual ~VpnControlDaemonApplication();
 
-   int daemonize() const;
+        int daemonize() const;
 
-private:
-   VpnControlDaemonApplication(const VpnControlDaemonApplication& orig);
-   VpnControlDaemonApplication& operator=(const VpnControlDaemonApplication& orig);
+    private:
+        VpnControlDaemonApplication(const VpnControlDaemonApplication& orig);
+        VpnControlDaemonApplication& operator=(const VpnControlDaemonApplication& orig);
 
-   static bool createPidFile();
+        static bool createPidFile();
 
-   VpnControlDaemon* const m_pDaemon;
+        VpnControlDaemon* const m_pDaemon;
 };
 
 #endif	/* VPNCONTROLDAEMONAPPLICATION_H */

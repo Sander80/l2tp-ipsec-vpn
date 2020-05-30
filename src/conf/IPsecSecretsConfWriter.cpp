@@ -54,67 +54,67 @@ IPsecSecretsConfWriter::~IPsecSecretsConfWriter()
 
 void IPsecSecretsConfWriter::fill()
 {
-   const ConnectionSettings settings;
-   const int iConnections = settings.connections();
+    const ConnectionSettings settings;
+    const int iConnections = settings.connections();
 
-   for (int i = 0; i < iConnections; i++)
-   {
-      const QString strName(settings.connection(i));
+    for (int i = 0; i < iConnections; i++)
+    {
+        const QString strName(settings.connection(i));
 
-      if (!strName.isEmpty())
-      {
-         if (!settings.commonSettings(strName).disableIPSecEncryption())
-         {
-            ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
-
-            const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
-            const QString strGateway(ipsecSetting.gateway());
-
-            if (!strGateway.isEmpty())
+        if (!strName.isEmpty())
+        {
+            if (!settings.commonSettings(strName).disableIPSecEncryption())
             {
-               if (strGateway.at(0).isNumber())
-               {
-                  if (ipsecSetting.authBy() == AUTHBYRSASIG)
-                     pConnection->SetValue(INDICES, strGateway.toLatin1().constData());
-                  else
-                    
-                     pConnection->SetValue(INDICES, QString(strGateway).toLatin1().constData());
-//                     pConnection->SetValue(INDICES, QString(ANY + " " + strGateway).toLatin1().constData());
-               }
-               else
-               {
-                  if (ipsecSetting.authBy() == AUTHBYRSASIG)
-                     pConnection->SetValue(INDICES, QString("@" + strGateway).toLatin1().constData());
-                  else
-                   {
-		    QHostInfo info = QHostInfo::fromName(strGateway);
-		    if(info.error() == QHostInfo::NoError)
-		    {
-			if(!info.addresses().isEmpty())
-			{
+                ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
 
-                    	    pConnection->SetValue(INDICES, QString(info.addresses().first().toString()).toLatin1().constData());
+                const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
+                const QString strGateway(ipsecSetting.gateway());
+
+                if (!strGateway.isEmpty())
+                {
+                    if (strGateway.at(0).isNumber())
+                    {
+                        if (ipsecSetting.authBy() == AUTHBYRSASIG)
+                            pConnection->SetValue(INDICES, strGateway.toLatin1().constData());
+                        else
+
+                            pConnection->SetValue(INDICES, QString(strGateway).toLatin1().constData());
+                        //                     pConnection->SetValue(INDICES, QString(ANY + " " + strGateway).toLatin1().constData());
+                    }
+                    else
+                    {
+                        if (ipsecSetting.authBy() == AUTHBYRSASIG)
+                            pConnection->SetValue(INDICES, QString("@" + strGateway).toLatin1().constData());
+                        else
+                        {
+                            QHostInfo info = QHostInfo::fromName(strGateway);
+                            if(info.error() == QHostInfo::NoError)
+                            {
+                                if(!info.addresses().isEmpty())
+                                {
+
+                                    pConnection->SetValue(INDICES, QString(info.addresses().first().toString()).toLatin1().constData());
+                                }
+                            }
+                            //                     pConnection->SetValue(INDICES, QString(ANY + " " + strGateway).toLatin1().constData());
                         }
-                   }
-//                     pConnection->SetValue(INDICES, QString(ANY + " " + strGateway).toLatin1().constData());
-        	}
-               }
-            }
+                    }
+                }
 
-            if (ipsecSetting.authBy() == AUTHBYRSASIG)
-            {
-               pConnection->SetValue(KEYTYPE, RSAKEYTYPE);
-               pConnection->SetValue(KEY, QString('"' + ipsecSetting.privateKeyFilePath() + '"').toLatin1().constData());
-               pConnection->SetValue(PASSPHRASE, QString('"' + ipsecSetting.privateKeyPassphrase() + '"').toLatin1().constData());
+                if (ipsecSetting.authBy() == AUTHBYRSASIG)
+                {
+                    pConnection->SetValue(KEYTYPE, RSAKEYTYPE);
+                    pConnection->SetValue(KEY, QString('"' + ipsecSetting.privateKeyFilePath() + '"').toLatin1().constData());
+                    pConnection->SetValue(PASSPHRASE, QString('"' + ipsecSetting.privateKeyPassphrase() + '"').toLatin1().constData());
+                }
+                else
+                {
+                    pConnection->SetValue(KEYTYPE, PSKKEYTYPE);
+                    pConnection->SetValue(KEY, QString("\"" + ipsecSetting.preSharedKey() +"\"").toLatin1().constData());
+                }
             }
-            else
-            {
-               pConnection->SetValue(KEYTYPE, PSKKEYTYPE);
-               pConnection->SetValue(KEY, QString("\"" + ipsecSetting.preSharedKey() +"\"").toLatin1().constData());
-            }
-         }
-      }
-      else
-         addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
-   }
+        }
+        else
+            addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
+    }
 }

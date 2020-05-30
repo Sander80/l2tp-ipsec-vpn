@@ -25,6 +25,6 @@
 
 int main(int iArgc, char* pcaArgv[])
 {
-   VpnControlDaemonApplication service(iArgc, pcaArgv);
-   return(service.daemonize());
+    VpnControlDaemonApplication service(iArgc, pcaArgv);
+    return(service.daemonize());
 }

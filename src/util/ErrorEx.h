@@ -32,50 +32,50 @@
 
 class ErrorEx
 {
-public:
-   ErrorEx(QString strText, QString strClassName = "")
-   {
-      m_strMsg = strText;
-      if (!strClassName.isEmpty())
-         m_strMsg += " (" + strClassName + ")";
-   }
+    public:
+        ErrorEx(QString strText, QString strClassName = "")
+        {
+            m_strMsg = strText;
+            if (!strClassName.isEmpty())
+                m_strMsg += " (" + strClassName + ")";
+        }
 
-   ErrorEx(const ErrorEx& errorEx)
-   {
-      m_strMsg = errorEx.m_strMsg;
-   }
+        ErrorEx(const ErrorEx& errorEx)
+        {
+            m_strMsg = errorEx.m_strMsg;
+        }
 
-   virtual ~ErrorEx() {}
+        virtual ~ErrorEx() {}
 
-   void appendString(QString strText)
-   {
-      m_strMsg = m_strMsg + " " + strText;
-   }
+        void appendString(QString strText)
+        {
+            m_strMsg = m_strMsg + " " + strText;
+        }
 
-   QString getString() const
-   {
-      return(m_strMsg);
-   }
+        QString getString() const
+        {
+            return(m_strMsg);
+        }
 
-   const char* getCString() const
-   {
-      return(m_strMsg.toLatin1());
-   }
+        const char* getCString() const
+        {
+            return(m_strMsg.toLatin1());
+        }
 
-   bool isEmpty() const
-   {
-      return(m_strMsg.isEmpty());
-   }
+        bool isEmpty() const
+        {
+            return(m_strMsg.isEmpty());
+        }
 
-   static void checkOutOfMemory(const void* pVoid)
-   {
-      if (!pVoid) throw ErrorEx(QObject::tr("Out of Memory"));
-   }
+        static void checkOutOfMemory(const void* pVoid)
+        {
+            if (!pVoid) throw ErrorEx(QObject::tr("Out of Memory"));
+        }
 
-private:
-   ErrorEx& operator=(const ErrorEx& orig);
+    private:
+        ErrorEx& operator=(const ErrorEx& orig);
 
-	QString m_strMsg;
+        QString m_strMsg;
 };
 
 #endif	/* ERROREX_H */

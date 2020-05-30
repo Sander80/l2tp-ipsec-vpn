@@ -31,16 +31,16 @@
 
 class PppUpScriptWriter : public AbstractConfWriter
 {
-public:
-   PppUpScriptWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~PppUpScriptWriter() {}
+    public:
+        PppUpScriptWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~PppUpScriptWriter() {}
 
-protected:
-   void fill();
+    protected:
+        void fill();
 
-private:
-   PppUpScriptWriter(const PppUpScriptWriter& orig);
-   PppUpScriptWriter& operator=(const PppUpScriptWriter& orig);
+    private:
+        PppUpScriptWriter(const PppUpScriptWriter& orig);
+        PppUpScriptWriter& operator=(const PppUpScriptWriter& orig);
 };
 
 #endif	/* PPPUPSCRIPTWRITER_H */

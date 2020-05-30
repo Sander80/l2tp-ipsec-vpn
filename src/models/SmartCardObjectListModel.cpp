@@ -34,143 +34,143 @@
 
 SmartCardObjectListModel::SmartCardObjectListModel(ObjectType objectType) : m_ObjectType(objectType), m_pSmartCardObjects(new QList<SmartCardInfo*>())
 {
-   readTokens();
+    readTokens();
 }
 
 SmartCardObjectListModel::~SmartCardObjectListModel()
 {
-   if (m_pSmartCardObjects)
-      delete m_pSmartCardObjects;
+    if (m_pSmartCardObjects)
+        delete m_pSmartCardObjects;
 }
 
 int SmartCardObjectListModel::rowCount(const QModelIndex& /* parent */) const
 {
-   return(m_pSmartCardObjects->count());
+    return(m_pSmartCardObjects->count());
 }
 
 QVariant SmartCardObjectListModel::data(const QModelIndex& index, int iRole) const
 {
-   QVariant ret;
+    QVariant ret;
 
-   if (index.isValid())
-   {
-      switch (iRole)
-      {
-         case Qt::DisplayRole:
-            ret = value(index.row()).toLatin1().constData();
-            break;
+    if (index.isValid())
+    {
+        switch (iRole)
+        {
+            case Qt::DisplayRole:
+                ret = value(index.row()).toLatin1().constData();
+                break;
 
-         case Qt::ToolTipRole:
-            if (m_ObjectType == Certificate)
-            {
-               const QString strEmail = m_pSmartCardObjects->at(index.row())->certificateInfo().email();
-               const QString strCN = m_pSmartCardObjects->at(index.row())->certificateInfo().cn();
-               const QString strSN = m_pSmartCardObjects->at(index.row())->certificateInfo().serialNumber();
-               ret = (strSN.isEmpty() ? "" : "SN=" + strSN + ", ") + (strEmail.isEmpty() ? (strCN.isEmpty() ? "" : "CN=" + strCN) : "User=" + strEmail);
-            }
-            break;
+            case Qt::ToolTipRole:
+                if (m_ObjectType == Certificate)
+                {
+                    const QString strEmail = m_pSmartCardObjects->at(index.row())->certificateInfo().email();
+                    const QString strCN = m_pSmartCardObjects->at(index.row())->certificateInfo().cn();
+                    const QString strSN = m_pSmartCardObjects->at(index.row())->certificateInfo().serialNumber();
+                    ret = (strSN.isEmpty() ? "" : "SN=" + strSN + ", ") + (strEmail.isEmpty() ? (strCN.isEmpty() ? "" : "CN=" + strCN) : "User=" + strEmail);
+                }
+                break;
 
-         case Qt::UserRole:
-            ret = idValue(index.row()).toLatin1().constData();
-            break;
+            case Qt::UserRole:
+                ret = idValue(index.row()).toLatin1().constData();
+                break;
 
-         case Qt::UserRole + 1:
-            if (m_ObjectType == Certificate) {
-                ret = m_pSmartCardObjects->at(index.row())->certificateInfo().cn();
-                // email() was used previously, but cn() standing for CommonName is the right user name in CertificateInfo
-                // https://doc.qt.io/qt-5/qsslcertificate.html
-            }
-            break;
-      }
+            case Qt::UserRole + 1:
+                if (m_ObjectType == Certificate) {
+                    ret = m_pSmartCardObjects->at(index.row())->certificateInfo().cn();
+                    // email() was used previously, but cn() standing for CommonName is the right user name in CertificateInfo
+                    // https://doc.qt.io/qt-5/qsslcertificate.html
+                }
+                break;
+        }
     }
 
-   return(ret);
+    return(ret);
 }
 
 bool SmartCardObjectListModel::storeCert(const QModelIndex& index) const
 {
-   bool fRet(m_ObjectType == Certificate);
+    bool fRet(m_ObjectType == Certificate);
 
-   if (fRet)
-      fRet = m_pSmartCardObjects->at(index.row())->certificateInfo().toPem(idValue(index.row()));
+    if (fRet)
+        fRet = m_pSmartCardObjects->at(index.row())->certificateInfo().toPem(idValue(index.row()));
 
-   return(fRet);
+    return(fRet);
 }
 
 void SmartCardObjectListModel::readTokens()
 {
-   if (Pkcs11::loaded())
-   {
-      Pkcs11 p11;
+    if (Pkcs11::loaded())
+    {
+        Pkcs11 p11;
 
-      const QList<unsigned long> slotList(p11.slotList());
-      if (slotList.count() > 0)
-      {
-         for (int iSlotId = 0; iSlotId < slotList.count(); iSlotId++)
-         {
-            p11.startSession(slotList.at(iSlotId));
-
-            switch (m_ObjectType)
+        const QList<unsigned long> slotList(p11.slotList());
+        if (slotList.count() > 0)
+        {
+            for (int iSlotId = 0; iSlotId < slotList.count(); iSlotId++)
             {
-               case PublicKey:
-               {
-                  const Pkcs11Attlist publicKeyAttributeList(Pkcs11AttrUlong(CKA_CLASS, CKO_PUBLIC_KEY));
-                  const QList<CK_OBJECT_HANDLE> publicKeyObjectHandleList(p11.objectList(publicKeyAttributeList));
+                p11.startSession(slotList.at(iSlotId));
 
-                  for (int iObjectHandle = 0; iObjectHandle < publicKeyObjectHandleList.count(); iObjectHandle++)
-                     m_pSmartCardObjects->append(new SmartCardInfo(p11, publicKeyObjectHandleList[iObjectHandle]));
-               }
-               break;
+                switch (m_ObjectType)
+                {
+                    case PublicKey:
+                        {
+                            const Pkcs11Attlist publicKeyAttributeList(Pkcs11AttrUlong(CKA_CLASS, CKO_PUBLIC_KEY));
+                            const QList<CK_OBJECT_HANDLE> publicKeyObjectHandleList(p11.objectList(publicKeyAttributeList));
 
-               case Certificate:
-               {
-                  Pkcs11Attlist certificateAttributeList(Pkcs11AttrUlong(CKA_CLASS, CKO_CERTIFICATE));
-                  certificateAttributeList << Pkcs11AttrUlong(CKA_CERTIFICATE_TYPE, CKC_X_509);
-                  const QList<CK_OBJECT_HANDLE> certificateObjectHandleList(p11.objectList(certificateAttributeList));
+                            for (int iObjectHandle = 0; iObjectHandle < publicKeyObjectHandleList.count(); iObjectHandle++)
+                                m_pSmartCardObjects->append(new SmartCardInfo(p11, publicKeyObjectHandleList[iObjectHandle]));
+                        }
+                        break;
 
-                  for (int iObjectHandle = 0; iObjectHandle < certificateObjectHandleList.count(); iObjectHandle++) {
-                     m_pSmartCardObjects->append(new SmartCardInfo(p11, certificateObjectHandleList[iObjectHandle]));
-		  }
-               }
-               break;
+                    case Certificate:
+                        {
+                            Pkcs11Attlist certificateAttributeList(Pkcs11AttrUlong(CKA_CLASS, CKO_CERTIFICATE));
+                            certificateAttributeList << Pkcs11AttrUlong(CKA_CERTIFICATE_TYPE, CKC_X_509);
+                            const QList<CK_OBJECT_HANDLE> certificateObjectHandleList(p11.objectList(certificateAttributeList));
+
+                            for (int iObjectHandle = 0; iObjectHandle < certificateObjectHandleList.count(); iObjectHandle++) {
+                                m_pSmartCardObjects->append(new SmartCardInfo(p11, certificateObjectHandleList[iObjectHandle]));
+                            }
+                        }
+                        break;
+                }
             }
-         }
-      }
-   }
+        }
+    }
 }
 QString SmartCardObjectListModel::value(int i) const
 {
-   QString strRet;
+    QString strRet;
 
-   if (i < m_pSmartCardObjects->count())
-   {
-      strRet.append(m_pSmartCardObjects->at(i)->manufacturer());
-      strRet.append(", " + m_pSmartCardObjects->at(i)->slotId());
-      strRet.append(", " + m_pSmartCardObjects->at(i)->objectId());
-      strRet.append(", " + m_pSmartCardObjects->at(i)->objectLabel());
-     /* if (!m_pSmartCardObjects->at(i)->m_pCertificateInfo) 
-		strRet.append("NOT LOADED!!!");
-      else
-      		strRet.append(", " + m_pSmartCardObjects->at(i)->certificateInfo().serialNumber());*/
-      strRet.append(", " + m_pSmartCardObjects->at(i)->cardLabel().trimmed());
-   }
+    if (i < m_pSmartCardObjects->count())
+    {
+        strRet.append(m_pSmartCardObjects->at(i)->manufacturer());
+        strRet.append(", " + m_pSmartCardObjects->at(i)->slotId());
+        strRet.append(", " + m_pSmartCardObjects->at(i)->objectId());
+        strRet.append(", " + m_pSmartCardObjects->at(i)->objectLabel());
+        /* if (!m_pSmartCardObjects->at(i)->m_pCertificateInfo) 
+           strRet.append("NOT LOADED!!!");
+           else
+           strRet.append(", " + m_pSmartCardObjects->at(i)->certificateInfo().serialNumber());*/
+        strRet.append(", " + m_pSmartCardObjects->at(i)->cardLabel().trimmed());
+    }
 
-   return(strRet);
+    return(strRet);
 }
 
 QString SmartCardObjectListModel::idValue(int i) const
 {
-   QString strRet;
+    QString strRet;
 
-   if (i < m_pSmartCardObjects->count())
-   {
-      //if (objectType() == Certificate)
-      //   strRet = "/etc/ipsec.d/certs/" + m_pSmartCardObjects->at(i)->objectLabel() + ".pem";
-      //else
-         strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->objectId();
-         //strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->certificateInfo().cn();
-   }
+    if (i < m_pSmartCardObjects->count())
+    {
+        //if (objectType() == Certificate)
+        //   strRet = "/etc/ipsec.d/certs/" + m_pSmartCardObjects->at(i)->objectLabel() + ".pem";
+        //else
+        strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->objectId();
+        //strRet = Preferences().openSSLSettings().engineId() + ":" + m_pSmartCardObjects->at(i)->slotId() + ":" + m_pSmartCardObjects->at(i)->certificateInfo().cn();
+    }
 
 
-   return(strRet);
+    return(strRet);
 }

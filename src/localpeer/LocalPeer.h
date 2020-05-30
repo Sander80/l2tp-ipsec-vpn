@@ -35,35 +35,35 @@ class QLocalServer;
 
 class LocalPeer : public QObject
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   LocalPeer(QObject* pParent = NULL, const QString& strAppId = QString());
-   virtual ~LocalPeer();
+    public:
+        LocalPeer(QObject* pParent = NULL, const QString& strAppId = QString());
+        virtual ~LocalPeer();
 
-   bool isClient();
-   QString applicationId() const;
-   bool sendMessage(const QString &strMessage, int iTimeout);
+        bool isClient();
+        QString applicationId() const;
+        bool sendMessage(const QString &strMessage, int iTimeout);
 
 signals:
-   void messageReceived(const QString& strMessage);
+        void messageReceived(const QString& strMessage);
 
-protected slots:
-   void receiveConnection();
+        protected slots:
+            void receiveConnection();
 
-protected:
-private:
-   LocalPeer(const LocalPeer& orig);
-   LocalPeer& operator=(const LocalPeer& orig);
+    protected:
+    private:
+        LocalPeer(const LocalPeer& orig);
+        LocalPeer& operator=(const LocalPeer& orig);
 
-   static QString hexUid();
+        static QString hexUid();
 
-   QString m_strApplicationId;
-   QString m_strSocketName;
-   QLocalServer* const m_pServer;
-   LockedFile m_LockedFile;
+        QString m_strApplicationId;
+        QString m_strSocketName;
+        QLocalServer* const m_pServer;
+        LockedFile m_LockedFile;
 
-   static const char* m_pcAck;
+        static const char* m_pcAck;
 };
 
 #endif	/* LOCALPEER_H */

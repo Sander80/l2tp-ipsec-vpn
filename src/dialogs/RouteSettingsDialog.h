@@ -33,32 +33,32 @@ class PppRoutesModel;
 
 class RouteSettingsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit RouteSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
-   virtual ~RouteSettingsDialog();
+    public:
+        explicit RouteSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
+        virtual ~RouteSettingsDialog();
 
-private slots:
-   void addRoute() const;
-   void removeRoute() const;
-   void addNoRoute() const;
-   void removeNoRoute() const;
-   void onHelpRequested() const;
-   void accept();
+        private slots:
+            void addRoute() const;
+        void removeRoute() const;
+        void addNoRoute() const;
+        void removeNoRoute() const;
+        void onHelpRequested() const;
+        void accept();
 
-private:
-   RouteSettingsDialog(const RouteSettingsDialog& orig);
-   RouteSettingsDialog& operator=(const RouteSettingsDialog& orig);
+    private:
+        RouteSettingsDialog(const RouteSettingsDialog& orig);
+        RouteSettingsDialog& operator=(const RouteSettingsDialog& orig);
 
-   void readSettings() const;
-   bool writeSettings() const;
+        void readSettings() const;
+        bool writeSettings() const;
 
-   Ui::RouteSettingsDialog m_Widget;
+        Ui::RouteSettingsDialog m_Widget;
 
-   const QString m_strConnectionName;
-   PppRoutesModel* m_pPPPRoutesModel;
-   PppRoutesModel* m_pNoRoutesModel;
+        const QString m_strConnectionName;
+        PppRoutesModel* m_pPPPRoutesModel;
+        PppRoutesModel* m_pNoRoutesModel;
 
 };
 

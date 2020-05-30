@@ -37,44 +37,44 @@ class IPsecCertificateListModel;
 
 class ConnectionSettingsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   ConnectionSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
-   virtual ~ConnectionSettingsDialog();
+    public:
+        ConnectionSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
+        virtual ~ConnectionSettingsDialog();
 
-private slots:
-   void onHelpRequested() const;
-   void accept();
-   void readSettings() const;
-   bool writeSettings() const;
-   void onEapProperties() const;
-   void onPeerAuthentication() const;
-   void onIpSettings() const;
-   void onAdvancedSettings() const;
-   void onUseIPsecCertificateRadioButtonToggled(bool fEnable);
-   void onUseEapRadioButtonToggled(bool fEnabled);
-   void onPrivateKey();
-   void onImport();
+        private slots:
+            void onHelpRequested() const;
+        void accept();
+        void readSettings() const;
+        bool writeSettings() const;
+        void onEapProperties() const;
+        void onPeerAuthentication() const;
+        void onIpSettings() const;
+        void onAdvancedSettings() const;
+        void onUseIPsecCertificateRadioButtonToggled(bool fEnable);
+        void onUseEapRadioButtonToggled(bool fEnabled);
+        void onPrivateKey();
+        void onImport();
 
-private:
-   ConnectionSettingsDialog(const ConnectionSettingsDialog& orig);
-   ConnectionSettingsDialog& operator=(const ConnectionSettingsDialog& orig);
+    private:
+        ConnectionSettingsDialog(const ConnectionSettingsDialog& orig);
+        ConnectionSettingsDialog& operator=(const ConnectionSettingsDialog& orig);
 
-   void readCommonSettings(const CommonSettings& commonSettings) const;
-   void readIPSecSettings(const IPSecSettings& ipsecSettings) const;
-   void readL2tpSettings(const L2tpSettings& l2tpSettings) const;
-   void readPppSettings(const PppSettings& pppSettings) const;
-   bool writeCommonSetting(const CommonSettings& commonSettings) const;
-   bool writeIPsecSetting(const IPSecSettings& ipsecSettings) const;
-   bool writeL2tpSettings(const L2tpSettings& l2tpSettings) const;
-   bool writePppSettings(const PppSettings& pppSettings) const;
+        void readCommonSettings(const CommonSettings& commonSettings) const;
+        void readIPSecSettings(const IPSecSettings& ipsecSettings) const;
+        void readL2tpSettings(const L2tpSettings& l2tpSettings) const;
+        void readPppSettings(const PppSettings& pppSettings) const;
+        bool writeCommonSetting(const CommonSettings& commonSettings) const;
+        bool writeIPsecSetting(const IPSecSettings& ipsecSettings) const;
+        bool writeL2tpSettings(const L2tpSettings& l2tpSettings) const;
+        bool writePppSettings(const PppSettings& pppSettings) const;
 
-   Ui::ConnectionSettingsDialog m_Widget;
+        Ui::ConnectionSettingsDialog m_Widget;
 
-   const QString m_strConnectionName;
+        const QString m_strConnectionName;
 
-   IPsecCertificateListModel* const m_pCertificateListModel;
+        IPsecCertificateListModel* const m_pCertificateListModel;
 };
 
 #endif	/* _CONNECTIONSETTINGSDIALOG_H */

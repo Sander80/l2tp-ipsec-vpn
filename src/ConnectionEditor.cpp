@@ -35,46 +35,46 @@
 
 ConnectionEditor::ConnectionEditor(L2tpIPsecVpnApplication& application, QObject* pParent) : QObject(pParent), m_Application(application), m_pConnectionEditorDialog(application.mode() == L2tpIPsecVpnApplication::APPLYSETTINGS ? NULL : new ConnectionEditorDialog)
 {
-   if (m_pConnectionEditorDialog)
-   {
-      connect(m_pConnectionEditorDialog, SIGNAL(connectionAdded(const QString&)), this, SLOT(onConnectionAdded(const QString&)));
-      connect(m_pConnectionEditorDialog, SIGNAL(connectionRemoved(const QString&)), this, SLOT(onConnectionRemoved(const QString&)));
-   }
+    if (m_pConnectionEditorDialog)
+    {
+        connect(m_pConnectionEditorDialog, SIGNAL(connectionAdded(const QString&)), this, SLOT(onConnectionAdded(const QString&)));
+        connect(m_pConnectionEditorDialog, SIGNAL(connectionRemoved(const QString&)), this, SLOT(onConnectionRemoved(const QString&)));
+    }
 }
 
 ConnectionEditor::~ConnectionEditor()
 {
-   if (m_pConnectionEditorDialog)
-      delete m_pConnectionEditorDialog;
+    if (m_pConnectionEditorDialog)
+        delete m_pConnectionEditorDialog;
 }
 
 int ConnectionEditor::exec()
 {
-   int iRet(0);
+    int iRet(0);
 
 
-   //QMessageBox::critical(NULL, "Cannot start", "kkk");
+    //QMessageBox::critical(NULL, "Cannot start", "kkk");
 
-   if (!m_pConnectionEditorDialog)
-   {
-      ConnectionsModel* pConnectionsModel(new ConnectionsModel());
-      ConnectionSettings* pConnectionSettings(new ConnectionSettings());
-      iRet = (ConnectionEditorDialog::applySettings(pConnectionsModel, pConnectionSettings) ? 0 : 1);
-      delete pConnectionsModel;
-     delete pConnectionSettings;
-   }
-   else
-      iRet = (m_pConnectionEditorDialog->exec() == QDialog::Accepted ? 0 : 1);
+    if (!m_pConnectionEditorDialog)
+    {
+        ConnectionsModel* pConnectionsModel(new ConnectionsModel());
+        ConnectionSettings* pConnectionSettings(new ConnectionSettings());
+        iRet = (ConnectionEditorDialog::applySettings(pConnectionsModel, pConnectionSettings) ? 0 : 1);
+        delete pConnectionsModel;
+        delete pConnectionSettings;
+    }
+    else
+        iRet = (m_pConnectionEditorDialog->exec() == QDialog::Accepted ? 0 : 1);
 
-   return(iRet);
+    return(iRet);
 }
 
 void ConnectionEditor::onConnectionAdded(const QString& strName)
 {
-   m_Application.sendConnectionAddedMessage(strName);
+    m_Application.sendConnectionAddedMessage(strName);
 }
 
 void ConnectionEditor::onConnectionRemoved(const QString& strName)
 {
-   m_Application.sendConnectionRemovedMessage(strName);
+    m_Application.sendConnectionRemovedMessage(strName);
 }

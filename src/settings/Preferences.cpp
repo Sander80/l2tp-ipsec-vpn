@@ -57,30 +57,30 @@ Preferences::~Preferences()
 
 OpenSSLSettings Preferences::openSSLSettings() const
 {
-   return(OpenSSLSettings());
+    return(OpenSSLSettings());
 }
 
 bool OpenSSLSettings::setEnginePath(const QString& strEnginePath) const
 {
-   if (strEnginePath != EngineDefaultLibrary)
-   {
-      if (qSettings()->value(ENGINEPATH) != strEnginePath)
-         qSettings()->setValue(ENGINEPATH, strEnginePath);
-   }
-   else
-      qSettings()->remove(ENGINEPATH);
+    if (strEnginePath != EngineDefaultLibrary)
+    {
+        if (qSettings()->value(ENGINEPATH) != strEnginePath)
+            qSettings()->setValue(ENGINEPATH, strEnginePath);
+    }
+    else
+        qSettings()->remove(ENGINEPATH);
 
-   return(true);
+    return(true);
 }
 
 QString OpenSSLSettings::enginePath() const
 {
-   return(qSettings()->value(ENGINEPATH, QFile(EngineDefaultLibrary).exists() ? EngineDefaultLibrary : "").toString());
+    return(qSettings()->value(ENGINEPATH, QFile(EngineDefaultLibrary).exists() ? EngineDefaultLibrary : "").toString());
 }
 
 bool OpenSSLSettings::noLowerSec() const
 {
-   return(qSettings()->value(NOLOWERSEC, "#") == "#");
+    return(qSettings()->value(NOLOWERSEC, "#") == "#");
 }
 
 
@@ -97,36 +97,36 @@ bool OpenSSLSettings::setNoLowerSec(const bool noLowerSec) const
 
 bool OpenSSLSettings::setPkcs11Path(const QString& strModulePath) const
 {
-   if (strModulePath != PKCS11DefaultLibrary)
-   {
-     if (qSettings()->value(PKCS11PATH) != strModulePath)
-          qSettings()->setValue(PKCS11PATH, strModulePath);
-   }
-   else
-      qSettings()->remove(PKCS11PATH);
+    if (strModulePath != PKCS11DefaultLibrary)
+    {
+        if (qSettings()->value(PKCS11PATH) != strModulePath)
+            qSettings()->setValue(PKCS11PATH, strModulePath);
+    }
+    else
+        qSettings()->remove(PKCS11PATH);
 
-   return(true);
+    return(true);
 }
 
 QString OpenSSLSettings::pkcs11Path() const
 {
-   return(qSettings()->value(PKCS11PATH, QFile(PKCS11DefaultLibrary).exists() ? PKCS11DefaultLibrary : "").toString());
+    return(qSettings()->value(PKCS11PATH, QFile(PKCS11DefaultLibrary).exists() ? PKCS11DefaultLibrary : "").toString());
 }
 
 bool OpenSSLSettings::setEngineId(const QString& strEngineId) const
 {
-   if (strEngineId != DefaultEngineId)
-   {
-     if (qSettings()->value(ENGINEID) != strEngineId)
-         qSettings()->setValue(ENGINEID, strEngineId);
-   }
-   else
-      qSettings()->remove(ENGINEID);
+    if (strEngineId != DefaultEngineId)
+    {
+        if (qSettings()->value(ENGINEID) != strEngineId)
+            qSettings()->setValue(ENGINEID, strEngineId);
+    }
+    else
+        qSettings()->remove(ENGINEID);
 
-   return(true);
+    return(true);
 }
 
 QString OpenSSLSettings::engineId() const
 {
-   return(qSettings()->value(ENGINEID, DefaultEngineId).toString());
+    return(qSettings()->value(ENGINEID, DefaultEngineId).toString());
 }

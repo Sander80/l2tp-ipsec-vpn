@@ -36,84 +36,84 @@
 
 SmartCardInfo::SmartCardInfo(const Pkcs11& p11, CK_OBJECT_HANDLE ulObjectHandle) : m_pCertificateInfo(NULL)
 {
-   loadToken(p11, ulObjectHandle);
+    loadToken(p11, ulObjectHandle);
 }
 
 SmartCardInfo::~SmartCardInfo()
 {
-   if (m_pCertificateInfo)
-      delete m_pCertificateInfo;
+    if (m_pCertificateInfo)
+        delete m_pCertificateInfo;
 }
 
 const CertificateInfo& SmartCardInfo::certificateInfo() const
 {
-   return(*m_pCertificateInfo);
+    return(*m_pCertificateInfo);
 }
 
 void SmartCardInfo::loadToken(const Pkcs11& p11, CK_OBJECT_HANDLE ulObjectHandle)
 {
-   const QStringList tokenInfoList(p11.tokenInfo());
-   m_strCardLabel = tokenInfoList[0];
-   m_strManufacturer = tokenInfoList[1];
-   m_strSerialNo = tokenInfoList[2];
+    const QStringList tokenInfoList(p11.tokenInfo());
+    m_strCardLabel = tokenInfoList[0];
+    m_strManufacturer = tokenInfoList[1];
+    m_strSerialNo = tokenInfoList[2];
 
-   try
-   {
-      Pkcs11AttrUlong bitLengthAttribute(CKA_MODULUS_BITS);
-      p11.loadAttribute(bitLengthAttribute, ulObjectHandle);
-      m_strBitLength.setNum(bitLengthAttribute.getValue());
-   }
-   catch (ErrorEx &e)
-   {
-      // ignore
-   }
+    try
+    {
+        Pkcs11AttrUlong bitLengthAttribute(CKA_MODULUS_BITS);
+        p11.loadAttribute(bitLengthAttribute, ulObjectHandle);
+        m_strBitLength.setNum(bitLengthAttribute.getValue());
+    }
+    catch (ErrorEx &e)
+    {
+        // ignore
+    }
 
-   Pkcs11AttrData idAttribute(CKA_ID);
-   p11.loadAttribute(idAttribute, ulObjectHandle);
-   m_strObjectId = BNOneLine(idAttribute.getBignum());
+    Pkcs11AttrData idAttribute(CKA_ID);
+    p11.loadAttribute(idAttribute, ulObjectHandle);
+    m_strObjectId = BNOneLine(idAttribute.getBignum());
 
-   try
-   {
-      Pkcs11AttrData objectLabelAttribute(CKA_LABEL);
-      p11.loadAttribute(objectLabelAttribute, ulObjectHandle);
-      m_strObjectLabel = objectLabelAttribute.getText();
-   }
-   catch (ErrorEx &e)
-   {
-      // ignore
-   }
+    try
+    {
+        Pkcs11AttrData objectLabelAttribute(CKA_LABEL);
+        p11.loadAttribute(objectLabelAttribute, ulObjectHandle);
+        m_strObjectLabel = objectLabelAttribute.getText();
+    }
+    catch (ErrorEx &e)
+    {
+        // ignore
+    }
 
-   m_strSlotId.setNum(p11.m_ulSlotId);
+    m_strSlotId.setNum(p11.m_ulSlotId);
 
-   Pkcs11AttrData x509ValueAttribute(CKA_VALUE);
+    Pkcs11AttrData x509ValueAttribute(CKA_VALUE);
 
-   try
-   {
-       p11.loadAttribute(x509ValueAttribute, ulObjectHandle);
-       const unsigned char* pcValue;
+    try
+    {
+        p11.loadAttribute(x509ValueAttribute, ulObjectHandle);
+        const unsigned char* pcValue;
 
-       const unsigned long ulLen(x509ValueAttribute.getValue(&pcValue));
+        const unsigned long ulLen(x509ValueAttribute.getValue(&pcValue));
 
-       if (m_pCertificateInfo)
-          delete m_pCertificateInfo;
+        if (m_pCertificateInfo)
+            delete m_pCertificateInfo;
 
-       m_pCertificateInfo = new CertificateInfo(QByteArray::fromRawData(reinterpret_cast<const char*>(pcValue), ulLen));
-   }
-   catch (ErrorEx &e)
-   {
-       // ignore
-   }
+        m_pCertificateInfo = new CertificateInfo(QByteArray::fromRawData(reinterpret_cast<const char*>(pcValue), ulLen));
+    }
+    catch (ErrorEx &e)
+    {
+        // ignore
+    }
 }
 
 QString SmartCardInfo::BNOneLine(const BIGNUM* pBigNumber)
 {
-   QString strRet;
-   if (pBigNumber)
-   {
-      char* pcHex = ::BN_bn2hex(pBigNumber);
-      strRet = pcHex;
-//      ::CRYPTO_free(pcHex);
-      ::OPENSSL_free(pcHex);
-   }
-   return(strRet);
+    QString strRet;
+    if (pBigNumber)
+    {
+        char* pcHex = ::BN_bn2hex(pBigNumber);
+        strRet = pcHex;
+        //      ::CRYPTO_free(pcHex);
+        ::OPENSSL_free(pcHex);
+    }
+    return(strRet);
 }

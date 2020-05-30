@@ -43,73 +43,73 @@ class L2tpIPsecVpnApplication;
 
 class ConnectionManager : public QObject
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit ConnectionManager(L2tpIPsecVpnApplication& application, QObject* pParent = 0);
-   virtual ~ConnectionManager();
+    public:
+        explicit ConnectionManager(L2tpIPsecVpnApplication& application, QObject* pParent = 0);
+        virtual ~ConnectionManager();
 
-   int exec();
+        int exec();
 
-private slots:
-   void vpnConnect(QAction* pAction);
-   void vpnConnect(const QString& strConnectionName);
-   void vpnDisconnect(bool fDontChangeStatus = false);
-   void editConnections() const;
-   void showConnectionInformation() const;
-   void about() const;
-   void iconActivated(QSystemTrayIcon::ActivationReason reason);
-   void showMessage();
-   void messageClicked();
-   void detectConnectionState();
-   void onVpnTaskOutput(const QString& strOutputLine);
-   void onVpnTaskReadyReadLog();
-   void onVpnTaskErrorMsg(int iErrorCode);
-   void onVpnTaskTimeout();
-   void onVpnTaskFinished();
-   void onConnectionAdded(const QString& strName);
-   void onConnectionRemoved(const QString& strName);
-   void onRouteAdded(NetworkInterface interface, unsigned int iPriority);
-   void onRouteDeleted(NetworkInterface interface, unsigned int iPriority);
-   void onAddressAdded(NetworkInterface interface);
-   void onPtpInterfaceIsDeleted(NetworkInterface interface);
-   void onCheckPtpInterfaceIsUp();
-   void onCheckPtpInterfaceIsDown();
+        private slots:
+            void vpnConnect(QAction* pAction);
+        void vpnConnect(const QString& strConnectionName);
+        void vpnDisconnect(bool fDontChangeStatus = false);
+        void editConnections() const;
+        void showConnectionInformation() const;
+        void about() const;
+        void iconActivated(QSystemTrayIcon::ActivationReason reason);
+        void showMessage();
+        void messageClicked();
+        void detectConnectionState();
+        void onVpnTaskOutput(const QString& strOutputLine);
+        void onVpnTaskReadyReadLog();
+        void onVpnTaskErrorMsg(int iErrorCode);
+        void onVpnTaskTimeout();
+        void onVpnTaskFinished();
+        void onConnectionAdded(const QString& strName);
+        void onConnectionRemoved(const QString& strName);
+        void onRouteAdded(NetworkInterface interface, unsigned int iPriority);
+        void onRouteDeleted(NetworkInterface interface, unsigned int iPriority);
+        void onAddressAdded(NetworkInterface interface);
+        void onPtpInterfaceIsDeleted(NetworkInterface interface);
+        void onCheckPtpInterfaceIsUp();
+        void onCheckPtpInterfaceIsDown();
 
 signals:
-   void autoConnect(const QString& strConnectionName);
+        void autoConnect(const QString& strConnectionName);
 
-private:
-   typedef QList<QAction*> ActionList;
-   typedef QPair<const QString, const NetworkInterface> ConnectionInfo;
-   typedef enum { DISC, EDIT, INFO, ABOUT, QUIT } ActionType;
+    private:
+        typedef QList<QAction*> ActionList;
+        typedef QPair<const QString, const NetworkInterface> ConnectionInfo;
+        typedef enum { DISC, EDIT, INFO, ABOUT, QUIT } ActionType;
 
-   ConnectionManager(const ConnectionManager& orig);
-   ConnectionManager& operator=(const ConnectionManager& orig);
+        ConnectionManager(const ConnectionManager& orig);
+        ConnectionManager& operator=(const ConnectionManager& orig);
 
-   void createActions();
-   void createTrayIcon();
-   void updateContextMenu(bool fStatusChanged);
-   void enableAllConnections(bool fEnable) const;
-   void connected(const QString& strConnectionName, const NetworkInterface& ptpInterface);
-   void disConnected();
-   void error(int iErrorCode);
-   ConnectionInfo connectionNameOfUpAndRunningPtpInterface() const;
+        void createActions();
+        void createTrayIcon();
+        void updateContextMenu(bool fStatusChanged);
+        void enableAllConnections(bool fEnable) const;
+        void connected(const QString& strConnectionName, const NetworkInterface& ptpInterface);
+        void disConnected();
+        void error(int iErrorCode);
+        ConnectionInfo connectionNameOfUpAndRunningPtpInterface() const;
 
-   QAction* action(ActionType type) const;
+        QAction* action(ActionType type) const;
 
-   static QString connectionName(const NetworkInterface& interface, int iRetry = 1);
+        static QString connectionName(const NetworkInterface& interface, int iRetry = 1);
 
-   ConnectionInformationDialog* const m_pConnectionInformation;
-   QTimer* const m_pTimeout;
-   ActionList* const m_pActions;
-   L2tpIPsecVpnApplication& m_Application;
+        ConnectionInformationDialog* const m_pConnectionInformation;
+        QTimer* const m_pTimeout;
+        ActionList* const m_pActions;
+        L2tpIPsecVpnApplication& m_Application;
 
-   ConnectionState* m_pState;
-   QSystemTrayIcon* m_pTrayIcon;
-   QMenu* m_pTrayIconMenu;
-   VPNControlTask* m_pVPNControlTask;
-   volatile bool m_fIsExecuting;
+        ConnectionState* m_pState;
+        QSystemTrayIcon* m_pTrayIcon;
+        QMenu* m_pTrayIconMenu;
+        VPNControlTask* m_pVPNControlTask;
+        volatile bool m_fIsExecuting;
 };
 
 #endif	/* _CONNECTIONMANAGER_H */

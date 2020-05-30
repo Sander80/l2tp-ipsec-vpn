@@ -33,30 +33,30 @@ class QTimer;
 
 class InterfaceStatisticsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   InterfaceStatisticsDialog(const QString& strInterfaceName, QWidget* pParent = 0);
-   virtual ~InterfaceStatisticsDialog();
+    public:
+        InterfaceStatisticsDialog(const QString& strInterfaceName, QWidget* pParent = 0);
+        virtual ~InterfaceStatisticsDialog();
 
-private slots:
-   void onUpdateStatistic() const;
+        private slots:
+            void onUpdateStatistic() const;
 
-private:
-   InterfaceStatisticsDialog(const InterfaceStatisticsDialog& orig);
-   InterfaceStatisticsDialog& operator=(const InterfaceStatisticsDialog& orig);
+    private:
+        InterfaceStatisticsDialog(const InterfaceStatisticsDialog& orig);
+        InterfaceStatisticsDialog& operator=(const InterfaceStatisticsDialog& orig);
 
-   const QString connectionTime() const;
+        const QString connectionTime() const;
 
-   static const QString formatBytes(const long long lBytes);
-   static qint64 connectedSince(const QString& strInterfaceName);
+        static const QString formatBytes(const long long lBytes);
+        static qint64 connectedSince(const QString& strInterfaceName);
 
-   const QString m_strInterfaceName;
-   const uint m_iConectedSince;
+        const QString m_strInterfaceName;
+        const uint m_iConectedSince;
 
-   QTimer* const m_pTimer;
+        QTimer* const m_pTimer;
 
-   Ui::InterfaceStatisticsDialog m_Widget;
+        Ui::InterfaceStatisticsDialog m_Widget;
 };
 
 #endif	/* _INTERFACESTATISTICSDIALOG_H */

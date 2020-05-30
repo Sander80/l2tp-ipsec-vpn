@@ -31,25 +31,25 @@
 
 class AdvancedSettingsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   AdvancedSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
-   virtual ~AdvancedSettingsDialog();
-private slots:
-   void onHelpRequested() const;
-   void accept();
+    public:
+        AdvancedSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
+        virtual ~AdvancedSettingsDialog();
+        private slots:
+            void onHelpRequested() const;
+        void accept();
 
-private:
-   AdvancedSettingsDialog(const AdvancedSettingsDialog& orig);
-   AdvancedSettingsDialog& operator=(const AdvancedSettingsDialog& orig);
+    private:
+        AdvancedSettingsDialog(const AdvancedSettingsDialog& orig);
+        AdvancedSettingsDialog& operator=(const AdvancedSettingsDialog& orig);
 
-   void readSettings() const;
-   bool writeSettings() const;
+        void readSettings() const;
+        bool writeSettings() const;
 
-   Ui::AdvancedSettingsDialog m_Widget;
+        Ui::AdvancedSettingsDialog m_Widget;
 
-   const QString m_strConnectionName;
+        const QString m_strConnectionName;
 };
 
 #endif	/* _ADVANCEDSETTINGSDIALOG_H */

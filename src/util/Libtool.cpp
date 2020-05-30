@@ -34,29 +34,29 @@ Libtool::Libtool(const QString& strLibraryFilePath) : m_pLoadedModuleHandle(Libt
 
 Libtool::~Libtool()
 {
-   exit();
+    exit();
 }
 
 bool Libtool::hasSymbol(const QString& strSymbolName) const
 {
-   return(loaded() && !!::lt_dlsym(m_pLoadedModuleHandle, strSymbolName.toLatin1().constData()));
+    return(loaded() && !!::lt_dlsym(m_pLoadedModuleHandle, strSymbolName.toLatin1().constData()));
 }
 
 void Libtool::exit() const
 {
-   ::lt_dlexit();
+    ::lt_dlexit();
 
-   if (m_pLoadedModuleHandle)
-      ::lt_dlclose(m_pLoadedModuleHandle);
+    if (m_pLoadedModuleHandle)
+        ::lt_dlclose(m_pLoadedModuleHandle);
 }
 
 lt_dlhandle Libtool::init(const QString& strLibraryFilePath)
 {
-   lt_dlhandle pModuleHandle(NULL);
+    lt_dlhandle pModuleHandle(NULL);
 
-   if (::lt_dlinit() == 0 && !strLibraryFilePath.isEmpty())
-      pModuleHandle = ::lt_dlopen(::fileName2ByteArray(strLibraryFilePath).constData());
+    if (::lt_dlinit() == 0 && !strLibraryFilePath.isEmpty())
+        pModuleHandle = ::lt_dlopen(::fileName2ByteArray(strLibraryFilePath).constData());
 
-   return(pModuleHandle);
+    return(pModuleHandle);
 }
 

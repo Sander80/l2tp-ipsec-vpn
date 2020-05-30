@@ -34,27 +34,27 @@ class QMessageBox;
 
 class SmartCardState : public QObject
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit SmartCardState(QObject* pParent = 0);
-   virtual ~SmartCardState();
+    public:
+        explicit SmartCardState(QObject* pParent = 0);
+        virtual ~SmartCardState();
 
-   int readersAvailable();
-   int waitForCardPresent();
+        int readersAvailable();
+        int waitForCardPresent();
 
 signals:
-   void cardInserted();
+        void cardInserted();
 
-private slots:
-   void waitTaskFinished();
+        private slots:
+            void waitTaskFinished();
 
-private:
-   SmartCardState(const SmartCardState& orig);
-   SmartCardState& operator=(const SmartCardState& orig);
+    private:
+        SmartCardState(const SmartCardState& orig);
+        SmartCardState& operator=(const SmartCardState& orig);
 
-   SmartCardInsertWaitTask* m_pWaitTask;
-   QMessageBox* m_pMsgBox;
+        SmartCardInsertWaitTask* m_pWaitTask;
+        QMessageBox* m_pMsgBox;
 };
 
 #endif	/* SMARTCARDSTATE_H */

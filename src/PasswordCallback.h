@@ -33,19 +33,19 @@ class L2tpIPsecVpnApplication;
 
 class PasswordCallback
 {
-public:
-   PasswordCallback(L2tpIPsecVpnApplication& application);
-   PasswordCallback(QCoreApplication& application);
-   virtual ~PasswordCallback();
+    public:
+        PasswordCallback(L2tpIPsecVpnApplication& application);
+        PasswordCallback(QCoreApplication& application);
+        virtual ~PasswordCallback();
 
-   int exec() const;
+        int exec() const;
 
-private:
-   PasswordCallback(const PasswordCallback& orig);
-   PasswordCallback& operator=(const PasswordCallback& orig);
+    private:
+        PasswordCallback(const PasswordCallback& orig);
+        PasswordCallback& operator=(const PasswordCallback& orig);
 
-   L2tpIPsecVpnApplication& m_Application;
-   //QCoreApplication& m_Application;
+        L2tpIPsecVpnApplication& m_Application;
+        //QCoreApplication& m_Application;
 };
 
 #endif	/* PASSWORDCALLBACK_H */

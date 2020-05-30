@@ -31,16 +31,16 @@
 
 class GetIPsecInfoScriptWriter : public AbstractConfWriter
 {
-public:
-   GetIPsecInfoScriptWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~GetIPsecInfoScriptWriter() {}
+    public:
+        GetIPsecInfoScriptWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~GetIPsecInfoScriptWriter() {}
 
-protected:
-   void fill() {}
+    protected:
+        void fill() {}
 
-private:
-   GetIPsecInfoScriptWriter(const GetIPsecInfoScriptWriter& orig);
-   GetIPsecInfoScriptWriter& operator=(const GetIPsecInfoScriptWriter& orig);
+    private:
+        GetIPsecInfoScriptWriter(const GetIPsecInfoScriptWriter& orig);
+        GetIPsecInfoScriptWriter& operator=(const GetIPsecInfoScriptWriter& orig);
 };
 
 #endif	/* GETIPSECINFOSCRIPTWRITER_H */

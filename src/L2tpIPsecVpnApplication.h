@@ -35,53 +35,53 @@ class LocalPeer;
 
 class L2tpIPsecVpnApplication : public QApplication
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   enum APPLICATIONMODE
-   {
-      CONNECTION_MANAGER,
-      CONNECTION_EDITOR,
-      CONNECTION_EDITOR_STARTER,
-      APPLYSETTINGS,
-      DELETEALLCONFFILES,
-      SHOWHELP,
-      PASSWORD_CALLBACK
-   };
+    public:
+        enum APPLICATIONMODE
+        {
+            CONNECTION_MANAGER,
+            CONNECTION_EDITOR,
+            CONNECTION_EDITOR_STARTER,
+            APPLYSETTINGS,
+            DELETEALLCONFFILES,
+            SHOWHELP,
+            PASSWORD_CALLBACK
+        };
 
-   L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPLICATIONMODE appMode);
-   virtual ~L2tpIPsecVpnApplication();
+        L2tpIPsecVpnApplication(int& iArgc, char** ppArgv, APPLICATIONMODE appMode);
+        virtual ~L2tpIPsecVpnApplication();
 
-   // reimplemented from QApplication so we can throw exceptions in slots
-   virtual bool notify(QObject* pReceiver, QEvent* pEvent);
+        // reimplemented from QApplication so we can throw exceptions in slots
+        virtual bool notify(QObject* pReceiver, QEvent* pEvent);
 
-   bool isRunning();
-   APPLICATIONMODE mode() const;
-   bool sendConnectionAddedMessage(const QString& strConnectionName);
-   bool sendConnectionRemovedMessage(const QString& strConnectionName);
+        bool isRunning();
+        APPLICATIONMODE mode() const;
+        bool sendConnectionAddedMessage(const QString& strConnectionName);
+        bool sendConnectionRemovedMessage(const QString& strConnectionName);
 
-   int startConnectionEditorDialog(bool fDetached = false) const;
+        int startConnectionEditorDialog(bool fDetached = false) const;
 
-   static APPLICATIONMODE parseCmdLine(int& iArgc, char** ppArgv);
-   static QString getGrahicalSUCmdLine();
-   static QString helpSection;
+        static APPLICATIONMODE parseCmdLine(int& iArgc, char** ppArgv);
+        static QString getGrahicalSUCmdLine();
+        static QString helpSection;
 
 signals:
-   void connectionAdded(const QString& strConnectionName);
-   void connectionRemoved(const QString& strConnectionName);
-   void connectionEditorDialogClosed(int iExitCode);
+        void connectionAdded(const QString& strConnectionName);
+        void connectionRemoved(const QString& strConnectionName);
+        void connectionEditorDialogClosed(int iExitCode);
 
-private slots:
-   void onMessageReceived(const QString& strMessage);
-   void onConnectionEditorDialogClosed(int iExitCode);
+        private slots:
+            void onMessageReceived(const QString& strMessage);
+        void onConnectionEditorDialogClosed(int iExitCode);
 
-private:
-   L2tpIPsecVpnApplication(const L2tpIPsecVpnApplication& orig);
-   L2tpIPsecVpnApplication & operator=(const L2tpIPsecVpnApplication& orig);
+    private:
+        L2tpIPsecVpnApplication(const L2tpIPsecVpnApplication& orig);
+        L2tpIPsecVpnApplication & operator=(const L2tpIPsecVpnApplication& orig);
 
-   const APPLICATIONMODE m_Mode;
-   QProcess* const m_pProcess;
-   LocalPeer* const m_pLocalPeer;
+        const APPLICATIONMODE m_Mode;
+        QProcess* const m_pProcess;
+        LocalPeer* const m_pLocalPeer;
 };
 
 #endif	/* L2TPIPSECVPNAPPLICATION_H */

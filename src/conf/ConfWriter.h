@@ -29,17 +29,17 @@
 
 class ConfWriter
 {
-public:
-   typedef enum { IPsec, L2TP, PPP, RSYSLOG, GETIPSECINFO, PPPUPSCRIPT, PPPDNSCONF, PPPDOWNSCRIPT, OPENSSL, IPsecSECRET, END} Conf;
+    public:
+        typedef enum { IPsec, L2TP, PPP, RSYSLOG, GETIPSECINFO, PPPUPSCRIPT, PPPDNSCONF, PPPDOWNSCRIPT, OPENSSL, IPsecSECRET, END} Conf;
 
-   static bool write(Conf conf, const QString& strInstance = "");
-   static const QString& fileName(Conf conf, const QString& strInstance = "");
+        static bool write(Conf conf, const QString& strInstance = "");
+        static const QString& fileName(Conf conf, const QString& strInstance = "");
 
-private:
-   ConfWriter();
-   virtual ~ConfWriter();
-   ConfWriter(const ConfWriter& orig);
-   ConfWriter& operator=(const ConfWriter& orig);
+    private:
+        ConfWriter();
+        virtual ~ConfWriter();
+        ConfWriter(const ConfWriter& orig);
+        ConfWriter& operator=(const ConfWriter& orig);
 };
 
 #endif	/* CONFWRITER_H */

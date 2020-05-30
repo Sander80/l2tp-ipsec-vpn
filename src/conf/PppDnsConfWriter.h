@@ -31,16 +31,16 @@
 
 class PppDnsConfWriter : public AbstractConfWriter
 {
-public:
-   PppDnsConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~PppDnsConfWriter() {}
+    public:
+        PppDnsConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~PppDnsConfWriter() {}
 
-protected:
-   void fill();
+    protected:
+        void fill();
 
-private:
-   PppDnsConfWriter(const PppDnsConfWriter& orig);
-   PppDnsConfWriter& operator=(const PppDnsConfWriter& orig);
+    private:
+        PppDnsConfWriter(const PppDnsConfWriter& orig);
+        PppDnsConfWriter& operator=(const PppDnsConfWriter& orig);
 };
 
 #endif	/* PPPDNSCONFWRITER_H */

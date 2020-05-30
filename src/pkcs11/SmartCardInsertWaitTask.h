@@ -33,23 +33,23 @@ class Pkcs11;
 
 class SmartCardInsertWaitTask : public QThread
 {
-public:
-   SmartCardInsertWaitTask(const Pkcs11& pkcs11);
-   virtual ~SmartCardInsertWaitTask();
+    public:
+        SmartCardInsertWaitTask(const Pkcs11& pkcs11);
+        virtual ~SmartCardInsertWaitTask();
 
-   void run();
-   void stop() { m_fStop = true;  wait(); }
+        void run();
+        void stop() { m_fStop = true;  wait(); }
 
-   int result() const { return(m_iRet); }
+        int result() const { return(m_iRet); }
 
-private:
-   SmartCardInsertWaitTask(const SmartCardInsertWaitTask& orig);
-   SmartCardInsertWaitTask& operator=(const SmartCardInsertWaitTask& orig);
+    private:
+        SmartCardInsertWaitTask(const SmartCardInsertWaitTask& orig);
+        SmartCardInsertWaitTask& operator=(const SmartCardInsertWaitTask& orig);
 
-   const Pkcs11& m_pkcs11;
+        const Pkcs11& m_pkcs11;
 
-   int m_iRet;
-   volatile bool m_fStop;
+        int m_iRet;
+        volatile bool m_fStop;
 };
 
 #endif	/* SMARTCARDINSERTWAITTASK_H */

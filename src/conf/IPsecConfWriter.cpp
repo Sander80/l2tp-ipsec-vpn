@@ -50,31 +50,31 @@ IPsecConfWriter::~IPsecConfWriter()
 
 void IPsecConfWriter::fill()
 {
-   const ConnectionSettings settings;
-   const int iConnections = settings.connections();
+    const ConnectionSettings settings;
+    const int iConnections = settings.connections();
 
-   for (int i = 0; i < iConnections; i++)
-   {
-      const QString strName(settings.connection(i));
+    for (int i = 0; i < iConnections; i++)
+    {
+        const QString strName(settings.connection(i));
 
-      if (!strName.isEmpty())
-      {
-         if (!settings.commonSettings(strName).disableIPSecEncryption())
-         {
-            ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
+        if (!strName.isEmpty())
+        {
+            if (!settings.commonSettings(strName).disableIPSecEncryption())
+            {
+                ctemplate::TemplateDictionary* const pConnection = dictionary()->AddSectionDictionary(CONN_SECTION);
 
-            const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
+                const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
 
-            pConnection->SetValue(NAME, strName.toLatin1().constData());
-            pConnection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
-            pConnection->SetValue(IDENTITY, ipsecSetting.identity().toLatin1().constData());
-            pConnection->SetValue(AUTHBY, ipsecSetting.authBy().toLatin1().constData());
-            if (ipsecSetting.authBy() == RSASIG)
-               pConnection->SetFormattedValue(LEFTCERT, LEFTCERTLINE, ipsecSetting.certificateFileName().toLatin1().constData());
-         }
-      }
-      else
-         addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
-   }
+                pConnection->SetValue(NAME, strName.toLatin1().constData());
+                pConnection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
+                pConnection->SetValue(IDENTITY, ipsecSetting.identity().toLatin1().constData());
+                pConnection->SetValue(AUTHBY, ipsecSetting.authBy().toLatin1().constData());
+                if (ipsecSetting.authBy() == RSASIG)
+                    pConnection->SetFormattedValue(LEFTCERT, LEFTCERTLINE, ipsecSetting.certificateFileName().toLatin1().constData());
+            }
+        }
+        else
+            addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
+    }
 }
 

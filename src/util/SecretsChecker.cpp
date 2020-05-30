@@ -72,30 +72,30 @@ SecretsChecker::~SecretsChecker()
  */
 bool SecretsChecker::check() const
 {
-   bool fOk(true);
+    bool fOk(true);
 
-   const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
+    const PppSettings pppSettings(ConnectionSettings().pppSettings(m_strConnectionName));
 
 
-   if (!pppSettings.refuseEap())
-   {
-      const PppEapSettings eapSettings(pppSettings.eapSettings());
-      if (eapSettings.privateKeyPassword().isEmpty())
-      {
-         if (eapSettings.privateKeyPath().startsWith(Preferences().openSSLSettings().engineId())) {
-            //fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your PIN:"), pppSettings);
-	 } else {
-            //fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your passphrase:"), pppSettings);
-	 }
-      }
-   }
-   else
-   {
-      if (pppSettings.password().isEmpty())
-         fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your password:"), pppSettings);
-   }
+    if (!pppSettings.refuseEap())
+    {
+        const PppEapSettings eapSettings(pppSettings.eapSettings());
+        if (eapSettings.privateKeyPassword().isEmpty())
+        {
+            if (eapSettings.privateKeyPath().startsWith(Preferences().openSSLSettings().engineId())) {
+                //fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your PIN:"), pppSettings);
+            } else {
+                //fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your passphrase:"), pppSettings);
+            }
+        }
+    }
+    else
+    {
+        if (pppSettings.password().isEmpty())
+            fOk = promptAndStoreSecret(QCoreApplication::applicationName(), QObject::tr("Please enter your password:"), pppSettings);
+    }
 
-   return(fOk);
+    return(fOk);
 }
 
 /*!
@@ -107,87 +107,87 @@ bool SecretsChecker::check() const
  */
 QString SecretsChecker::getSecret(const QString& strIdentity, bool* fok)
 {
-   const ConnectionSettings settings;
-   const int iConnections = settings.connections();
-   *fok=false;
+    const ConnectionSettings settings;
+    const int iConnections = settings.connections();
+    *fok=false;
 
-   QString strSecret;
-   if (iConnections > 0)
-   {
-      for (int i = 0; strSecret.isNull() && i < iConnections; i++)
-      {
-         const QString strConnectionName(settings.connection(i));
-         const PppSettings pppSettings(settings.pppSettings(strConnectionName));
-         const PppEapSettings eapSettings(pppSettings.eapSettings());
-         if (eapSettings.privateKeyPath() == strIdentity)
-         {
-            strSecret = eapSettings.privateKeyPassword();
-            if (strSecret.isEmpty()) {
-                strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password, "", fok);
-            } else {
+    QString strSecret;
+    if (iConnections > 0)
+    {
+        for (int i = 0; strSecret.isNull() && i < iConnections; i++)
+        {
+            const QString strConnectionName(settings.connection(i));
+            const PppSettings pppSettings(settings.pppSettings(strConnectionName));
+            const PppEapSettings eapSettings(pppSettings.eapSettings());
+            if (eapSettings.privateKeyPath() == strIdentity)
+            {
+                strSecret = eapSettings.privateKeyPassword();
+                if (strSecret.isEmpty()) {
+                    strSecret = QInputDialog::getText(NULL, QCoreApplication::applicationName(), QObject::tr("Please enter your Passphrase/PIN:"), QLineEdit::Password, "", fok);
+                } else {
+                    *fok = true;
+                }
+            }
+            else if (pppSettings.userName() == strIdentity)
+            {
+                strSecret = pppSettings.password();
+                if (strSecret.isEmpty())
+                    strSecret = readSecret(pppSettings);
                 *fok = true;
-	    }
-         }
-         else if (pppSettings.userName() == strIdentity)
-         {
-            strSecret = pppSettings.password();
-            if (strSecret.isEmpty())
-               strSecret = readSecret(pppSettings);
-            *fok = true;
-         }
-      }
-   }
+            }
+        }
+    }
 
-   return(strSecret);
+    return(strSecret);
 }
 
 bool SecretsChecker::promptAndStoreSecret(const QString& strTitle, const QString& strLabel, const PppSettings& pppSettings)
 {
-   bool fOk = MUTEX.tryLock();
+    bool fOk = MUTEX.tryLock();
 
-   if (fOk)
-   {
-       const QString strPassword = QInputDialog::getText(NULL, strTitle, strLabel, QLineEdit::Password, "", &fOk);
+    if (fOk)
+    {
+        const QString strPassword = QInputDialog::getText(NULL, strTitle, strLabel, QLineEdit::Password, "", &fOk);
 
-       if (fOk)
-       {
-          QFile secretsFile(getSecretsFilePath(pppSettings));
-          fOk = secretsFile.open(QIODevice::WriteOnly);
-          if (fOk)
-          {
-             EncSecrets secrets(KEY, IV, strPassword.toLatin1().constData());
-             fOk = secretsFile.write(secrets.getbuf()) != -1;
-          }
-       }
-       MUTEX.unlock();
-   }
+        if (fOk)
+        {
+            QFile secretsFile(getSecretsFilePath(pppSettings));
+            fOk = secretsFile.open(QIODevice::WriteOnly);
+            if (fOk)
+            {
+                EncSecrets secrets(KEY, IV, strPassword.toLatin1().constData());
+                fOk = secretsFile.write(secrets.getbuf()) != -1;
+            }
+        }
+        MUTEX.unlock();
+    }
 
-   return(fOk);
+    return(fOk);
 }
 
 QString SecretsChecker::readSecret(const PppSettings& pppSettings)
 {
-   QString strSecret;
-//printf("%s\n",getSecretsFilePath(pppSettings).toStdString().c_str());
-   QFile secretsFile(getSecretsFilePath(pppSettings));
-   if (secretsFile.exists())
-   {
-      if (secretsFile.open(QIODevice::ReadOnly))
-      {
-         QByteArray abSecret(secretsFile.readAll());
-         EncSecrets secrets(abSecret.data());
-         strSecret = secrets.retrieve(KEY, IV);
-      }
-      secretsFile.remove();
-   }
+    QString strSecret;
+    //printf("%s\n",getSecretsFilePath(pppSettings).toStdString().c_str());
+    QFile secretsFile(getSecretsFilePath(pppSettings));
+    if (secretsFile.exists())
+    {
+        if (secretsFile.open(QIODevice::ReadOnly))
+        {
+            QByteArray abSecret(secretsFile.readAll());
+            EncSecrets secrets(abSecret.data());
+            strSecret = secrets.retrieve(KEY, IV);
+        }
+        secretsFile.remove();
+    }
 
-   return(strSecret);
+    return(strSecret);
 }
 
 QString SecretsChecker::getSecretsFilePath(const PppSettings& pppSettings)
 {
-   if(pppSettings.userName() != "")
-       return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + pppSettings.userName()));
-   else
-       return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + "tmpsecret"));
+    if(pppSettings.userName() != "")
+        return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + pppSettings.userName()));
+    else
+        return(QString(QDir(QDir::tempPath()).absolutePath() + QLatin1Char('/') + "tmpsecret"));
 }

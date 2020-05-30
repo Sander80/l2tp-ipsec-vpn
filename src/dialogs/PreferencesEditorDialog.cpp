@@ -20,7 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
@@ -48,15 +48,15 @@ static const QString LIBFILTER(QObject::tr("Shared library files (*.so)"));
 
 PreferencesEditorDialog::PreferencesEditorDialog(QWidget* pParent) : QDialog(pParent)
 {
-   m_Widget.setupUi(this);
+    m_Widget.setupUi(this);
 
-   m_Widget.m_pEngineIDLineEdit->setValidator(new QRegExpValidator(REENGINID, this));
+    m_Widget.m_pEngineIDLineEdit->setValidator(new QRegExpValidator(REENGINID, this));
 
-   connect(m_Widget.m_pEnginePathPushButton, SIGNAL(clicked()), SLOT(onEnginePath()));
-   connect(m_Widget.m_pPkcs11PathPushButton, SIGNAL(clicked()), SLOT(onPkcs11Path()));
-   connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
+    connect(m_Widget.m_pEnginePathPushButton, SIGNAL(clicked()), SLOT(onEnginePath()));
+    connect(m_Widget.m_pPkcs11PathPushButton, SIGNAL(clicked()), SLOT(onPkcs11Path()));
+    connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
 
-   readSettings();
+    readSettings();
 }
 
 PreferencesEditorDialog::~PreferencesEditorDialog()
@@ -65,92 +65,92 @@ PreferencesEditorDialog::~PreferencesEditorDialog()
 
 void PreferencesEditorDialog::onEnginePath()
 {
-   const OpenSSLSettings settings(Preferences().openSSLSettings());
+    const OpenSSLSettings settings(Preferences().openSSLSettings());
 
-   const QString strEnginePath(QFileDialog::getOpenFileName(this, tr("Choose path of engine library ..."), settings.enginePath().isEmpty() ? DEFLIBPATH : settings.enginePath(), LIBFILTER));
+    const QString strEnginePath(QFileDialog::getOpenFileName(this, tr("Choose path of engine library ..."), settings.enginePath().isEmpty() ? DEFLIBPATH : settings.enginePath(), LIBFILTER));
 
-   if (!strEnginePath.isNull())
-      m_Widget.m_pEnginePathLineEdit->setText(strEnginePath);
+    if (!strEnginePath.isNull())
+        m_Widget.m_pEnginePathLineEdit->setText(strEnginePath);
 }
 
 void PreferencesEditorDialog::onPkcs11Path()
 {
-   const OpenSSLSettings settings(Preferences().openSSLSettings());
+    const OpenSSLSettings settings(Preferences().openSSLSettings());
 
-   const QString strPkcs11Path(QFileDialog::getOpenFileName(this, tr("Choose path of PKCS11 library ..."), settings.pkcs11Path().isEmpty() ? DEFLIBPATH : settings.pkcs11Path(), LIBFILTER));
+    const QString strPkcs11Path(QFileDialog::getOpenFileName(this, tr("Choose path of PKCS11 library ..."), settings.pkcs11Path().isEmpty() ? DEFLIBPATH : settings.pkcs11Path(), LIBFILTER));
 
-   if (!strPkcs11Path.isNull())
-      m_Widget.m_pPkcs11PathLineEdit->setText(strPkcs11Path);
+    if (!strPkcs11Path.isNull())
+        m_Widget.m_pPkcs11PathLineEdit->setText(strPkcs11Path);
 }
 
 void PreferencesEditorDialog::onHelpRequested() const
 {
-   ::showHelp("Editing_preferences");
+    ::showHelp("Editing_preferences");
 }
 
 void PreferencesEditorDialog::accept()
 {
-   const QString strPkcs11Lib(m_Widget.m_pPkcs11PathLineEdit->text());
-   const QString strCurrentPkcs11Lib(Preferences().openSSLSettings().pkcs11Path());
+    const QString strPkcs11Lib(m_Widget.m_pPkcs11PathLineEdit->text());
+    const QString strCurrentPkcs11Lib(Preferences().openSSLSettings().pkcs11Path());
 
-   if (!m_Widget.m_pEngineIDLineEdit->text().isEmpty())
-   {
-      if (!m_Widget.m_pEnginePathLineEdit->text().isEmpty())
-      {
-         if (!strPkcs11Lib.isEmpty())
-         {
-            if (Libtool(m_Widget.m_pEnginePathLineEdit->text()).hasSymbol(VALIDOPENSSLENGINELIBSYMBOL))
+    if (!m_Widget.m_pEngineIDLineEdit->text().isEmpty())
+    {
+        if (!m_Widget.m_pEnginePathLineEdit->text().isEmpty())
+        {
+            if (!strPkcs11Lib.isEmpty())
             {
-               try
-               {
-                  if (strPkcs11Lib != strCurrentPkcs11Lib)
-                     Pkcs11::loadLibrary(strPkcs11Lib, false);
+                if (Libtool(m_Widget.m_pEnginePathLineEdit->text()).hasSymbol(VALIDOPENSSLENGINELIBSYMBOL))
+                {
+                    try
+                    {
+                        if (strPkcs11Lib != strCurrentPkcs11Lib)
+                            Pkcs11::loadLibrary(strPkcs11Lib, false);
 
-                  writeSettings();
-                  QDialog::accept();
-               }
-               catch (const ErrorEx& error)
-               {
-                  QMessageBox::critical(NULL, QCoreApplication::applicationName(), error.getString());
+                        writeSettings();
+                        QDialog::accept();
+                    }
+                    catch (const ErrorEx& error)
+                    {
+                        QMessageBox::critical(NULL, QCoreApplication::applicationName(), error.getString());
 
-                  if (!strCurrentPkcs11Lib.isEmpty() && !Pkcs11::loaded())
-                  {
-                     if (!Pkcs11::loadLibrary(strCurrentPkcs11Lib, true))
-                        QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("I couldn't load PKCS11 library %1.").arg(strCurrentPkcs11Lib));
-                  }
-               }
+                        if (!strCurrentPkcs11Lib.isEmpty() && !Pkcs11::loaded())
+                        {
+                            if (!Pkcs11::loadLibrary(strCurrentPkcs11Lib, true))
+                                QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("I couldn't load PKCS11 library %1.").arg(strCurrentPkcs11Lib));
+                        }
+                    }
+                }
+                else
+                    QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 is not a valid OpenSSL engine library.").arg(m_Widget.m_pEnginePathLineEdit->text()));
             }
             else
-               QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 is not a valid OpenSSL engine library.").arg(m_Widget.m_pEnginePathLineEdit->text()));
-         }
-         else
-            QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 must not be empty.").arg(m_Widget.m_pPkcs11PathLabel->text()));
-      }
-      else
-         QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 must not be empty.").arg(m_Widget.m_pEnginPathLabel->text()));
-   }
-   else
-      QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 must not be empty.").arg(m_Widget.m_pEngineIdLabel->text()));
+                QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 must not be empty.").arg(m_Widget.m_pPkcs11PathLabel->text()));
+        }
+        else
+            QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 must not be empty.").arg(m_Widget.m_pEnginPathLabel->text()));
+    }
+    else
+        QMessageBox::critical(NULL, QCoreApplication::applicationName(), QObject::tr("%1 must not be empty.").arg(m_Widget.m_pEngineIdLabel->text()));
 }
 
 void PreferencesEditorDialog::readSettings() const
 {
-   const OpenSSLSettings settings(Preferences().openSSLSettings());
+    const OpenSSLSettings settings(Preferences().openSSLSettings());
 
-   m_Widget.m_pEngineIDLineEdit->setText(settings.engineId());
-   m_Widget.m_pEnginePathLineEdit->setText(settings.enginePath());
-   m_Widget.m_pPkcs11PathLineEdit->setText(settings.pkcs11Path());
-   m_Widget.m_pLowerSecFlag->setChecked(!settings.noLowerSec());
+    m_Widget.m_pEngineIDLineEdit->setText(settings.engineId());
+    m_Widget.m_pEnginePathLineEdit->setText(settings.enginePath());
+    m_Widget.m_pPkcs11PathLineEdit->setText(settings.pkcs11Path());
+    m_Widget.m_pLowerSecFlag->setChecked(!settings.noLowerSec());
 }
 
 bool PreferencesEditorDialog::writeSettings() const
 {
-   const OpenSSLSettings settings(Preferences().openSSLSettings());
+    const OpenSSLSettings settings(Preferences().openSSLSettings());
 
-   bool fRet(settings.setEngineId(m_Widget.m_pEngineIDLineEdit->text()));
-   if (fRet) fRet = settings.setEnginePath(m_Widget.m_pEnginePathLineEdit->text());
-   if (fRet) fRet = settings.setPkcs11Path(m_Widget.m_pPkcs11PathLineEdit->text());
-   if (fRet) fRet = settings.setNoLowerSec(!m_Widget.m_pLowerSecFlag->isChecked());
+    bool fRet(settings.setEngineId(m_Widget.m_pEngineIDLineEdit->text()));
+    if (fRet) fRet = settings.setEnginePath(m_Widget.m_pEnginePathLineEdit->text());
+    if (fRet) fRet = settings.setPkcs11Path(m_Widget.m_pPkcs11PathLineEdit->text());
+    if (fRet) fRet = settings.setNoLowerSec(!m_Widget.m_pLowerSecFlag->isChecked());
 
-   return(fRet);
+    return(fRet);
 }

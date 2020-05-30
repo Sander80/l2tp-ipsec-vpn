@@ -33,9 +33,9 @@
 
 ConnectionInformationDialog::ConnectionInformationDialog(QWidget* pParent) : QDialog(pParent)
 {
-   m_Widget.setupUi(this);
+    m_Widget.setupUi(this);
 
-   connect(m_Widget.m_pStatisticsPushButton, SIGNAL(clicked()), SLOT(onStatistics()));
+    connect(m_Widget.m_pStatisticsPushButton, SIGNAL(clicked()), SLOT(onStatistics()));
 }
 
 ConnectionInformationDialog::~ConnectionInformationDialog()
@@ -44,80 +44,80 @@ ConnectionInformationDialog::~ConnectionInformationDialog()
 
 void ConnectionInformationDialog::appendLogPlainText(const char* pcText)
 {
-   const QString strText(pcText);
-   const int iPos(strText.indexOf("ipsec__plutorun"));
+    const QString strText(pcText);
+    const int iPos(strText.indexOf("ipsec__plutorun"));
 
-   m_Widget.m_pTextEdit->insertPlainText(QDateTime::currentDateTime().toString("MMM dd hh:mm:ss.zzz") + " " + strText.mid((iPos == -1 ? 0 : iPos)));
+    m_Widget.m_pTextEdit->insertPlainText(QDateTime::currentDateTime().toString("MMM dd hh:mm:ss.zzz") + " " + strText.mid((iPos == -1 ? 0 : iPos)));
 }
 
 void ConnectionInformationDialog::appendLogColorText(const QColor& color, const char* pcText)
 {
-   const QColor currentColor(m_Widget.m_pTextEdit->textColor());
+    const QColor currentColor(m_Widget.m_pTextEdit->textColor());
 
-   if (pcText)
-   {
-      m_Widget.m_pTextEdit->setTextColor(color);
-      appendLogPlainText(pcText);
-      m_Widget.m_pTextEdit->setTextColor(currentColor);
-   }
+    if (pcText)
+    {
+        m_Widget.m_pTextEdit->setTextColor(color);
+        appendLogPlainText(pcText);
+        m_Widget.m_pTextEdit->setTextColor(currentColor);
+    }
 }
 
 void ConnectionInformationDialog::onConectionStateChanged(const ConnectionState* pNewState, const QString& strConnectionName)
 {
-   if (pNewState)
-   {
-      setWindowIcon(pNewState->icon());
+    if (pNewState)
+    {
+        setWindowIcon(pNewState->icon());
 
-      if (pNewState->isState(ConnectionState::Connected))
-      {
-         const NetworkInterface interface(pNewState->ptpInterface());
-         const NetworkInterface::AddressEntries addressEntries(interface.addressEntries());
-         const NetworkInterface::DefaultGatewayInfo internetInterfaceInfo(NetworkInterface::defaultGatewayInfo());
+        if (pNewState->isState(ConnectionState::Connected))
+        {
+            const NetworkInterface interface(pNewState->ptpInterface());
+            const NetworkInterface::AddressEntries addressEntries(interface.addressEntries());
+            const NetworkInterface::DefaultGatewayInfo internetInterfaceInfo(NetworkInterface::defaultGatewayInfo());
 
-         m_Widget.m_pTabWidget->setCurrentIndex(0);
-         m_Widget.m_pTabWidget->setTabEnabled(0, true);
-         m_Widget.m_pTabWidget->setTabText(0, strConnectionName);
-         m_Widget.m_pGateway->setText(pNewState->hostName());
-         m_Widget.m_pInternetInterfaceName->setText(internetInterfaceInfo.interfaceName().c_str());
-         m_Widget.m_pInternetInterfaceGateway->setText(internetInterfaceInfo.gateway().c_str());
-         m_Widget.m_pInterfaceName->setText(interface.name().c_str());
+            m_Widget.m_pTabWidget->setCurrentIndex(0);
+            m_Widget.m_pTabWidget->setTabEnabled(0, true);
+            m_Widget.m_pTabWidget->setTabText(0, strConnectionName);
+            m_Widget.m_pGateway->setText(pNewState->hostName());
+            m_Widget.m_pInternetInterfaceName->setText(internetInterfaceInfo.interfaceName().c_str());
+            m_Widget.m_pInternetInterfaceGateway->setText(internetInterfaceInfo.gateway().c_str());
+            m_Widget.m_pInterfaceName->setText(interface.name().c_str());
 
-         if (!addressEntries.empty())
-         {
-            m_Widget.m_pRemoteHost->setText(addressEntries[0].broadcast().toString());
-            m_Widget.m_pIPAddress->setText(addressEntries[0].ip().toString());
-            m_Widget.m_pSubnetMask->setText(addressEntries[0].netmask().toString());
-         }
-         else
-         {
-            m_Widget.m_pRemoteHost->setText("");
-            m_Widget.m_pIPAddress->setText("");
-            m_Widget.m_pSubnetMask->setText("");
-         }
-
-         const QStringList dns(NetworkInterface::dns());
-         if (dns.size() > 0)
-         {
-            m_Widget.m_pPrimaryDNS->setText(dns.at(0));
-            if (dns.size() > 1)
+            if (!addressEntries.empty())
             {
-               m_Widget.m_pSecondaryDNS->setText(dns.at(1));
-               if (dns.size() > 2)
-                  m_Widget.m_pTenaryDNS->setText(dns.at(2));
+                m_Widget.m_pRemoteHost->setText(addressEntries[0].broadcast().toString());
+                m_Widget.m_pIPAddress->setText(addressEntries[0].ip().toString());
+                m_Widget.m_pSubnetMask->setText(addressEntries[0].netmask().toString());
             }
-         }
-      }
-      else
-      {
-         m_Widget.m_pTabWidget->setCurrentIndex(1);
-         m_Widget.m_pTabWidget->setTabEnabled(0, false);
-         m_Widget.m_pTabWidget->setTabText(0, pNewState->msgTitle());
-      }
-   }
+            else
+            {
+                m_Widget.m_pRemoteHost->setText("");
+                m_Widget.m_pIPAddress->setText("");
+                m_Widget.m_pSubnetMask->setText("");
+            }
+
+            const QStringList dns(NetworkInterface::dns());
+            if (dns.size() > 0)
+            {
+                m_Widget.m_pPrimaryDNS->setText(dns.at(0));
+                if (dns.size() > 1)
+                {
+                    m_Widget.m_pSecondaryDNS->setText(dns.at(1));
+                    if (dns.size() > 2)
+                        m_Widget.m_pTenaryDNS->setText(dns.at(2));
+                }
+            }
+        }
+        else
+        {
+            m_Widget.m_pTabWidget->setCurrentIndex(1);
+            m_Widget.m_pTabWidget->setTabEnabled(0, false);
+            m_Widget.m_pTabWidget->setTabText(0, pNewState->msgTitle());
+        }
+    }
 }
 
 void ConnectionInformationDialog::onStatistics() const
 {
-   InterfaceStatisticsDialog interfaceStatistics(m_Widget.m_pInterfaceName->text());
-   interfaceStatistics.exec();
+    InterfaceStatisticsDialog interfaceStatistics(m_Widget.m_pInterfaceName->text());
+    interfaceStatistics.exec();
 }

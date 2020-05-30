@@ -37,66 +37,66 @@ class Pkcs11Attlist;
 
 class Pkcs11Attribute
 {
-public:
-   explicit Pkcs11Attribute(unsigned long ulType);
-   virtual ~Pkcs11Attribute();
+    public:
+        explicit Pkcs11Attribute(unsigned long ulType);
+        virtual ~Pkcs11Attribute();
 
-	const CK_ATTRIBUTE* getAttribute() const { return(&m_Attr);	}
-	virtual void store(CK_SESSION_HANDLE ulSessionHandle, CK_OBJECT_HANDLE ulObjectHandle);
-	virtual void load(CK_SESSION_HANDLE ulSessionHandle, CK_OBJECT_HANDLE ulObjectHandle);
+        const CK_ATTRIBUTE* getAttribute() const { return(&m_Attr);	}
+        virtual void store(CK_SESSION_HANDLE ulSessionHandle, CK_OBJECT_HANDLE ulObjectHandle);
+        virtual void load(CK_SESSION_HANDLE ulSessionHandle, CK_OBJECT_HANDLE ulObjectHandle);
 
-protected:
-	CK_ATTRIBUTE m_Attr;
+    protected:
+        CK_ATTRIBUTE m_Attr;
 
-private:
-   Pkcs11Attribute(const Pkcs11Attribute& orig);
-   Pkcs11Attribute& operator=(const Pkcs11Attribute& orig);
+    private:
+        Pkcs11Attribute(const Pkcs11Attribute& orig);
+        Pkcs11Attribute& operator=(const Pkcs11Attribute& orig);
 
-	friend class Pkcs11Attlist;
+        friend class Pkcs11Attlist;
 };
 
 class Pkcs11AttrBool: public Pkcs11Attribute
 {
-public:
-	Pkcs11AttrBool(unsigned long ulType, bool fValue = false) : Pkcs11Attribute(ulType)
-	{
-		m_Attr.pValue = &m_cValue;
-		m_Attr.ulValueLen = sizeof(m_cValue);
-		setValue(fValue);
-	}
+    public:
+        Pkcs11AttrBool(unsigned long ulType, bool fValue = false) : Pkcs11Attribute(ulType)
+    {
+        m_Attr.pValue = &m_cValue;
+        m_Attr.ulValueLen = sizeof(m_cValue);
+        setValue(fValue);
+    }
 
-	bool getValue() const { return(m_cValue ? true : false);	}
+        bool getValue() const { return(m_cValue ? true : false);	}
 
-	void setValue(unsigned long ulValue) {	m_cValue = ulValue ? 1 : 0; }
+        void setValue(unsigned long ulValue) {	m_cValue = ulValue ? 1 : 0; }
 
-protected:
-	unsigned char m_cValue;
+    protected:
+        unsigned char m_cValue;
 
-private:
-   Pkcs11AttrBool(const Pkcs11AttrBool& orig);
-   Pkcs11AttrBool& operator=(const Pkcs11AttrBool& orig);
+    private:
+        Pkcs11AttrBool(const Pkcs11AttrBool& orig);
+        Pkcs11AttrBool& operator=(const Pkcs11AttrBool& orig);
 };
 
 class Pkcs11AttrUlong: public Pkcs11Attribute
 {
-public:
-	Pkcs11AttrUlong(unsigned long ulType, unsigned long ulValue = 0) : Pkcs11Attribute(ulType)
-	{
-		m_Attr.pValue = &m_ulValue;
-		m_Attr.ulValueLen = sizeof(m_ulValue);
-		setValue(ulValue);
-	}
+    public:
+        Pkcs11AttrUlong(unsigned long ulType, unsigned long ulValue = 0) : Pkcs11Attribute(ulType)
+    {
+        m_Attr.pValue = &m_ulValue;
+        m_Attr.ulValueLen = sizeof(m_ulValue);
+        setValue(ulValue);
+    }
 
-	unsigned long getValue() const { return(m_ulValue); }
+        unsigned long getValue() const { return(m_ulValue); }
 
-	void setValue(unsigned long ulValue) {	m_ulValue = ulValue;	}
+        void setValue(unsigned long ulValue) {	m_ulValue = ulValue;	}
 
-protected:
-	unsigned long m_ulValue;
+    protected:
+        unsigned long m_ulValue;
 
-private:
-   Pkcs11AttrUlong(const Pkcs11AttrBool& orig);
-   Pkcs11AttrUlong& operator=(const Pkcs11AttrBool& orig);
+    private:
+        Pkcs11AttrUlong(const Pkcs11AttrBool& orig);
+        Pkcs11AttrUlong& operator=(const Pkcs11AttrBool& orig);
 };
 
 
@@ -104,84 +104,84 @@ private:
 class Pkcs11AttrData: public Pkcs11Attribute
 {
 
-public:
-	Pkcs11AttrData(unsigned long ulType, const unsigned char* pcValue = NULL,	unsigned long ulLen = 0) : Pkcs11Attribute(ulType)
-	{
-		setValue(pcValue, ulLen);
-	}
+    public:
+        Pkcs11AttrData(unsigned long ulType, const unsigned char* pcValue = NULL,	unsigned long ulLen = 0) : Pkcs11Attribute(ulType)
+    {
+        setValue(pcValue, ulLen);
+    }
 
-	Pkcs11AttrData(unsigned long ulType, QByteArray ba) : Pkcs11Attribute(ulType)
-	{
-		setValue(reinterpret_cast<const unsigned char*>(ba.constData()), ba.size());
-	}
+        Pkcs11AttrData(unsigned long ulType, QByteArray ba) : Pkcs11Attribute(ulType)
+    {
+        setValue(reinterpret_cast<const unsigned char*>(ba.constData()), ba.size());
+    }
 
-	virtual ~Pkcs11AttrData()
-	{
-		if (m_Attr.pValue)
-			::free(m_Attr.pValue);
-	}
+        virtual ~Pkcs11AttrData()
+        {
+            if (m_Attr.pValue)
+                ::free(m_Attr.pValue);
+        }
 
-	unsigned long getValue(const unsigned char** ppChar) const
-	{
-		*ppChar = static_cast<unsigned char*>(m_Attr.pValue);
-		return(m_Attr.ulValueLen);
-	}
+        unsigned long getValue(const unsigned char** ppChar) const
+        {
+            *ppChar = static_cast<unsigned char*>(m_Attr.pValue);
+            return(m_Attr.ulValueLen);
+        }
 
-	QString getText() const	{ return(::utf82QString(m_Attr.pValue, m_Attr.ulValueLen)); }
+        QString getText() const	{ return(::utf82QString(m_Attr.pValue, m_Attr.ulValueLen)); }
 
-	BIGNUM* getBignum() const { return(::BN_bin2bn(static_cast<unsigned char*>(m_Attr.pValue), m_Attr.ulValueLen, NULL)); }
+        BIGNUM* getBignum() const { return(::BN_bin2bn(static_cast<unsigned char*>(m_Attr.pValue), m_Attr.ulValueLen, NULL)); }
 
-	void load(CK_SESSION_HANDLE ulSessionHandle, CK_OBJECT_HANDLE ulObjectHandle);
-	void setValue(const unsigned char *pc, unsigned long ulLen);
+        void load(CK_SESSION_HANDLE ulSessionHandle, CK_OBJECT_HANDLE ulObjectHandle);
+        void setValue(const unsigned char *pc, unsigned long ulLen);
 
-private:
-   Pkcs11AttrData(const Pkcs11AttrData& orig);
-   Pkcs11AttrData& operator=(const Pkcs11AttrData& orig);
+    private:
+        Pkcs11AttrData(const Pkcs11AttrData& orig);
+        Pkcs11AttrData& operator=(const Pkcs11AttrData& orig);
 };
 
 class Pkcs11Attlist
 {
-public:
-   Pkcs11Attlist() { init(); }
-   explicit Pkcs11Attlist(const Pkcs11Attlist& attrList);
-   Pkcs11Attlist& operator = (const Pkcs11Attlist& attrList);
-   explicit Pkcs11Attlist(const Pkcs11Attribute& attr)
-   {
-      init();
-      addAttribute(attr);
-   }
+    public:
+        Pkcs11Attlist() { init(); }
+        explicit Pkcs11Attlist(const Pkcs11Attlist& attrList);
+        Pkcs11Attlist& operator = (const Pkcs11Attlist& attrList);
+        explicit Pkcs11Attlist(const Pkcs11Attribute& attr)
+        {
+            init();
+            addAttribute(attr);
+        }
 
-   ~Pkcs11Attlist();
+        ~Pkcs11Attlist();
 
-   unsigned long get(CK_ATTRIBUTE** ppAttributes) const
-   {
-      *ppAttributes = m_pAttributes;
-      return(m_ulAttrLen);
-   }
+        unsigned long get(CK_ATTRIBUTE** ppAttributes) const
+        {
+            *ppAttributes = m_pAttributes;
+            return(m_ulAttrLen);
+        }
 
-   void addAttribute(const Pkcs11Attribute& attribute);
-   void reset();
+        void addAttribute(const Pkcs11Attribute& attribute);
+        void reset();
 
-   Pkcs11Attlist &operator << (const Pkcs11Attribute& attribute)
-   {
-      addAttribute(attribute);
-      return(*this);
-   }
+        Pkcs11Attlist &operator << (const Pkcs11Attribute& attribute)
+        {
+            addAttribute(attribute);
+            return(*this);
+        }
 
-private:
-   Pkcs11Attlist(const Pkcs11AttrData& orig);
-   Pkcs11Attlist& operator=(const Pkcs11AttrData& orig);
+    private:
+        Pkcs11Attlist(const Pkcs11AttrData& orig);
+        Pkcs11Attlist& operator=(const Pkcs11AttrData& orig);
 
-   void init()
-   {
-      m_ulAttrLen = 0;
-      m_ulAllocLen = 0;
-      m_pAttributes = NULL;
-   }
+        void init()
+        {
+            m_ulAttrLen = 0;
+            m_ulAllocLen = 0;
+            m_pAttributes = NULL;
+        }
 
-   CK_ATTRIBUTE* m_pAttributes;
-   unsigned long m_ulAttrLen;
-   unsigned long m_ulAllocLen;
+        CK_ATTRIBUTE* m_pAttributes;
+        unsigned long m_ulAttrLen;
+        unsigned long m_ulAllocLen;
 };
 
 #endif	/* PKCS11ATTRIBUTE_H */

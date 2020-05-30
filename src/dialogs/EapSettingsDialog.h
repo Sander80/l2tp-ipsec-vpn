@@ -31,30 +31,30 @@
 
 class EapSettingsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit EapSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
-   virtual ~EapSettingsDialog();
+    public:
+        explicit EapSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
+        virtual ~EapSettingsDialog();
 
-private slots:
-   void onUseCertificateRadioButtonToggled(bool fChecked);
-   void onCertificate();
-   void onPrivateKey();
-   void onCaCertificate();
-   void readSettings();
-   bool writeSettings() const;
-   void onHelpRequested() const;
-   void accept();
+        private slots:
+            void onUseCertificateRadioButtonToggled(bool fChecked);
+        void onCertificate();
+        void onPrivateKey();
+        void onCaCertificate();
+        void readSettings();
+        bool writeSettings() const;
+        void onHelpRequested() const;
+        void accept();
 
-private:
-   EapSettingsDialog(const EapSettingsDialog& orig);
-   EapSettingsDialog& operator=(const EapSettingsDialog& orig);
+    private:
+        EapSettingsDialog(const EapSettingsDialog& orig);
+        EapSettingsDialog& operator=(const EapSettingsDialog& orig);
 
-   Ui::EapSettingsDialog m_Widget;
+        Ui::EapSettingsDialog m_Widget;
 
-   const QString m_strConnectionName;
-   QString m_strUserName;
+        const QString m_strConnectionName;
+        QString m_strUserName;
 };
 
 #endif	/* _EAPSETTINGSDIALOG_H */

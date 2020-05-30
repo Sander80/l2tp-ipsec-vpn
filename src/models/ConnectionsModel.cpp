@@ -35,85 +35,85 @@ ConnectionsModel::ConnectionsModel(QObject* pParent) : QAbstractTableModel(pPare
 
 ConnectionsModel::~ConnectionsModel()
 {
-   delete m_pSettings;
+    delete m_pSettings;
 }
 
 bool ConnectionsModel::isWriteable() const
 {
-   return(m_pSettings->isWriteable());
+    return(m_pSettings->isWriteable());
 }
 
 int ConnectionsModel::rowCount(const QModelIndex& /* parent */) const
 {
-   return(m_pSettings->connections());
+    return(m_pSettings->connections());
 }
 
 int ConnectionsModel::columnCount(const QModelIndex& /* parent */) const
 {
-   return(1);
+    return(1);
 }
 
 QVariant ConnectionsModel::data(const QModelIndex& index, int iRole) const
 {
-   QVariant ret;
+    QVariant ret;
 
-   if (index.isValid())
-   {
-      if (iRole == Qt::DisplayRole)
-         ret = m_pSettings->connection(index.row());
-      else if (iRole == Qt::TextAlignmentRole)
-         ret = int(Qt::AlignLeft | Qt::AlignVCenter);
-   }
+    if (index.isValid())
+    {
+        if (iRole == Qt::DisplayRole)
+            ret = m_pSettings->connection(index.row());
+        else if (iRole == Qt::TextAlignmentRole)
+            ret = int(Qt::AlignLeft | Qt::AlignVCenter);
+    }
 
-   return(ret);
+    return(ret);
 }
 
 QVariant ConnectionsModel::headerData(int iSection, Qt::Orientation orientation, int iRole) const
 {
-   QVariant ret;
+    QVariant ret;
 
-   if (iRole == Qt::DisplayRole && iSection == 0 && orientation == Qt::Horizontal)
-      ret = tr("Name");
+    if (iRole == Qt::DisplayRole && iSection == 0 && orientation == Qt::Horizontal)
+        ret = tr("Name");
 
-   return(ret);
+    return(ret);
 }
 
 ConnectionsModel::Result ConnectionsModel::addRow(const QString& strName, const QModelIndex& parent)
 {
-   Result result(ConnectionsModel::Ok);
+    Result result(ConnectionsModel::Ok);
 
-   const int iRow = m_pSettings->connections();
-   beginInsertRows(parent, iRow, iRow);
-   switch (m_pSettings->addConnection(strName))
-   {
-      case ConnectionSettings::DuplicateName:
-         result = ConnectionsModel::DuplicateName;
-         break;
+    const int iRow = m_pSettings->connections();
+    beginInsertRows(parent, iRow, iRow);
+    switch (m_pSettings->addConnection(strName))
+    {
+        case ConnectionSettings::DuplicateName:
+            result = ConnectionsModel::DuplicateName;
+            break;
 
-      case ConnectionSettings::InvalidName:
-         result = ConnectionsModel::InvalidName;
-         break;
+        case ConnectionSettings::InvalidName:
+            result = ConnectionsModel::InvalidName;
+            break;
 
-      case ConnectionSettings::ReadOnly:
-         result = ConnectionsModel::ReadOnly;
-         break;
+        case ConnectionSettings::ReadOnly:
+            result = ConnectionsModel::ReadOnly;
+            break;
 
-      case ConnectionSettings::Ok:
-         result = ConnectionsModel::Ok;
-         break;
-   }
-   endInsertRows();
+        case ConnectionSettings::Ok:
+            result = ConnectionsModel::Ok;
+            break;
+    }
+    endInsertRows();
 
-   return(result);
+    return(result);
 }
 
 bool ConnectionsModel::removeRow(int iRow, const QModelIndex& parent)
 {
-   bool fRet;
+    bool fRet;
 
-   beginRemoveRows(parent, iRow, iRow);
-   fRet = m_pSettings->removeConnection(iRow);
-   endRemoveRows();
+    beginRemoveRows(parent, iRow, iRow);
+    fRet = m_pSettings->removeConnection(iRow);
+    endRemoveRows();
 
-   return(fRet);
+    return(fRet);
 }

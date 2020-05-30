@@ -33,31 +33,31 @@ class QSslCertificate;
 
 class CertificateInfo
 {
-public:
-   explicit CertificateInfo(const QString& strFilePath);
-   explicit CertificateInfo(const QByteArray& data);
-   virtual ~CertificateInfo();
+    public:
+        explicit CertificateInfo(const QString& strFilePath);
+        explicit CertificateInfo(const QByteArray& data);
+        virtual ~CertificateInfo();
 
-   QString path() const;
-   QString fileName() const;
-   QString filePath() const;
-   bool isReadable() const;
-   QString serialNumber() const;
-   QString cn() const;
-   QString issuer() const;
-   QString email() const;
-   bool toPem(const QString& strPemFilePath) const;
+        QString path() const;
+        QString fileName() const;
+        QString filePath() const;
+        bool isReadable() const;
+        QString serialNumber() const;
+        QString cn() const;
+        QString issuer() const;
+        QString email() const;
+        bool toPem(const QString& strPemFilePath) const;
 
-private:
-   CertificateInfo(const CertificateInfo& orig);
-   CertificateInfo& operator=(const CertificateInfo& orig);
+    private:
+        CertificateInfo(const CertificateInfo& orig);
+        CertificateInfo& operator=(const CertificateInfo& orig);
 
-   QString alternativeSubjectName(const QSsl::AlternativeNameEntryType type) const;
+        QString alternativeSubjectName(const QSsl::AlternativeNameEntryType type) const;
 
-   static QSslCertificate* readCert(const QString& strFilePath);
+        static QSslCertificate* readCert(const QString& strFilePath);
 
-   QString m_strFilePath;
-   QSslCertificate* const m_pQSslCertificate;
+        QString m_strFilePath;
+        QSslCertificate* const m_pQSslCertificate;
 };
 
 #endif	/* CERTIFICATEINFO_H */

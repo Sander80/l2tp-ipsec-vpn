@@ -40,19 +40,19 @@ PppDnsConfWriter::PppDnsConfWriter(const QString& strTemplateKey, const QString&
 
 void PppDnsConfWriter::fill()
 {
-   QString strInstance(instance());
-   const QString strConnectionName(strInstance.replace(QCoreApplication::instance()->objectName() + "-", ""));
+    QString strInstance(instance());
+    const QString strConnectionName(strInstance.replace(QCoreApplication::instance()->objectName() + "-", ""));
 
-   const PppSettings pppSettings = ConnectionSettings().pppSettings(strConnectionName);
-   const PppIpSettings ipSettings(pppSettings.ipSettings());
-   const bool fUsePeerDns = ipSettings.usePeerDns();
+    const PppSettings pppSettings = ConnectionSettings().pppSettings(strConnectionName);
+    const PppIpSettings ipSettings(pppSettings.ipSettings());
+    const bool fUsePeerDns = ipSettings.usePeerDns();
 
-   if (!fUsePeerDns && !ipSettings.preferredDnsServerAddress().isEmpty())
-      dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.preferredDnsServerAddress().toLatin1().constData());
+    if (!fUsePeerDns && !ipSettings.preferredDnsServerAddress().isEmpty())
+        dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.preferredDnsServerAddress().toLatin1().constData());
 
-   if (!fUsePeerDns && !ipSettings.alternateDnsServerAddress().isEmpty())
-      dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.alternateDnsServerAddress().toLatin1().constData());
+    if (!fUsePeerDns && !ipSettings.alternateDnsServerAddress().isEmpty())
+        dictionary()->AddSectionDictionary(DNS_SECTION)->SetValue(IPADDRESS, ipSettings.alternateDnsServerAddress().toLatin1().constData());
 
-   if (!fUsePeerDns && !ipSettings.searchDomains().isEmpty())
-      dictionary()->AddSectionDictionary(SEARCH_SECTION)->SetValue(SEARCHLIST, ipSettings.searchDomains().toLatin1().constData());
+    if (!fUsePeerDns && !ipSettings.searchDomains().isEmpty())
+        dictionary()->AddSectionDictionary(SEARCH_SECTION)->SetValue(SEARCHLIST, ipSettings.searchDomains().toLatin1().constData());
 }

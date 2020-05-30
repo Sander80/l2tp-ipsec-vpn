@@ -33,188 +33,188 @@ static const char* const KEY = "L2tpIPsecVpnControlDaemon";
 
 VpnControlDaemonClient::VpnControlDaemonClient(QObject* pParent) : QObject(pParent), m_pStream(new QTextStream), m_pSocket(new QLocalSocket)
 {
-   m_pStream->setDevice(m_pSocket);
-   connect(m_pSocket, SIGNAL(connected()), SLOT(onConnected()));
-   connect(m_pSocket, SIGNAL(error(QLocalSocket::LocalSocketError)), SLOT(onDisconnected()));
-   connect(m_pSocket, SIGNAL(disconnected()), SLOT(onDisconnected()));
-   connect(m_pSocket, SIGNAL(readyRead()), SLOT(onReadyRead()));
+    m_pStream->setDevice(m_pSocket);
+    connect(m_pSocket, SIGNAL(connected()), SLOT(onConnected()));
+    connect(m_pSocket, SIGNAL(error(QLocalSocket::LocalSocketError)), SLOT(onDisconnected()));
+    connect(m_pSocket, SIGNAL(disconnected()), SLOT(onDisconnected()));
+    connect(m_pSocket, SIGNAL(readyRead()), SLOT(onReadyRead()));
 }
 
 VpnControlDaemonClient::VpnControlDaemonClient(bool /* fSynchronous */) : QObject(NULL), m_pStream(new QTextStream), m_pSocket(new QLocalSocket)
 {
-   m_pStream->setDevice(m_pSocket);
-   connect(m_pSocket, SIGNAL(connected()), SLOT(onConnected()));
-   connect(m_pSocket, SIGNAL(error(QLocalSocket::LocalSocketError)), SLOT(onDisconnected()));
-   connect(m_pSocket, SIGNAL(disconnected()), SLOT(onDisconnected()));
+    m_pStream->setDevice(m_pSocket);
+    connect(m_pSocket, SIGNAL(connected()), SLOT(onConnected()));
+    connect(m_pSocket, SIGNAL(error(QLocalSocket::LocalSocketError)), SLOT(onDisconnected()));
+    connect(m_pSocket, SIGNAL(disconnected()), SLOT(onDisconnected()));
 }
 
 VpnControlDaemonClient::~VpnControlDaemonClient()
 {
-   delete m_pSocket;
-   delete m_pStream;
+    delete m_pSocket;
+    delete m_pStream;
 }
 
 void VpnControlDaemonClient::connectToServer()
 {
-   m_pSocket->abort();
-   m_pSocket->connectToServer(KEY);
+    m_pSocket->abort();
+    m_pSocket->connectToServer(KEY);
 }
 
 bool VpnControlDaemonClient::waitForConnected(int iMiliSeconds)
 {
-   return(m_pSocket->waitForConnected(iMiliSeconds));
+    return(m_pSocket->waitForConnected(iMiliSeconds));
 }
 
 bool VpnControlDaemonClient::start(VpnClientConnection::Command iCommand, const QString& strArguments)
 {
-   bool fRet(false);
+    bool fRet(false);
 
-   if (m_pSocket->state() == QLocalSocket::ConnectedState)
-   {
+    if (m_pSocket->state() == QLocalSocket::ConnectedState)
+    {
 
-      if (strArguments.isNull()) {
-	 //QTextStream(stdout) << (QString::number(iCommand) + '\n').toLatin1().constData() <<endl;
-         m_pSocket->write((QString::number(iCommand) + '\n').toLatin1().constData());
-      }
-      else {
-	 //QTextStream(stdout) << (QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData() <<endl;
-         m_pSocket->write((QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData());
-      }
+        if (strArguments.isNull()) {
+            //QTextStream(stdout) << (QString::number(iCommand) + '\n').toLatin1().constData() <<endl;
+            m_pSocket->write((QString::number(iCommand) + '\n').toLatin1().constData());
+        }
+        else {
+            //QTextStream(stdout) << (QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData() <<endl;
+            m_pSocket->write((QString::number(iCommand) + " " + strArguments + '\n').toLatin1().constData());
+        }
 
-      fRet = true;
-   }
+        fRet = true;
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 int VpnControlDaemonClient::execute(VpnClientConnection::Command iCommand, const QString& strArguments)
 {
-   int iRet(1);
+    int iRet(1);
 
-   VpnControlDaemonClient client(true);
+    VpnControlDaemonClient client(true);
 
-   client.connectToServer();
+    client.connectToServer();
 
-   if (client.waitForConnected())
-   {
-      if (client.start(iCommand, strArguments))
-         iRet = client.waitForResult();
-   }
+    if (client.waitForConnected())
+    {
+        if (client.start(iCommand, strArguments))
+            iRet = client.waitForResult();
+    }
 
-   return(iRet);
+    return(iRet);
 }
 
 void VpnControlDaemonClient::exit()
 {
-   if (start(VpnClientConnection::CMD_QUIT))
-   {
-      m_pSocket->waitForBytesWritten();
-      m_pSocket->disconnectFromServer();
-   }
+    if (start(VpnClientConnection::CMD_QUIT))
+    {
+        m_pSocket->waitForBytesWritten();
+        m_pSocket->disconnectFromServer();
+    }
 }
 
 void VpnControlDaemonClient::leave()
 {
-  m_pSocket->disconnectFromServer();
+    m_pSocket->disconnectFromServer();
 }
 
 void VpnControlDaemonClient::onConnected()
 {
-   emit notifyConnected();
+    emit notifyConnected();
 }
 
 void VpnControlDaemonClient::onDisconnected()
 {
-   emit notifyDisconnected();
+    emit notifyDisconnected();
 }
 
 void VpnControlDaemonClient::onReadyRead()
 {
-   readResponse();
+    readResponse();
 }
 
 int VpnControlDaemonClient::waitForResult()
 {
-   int iRet(500);
+    int iRet(500);
 
-   while (m_pSocket->waitForReadyRead())
-   {
-      const Result result = readResponse();
-      if (result.type == VpnClientConnection::RESULT)
-      {
-         iRet = result.iReturnCode;
-         break;
-      }
-   }
+    while (m_pSocket->waitForReadyRead())
+    {
+        const Result result = readResponse();
+        if (result.type == VpnClientConnection::RESULT)
+        {
+            iRet = result.iReturnCode;
+            break;
+        }
+    }
 
-   return(iRet);
+    return(iRet);
 }
 
 VpnControlDaemonClient::Result VpnControlDaemonClient::readResponse()
 {
-   Result result;
-   result.type = VpnClientConnection::UNKNOWN;
+    Result result;
+    result.type = VpnClientConnection::UNKNOWN;
 
-   if (m_pSocket->canReadLine())
-   {
-      QString strResponseLine;
-      while ((strResponseLine = m_pStream->readLine()).length() > 0)
-      {
-         const QStringList strResponseParts(strResponseLine.split(' ', QString::SkipEmptyParts));
-         const int iParts(strResponseParts.count());
-         if (iParts > 1)
-         {
-            bool fIsResponseType;
-            const unsigned int iResponseType = strResponseParts[0].toUInt(&fIsResponseType);
-            Q_ASSERT(fIsResponseType);
-
-            if (fIsResponseType)
+    if (m_pSocket->canReadLine())
+    {
+        QString strResponseLine;
+        while ((strResponseLine = m_pStream->readLine()).length() > 0)
+        {
+            const QStringList strResponseParts(strResponseLine.split(' ', QString::SkipEmptyParts));
+            const int iParts(strResponseParts.count());
+            if (iParts > 1)
             {
-               switch (iResponseType)
-               {
-                  case VpnClientConnection::RESULT:
-                  {
-                     bool fIsReturnCode;
-                     const int iReturnCode(strResponseParts[1].toUInt(&fIsReturnCode));
-                     Q_ASSERT(fIsReturnCode);
-                     Q_ASSERT(iParts > 2);
-                     if (fIsReturnCode)
-                     {
-                        const QString strCommand(strResponseLine.mid(strResponseLine.indexOf(strResponseParts[2])));
-                        emit notifyResult(iReturnCode, strCommand);
-                        result.iReturnCode = iReturnCode;
-                        result.type = VpnClientConnection::RESULT;
-                     }
-                  }
-                  break;
+                bool fIsResponseType;
+                const unsigned int iResponseType = strResponseParts[0].toUInt(&fIsResponseType);
+                Q_ASSERT(fIsResponseType);
 
-                  case VpnClientConnection::OUTPUT:
-                     emit notifyCommandOutput(strResponseLine.mid(strResponseLine.indexOf(' ') + 1));
-                     result.iReturnCode = 0;
-                     result.type = VpnClientConnection::OUTPUT;
-                     break;
+                if (fIsResponseType)
+                {
+                    switch (iResponseType)
+                    {
+                        case VpnClientConnection::RESULT:
+                            {
+                                bool fIsReturnCode;
+                                const int iReturnCode(strResponseParts[1].toUInt(&fIsReturnCode));
+                                Q_ASSERT(fIsReturnCode);
+                                Q_ASSERT(iParts > 2);
+                                if (fIsReturnCode)
+                                {
+                                    const QString strCommand(strResponseLine.mid(strResponseLine.indexOf(strResponseParts[2])));
+                                    emit notifyResult(iReturnCode, strCommand);
+                                    result.iReturnCode = iReturnCode;
+                                    result.type = VpnClientConnection::RESULT;
+                                }
+                            }
+                            break;
 
-                  case VpnClientConnection::INFORMATION:
-                  {
-                     bool fIsInformation;
-                     const int iInformation(strResponseParts[1].toUInt(&fIsInformation));
-                     Q_ASSERT(fIsInformation);
-                     if (fIsInformation && iInformation == VpnClientConnection::CLOSED)
-                         m_pSocket->disconnectFromServer();
+                        case VpnClientConnection::OUTPUT:
+                            emit notifyCommandOutput(strResponseLine.mid(strResponseLine.indexOf(' ') + 1));
+                            result.iReturnCode = 0;
+                            result.type = VpnClientConnection::OUTPUT;
+                            break;
 
-                     result.iReturnCode = VpnClientConnection::CLOSED;
-                     result.type = VpnClientConnection::INFORMATION;
-                  }
-                  break;
+                        case VpnClientConnection::INFORMATION:
+                            {
+                                bool fIsInformation;
+                                const int iInformation(strResponseParts[1].toUInt(&fIsInformation));
+                                Q_ASSERT(fIsInformation);
+                                if (fIsInformation && iInformation == VpnClientConnection::CLOSED)
+                                    m_pSocket->disconnectFromServer();
 
-                  default:
-                     // either server changed protocol and we missed this or a malicious software sends us messages
-                     Q_ASSERT(false);
-               }
+                                result.iReturnCode = VpnClientConnection::CLOSED;
+                                result.type = VpnClientConnection::INFORMATION;
+                            }
+                            break;
+
+                        default:
+                            // either server changed protocol and we missed this or a malicious software sends us messages
+                            Q_ASSERT(false);
+                    }
+                }
             }
-         }
-      }
-   }
+        }
+    }
 
-   return(result);
+    return(result);
 }

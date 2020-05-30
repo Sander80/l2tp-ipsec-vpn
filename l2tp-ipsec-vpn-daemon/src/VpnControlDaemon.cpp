@@ -34,27 +34,27 @@ VpnControlDaemon::VpnControlDaemon(const QString& strKey, QObject* pParent) : QO
 
 VpnControlDaemon::~VpnControlDaemon()
 {
-   delete m_pServer;
+    delete m_pServer;
 }
 
 bool VpnControlDaemon::start()
 {
-   QLocalServer::removeServer(m_strKey);
+    QLocalServer::removeServer(m_strKey);
 
-   // makes sure, sockets are world read/writable
-   const int iUMask(::umask(0));
+    // makes sure, sockets are world read/writable
+    const int iUMask(::umask(0));
 
-   const bool fStarted(m_pServer->listen(m_strKey));
-   if (fStarted)
-      connect(m_pServer, SIGNAL(newConnection()), SLOT(incomingLocalConnection()));
+    const bool fStarted(m_pServer->listen(m_strKey));
+    if (fStarted)
+        connect(m_pServer, SIGNAL(newConnection()), SLOT(incomingLocalConnection()));
 
-   ::umask(iUMask);
+    ::umask(iUMask);
 
-   return(fStarted);
+    return(fStarted);
 }
 
 void VpnControlDaemon::incomingLocalConnection()
 {
-   if (m_pServer->hasPendingConnections())
-      new VpnClientConnection(m_pServer->nextPendingConnection(), this);
+    if (m_pServer->hasPendingConnections())
+        new VpnClientConnection(m_pServer->nextPendingConnection(), this);
 }

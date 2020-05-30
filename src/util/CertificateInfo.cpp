@@ -43,115 +43,115 @@ CertificateInfo::CertificateInfo(const QByteArray& data) : m_strFilePath(""), m_
 
 CertificateInfo::~CertificateInfo()
 {
-   if (m_pQSslCertificate)
-      delete m_pQSslCertificate;
+    if (m_pQSslCertificate)
+        delete m_pQSslCertificate;
 }
 
 QString CertificateInfo::path() const
 {
-   return(QFileInfo(m_strFilePath).path());
+    return(QFileInfo(m_strFilePath).path());
 }
 
 QString CertificateInfo::fileName() const
 {
-   return(QFileInfo(m_strFilePath).fileName());
+    return(QFileInfo(m_strFilePath).fileName());
 }
 
 QString CertificateInfo::filePath() const
 {
-   return(m_strFilePath);
+    return(m_strFilePath);
 }
 
 bool CertificateInfo::isReadable() const
 {
-   return(m_pQSslCertificate && !m_pQSslCertificate->isNull());
+    return(m_pQSslCertificate && !m_pQSslCertificate->isNull());
 }
 
 QString CertificateInfo::serialNumber() const
 {
-   QString strRet;
+    QString strRet;
 
-   if (isReadable())
-      strRet = m_pQSslCertificate->serialNumber();
+    if (isReadable())
+        strRet = m_pQSslCertificate->serialNumber();
 
-   return(strRet);
+    return(strRet);
 }
 
 QString CertificateInfo::cn() const
 {
-   QString strRet;
+    QString strRet;
 
-   if (isReadable())
-      strRet = m_pQSslCertificate->subjectInfo(QSslCertificate::CommonName).join(" ");
+    if (isReadable())
+        strRet = m_pQSslCertificate->subjectInfo(QSslCertificate::CommonName).join(" ");
 
-   return(strRet);
+    return(strRet);
 }
 
 QString CertificateInfo::issuer() const
 {
-   QString strRet;
+    QString strRet;
 
-   if (isReadable())
-      strRet = m_pQSslCertificate->issuerInfo(QSslCertificate::CommonName).join(" ");
+    if (isReadable())
+        strRet = m_pQSslCertificate->issuerInfo(QSslCertificate::CommonName).join(" ");
 
-   return(strRet);
+    return(strRet);
 }
 
 QString CertificateInfo::email() const
 {
-   QString strRet;
+    QString strRet;
 
-   if (isReadable())
-   {
-      const QByteArray tag("emailAddress");
-      strRet = m_pQSslCertificate->subjectInfo(tag).join(" ");
-      if (strRet.isNull())
-         strRet = alternativeSubjectName(QSsl::EmailEntry);
-   }
+    if (isReadable())
+    {
+        const QByteArray tag("emailAddress");
+        strRet = m_pQSslCertificate->subjectInfo(tag).join(" ");
+        if (strRet.isNull())
+            strRet = alternativeSubjectName(QSsl::EmailEntry);
+    }
 
-   return(strRet);
+    return(strRet);
 }
 
 bool CertificateInfo::toPem(const QString& strPemFilePath) const
 {
-   QFile pemFile(strPemFilePath);
-   bool fRet(pemFile.open(QFile::WriteOnly));
+    QFile pemFile(strPemFilePath);
+    bool fRet(pemFile.open(QFile::WriteOnly));
 
 
-   if (fRet)
-   {
-      fRet = (pemFile.write(m_pQSslCertificate->toPem()) != -1);
-      pemFile.close();
-   }
+    if (fRet)
+    {
+        fRet = (pemFile.write(m_pQSslCertificate->toPem()) != -1);
+        pemFile.close();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 QString CertificateInfo::alternativeSubjectName(const QSsl::AlternativeNameEntryType type) const
 {
-   QString strRet;
+    QString strRet;
 
-   if (isReadable())
-   {
-      QMultiMap<QSsl::AlternativeNameEntryType, QString> alternativeSubjectNames(m_pQSslCertificate->subjectAlternativeNames());
+    if (isReadable())
+    {
+        QMultiMap<QSsl::AlternativeNameEntryType, QString> alternativeSubjectNames(m_pQSslCertificate->subjectAlternativeNames());
 
-      QMultiMap<QSsl::AlternativeNameEntryType, QString>::iterator it(alternativeSubjectNames.find(type));
+        QMultiMap<QSsl::AlternativeNameEntryType, QString>::iterator it(alternativeSubjectNames.find(type));
 
-      if (it != alternativeSubjectNames.end())
-         strRet = it.value();
-   }
+        if (it != alternativeSubjectNames.end())
+            strRet = it.value();
+    }
 
-   return(strRet);
+    return(strRet);
 }
 
 QSslCertificate* CertificateInfo::readCert(const QString& strFilePath)
 {
-   QFile file(strFilePath);
-   file.open(QFile::ReadOnly);
+    QFile file(strFilePath);
+    file.open(QFile::ReadOnly);
 
-   QSslCertificate* pQSslCertificate(new QSslCertificate(&file));
+    QSslCertificate* pQSslCertificate(new QSslCertificate(&file));
 
-   file.close();
+    file.close();
 
-   return(pQSslCertificate);
+    return(pQSslCertificate);
 }

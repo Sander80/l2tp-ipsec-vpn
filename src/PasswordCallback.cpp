@@ -73,7 +73,7 @@ int PasswordCallback::exec() const
             fclose(fp);
         }
     }
-    
+
     const QString strPassword(SecretsChecker::getSecret(m_Application.arguments()[1].toStdString().c_str(), &fok));
 
     if (fok)

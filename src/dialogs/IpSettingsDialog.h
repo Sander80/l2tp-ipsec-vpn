@@ -31,27 +31,27 @@
 
 class IpSettingsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   IpSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
-   virtual ~IpSettingsDialog();
+    public:
+        IpSettingsDialog(const QString& strConnectionName, QWidget* pParent = 0);
+        virtual ~IpSettingsDialog();
 
-private slots:
-   void onRouteSettings() const;
-   void onHelpRequested() const;
-   void accept();
+        private slots:
+            void onRouteSettings() const;
+        void onHelpRequested() const;
+        void accept();
 
-private:
-   IpSettingsDialog(const IpSettingsDialog& orig);
-   IpSettingsDialog& operator=(const IpSettingsDialog& orig);
+    private:
+        IpSettingsDialog(const IpSettingsDialog& orig);
+        IpSettingsDialog& operator=(const IpSettingsDialog& orig);
 
-   void readSettings() const;
-   bool writeSettings() const;
+        void readSettings() const;
+        bool writeSettings() const;
 
-   Ui::IpSettingsDialog m_Widget;
+        Ui::IpSettingsDialog m_Widget;
 
-   const QString m_strConnectionName;
+        const QString m_strConnectionName;
 };
 
 #endif	/* _IPSECSETTINGSDIALOG_H */

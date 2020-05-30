@@ -116,355 +116,355 @@ ConnectionSettings::~ConnectionSettings()
 
 int ConnectionSettings::connections() const
 {
-   const int iSize(qSettings()->beginReadArray(CONNECTIONS));
-   qSettings()->endArray();
+    const int iSize(qSettings()->beginReadArray(CONNECTIONS));
+    qSettings()->endArray();
 
-   return(iSize);
+    return(iSize);
 }
 
 ConnectionSettings::Result ConnectionSettings::addConnection(const QString& strName) const
 {
-   const Result result(qSettings()->isWritable() ? validateName(strName): ReadOnly);
+    const Result result(qSettings()->isWritable() ? validateName(strName): ReadOnly);
 
-   if (result == Ok)
-   {
-      const int iSize(connections());
+    if (result == Ok)
+    {
+        const int iSize(connections());
 
-      qSettings()->beginWriteArray(CONNECTIONS);
-      qSettings()->setArrayIndex(iSize);
-      qSettings()->setValue(NAME, strName);
-      qSettings()->endArray();
-   }
+        qSettings()->beginWriteArray(CONNECTIONS);
+        qSettings()->setArrayIndex(iSize);
+        qSettings()->setValue(NAME, strName);
+        qSettings()->endArray();
+    }
 
-   return(result);
+    return(result);
 }
 
 bool ConnectionSettings::removeConnection(int iConnectionNo) const
 {
-   bool fRet(iConnectionNo < connections() && qSettings()->isWritable());
+    bool fRet(iConnectionNo < connections() && qSettings()->isWritable());
 
-   if (fRet)
-   {
-      QFile pppOptFile(ConfWriter::fileName(ConfWriter::PPP, connection(iConnectionNo)));
-      if (pppOptFile.exists())
-         pppOptFile.remove();
+    if (fRet)
+    {
+        QFile pppOptFile(ConfWriter::fileName(ConfWriter::PPP, connection(iConnectionNo)));
+        if (pppOptFile.exists())
+            pppOptFile.remove();
 
-      QFile pppDnsFile(ConfWriter::fileName(ConfWriter::PPPDNSCONF, QCoreApplication::instance()->objectName() + "-" + connection(iConnectionNo)));
-      if (pppDnsFile.exists())
-         pppDnsFile.remove();
+        QFile pppDnsFile(ConfWriter::fileName(ConfWriter::PPPDNSCONF, QCoreApplication::instance()->objectName() + "-" + connection(iConnectionNo)));
+        if (pppDnsFile.exists())
+            pppDnsFile.remove();
 
-      fRet = ConnectionSettings::removeArrayItem(CONNECTIONS, iConnectionNo);
-   }
+        fRet = ConnectionSettings::removeArrayItem(CONNECTIONS, iConnectionNo);
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 QString ConnectionSettings::gateway(const QString& strName) const
 {
-   return(ipsecSettings(strName).gateway());
+    return(ipsecSettings(strName).gateway());
 }
 
 CommonSettings ConnectionSettings::commonSettings(const QString& strName) const
 {
-   return(CommonSettings(connection(strName)));
+    return(CommonSettings(connection(strName)));
 }
 
 IPSecSettings ConnectionSettings::ipsecSettings(const QString& strName) const
 {
-   return(IPSecSettings(connection(strName)));
+    return(IPSecSettings(connection(strName)));
 }
 
 L2tpSettings ConnectionSettings::l2tpSettings(const QString& strName) const
 {
-   return(L2tpSettings(connection(strName)));
+    return(L2tpSettings(connection(strName)));
 }
 
 PppSettings ConnectionSettings::pppSettings(const QString& strName) const
 {
-   return(PppSettings(connection(strName)));
+    return(PppSettings(connection(strName)));
 }
 
 int ConnectionSettings::deleteAllConfFiles()
 {
-   int iRet(0);
+    int iRet(0);
 
-   if (ConnectionsModel().isWriteable())
-   {
-      for (int i = 0; i < ConfWriter::END; i++)
-      {
-         const ConfWriter::Conf conf(static_cast<ConfWriter::Conf>(i));
+    if (ConnectionsModel().isWriteable())
+    {
+        for (int i = 0; i < ConfWriter::END; i++)
+        {
+            const ConfWriter::Conf conf(static_cast<ConfWriter::Conf>(i));
 
-         if (conf != ConfWriter::IPsec && conf != ConfWriter::L2TP && conf != ConfWriter::IPsecSECRET)
-         {
-            const QString strConfFile(ConfWriter::fileName(conf));
-            if (QFile::exists(strConfFile))
-               QFile::remove(strConfFile);
-         }
-      }
+            if (conf != ConfWriter::IPsec && conf != ConfWriter::L2TP && conf != ConfWriter::IPsecSECRET)
+            {
+                const QString strConfFile(ConfWriter::fileName(conf));
+                if (QFile::exists(strConfFile))
+                    QFile::remove(strConfFile);
+            }
+        }
 
-      const int iConnections(connections());
+        const int iConnections(connections());
 
-      for (int i = 0; i < iConnections; i++)
-      {
-         const QString strConnectionName(connection(i));
-         QFile::remove(ConfWriter::fileName(ConfWriter::PPP, strConnectionName));
+        for (int i = 0; i < iConnections; i++)
+        {
+            const QString strConnectionName(connection(i));
+            QFile::remove(ConfWriter::fileName(ConfWriter::PPP, strConnectionName));
 
-         const QString strDNSConfInstance(QCoreApplication::instance()->objectName() + "-" +strConnectionName);
-         QFile::remove(ConfWriter::fileName(ConfWriter::PPPDNSCONF, strDNSConfInstance));
-      }
-   }
-   else
-      iRet = -1;
+            const QString strDNSConfInstance(QCoreApplication::instance()->objectName() + "-" +strConnectionName);
+            QFile::remove(ConfWriter::fileName(ConfWriter::PPPDNSCONF, strDNSConfInstance));
+        }
+    }
+    else
+        iRet = -1;
 
-   return(iRet);
+    return(iRet);
 }
 
 QString ConnectionSettings::connection(int iConnectionNo) const
 {
-   QString strRet;
+    QString strRet;
 
-   const int iSize(qSettings()->beginReadArray(CONNECTIONS));
-   if (iConnectionNo < iSize)
-   {
-      qSettings()->setArrayIndex(iConnectionNo);
-      strRet = qSettings()->value(NAME).toString();
-   }
-   qSettings()->endArray();
+    const int iSize(qSettings()->beginReadArray(CONNECTIONS));
+    if (iConnectionNo < iSize)
+    {
+        qSettings()->setArrayIndex(iConnectionNo);
+        strRet = qSettings()->value(NAME).toString();
+    }
+    qSettings()->endArray();
 
-   return(strRet);
+    return(strRet);
 }
 
 int ConnectionSettings::connection(const QString& strName) const
 {
-   int iRet;
-   bool fFound(false);
-   const int iSize(qSettings()->beginReadArray(CONNECTIONS));
-   for (iRet = 0; !fFound && iRet < iSize; iRet++)
-   {
-      qSettings()->setArrayIndex(iRet);
-      if (qSettings()->value(NAME, "") == strName)
-         fFound = true;
-   }
-   qSettings()->endArray();
+    int iRet;
+    bool fFound(false);
+    const int iSize(qSettings()->beginReadArray(CONNECTIONS));
+    for (iRet = 0; !fFound && iRet < iSize; iRet++)
+    {
+        qSettings()->setArrayIndex(iRet);
+        if (qSettings()->value(NAME, "") == strName)
+            fFound = true;
+    }
+    qSettings()->endArray();
 
-   return(fFound ? iRet - 1 : -1);
+    return(fFound ? iRet - 1 : -1);
 }
 
 ConnectionSettings::Result ConnectionSettings::validateName(const QString& strName) const
 {
-   Result result(connection(strName) >=0 ? DuplicateName : Ok);
-   if (result == Ok)
-   {
-      QRegExp rx(VALIDNAMEPATTERN);
-      if (!rx.exactMatch(strName))
-         result = InvalidName;
-   }
+    Result result(connection(strName) >=0 ? DuplicateName : Ok);
+    if (result == Ok)
+    {
+        QRegExp rx(VALIDNAMEPATTERN);
+        if (!rx.exactMatch(strName))
+            result = InvalidName;
+    }
 
-   return(result);
+    return(result);
 }
 
 /*********** helpers ***************/
 bool ConnectionSettings::setValue(const QString& strValue, const QString& strPath) const
 {
-   const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
+    const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
 
-   if (fRet)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      if  (qSettings()->value(strPath) != strValue.trimmed())
-         qSettings()->setValue(strPath, strValue.trimmed());
-      qSettings()->endArray();
-   }
+    if (fRet)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        if  (qSettings()->value(strPath) != strValue.trimmed())
+            qSettings()->setValue(strPath, strValue.trimmed());
+        qSettings()->endArray();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 QString ConnectionSettings::getStringValue(const QString& strPath) const
 {
-   QString strRet;
+    QString strRet;
 
-   if (m_iConnectionNo >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      strRet = qSettings()->value(strPath, "").toString();
-      qSettings()->endArray();
-   }
+    if (m_iConnectionNo >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        strRet = qSettings()->value(strPath, "").toString();
+        qSettings()->endArray();
+    }
 
-   return(strRet);
+    return(strRet);
 }
 
 bool ConnectionSettings::setSecret(const QString& strValue, const QString& strPath) const
 {
-   const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
+    const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
 
-   if (fRet)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      EncSecrets secrets(KEY, IV, strValue.trimmed().toLatin1().constData());
-      if  (qSettings()->value(strPath) != secrets.getbuf())
-         qSettings()->setValue(strPath, secrets.getbuf());
-      qSettings()->endArray();
-   }
+    if (fRet)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        EncSecrets secrets(KEY, IV, strValue.trimmed().toLatin1().constData());
+        if  (qSettings()->value(strPath) != secrets.getbuf())
+            qSettings()->setValue(strPath, secrets.getbuf());
+        qSettings()->endArray();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 QString ConnectionSettings::getSecret(const QString& strPath) const
 {
-   QString strRet;
+    QString strRet;
 
-   if (m_iConnectionNo >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      strRet = qSettings()->value(strPath, "").toString();
-      EncSecrets secrets(strRet.toLatin1().constData());
-      strRet = secrets.retrieve(KEY, IV);
-      qSettings()->endArray();
-   }
+    if (m_iConnectionNo >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        strRet = qSettings()->value(strPath, "").toString();
+        EncSecrets secrets(strRet.toLatin1().constData());
+        strRet = secrets.retrieve(KEY, IV);
+        qSettings()->endArray();
+    }
 
-   return(strRet);
+    return(strRet);
 }
 
 bool ConnectionSettings::setValue(int iValue, const QString& strPath) const
 {
-   const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
+    const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
 
-   if (fRet)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      if  (qSettings()->value(strPath) != iValue)
-         qSettings()->setValue(strPath, iValue);
-      qSettings()->endArray();
-   }
+    if (fRet)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        if  (qSettings()->value(strPath) != iValue)
+            qSettings()->setValue(strPath, iValue);
+        qSettings()->endArray();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 int ConnectionSettings::getIntValue(const QString& strPath, int iDefault) const
 {
-   int iRet(0);
+    int iRet(0);
 
-   if (m_iConnectionNo >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      iRet = qSettings()->value(strPath, iDefault).toInt(NULL);
-      qSettings()->endArray();
-   }
+    if (m_iConnectionNo >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        iRet = qSettings()->value(strPath, iDefault).toInt(NULL);
+        qSettings()->endArray();
+    }
 
-   return(iRet);
+    return(iRet);
 }
 
 bool ConnectionSettings::setValue(bool fValue, const QString& strPath) const
 {
-   const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
+    const bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
 
-   if (fRet)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      if  (qSettings()->value(strPath) != fValue)
-         qSettings()->setValue(strPath, fValue);
-      qSettings()->endArray();
-   }
+    if (fRet)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        if  (qSettings()->value(strPath) != fValue)
+            qSettings()->setValue(strPath, fValue);
+        qSettings()->endArray();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 bool ConnectionSettings::getBoolValue(const QString& strPath, bool fDefault) const
 {
-   bool fRet(false);
+    bool fRet(false);
 
-   if (m_iConnectionNo >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      fRet = qSettings()->value(strPath, fDefault).toBool();
-      qSettings()->endArray();
-   }
+    if (m_iConnectionNo >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        fRet = qSettings()->value(strPath, fDefault).toBool();
+        qSettings()->endArray();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 bool ConnectionSettings::setRouteProperty(const QString& strRouteSectionName, const QString& strValue, int iRow, const QString& strPropertyName) const
 {
-   bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
+    bool fRet(m_iConnectionNo >= 0 && qSettings()->isWritable());
 
-   if (fRet)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      qSettings()->beginGroup(IP);
+    if (fRet)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        qSettings()->beginGroup(IP);
 
-      const int iSize(qSettings()->beginReadArray(strRouteSectionName));
-      if (iRow < iSize)
-      {
-         qSettings()->setArrayIndex(iRow);
-         if  (qSettings()->value(strPropertyName) != strValue)
-            qSettings()->setValue(strPropertyName, strValue);
-      }
-      else
-         fRet = false;
+        const int iSize(qSettings()->beginReadArray(strRouteSectionName));
+        if (iRow < iSize)
+        {
+            qSettings()->setArrayIndex(iRow);
+            if  (qSettings()->value(strPropertyName) != strValue)
+                qSettings()->setValue(strPropertyName, strValue);
+        }
+        else
+            fRet = false;
 
-      qSettings()->endArray();
+        qSettings()->endArray();
 
-      qSettings()->endGroup();
-      qSettings()->endArray();
-   }
+        qSettings()->endGroup();
+        qSettings()->endArray();
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 QString ConnectionSettings::routeProperty(const QString& strRouteSectionName, int iRow, const QString& strPropertyName) const
 {
-   QString strRet;
+    QString strRet;
 
-   if (m_iConnectionNo >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(m_iConnectionNo);
-      qSettings()->beginGroup(IP);
+    if (m_iConnectionNo >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(m_iConnectionNo);
+        qSettings()->beginGroup(IP);
 
-      const int iSize(qSettings()->beginReadArray(strRouteSectionName));
-      if (iRow < iSize)
-      {
-         qSettings()->setArrayIndex(iRow);
-         strRet = qSettings()->value(strPropertyName).toString();
-      }
-      qSettings()->endArray();
+        const int iSize(qSettings()->beginReadArray(strRouteSectionName));
+        if (iRow < iSize)
+        {
+            qSettings()->setArrayIndex(iRow);
+            strRet = qSettings()->value(strPropertyName).toString();
+        }
+        qSettings()->endArray();
 
-      qSettings()->endGroup();
-      qSettings()->endArray();
-  }
+        qSettings()->endGroup();
+        qSettings()->endArray();
+    }
 
-   return(strRet);
+    return(strRet);
 }
 
 /********** Common settings ************/
 
 bool CommonSettings::setAutoConnect(bool fAutoConnect) const
 {
-   return(setValue(fAutoConnect, COMMON + '/' + AUTOCONNECT));
+    return(setValue(fAutoConnect, COMMON + '/' + AUTOCONNECT));
 }
 
 bool CommonSettings::autoConnect() const
 {
-   return(getBoolValue(COMMON + '/' + AUTOCONNECT));
+    return(getBoolValue(COMMON + '/' + AUTOCONNECT));
 }
 
 bool CommonSettings::setDisableIPSecEncryption(bool fDisableIPSecEncryption) const
 {
-   return(setValue(fDisableIPSecEncryption, COMMON + '/' + DISABLEIPSECENCRYPTION));
+    return(setValue(fDisableIPSecEncryption, COMMON + '/' + DISABLEIPSECENCRYPTION));
 }
 
 bool CommonSettings::disableIPSecEncryption() const
 {
-   return(getBoolValue(COMMON + '/' + DISABLEIPSECENCRYPTION));
+    return(getBoolValue(COMMON + '/' + DISABLEIPSECENCRYPTION));
 }
 
 
@@ -472,435 +472,435 @@ bool CommonSettings::disableIPSecEncryption() const
 
 bool IPSecSettings::setGateway(const QString& strGateway) const
 {
-   return(setValue(strGateway, IPSEC + '/' + GATEWAY));
+    return(setValue(strGateway, IPSEC + '/' + GATEWAY));
 }
 
 QString IPSecSettings::gateway() const
 {
-   return(getStringValue(IPSEC + '/' + GATEWAY));
+    return(getStringValue(IPSEC + '/' + GATEWAY));
 }
 
 bool IPSecSettings::setIdentity(const QString& strIdentity) const
 {
-   return(setValue(strIdentity, IPSEC + '/' + IDENTITY));
+    return(setValue(strIdentity, IPSEC + '/' + IDENTITY));
 }
 
 QString IPSecSettings::identity() const
 {
-   return(getStringValue(IPSEC + '/' + IDENTITY));
+    return(getStringValue(IPSEC + '/' + IDENTITY));
 }
 
 bool IPSecSettings::setPreSharedKey(const QString& strPsk) const
 {
-   return(setSecret(strPsk, IPSEC + '/' + PSK));
+    return(setSecret(strPsk, IPSEC + '/' + PSK));
 }
 
 QString IPSecSettings::preSharedKey() const
 {
-   return(getSecret(IPSEC + '/' + PSK));
+    return(getSecret(IPSEC + '/' + PSK));
 }
 
 bool IPSecSettings::setCertificateFileName(const QString& strFileName) const
 {
-   return(setValue(strFileName, IPSEC + '/' + CERTFN));
+    return(setValue(strFileName, IPSEC + '/' + CERTFN));
 }
 
 QString IPSecSettings::certificateFileName() const
 {
-   return(getStringValue(IPSEC + '/' + CERTFN));
+    return(getStringValue(IPSEC + '/' + CERTFN));
 }
 
 bool IPSecSettings::setPrivateKeyFilePath(const QString& strFilePath) const
 {
-   return(setValue(strFilePath, IPSEC + '/' + PRIVATEKEYFILEPATH));
+    return(setValue(strFilePath, IPSEC + '/' + PRIVATEKEYFILEPATH));
 }
 
 QString IPSecSettings::privateKeyFilePath() const
 {
-   return(getStringValue(IPSEC + '/' + PRIVATEKEYFILEPATH));
+    return(getStringValue(IPSEC + '/' + PRIVATEKEYFILEPATH));
 }
 
 bool IPSecSettings::setPrivateKeyPassphrase(const QString& strPassphrase) const
 {
-   return(setSecret(strPassphrase, IPSEC + '/' + PRIVATEKEYPASSPHRASE));
+    return(setSecret(strPassphrase, IPSEC + '/' + PRIVATEKEYPASSPHRASE));
 }
 
 QString IPSecSettings::privateKeyPassphrase() const
 {
-   return(getSecret(IPSEC + '/' + PRIVATEKEYPASSPHRASE));
+    return(getSecret(IPSEC + '/' + PRIVATEKEYPASSPHRASE));
 }
 
 bool IPSecSettings::setAuthBy(const QString& strAuthBy) const
 {
-   return(setValue(strAuthBy, IPSEC + '/' + AUTHBY));
+    return(setValue(strAuthBy, IPSEC + '/' + AUTHBY));
 }
 
 QString IPSecSettings::authBy() const
 {
-   return(getStringValue(IPSEC + '/' + AUTHBY));
+    return(getStringValue(IPSEC + '/' + AUTHBY));
 }
 
 /********** L2tp ************/
 
 bool L2tpSettings::setLengthBit(bool fEnable) const
 {
-   return(setValue(fEnable, L2TP + '/' + LENGTHBIT));
+    return(setValue(fEnable, L2TP + '/' + LENGTHBIT));
 }
 
 bool L2tpSettings::lengthBit() const
 {
-   return(getBoolValue(L2TP + '/' + LENGTHBIT));
+    return(getBoolValue(L2TP + '/' + LENGTHBIT));
 }
 
 bool L2tpSettings::setRedial(bool fEnable) const
 {
-   return(setValue(fEnable, L2TP + '/' + REDIAL));
+    return(setValue(fEnable, L2TP + '/' + REDIAL));
 }
 
 bool L2tpSettings::redial() const
 {
-   return(getBoolValue(L2TP + '/' + REDIAL));
+    return(getBoolValue(L2TP + '/' + REDIAL));
 }
 
 bool L2tpSettings::setRedialTimeout(int iTimeout) const
 {
-   return(setValue(iTimeout, L2TP + '/' + REDIALTIMEOUT));
+    return(setValue(iTimeout, L2TP + '/' + REDIALTIMEOUT));
 }
 
 int L2tpSettings::redialTimeout() const
 {
-   return(getIntValue(L2TP + '/' + REDIALTIMEOUT));
+    return(getIntValue(L2TP + '/' + REDIALTIMEOUT));
 }
 
 bool L2tpSettings::setRedialAttempts(int iAttempts) const
 {
-   return(setValue(iAttempts, L2TP + '/' + REDIALATTEMPTS));
+    return(setValue(iAttempts, L2TP + '/' + REDIALATTEMPTS));
 }
 
 int L2tpSettings::redialAttempts() const
 {
-   return(getIntValue(L2TP + '/' + REDIALATTEMPTS));
+    return(getIntValue(L2TP + '/' + REDIALATTEMPTS));
 }
 
 /********** PPP ************/
- PppEapSettings PppSettings::eapSettings() const
- {
+PppEapSettings PppSettings::eapSettings() const
+{
     return(PppEapSettings(connectionNo()));
- }
+}
 
- PppIpSettings PppSettings::ipSettings() const
- {
-   return(PppIpSettings(connectionNo()));
- }
+PppIpSettings PppSettings::ipSettings() const
+{
+    return(PppIpSettings(connectionNo()));
+}
 
 bool PppSettings::setRefuseChap(bool fRefuse) const
 {
-   return(setValue(fRefuse, PPP + '/' + REFUSECHAP));
+    return(setValue(fRefuse, PPP + '/' + REFUSECHAP));
 }
 
 bool PppSettings::refuseChap() const
 {
-   return(getBoolValue(PPP + '/' + REFUSECHAP));
+    return(getBoolValue(PPP + '/' + REFUSECHAP));
 }
 
 bool PppSettings::setRefuseMsChap(bool fRefuse) const
 {
-   return(setValue(fRefuse, PPP + '/' + REFUSEMSCHAP));
+    return(setValue(fRefuse, PPP + '/' + REFUSEMSCHAP));
 }
 
 bool PppSettings::refuseMsChap() const
 {
-   return(getBoolValue(PPP + '/' + REFUSEMSCHAP));
+    return(getBoolValue(PPP + '/' + REFUSEMSCHAP));
 }
 bool PppSettings::setRefuseMsChapV2(bool fRefuse) const
 {
-   return(setValue(fRefuse, PPP + '/' + REFUSEMSCHAPV2));
+    return(setValue(fRefuse, PPP + '/' + REFUSEMSCHAPV2));
 }
 
 bool PppSettings::refuseMsChapV2() const
 {
-   return(getBoolValue(PPP + '/' + REFUSEMSCHAPV2));
+    return(getBoolValue(PPP + '/' + REFUSEMSCHAPV2));
 }
 bool PppSettings::setRefuseEap(bool fRefuse) const
 {
-   return(setValue(fRefuse, PPP + '/' + REFUSEEAP));
+    return(setValue(fRefuse, PPP + '/' + REFUSEEAP));
 }
 
 bool PppSettings::refuseEap() const
 {
-   return(getBoolValue(PPP + '/' + REFUSEEAP));
+    return(getBoolValue(PPP + '/' + REFUSEEAP));
 }
 bool PppSettings::setRefusePap(bool fRefuse) const
 {
-   return(setValue(fRefuse, PPP + '/' + REFUSEPAP));
+    return(setValue(fRefuse, PPP + '/' + REFUSEPAP));
 }
 
 bool PppSettings::refusePap() const
 {
-   return(getBoolValue(PPP + '/' + REFUSEPAP));
+    return(getBoolValue(PPP + '/' + REFUSEPAP));
 }
 
 bool PppSettings::setUserName(const QString& strUserName) const
 {
-   return(setValue(strUserName, PPP + '/' + USERNAME));
+    return(setValue(strUserName, PPP + '/' + USERNAME));
 }
 
 QString PppSettings::userName() const
 {
-   return(getStringValue(PPP + '/' + USERNAME));
+    return(getStringValue(PPP + '/' + USERNAME));
 }
 
 bool PppSettings::setPassword(const QString& strPassword) const
 {
-   return(setSecret(strPassword, PPP + '/' + PASSWORD));
+    return(setSecret(strPassword, PPP + '/' + PASSWORD));
 }
 
 QString PppSettings::password() const
 {
-   return(getSecret(PPP + '/' + PASSWORD));
+    return(getSecret(PPP + '/' + PASSWORD));
 }
 
 bool PppSettings::setRemoteName(const QString& strRemoteName) const
 {
-   return(setValue(strRemoteName, PPP + '/' + REMOTENAME));
+    return(setValue(strRemoteName, PPP + '/' + REMOTENAME));
 }
 
 QString PppSettings::remoteName() const
 {
-   return(getStringValue(PPP + '/' + REMOTENAME));
+    return(getStringValue(PPP + '/' + REMOTENAME));
 }
 
 bool PppSettings::setNoBSDCompression(bool fSet) const
 {
-   return(setValue(fSet, PPP + '/' + NODSDCOMP));
+    return(setValue(fSet, PPP + '/' + NODSDCOMP));
 }
 
 bool PppSettings::noBSDCompression() const
 {
-   return(getBoolValue(PPP + '/' + NODSDCOMP));
+    return(getBoolValue(PPP + '/' + NODSDCOMP));
 }
 
 bool PppSettings::setNoDeflate(bool fSet) const
 {
-   return(setValue(fSet, PPP + '/' + NODEFLATE));
+    return(setValue(fSet, PPP + '/' + NODEFLATE));
 }
 
 bool PppSettings::noDeflate() const
 {
-   return(getBoolValue(PPP + '/' + NODEFLATE));
+    return(getBoolValue(PPP + '/' + NODEFLATE));
 }
 
 bool PppSettings::setNoVj(bool fSet) const
 {
-   return(setValue(fSet, PPP + '/' + NOVJ));
+    return(setValue(fSet, PPP + '/' + NOVJ));
 }
 
 bool PppSettings::noVj() const
 {
-   return(getBoolValue(PPP + '/' + NOVJ));
+    return(getBoolValue(PPP + '/' + NOVJ));
 }
 
 bool PppSettings::setLcpEchoInterval(int iInterval) const
 {
-   return(setValue(iInterval, PPP + '/' + LCPECHOINTERVAL));
+    return(setValue(iInterval, PPP + '/' + LCPECHOINTERVAL));
 }
 
 int PppSettings::lcpEchoInterval() const
 {
-   return(getIntValue(PPP + '/' + LCPECHOINTERVAL, -1));
+    return(getIntValue(PPP + '/' + LCPECHOINTERVAL, -1));
 }
 
 /********** EAP ************/
 bool PppEapSettings::setUseSmartCard(bool fUse) const
 {
-   return(setValue(fUse, EAP + '/' + USESMARTCARD));
+    return(setValue(fUse, EAP + '/' + USESMARTCARD));
 }
 
 bool PppEapSettings::useSmartCard() const
 {
-   return(getBoolValue(EAP + '/' + USESMARTCARD));
+    return(getBoolValue(EAP + '/' + USESMARTCARD));
 }
 
 bool PppEapSettings::setCertificatePath(const QString& strCertificatePath) const
 {
-   return(setValue(strCertificatePath, EAP + '/' + CERTIFICATEPATH));
+    return(setValue(strCertificatePath, EAP + '/' + CERTIFICATEPATH));
 }
 
 QString PppEapSettings::certificatePath() const
 {
-   return(getStringValue(EAP + '/' + CERTIFICATEPATH));
+    return(getStringValue(EAP + '/' + CERTIFICATEPATH));
 }
 
 bool PppEapSettings::setPrivateKeyPath(const QString& strPrivateKeyPath) const
 {
-   return(setValue(strPrivateKeyPath, EAP + '/' + PRIVATEKEYPATH));
+    return(setValue(strPrivateKeyPath, EAP + '/' + PRIVATEKEYPATH));
 }
 
 QString PppEapSettings::privateKeyPath() const
 {
-   return(getStringValue(EAP + '/' + PRIVATEKEYPATH));
+    return(getStringValue(EAP + '/' + PRIVATEKEYPATH));
 }
 
 bool PppEapSettings::setPrivateKeyPassword(const QString& strPrivateKeyPassword) const
 {
-   return(setSecret(strPrivateKeyPassword, EAP + '/' + PRIVATEKEYPASSWORD));
+    return(setSecret(strPrivateKeyPassword, EAP + '/' + PRIVATEKEYPASSWORD));
 }
 
 QString PppEapSettings::privateKeyPassword() const
 {
-   return(getSecret(EAP + '/' + PRIVATEKEYPASSWORD));
+    return(getSecret(EAP + '/' + PRIVATEKEYPASSWORD));
 }
 
 bool PppEapSettings::setCaCertificatePath(const QString& strCaCertificatePath) const
 {
-   return(setValue(strCaCertificatePath, EAP + '/' + CACERTIFICATEPATH));
+    return(setValue(strCaCertificatePath, EAP + '/' + CACERTIFICATEPATH));
 }
 
 QString PppEapSettings::caCertificatePath() const
 {
-   return(getStringValue(EAP + '/' + CACERTIFICATEPATH));
+    return(getStringValue(EAP + '/' + CACERTIFICATEPATH));
 }
 
 /*********** IP *************/
 bool PppIpSettings::setUsePeerDns(bool fUse) const
 {
-   return(setValue(fUse, IP + '/' + USEPEERDNS));
+    return(setValue(fUse, IP + '/' + USEPEERDNS));
 }
 
 bool PppIpSettings::usePeerDns() const
 {
-   return(getBoolValue(IP + '/' + USEPEERDNS));
+    return(getBoolValue(IP + '/' + USEPEERDNS));
 }
 
 bool PppIpSettings::setPreferredDnsServerAddress(const QString& strPreferredDnsServerAddress) const
 {
-   return(setValue(strPreferredDnsServerAddress, IP + '/' + PREFERREDDNSSERVERADDRESS));
+    return(setValue(strPreferredDnsServerAddress, IP + '/' + PREFERREDDNSSERVERADDRESS));
 }
 
 QString PppIpSettings::preferredDnsServerAddress() const
 {
-   return(getStringValue(IP + '/' + PREFERREDDNSSERVERADDRESS));
+    return(getStringValue(IP + '/' + PREFERREDDNSSERVERADDRESS));
 }
 
 bool PppIpSettings::setAlternateDnsServerAddress(const QString& strAlternateDnsServerAddress) const
 {
-   return(setValue(strAlternateDnsServerAddress, IP + '/' + ALTERNATEDNSSERVERADDRESS));
+    return(setValue(strAlternateDnsServerAddress, IP + '/' + ALTERNATEDNSSERVERADDRESS));
 }
 
 QString PppIpSettings::alternateDnsServerAddress() const
 {
-   return(getStringValue(IP + '/' + ALTERNATEDNSSERVERADDRESS));
+    return(getStringValue(IP + '/' + ALTERNATEDNSSERVERADDRESS));
 }
 
 bool PppIpSettings::setSearchDomains(const QString& strSearchDomains) const
 {
-   return(setValue(strSearchDomains, IP + '/' + SEARCHDOMAINS));
+    return(setValue(strSearchDomains, IP + '/' + SEARCHDOMAINS));
 }
 
 QString PppIpSettings::searchDomains() const
 {
-   return(getStringValue(IP + '/' + SEARCHDOMAINS));
+    return(getStringValue(IP + '/' + SEARCHDOMAINS));
 }
 
 bool PppIpSettings::setUseDefaultGateway(bool fUse) const
 {
-   return(setValue(fUse, IP + '/' + USEDEFAULTGATEWAY));
+    return(setValue(fUse, IP + '/' + USEDEFAULTGATEWAY));
 }
 
 bool PppIpSettings::useDefaultGateway() const
 {
-   return(getBoolValue(IP + '/' + USEDEFAULTGATEWAY, true));
+    return(getBoolValue(IP + '/' + USEDEFAULTGATEWAY, true));
 }
 
 int PppIpSettings::routes(const QString& strRouteSectionName) const
 {
-   int iSize(0);
+    int iSize(0);
 
-   if (connectionNo() >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(connectionNo());
-      qSettings()->beginGroup(IP);
-      iSize = qSettings()->beginReadArray(strRouteSectionName);
-      qSettings()->endArray();
-      qSettings()->endGroup();
-      qSettings()->endArray();
-   }
+    if (connectionNo() >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(connectionNo());
+        qSettings()->beginGroup(IP);
+        iSize = qSettings()->beginReadArray(strRouteSectionName);
+        qSettings()->endArray();
+        qSettings()->endGroup();
+        qSettings()->endArray();
+    }
 
-   return(iSize);
+    return(iSize);
 }
 
 bool PppIpSettings::setRouteAddress(const QString& strRouteSectionName, int iRow, const QString& strAddress) const
 {
-   return(setRouteProperty(strRouteSectionName, strAddress, iRow, IPADDRESS));
+    return(setRouteProperty(strRouteSectionName, strAddress, iRow, IPADDRESS));
 }
 
 QString PppIpSettings::routeAddress(const QString& strRouteSectionName, int iRow) const
 {
-   return(routeProperty(strRouteSectionName, iRow, IPADDRESS));
+    return(routeProperty(strRouteSectionName, iRow, IPADDRESS));
 }
 
 bool PppIpSettings::setRouteNetmask(const QString& strRouteSectionName, int iRow, const QString& strNetMask) const
 {
-   return(setRouteProperty(strRouteSectionName, strNetMask, iRow, IPNETMASK));
+    return(setRouteProperty(strRouteSectionName, strNetMask, iRow, IPNETMASK));
 }
 
 QString PppIpSettings::routeNetmask(const QString& strRouteSectionName, int iRow) const
 {
-   return(routeProperty(strRouteSectionName, iRow, IPNETMASK));
+    return(routeProperty(strRouteSectionName, iRow, IPNETMASK));
 }
 
 bool PppIpSettings::setRouteComment(const QString& strRouteSectionName, int iRow, const QString& strComment) const
 {
-   return(setRouteProperty(strRouteSectionName, strComment, iRow, COMMENT));
+    return(setRouteProperty(strRouteSectionName, strComment, iRow, COMMENT));
 }
 
 QString PppIpSettings::routeComment(const QString& strRouteSectionName, int iRow) const
 {
-   return(routeProperty(strRouteSectionName, iRow, COMMENT));
+    return(routeProperty(strRouteSectionName, iRow, COMMENT));
 }
 
 bool PppIpSettings::addRoute(const QString& strRouteSectionName) const
 {
-   bool fAdded(false);
+    bool fAdded(false);
 
-   if (connectionNo() >= 0)
-   {
-      const int iSize(routes());
+    if (connectionNo() >= 0)
+    {
+        const int iSize(routes());
 
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(connectionNo());
-      qSettings()->beginGroup(IP);
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(connectionNo());
+        qSettings()->beginGroup(IP);
 
-      qSettings()->beginWriteArray(strRouteSectionName);
-      qSettings()->setArrayIndex(iSize);
-      qSettings()->setValue(IPADDRESS, "");
-      qSettings()->setValue(IPNETMASK, "");
-      qSettings()->endArray();
+        qSettings()->beginWriteArray(strRouteSectionName);
+        qSettings()->setArrayIndex(iSize);
+        qSettings()->setValue(IPADDRESS, "");
+        qSettings()->setValue(IPNETMASK, "");
+        qSettings()->endArray();
 
-      qSettings()->endGroup();
-      qSettings()->endArray();
-      fAdded = true;
-   }
+        qSettings()->endGroup();
+        qSettings()->endArray();
+        fAdded = true;
+    }
 
-   return(fAdded);
+    return(fAdded);
 }
 
 bool PppIpSettings::removeRoute(const QString& strRouteSectionName, int iRow) const
 {
-   bool fRemoved(false);
+    bool fRemoved(false);
 
-   if (connectionNo() >= 0)
-   {
-      qSettings()->beginReadArray(CONNECTIONS);
-      qSettings()->setArrayIndex(connectionNo());
-      qSettings()->beginGroup(IP);
+    if (connectionNo() >= 0)
+    {
+        qSettings()->beginReadArray(CONNECTIONS);
+        qSettings()->setArrayIndex(connectionNo());
+        qSettings()->beginGroup(IP);
 
-      fRemoved = ConnectionSettings::removeArrayItem(strRouteSectionName, iRow);
+        fRemoved = ConnectionSettings::removeArrayItem(strRouteSectionName, iRow);
 
-      qSettings()->endGroup();
-      qSettings()->endArray();
-   }
+        qSettings()->endGroup();
+        qSettings()->endArray();
+    }
 
-   return(fRemoved);
+    return(fRemoved);
 }

@@ -31,16 +31,16 @@
 
 class IPsecSecretsConfWriter : public AbstractConfWriter
 {
-public:
-   IPsecSecretsConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~IPsecSecretsConfWriter();
+    public:
+        IPsecSecretsConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~IPsecSecretsConfWriter();
 
-protected:
-   void fill();
+    protected:
+        void fill();
 
-private:
-   IPsecSecretsConfWriter(const IPsecSecretsConfWriter& orig);
-   IPsecSecretsConfWriter& operator=(const IPsecSecretsConfWriter& orig);
+    private:
+        IPsecSecretsConfWriter(const IPsecSecretsConfWriter& orig);
+        IPsecSecretsConfWriter& operator=(const IPsecSecretsConfWriter& orig);
 };
 
 #endif	/* IPSECSECRETSCONFWRITER_H */

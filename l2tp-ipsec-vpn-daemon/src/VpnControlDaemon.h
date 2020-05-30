@@ -31,23 +31,23 @@ class QLocalServer;
 
 class VpnControlDaemon : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-   VpnControlDaemon(const QString& strKey, QObject* pParent = NULL);
-   virtual ~VpnControlDaemon();
+    public:
+        VpnControlDaemon(const QString& strKey, QObject* pParent = NULL);
+        virtual ~VpnControlDaemon();
 
-   bool start();
+        bool start();
 
-private slots:
-   void incomingLocalConnection();
+        private slots:
+            void incomingLocalConnection();
 
-private:
-   VpnControlDaemon(const VpnControlDaemon& orig);
-   VpnControlDaemon& operator=(const VpnControlDaemon& orig);
+    private:
+        VpnControlDaemon(const VpnControlDaemon& orig);
+        VpnControlDaemon& operator=(const VpnControlDaemon& orig);
 
-   QString const m_strKey;
-   QLocalServer* const m_pServer;
+        QString const m_strKey;
+        QLocalServer* const m_pServer;
 };
 
 #endif	/* VPNCONTROLDAEMON_H */

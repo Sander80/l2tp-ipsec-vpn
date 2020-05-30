@@ -55,36 +55,36 @@ L2tpConfWriter::~L2tpConfWriter()
 
 void L2tpConfWriter::fill()
 {
-   const ConnectionSettings settings;
-   const int iConnections = settings.connections();
+    const ConnectionSettings settings;
+    const int iConnections = settings.connections();
 
-   for (int i = 0; i < iConnections; i++)
-   {
-      ctemplate::TemplateDictionary* const pLacSection = dictionary()->AddSectionDictionary(LAC_SECTION);
-      const QString strName(settings.connection(i));
+    for (int i = 0; i < iConnections; i++)
+    {
+        ctemplate::TemplateDictionary* const pLacSection = dictionary()->AddSectionDictionary(LAC_SECTION);
+        const QString strName(settings.connection(i));
 
-      if (!strName.isEmpty())
-      {
-         const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
-         const L2tpSettings l2tpSetting(settings.l2tpSettings(strName));
+        if (!strName.isEmpty())
+        {
+            const IPSecSettings ipsecSetting(settings.ipsecSettings(strName));
+            const L2tpSettings l2tpSetting(settings.l2tpSettings(strName));
 
-         pLacSection->SetValue(NAME, strName.toLatin1().constData());
-         pLacSection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
+            pLacSection->SetValue(NAME, strName.toLatin1().constData());
+            pLacSection->SetValue(GATEWAY, ipsecSetting.gateway().toLatin1().constData());
 
-         pLacSection->SetValue(PPPOPTFILE, ConfWriter::fileName(ConfWriter::PPP, strName).toLatin1().constData());
-         pLacSection->SetValue(LENGTHBIT, l2tpSetting.lengthBit() ? ANSWER_YES : ANSWER_NO);
+            pLacSection->SetValue(PPPOPTFILE, ConfWriter::fileName(ConfWriter::PPP, strName).toLatin1().constData());
+            pLacSection->SetValue(LENGTHBIT, l2tpSetting.lengthBit() ? ANSWER_YES : ANSWER_NO);
 
-         if (l2tpSetting.redial())
-         {
-            pLacSection->SetValue(REDIAL, ANSWER_YES);
-            pLacSection->SetFormattedValue(REDIALTIMEOUT, REDIALTIMEOUTLINE, l2tpSetting.redialTimeout());
-            pLacSection->SetFormattedValue(REDIALATTEMPTS, REDIALATTEMPTSLINE, l2tpSetting.redialAttempts());
-         }
-         else
-            pLacSection->SetValue(REDIAL, ANSWER_NO);
-      }
-      else
-         addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
-   }
+            if (l2tpSetting.redial())
+            {
+                pLacSection->SetValue(REDIAL, ANSWER_YES);
+                pLacSection->SetFormattedValue(REDIALTIMEOUT, REDIALTIMEOUTLINE, l2tpSetting.redialTimeout());
+                pLacSection->SetFormattedValue(REDIALATTEMPTS, REDIALATTEMPTSLINE, l2tpSetting.redialAttempts());
+            }
+            else
+                pLacSection->SetValue(REDIAL, ANSWER_NO);
+        }
+        else
+            addErrorMsg(QObject::tr("No such connection: '%1'.").arg(strName));
+    }
 }
 

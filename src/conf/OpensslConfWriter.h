@@ -31,16 +31,16 @@
 
 class OpensslConfWriter : public AbstractConfWriter
 {
-public:
-   OpensslConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~OpensslConfWriter() {}
+    public:
+        OpensslConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~OpensslConfWriter() {}
 
-protected:
-   void fill();
+    protected:
+        void fill();
 
-private:
-   OpensslConfWriter(const OpensslConfWriter& orig);
-   OpensslConfWriter& operator=(const OpensslConfWriter& orig);
+    private:
+        OpensslConfWriter(const OpensslConfWriter& orig);
+        OpensslConfWriter& operator=(const OpensslConfWriter& orig);
 };
 
 #endif	/* OPENSSLCONFWRITER_H */

@@ -34,30 +34,30 @@ class SmartCardInfo;
 
 class SmartCardObjectListModel : public QAbstractListModel
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   typedef enum { Certificate, PublicKey } ObjectType;
+    public:
+        typedef enum { Certificate, PublicKey } ObjectType;
 
-   explicit SmartCardObjectListModel(ObjectType objectType);
-   virtual ~SmartCardObjectListModel();
+        explicit SmartCardObjectListModel(ObjectType objectType);
+        virtual ~SmartCardObjectListModel();
 
-   int rowCount(const QModelIndex& parent = QModelIndex()) const;
-   QVariant data(const QModelIndex& index, int iRole = Qt::DisplayRole) const;
-   bool storeCert(const QModelIndex& index) const;
-   const ObjectType& objectType() const { return(m_ObjectType); }
+        int rowCount(const QModelIndex& parent = QModelIndex()) const;
+        QVariant data(const QModelIndex& index, int iRole = Qt::DisplayRole) const;
+        bool storeCert(const QModelIndex& index) const;
+        const ObjectType& objectType() const { return(m_ObjectType); }
 
-private:
-   SmartCardObjectListModel(const SmartCardObjectListModel& orig);
-   SmartCardObjectListModel& operator=(const SmartCardObjectListModel& orig);
+    private:
+        SmartCardObjectListModel(const SmartCardObjectListModel& orig);
+        SmartCardObjectListModel& operator=(const SmartCardObjectListModel& orig);
 
-   QString value(int i) const;
-   QString idValue(int i) const;
+        QString value(int i) const;
+        QString idValue(int i) const;
 
-   void readTokens();
+        void readTokens();
 
-   ObjectType const m_ObjectType;
-   QList<SmartCardInfo*>* const m_pSmartCardObjects;
+        ObjectType const m_ObjectType;
+        QList<SmartCardInfo*>* const m_pSmartCardObjects;
 };
 
 #endif	/* SMARTCARDOBJECTLISTMODEL_H */

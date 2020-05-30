@@ -39,60 +39,60 @@ class VpnControlDaemonClient;
 
 class VPNControlTask : public QThread
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   enum Action {Connect, Disconnect};
+    public:
+        enum Action {Connect, Disconnect};
 
-   explicit VPNControlTask(QObject* pParent);
-   virtual ~VPNControlTask();
+        explicit VPNControlTask(QObject* pParent);
+        virtual ~VPNControlTask();
 
-   void run();
-   bool stop(unsigned long iWaitMiliSeconds);
+        void run();
+        bool stop(unsigned long iWaitMiliSeconds);
 
-   void setConnectionName(const QString& strConnectionName);
-   const QString& connectionName() const;
-   void setAction(Action action);
-   Action action() const;
-   int restartPcscDaemon();
+        void setConnectionName(const QString& strConnectionName);
+        const QString& connectionName() const;
+        void setAction(Action action);
+        Action action() const;
+        int restartPcscDaemon();
 
-   qint64 readLogLine(char* data, qint64 iMaxSize);
-   qint64 readErrorLine(char* data, qint64 iMaxSize);
+        qint64 readLogLine(char* data, qint64 iMaxSize);
+        qint64 readErrorLine(char* data, qint64 iMaxSize);
 
 signals:
-   void readyReadLog();
-   void commandOutputReceived(const QString& strOutputLine);
-   void errorMessageEmited(int iErrorCode);
+        void readyReadLog();
+        void commandOutputReceived(const QString& strOutputLine);
+        void errorMessageEmited(int iErrorCode);
 
-private slots:
-   void readyReadVpnLogPipe();
-   void onResult(int iReturnCode, const QString& stCommand);
-   void onCommandOutput(const QString& strOutputLine);
+        private slots:
+            void readyReadVpnLogPipe();
+        void onResult(int iReturnCode, const QString& stCommand);
+        void onCommandOutput(const QString& strOutputLine);
 
-private:
-   VPNControlTask(const VPNControlTask& orig);
-   VPNControlTask& operator=(const VPNControlTask& orig);
+    private:
+        VPNControlTask(const VPNControlTask& orig);
+        VPNControlTask& operator=(const VPNControlTask& orig);
 
-   bool createControlClient();
-   void deleteControlClient();
-   void runConnect();
-   void runDisconnect();
-   void runAndWait(VpnClientConnection::Command iCommand, const QString strArguments = "");
-   void emitErrorMsg(const QString& strErrorContext);
-   void clearVpnLogPipe();
-   static bool plutoIsRunning();
+        bool createControlClient();
+        void deleteControlClient();
+        void runConnect();
+        void runDisconnect();
+        void runAndWait(VpnClientConnection::Command iCommand, const QString strArguments = "");
+        void emitErrorMsg(const QString& strErrorContext);
+        void clearVpnLogPipe();
+        static bool plutoIsRunning();
 
-   VpnControlDaemonClient* m_pControlClient;
-   QString m_strConnectionName;
-   Action m_Action;
-   volatile int m_iReturnCode;
-   volatile bool m_fIPSecConnectionAdded;
-   volatile bool m_fIPSecConnectionIsUp;
-   QByteArray* const m_pByteArray;
-   QTextStream* const m_pErrorStream;
-   QSocketNotifier* m_pVpnLogPipeNotifier;
+        VpnControlDaemonClient* m_pControlClient;
+        QString m_strConnectionName;
+        Action m_Action;
+        volatile int m_iReturnCode;
+        volatile bool m_fIPSecConnectionAdded;
+        volatile bool m_fIPSecConnectionIsUp;
+        QByteArray* const m_pByteArray;
+        QTextStream* const m_pErrorStream;
+        QSocketNotifier* m_pVpnLogPipeNotifier;
 
-   static QFile m_vpnLogPipe;
+        static QFile m_vpnLogPipe;
 };
 
 #endif	/* VPNCONTROLTASK_H */

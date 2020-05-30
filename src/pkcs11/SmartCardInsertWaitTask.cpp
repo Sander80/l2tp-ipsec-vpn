@@ -37,15 +37,15 @@ SmartCardInsertWaitTask::~SmartCardInsertWaitTask()
 
 void SmartCardInsertWaitTask::run()
 {
-   m_fStop = false;
+    m_fStop = false;
 
-   if (Pkcs11::loaded())
-   {
-      do
-      {
-         m_iRet = m_pkcs11.slotList().count();
-         QThread::sleep(1);
-      }
-      while (m_iRet == 0 && !m_fStop);
-   }
+    if (Pkcs11::loaded())
+    {
+        do
+        {
+            m_iRet = m_pkcs11.slotList().count();
+            QThread::sleep(1);
+        }
+        while (m_iRet == 0 && !m_fStop);
+    }
 }

@@ -29,25 +29,25 @@
 
 class PreferencesEditorDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit PreferencesEditorDialog(QWidget* pParent = 0);
-   virtual ~PreferencesEditorDialog();
+    public:
+        explicit PreferencesEditorDialog(QWidget* pParent = 0);
+        virtual ~PreferencesEditorDialog();
 
-private slots:
-   void onEnginePath();
-   void onPkcs11Path();
-   void onHelpRequested() const;
-   void accept();
-   void readSettings() const;
-   bool writeSettings() const;
+        private slots:
+            void onEnginePath();
+        void onPkcs11Path();
+        void onHelpRequested() const;
+        void accept();
+        void readSettings() const;
+        bool writeSettings() const;
 
-private:
-   PreferencesEditorDialog(const PreferencesEditorDialog& orig);
-   PreferencesEditorDialog& operator=(const PreferencesEditorDialog& orig);
+    private:
+        PreferencesEditorDialog(const PreferencesEditorDialog& orig);
+        PreferencesEditorDialog& operator=(const PreferencesEditorDialog& orig);
 
-   Ui::PreferencesEditorDialog m_Widget;
+        Ui::PreferencesEditorDialog m_Widget;
 };
 
 #endif	/* _PREFERENCESEDITORDIALOG_H */

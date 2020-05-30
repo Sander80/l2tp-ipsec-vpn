@@ -34,24 +34,24 @@ class ConnectionEditorDialog;
 
 class ConnectionEditor : public QObject
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit ConnectionEditor(L2tpIPsecVpnApplication& application, QObject* pParent = 0);
-   virtual ~ConnectionEditor();
+    public:
+        explicit ConnectionEditor(L2tpIPsecVpnApplication& application, QObject* pParent = 0);
+        virtual ~ConnectionEditor();
 
-   int exec();
+        int exec();
 
-private slots:
-   void onConnectionAdded(const QString& strName);
-   void onConnectionRemoved(const QString& strName);
+        private slots:
+            void onConnectionAdded(const QString& strName);
+        void onConnectionRemoved(const QString& strName);
 
-private:
-   ConnectionEditor(const ConnectionEditor& orig);
-   ConnectionEditor& operator=(const ConnectionEditor& orig);
+    private:
+        ConnectionEditor(const ConnectionEditor& orig);
+        ConnectionEditor& operator=(const ConnectionEditor& orig);
 
-   L2tpIPsecVpnApplication& m_Application;
-   ConnectionEditorDialog* const m_pConnectionEditorDialog;
+        L2tpIPsecVpnApplication& m_Application;
+        ConnectionEditorDialog* const m_pConnectionEditorDialog;
 };
 
 #endif	/* CONNECTIONEDITOR_H */

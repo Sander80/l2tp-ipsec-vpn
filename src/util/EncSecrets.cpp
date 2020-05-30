@@ -46,17 +46,17 @@
  */
 EncSecrets::EncSecrets(const unsigned char acKey[16], const unsigned char acIv[8], const char* pcAscbuf)
 {
-   // Allocates enough amount of memory to be used by the buffer.
-   m_iBufferSize = (2 * ::strlen(pcAscbuf)) > 32 ? 2 * ::strlen(pcAscbuf) : 32;
+    // Allocates enough amount of memory to be used by the buffer.
+    m_iBufferSize = (2 * ::strlen(pcAscbuf)) > 32 ? 2 * ::strlen(pcAscbuf) : 32;
 
-   m_pcB64buf =  static_cast<unsigned char*>(::malloc(m_iBufferSize));
-   unsigned char* const pcBfbuf =  static_cast<unsigned char*>(::malloc(m_iBufferSize));
+    m_pcB64buf =  static_cast<unsigned char*>(::malloc(m_iBufferSize));
+    unsigned char* const pcBfbuf =  static_cast<unsigned char*>(::malloc(m_iBufferSize));
 
-   const int iOutlen = EncSecrets::encrypt(pcAscbuf, acIv, acKey, pcBfbuf);
-   encode(pcBfbuf, iOutlen);
+    const int iOutlen = EncSecrets::encrypt(pcAscbuf, acIv, acKey, pcBfbuf);
+    encode(pcBfbuf, iOutlen);
 
-   ::bzero(pcBfbuf, m_iBufferSize);
-   ::free(pcBfbuf);
+    ::bzero(pcBfbuf, m_iBufferSize);
+    ::free(pcBfbuf);
 }
 
 /**
@@ -66,21 +66,21 @@ EncSecrets::EncSecrets(const unsigned char acKey[16], const unsigned char acIv[8
  */
 EncSecrets::EncSecrets(const char* pcB64buf)
 {
-   // Allocates enough amount of memory to be used by the buffer.
-   m_iBufferSize = ::strlen(pcB64buf);
+    // Allocates enough amount of memory to be used by the buffer.
+    m_iBufferSize = ::strlen(pcB64buf);
 
-   m_pcB64buf = new unsigned char[m_iBufferSize + 2];
-   
-   for(int i = 0; i < m_iBufferSize; i++)
-      m_pcB64buf[i] = pcB64buf[i];
+    m_pcB64buf = new unsigned char[m_iBufferSize + 2];
 
-   m_pcB64buf[m_iBufferSize] = '\0';
+    for(int i = 0; i < m_iBufferSize; i++)
+        m_pcB64buf[i] = pcB64buf[i];
+
+    m_pcB64buf[m_iBufferSize] = '\0';
 }
 
 EncSecrets::~EncSecrets()
 {
-   ::bzero(m_pcB64buf, m_iBufferSize);
-   delete[](m_pcB64buf);
+    ::bzero(m_pcB64buf, m_iBufferSize);
+    delete[](m_pcB64buf);
 }
 
 /**
@@ -88,7 +88,7 @@ EncSecrets::~EncSecrets()
  */
 const char* EncSecrets::getbuf(void) const
 {
-   return(reinterpret_cast<const char*>(m_pcB64buf));
+    return(reinterpret_cast<const char*>(m_pcB64buf));
 }
 
 /**
@@ -99,99 +99,99 @@ const char* EncSecrets::getbuf(void) const
  */
 QString EncSecrets::retrieve(const unsigned char acKey[16], const unsigned char acIv[8])
 {
-   unsigned char* const pcBfbuf = static_cast<unsigned char*>(::malloc(m_iBufferSize));
-   char* const pcAscbuf = static_cast<char*>(::malloc(m_iBufferSize));
+    unsigned char* const pcBfbuf = static_cast<unsigned char*>(::malloc(m_iBufferSize));
+    char* const pcAscbuf = static_cast<char*>(::malloc(m_iBufferSize));
 
-   const int iTotal = decode(pcBfbuf);
-   const int iOutLen = ::EncSecrets::decrypt(pcBfbuf, iTotal, pcAscbuf, acKey, acIv);
+    const int iTotal = decode(pcBfbuf);
+    const int iOutLen = ::EncSecrets::decrypt(pcBfbuf, iTotal, pcAscbuf, acKey, acIv);
 
-   const QString strRet = QString::fromLatin1(pcAscbuf, iOutLen);
+    const QString strRet = QString::fromLatin1(pcAscbuf, iOutLen);
 
-   ::free(pcBfbuf);
-   ::free(pcAscbuf);
+    ::free(pcBfbuf);
+    ::free(pcAscbuf);
 
-   return(strRet);
+    return(strRet);
 }
 
 // Base64 encodes pcBfbuf.
 int EncSecrets::encode(const unsigned char* pcBfbuf, int iOutlen)
 {
-   EVP_ENCODE_CTX* ectx = EVP_ENCODE_CTX_new();
-   int iLen, iTotal = 0;
+    EVP_ENCODE_CTX* ectx = EVP_ENCODE_CTX_new();
+    int iLen, iTotal = 0;
 
-   ::EVP_EncodeInit(ectx);
-   ::EVP_EncodeUpdate(ectx, m_pcB64buf, &iLen, pcBfbuf, iOutlen);
-   iTotal += iLen;
+    ::EVP_EncodeInit(ectx);
+    ::EVP_EncodeUpdate(ectx, m_pcB64buf, &iLen, pcBfbuf, iOutlen);
+    iTotal += iLen;
 
-   ::EVP_EncodeFinal(ectx, m_pcB64buf + iLen, &iLen);
-   iTotal += iLen;
+    ::EVP_EncodeFinal(ectx, m_pcB64buf + iLen, &iLen);
+    iTotal += iLen;
 
-   EVP_ENCODE_CTX_free(ectx);
-   return(iTotal);
+    EVP_ENCODE_CTX_free(ectx);
+    return(iTotal);
 }
 
 // Base64 decodification.
 int EncSecrets::decode(unsigned char* pcBfbuf)
 {
-//   EVP_ENCODE_CTX ectx;
-   EVP_ENCODE_CTX* ectx = EVP_ENCODE_CTX_new();
-   int iLen, iTotal = 0;
+    //   EVP_ENCODE_CTX ectx;
+    EVP_ENCODE_CTX* ectx = EVP_ENCODE_CTX_new();
+    int iLen, iTotal = 0;
 
-   ::EVP_DecodeInit(ectx);
-   ::EVP_DecodeUpdate(ectx, pcBfbuf, &iLen, m_pcB64buf, ::strlen(reinterpret_cast<char*>(m_pcB64buf)));
-   iTotal += iLen;
+    ::EVP_DecodeInit(ectx);
+    ::EVP_DecodeUpdate(ectx, pcBfbuf, &iLen, m_pcB64buf, ::strlen(reinterpret_cast<char*>(m_pcB64buf)));
+    iTotal += iLen;
 
-   ::EVP_DecodeFinal(ectx, pcBfbuf + iLen, &iLen);
-   iTotal += iLen;
-   EVP_ENCODE_CTX_free(ectx);
+    ::EVP_DecodeFinal(ectx, pcBfbuf + iLen, &iLen);
+    iTotal += iLen;
+    EVP_ENCODE_CTX_free(ectx);
 
-   return(iTotal);
+    return(iTotal);
 }
 
 // Blowfish encrypts pcAscbuf into pcBfbuf.
 int EncSecrets::encrypt(const char* pcAscbuf, const unsigned char acIv[8], const unsigned char acKey[16], unsigned char* pcBfbuf)
 {
- //  EVP_CIPHER_CTX ctx;
-   EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-   int iOutlen = 0;
-   int iTmplen;
+    //  EVP_CIPHER_CTX ctx;
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    int iOutlen = 0;
+    int iTmplen;
 
-   ::EVP_CIPHER_CTX_init(ctx);
-   ::EVP_EncryptInit_ex(ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
+    ::EVP_CIPHER_CTX_init(ctx);
+    ::EVP_EncryptInit_ex(ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
 
-   if(::EVP_EncryptUpdate(ctx, pcBfbuf, &iOutlen, reinterpret_cast<const unsigned char*>(pcAscbuf), ::strlen(pcAscbuf)))
-   {
-      if(::EVP_EncryptFinal_ex(ctx, pcBfbuf + iOutlen, &iTmplen))
-         iOutlen += iTmplen;
-   }
+    if(::EVP_EncryptUpdate(ctx, pcBfbuf, &iOutlen, reinterpret_cast<const unsigned char*>(pcAscbuf), ::strlen(pcAscbuf)))
+    {
+        if(::EVP_EncryptFinal_ex(ctx, pcBfbuf + iOutlen, &iTmplen))
+            iOutlen += iTmplen;
+    }
 
-   ::EVP_CIPHER_CTX_cleanup(ctx);
+    ::EVP_CIPHER_CTX_cleanup(ctx);
 
-   EVP_CIPHER_CTX_free(ctx);
+    EVP_CIPHER_CTX_free(ctx);
 
-   return(iOutlen);
+    return(iOutlen);
 }
 
 // Blowfish decryption.
 int EncSecrets::decrypt(const unsigned char* pcBfbuf, int iTotal, char* pcAscbuf, const unsigned char acKey[16], const unsigned char acIv[8])
 {
-//   EVP_CIPHER_CTX ctx;
-   EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-   int iOutlen = 0;
-   int iTmplen;
+    //   EVP_CIPHER_CTX ctx;
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    int iOutlen = 0;
+    int iTmplen;
 
-   ::EVP_CIPHER_CTX_init(ctx);
-   ::EVP_DecryptInit_ex(ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
+    ::EVP_CIPHER_CTX_init(ctx);
+    ::EVP_DecryptInit_ex(ctx, ::EVP_bf_cbc(), NULL, acKey, acIv);
 
-   if(::EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(pcAscbuf), &iOutlen, pcBfbuf, iTotal))
-   {
-      if(::EVP_DecryptFinal(ctx, reinterpret_cast<unsigned char*>(pcAscbuf + iOutlen), &iTmplen))
-         iOutlen += iTmplen;
-   }
+    if(::EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(pcAscbuf), &iOutlen, pcBfbuf, iTotal))
+    {
+        if(::EVP_DecryptFinal(ctx, reinterpret_cast<unsigned char*>(pcAscbuf + iOutlen), &iTmplen))
+            iOutlen += iTmplen;
+    }
 
-   ::EVP_CIPHER_CTX_cleanup(ctx);
-   EVP_CIPHER_CTX_free(ctx);
-   return(iOutlen);
+    ::EVP_CIPHER_CTX_cleanup(ctx);
+    EVP_CIPHER_CTX_free(ctx);
+    return(iOutlen);
 }
 
 

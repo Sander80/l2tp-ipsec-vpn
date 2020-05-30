@@ -70,63 +70,63 @@ PPPConfWriter::~PPPConfWriter()
 
 void PPPConfWriter::fill()
 {
-   dictionary()->SetValue(IPPARAM, (QCoreApplication::instance()->objectName() + "-" + instance()).toLatin1().constData());
+    dictionary()->SetValue(IPPARAM, (QCoreApplication::instance()->objectName() + "-" + instance()).toLatin1().constData());
 
-   const PppSettings pppSettings = ConnectionSettings().pppSettings(instance());
+    const PppSettings pppSettings = ConnectionSettings().pppSettings(instance());
 
-   dictionary()->SetValue(REMOTENAME, pppSettings.remoteName().toLatin1().constData());
-   dictionary()->SetValue(NAME, pppSettings.userName().toLatin1().constData());
+    dictionary()->SetValue(REMOTENAME, pppSettings.remoteName().toLatin1().constData());
+    dictionary()->SetValue(NAME, pppSettings.userName().toLatin1().constData());
 
-   dictionary()->SetValue(PASSWORD, pppSettings.password().toLatin1().constData());
+    dictionary()->SetValue(PASSWORD, pppSettings.password().toLatin1().constData());
 
 
 
-   if (pppSettings.ipSettings().usePeerDns())
-      dictionary()->SetValue(USEPEERDNS, USEPEERDNSLINE);
+    if (pppSettings.ipSettings().usePeerDns())
+        dictionary()->SetValue(USEPEERDNS, USEPEERDNSLINE);
 
-   if (pppSettings.noBSDCompression())
-       dictionary()->SetValue(NOBSDCOMP, NOBSDCOMPLINE);
+    if (pppSettings.noBSDCompression())
+        dictionary()->SetValue(NOBSDCOMP, NOBSDCOMPLINE);
 
-   if (pppSettings.noDeflate())
-       dictionary()->SetValue(NODEFLATE, NODEFLATELINE);
+    if (pppSettings.noDeflate())
+        dictionary()->SetValue(NODEFLATE, NODEFLATELINE);
 
-   if (pppSettings.noVj())
-       dictionary()->SetValue(NOVJ, NOVJLINE);
+    if (pppSettings.noVj())
+        dictionary()->SetValue(NOVJ, NOVJLINE);
 
-   if (pppSettings.lcpEchoInterval() != -1)
-       dictionary()->SetValue(LCPECHOINTERVAL, QString(LCPECHOINTERVALLINE + QString::number(pppSettings.lcpEchoInterval())).toLatin1().constData());
+    if (pppSettings.lcpEchoInterval() != -1)
+        dictionary()->SetValue(LCPECHOINTERVAL, QString(LCPECHOINTERVALLINE + QString::number(pppSettings.lcpEchoInterval())).toLatin1().constData());
 
-   const bool fRefuseEap = pppSettings.refuseEap();
-   if (fRefuseEap) addRefuseEntry(REFUSEEAPLINE);
-   if (!fRefuseEap || pppSettings.refusePap()) addRefuseEntry(REFUSEPAPLINE);
-   if (!fRefuseEap || pppSettings.refuseChap()) addRefuseEntry(REFUSECHAPLINE);
-   if (!fRefuseEap || pppSettings.refuseMsChap()) addRefuseEntry(REFUSEMSCHAPLINE);
-   if (!fRefuseEap || pppSettings.refuseMsChapV2()) addRefuseEntry(REFUSEMSCHAPV2LINE);
+    const bool fRefuseEap = pppSettings.refuseEap();
+    if (fRefuseEap) addRefuseEntry(REFUSEEAPLINE);
+    if (!fRefuseEap || pppSettings.refusePap()) addRefuseEntry(REFUSEPAPLINE);
+    if (!fRefuseEap || pppSettings.refuseChap()) addRefuseEntry(REFUSECHAPLINE);
+    if (!fRefuseEap || pppSettings.refuseMsChap()) addRefuseEntry(REFUSEMSCHAPLINE);
+    if (!fRefuseEap || pppSettings.refuseMsChapV2()) addRefuseEntry(REFUSEMSCHAPV2LINE);
 
     if(fRefuseEap)
     {
-	addPasswordEntry(pppSettings.password());
+        addPasswordEntry(pppSettings.password());
 
     }
     else
     {
-	const PppEapSettings eapSettings = pppSettings.eapSettings();
-	if (!eapSettings.certificatePath().isEmpty()) addCertEntry((CERTLINE + "\"" + eapSettings.certificatePath() + "\"").toLatin1().constData());
-	if (!eapSettings.caCertificatePath().isEmpty()) addCertEntry((CALINE + "\"" + eapSettings.caCertificatePath() + "\"").toLatin1().constData());
-	if (!eapSettings.privateKeyPath().isEmpty()) addCertEntry((KEYLINE + "\"" + eapSettings.privateKeyPath() + "\"").toLatin1().constData());
+        const PppEapSettings eapSettings = pppSettings.eapSettings();
+        if (!eapSettings.certificatePath().isEmpty()) addCertEntry((CERTLINE + "\"" + eapSettings.certificatePath() + "\"").toLatin1().constData());
+        if (!eapSettings.caCertificatePath().isEmpty()) addCertEntry((CALINE + "\"" + eapSettings.caCertificatePath() + "\"").toLatin1().constData());
+        if (!eapSettings.privateKeyPath().isEmpty()) addCertEntry((KEYLINE + "\"" + eapSettings.privateKeyPath() + "\"").toLatin1().constData());
     }
 }
 
 void PPPConfWriter::addRefuseEntry(const QString& strRefuse) const
 {
-   dictionary()->AddSectionDictionary(REFUSE_SECTION)->SetValue(REFUSEPROTOCOL, strRefuse.toLatin1().constData());
+    dictionary()->AddSectionDictionary(REFUSE_SECTION)->SetValue(REFUSEPROTOCOL, strRefuse.toLatin1().constData());
 }
 
 void PPPConfWriter::addCertEntry(const QString& strCertEntry) const
 {
-   dictionary()->AddSectionDictionary(CERT_SECTION)->SetValue(CERTENTRY, strCertEntry.toLatin1().constData());
+    dictionary()->AddSectionDictionary(CERT_SECTION)->SetValue(CERTENTRY, strCertEntry.toLatin1().constData());
 }
 void PPPConfWriter::addPasswordEntry(const QString& strPasswordEntry) const
 {
-   dictionary()->AddSectionDictionary(PASSWORD_SECTION)->SetValue(PASSWORD, strPasswordEntry.toLatin1().constData());
+    dictionary()->AddSectionDictionary(PASSWORD_SECTION)->SetValue(PASSWORD, strPasswordEntry.toLatin1().constData());
 }

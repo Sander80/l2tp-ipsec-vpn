@@ -40,17 +40,17 @@ Settings::~Settings()
 
 bool Settings::isWriteable() const
 {
-   return(qSettings()->isWritable());
+    return(qSettings()->isWritable());
 }
 
 void Settings::clearChanged()
 {
-   m_PreviouslyLastModified = lastModified();
+    m_PreviouslyLastModified = lastModified();
 }
 
 bool Settings::hasChanged() const
 {
-   return(m_PreviouslyLastModified < lastModified());
+    return(m_PreviouslyLastModified < lastModified());
 }
 
 /**
@@ -63,51 +63,51 @@ bool Settings::hasChanged() const
  */
 bool Settings::removeArrayItem(const QString& strArrayName, int iIndex) const
 {
-   bool fRet = false;
+    bool fRet = false;
 
-   qSettings()->beginReadArray(strArrayName);
-   const QStringList keys(qSettings()->allKeys());
-   QStringList values;
+    qSettings()->beginReadArray(strArrayName);
+    const QStringList keys(qSettings()->allKeys());
+    QStringList values;
 
-   if (iIndex < keys.size())
-   {
-      for (int i = 0; i < keys.size(); i++)
-         values.insert(i, qSettings()->value(keys.at(i)).toString());
-      qSettings()->endArray();
+    if (iIndex < keys.size())
+    {
+        for (int i = 0; i < keys.size(); i++)
+            values.insert(i, qSettings()->value(keys.at(i)).toString());
+        qSettings()->endArray();
 
-      qSettings()->beginGroup(strArrayName);
-      qSettings()->remove("");
+        qSettings()->beginGroup(strArrayName);
+        qSettings()->remove("");
 
-      const QChar cIndex2Remove(iIndex + 1 + 48);
-      QChar cIndex2Write;
-      for (int i = 0; i < keys.size(); i++)
-      {
-         const QString& strKey = keys.at(i);
-         const QChar cIndex2Read(strKey.at(0));
-         if (cIndex2Read.isDigit())
-         {
-            if (cIndex2Read != cIndex2Remove)
+        const QChar cIndex2Remove(iIndex + 1 + 48);
+        QChar cIndex2Write;
+        for (int i = 0; i < keys.size(); i++)
+        {
+            const QString& strKey = keys.at(i);
+            const QChar cIndex2Read(strKey.at(0));
+            if (cIndex2Read.isDigit())
             {
-               cIndex2Write = cIndex2Read > cIndex2Remove ? QChar(cIndex2Read.digitValue() - 1 + 48) : QChar(cIndex2Read.digitValue() + 48);
-               qSettings()->setValue(cIndex2Write + strKey.mid(1), values.at(i));
+                if (cIndex2Read != cIndex2Remove)
+                {
+                    cIndex2Write = cIndex2Read > cIndex2Remove ? QChar(cIndex2Read.digitValue() - 1 + 48) : QChar(cIndex2Read.digitValue() + 48);
+                    qSettings()->setValue(cIndex2Write + strKey.mid(1), values.at(i));
+                }
             }
-         }
-      }
-      qSettings()->setValue("size", QString(cIndex2Write));
-      qSettings()->endGroup();
-      fRet = true;
-   }
+        }
+        qSettings()->setValue("size", QString(cIndex2Write));
+        qSettings()->endGroup();
+        fRet = true;
+    }
 
-   return(fRet);
+    return(fRet);
 }
 
 QDateTime Settings::lastModified() const
 {
-   return(QFileInfo(qSettings()->fileName()).lastModified());
+    return(QFileInfo(qSettings()->fileName()).lastModified());
 }
 
 QSettings* Settings::configureQSettings()
 {
-   return(new QSettings(QSettings::SystemScope, QCoreApplication::organizationName(), QCoreApplication::applicationName()));
+    return(new QSettings(QSettings::SystemScope, QCoreApplication::organizationName(), QCoreApplication::applicationName()));
 }
 

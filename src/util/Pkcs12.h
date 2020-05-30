@@ -34,31 +34,31 @@ class CertificateInfo;
 
 class Pkcs12 : public QObject
 {
-public:
-   Pkcs12(const QString& strFilenamePath, const QString& strPassphrase);
-   virtual ~Pkcs12();
-   const QString& error() const { return(m_strError); }
-   const QString issuer() const;
-   const QString cn() const;
-   const QString serialNumber() const;
-   bool hasPrivateKey() const { return(m_pKey); }
-   int caCerts() const { return(::sk_num(reinterpret_cast<const stack_st*>(m_pAdditionalCerts))); }
-   bool cert2Pem(const QString& strFilenamePath);
-   int caChain2Pem(const QString& strFilenamePath);
-   bool privateKey2Pem(const QString& strFilenamePath, const QString& strPassphrase);
+    public:
+        Pkcs12(const QString& strFilenamePath, const QString& strPassphrase);
+        virtual ~Pkcs12();
+        const QString& error() const { return(m_strError); }
+        const QString issuer() const;
+        const QString cn() const;
+        const QString serialNumber() const;
+        bool hasPrivateKey() const { return(m_pKey); }
+        int caCerts() const { return(::sk_num(reinterpret_cast<const stack_st*>(m_pAdditionalCerts))); }
+        bool cert2Pem(const QString& strFilenamePath);
+        int caChain2Pem(const QString& strFilenamePath);
+        bool privateKey2Pem(const QString& strFilenamePath, const QString& strPassphrase);
 
-private:
-   Pkcs12(const Pkcs12& orig);
-   Pkcs12& operator=(const Pkcs12& orig);
+    private:
+        Pkcs12(const Pkcs12& orig);
+        Pkcs12& operator=(const Pkcs12& orig);
 
-   void parse(const QString& strFilenamePath, const QString& strPassphrase);
+        void parse(const QString& strFilenamePath, const QString& strPassphrase);
 
-   PKCS12* m_p12Cert;
-   EVP_PKEY* m_pKey;
-   X509*  m_pX509Cert;
-   STACK_OF(X509)* m_pAdditionalCerts;
-   QString m_strError;
-   const CertificateInfo* m_pCertificateInfo;
+        PKCS12* m_p12Cert;
+        EVP_PKEY* m_pKey;
+        X509*  m_pX509Cert;
+        STACK_OF(X509)* m_pAdditionalCerts;
+        QString m_strError;
+        const CertificateInfo* m_pCertificateInfo;
 };
 
 #endif	/* PKCS12_H */

@@ -31,16 +31,16 @@
 
 class RSysLogConfWriter : public AbstractConfWriter
 {
-public:
-   RSysLogConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~RSysLogConfWriter() {}
+    public:
+        RSysLogConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~RSysLogConfWriter() {}
 
-protected:
-   void fill() {}
+    protected:
+        void fill() {}
 
-private:
-   RSysLogConfWriter(const RSysLogConfWriter& orig);
-   RSysLogConfWriter& operator=(const RSysLogConfWriter& orig);
+    private:
+        RSysLogConfWriter(const RSysLogConfWriter& orig);
+        RSysLogConfWriter& operator=(const RSysLogConfWriter& orig);
 };
 
 #endif	/* RSYSLOGCONFWRITER_H */

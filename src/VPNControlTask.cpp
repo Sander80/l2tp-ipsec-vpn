@@ -5,7 +5,7 @@
  * Author: Werner Jaeger
  *
  * Created on July 8, 2010, 5:09 PM
-  *
+ *
  * Copyright 2010 Werner Jaeger.
  *
  * Upgraded and maintained since 2020 by Alexander Smirnov.
@@ -22,7 +22,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #include <QProcess>
 #include <QDir>
@@ -78,99 +78,99 @@ QFile VPNControlTask::m_vpnLogPipe(strVpnLogPipeName);
 
 
 VPNControlTask::VPNControlTask(QObject* pParent) : QThread(pParent), m_pControlClient(new VpnControlDaemonClient), m_Action(Connect), m_iReturnCode(0),
-   m_fIPSecConnectionAdded(false), m_fIPSecConnectionIsUp(false), m_pByteArray(new QByteArray()), m_pErrorStream(new QTextStream(m_pByteArray))
+    m_fIPSecConnectionAdded(false), m_fIPSecConnectionIsUp(false), m_pByteArray(new QByteArray()), m_pErrorStream(new QTextStream(m_pByteArray))
 {
-   clearVpnLogPipe();
+    clearVpnLogPipe();
 
-   if (!m_vpnLogPipe.open(QIODevice::ReadWrite | QIODevice::Text))
-      qWarning("Warning: VPNControlTask: Failed to open pipe %s", strVpnLogPipeName);
+    if (!m_vpnLogPipe.open(QIODevice::ReadWrite | QIODevice::Text))
+        qWarning("Warning: VPNControlTask: Failed to open pipe %s", strVpnLogPipeName);
 
-   ::fcntl(m_vpnLogPipe.handle(), F_SETFL, O_NONBLOCK);
+    ::fcntl(m_vpnLogPipe.handle(), F_SETFL, O_NONBLOCK);
 
-   m_pVpnLogPipeNotifier = new QSocketNotifier(m_vpnLogPipe.handle(), QSocketNotifier::Read, pParent);
+    m_pVpnLogPipeNotifier = new QSocketNotifier(m_vpnLogPipe.handle(), QSocketNotifier::Read, pParent);
 
-   connect(m_pVpnLogPipeNotifier, SIGNAL(activated(int)), SLOT(readyReadVpnLogPipe()));
+    connect(m_pVpnLogPipeNotifier, SIGNAL(activated(int)), SLOT(readyReadVpnLogPipe()));
 }
 
 VPNControlTask::~VPNControlTask()
 {
-   deleteControlClient();
-   delete m_pErrorStream;
-   delete m_pByteArray;
-   delete m_pVpnLogPipeNotifier;
-   m_vpnLogPipe.close();
+    deleteControlClient();
+    delete m_pErrorStream;
+    delete m_pByteArray;
+    delete m_pVpnLogPipeNotifier;
+    m_vpnLogPipe.close();
 
 }
 
 void VPNControlTask::setConnectionName(const QString& strConnectionName)
 {
-   m_strConnectionName = strConnectionName;
+    m_strConnectionName = strConnectionName;
 }
 
 const QString& VPNControlTask::connectionName() const
 {
-   return(m_strConnectionName);
+    return(m_strConnectionName);
 }
 
 VPNControlTask::Action VPNControlTask::action() const
 {
-   return(m_Action);
+    return(m_Action);
 }
 
 void VPNControlTask::setAction(Action action)
 {
-   m_Action = action;
+    m_Action = action;
 }
 
 int VPNControlTask::restartPcscDaemon()
 {
-//   qDebug() << "VPNControlTask::restartPcscDaemon()";connectionName
+    //   qDebug() << "VPNControlTask::restartPcscDaemon()";connectionName
 
-   if (createControlClient())
-   {
-      m_iReturnCode = 0;
+    if (createControlClient())
+    {
+        m_iReturnCode = 0;
 
-      runAndWait(VpnClientConnection::CMD_START_PCSCD);
-      runAndWait(VpnClientConnection::CMD_STOP_PCSCD);
-      sleep(2);
-   }
+        runAndWait(VpnClientConnection::CMD_START_PCSCD);
+        runAndWait(VpnClientConnection::CMD_STOP_PCSCD);
+        sleep(2);
+    }
 
 
-   deleteControlClient();
+    deleteControlClient();
 
-//   qDebug() << "VPNControlTask::restartPcscDaemon() -> finished";
+    //   qDebug() << "VPNControlTask::restartPcscDaemon() -> finished";
 
-   return(m_iReturnCode);
+    return(m_iReturnCode);
 }
 
 void VPNControlTask::run()
 {
-//   qDebug() << "VPNControlTask::run()";
+    //   qDebug() << "VPNControlTask::run()";
 
-   if (createControlClient())
-   {
-      m_pByteArray->clear();
-      m_pErrorStream->reset();
-      m_pErrorStream->resetStatus();
-      m_iReturnCode = 0;
-      m_fIPSecConnectionAdded = false;
-      m_fIPSecConnectionIsUp = false;
+    if (createControlClient())
+    {
+        m_pByteArray->clear();
+        m_pErrorStream->reset();
+        m_pErrorStream->resetStatus();
+        m_iReturnCode = 0;
+        m_fIPSecConnectionAdded = false;
+        m_fIPSecConnectionIsUp = false;
 
-      switch (m_Action)
-      {
-         case Connect:
-            runConnect();
-            break;
+        switch (m_Action)
+        {
+            case Connect:
+                runConnect();
+                break;
 
-         case Disconnect:
-            runDisconnect();
-            break;
-      }
-   }
+            case Disconnect:
+                runDisconnect();
+                break;
+        }
+    }
 
-   deleteControlClient();
+    deleteControlClient();
 
-//   qDebug() << "VPNControlTask::run() -> finished";
+    //   qDebug() << "VPNControlTask::run() -> finished";
 }
 
 /*!
@@ -181,382 +181,382 @@ void VPNControlTask::run()
  */
 bool VPNControlTask::stop(unsigned long iWaitMiliSeconds)
 {
-   m_iReturnCode = ERR_INTERRUPTED;
-   exit(ERR_INTERRUPTED);
-   return(wait(iWaitMiliSeconds));
+    m_iReturnCode = ERR_INTERRUPTED;
+    exit(ERR_INTERRUPTED);
+    return(wait(iWaitMiliSeconds));
 }
 
 bool VPNControlTask::createControlClient()
 {
-   deleteControlClient();
-   m_pControlClient = new VpnControlDaemonClient;
-   connect(m_pControlClient, SIGNAL(notifyResult(int, const QString&)), SLOT(onResult(int, const QString&)));
-   connect(m_pControlClient, SIGNAL(notifyCommandOutput(const QString&)), SLOT(onCommandOutput(const QString&)));
+    deleteControlClient();
+    m_pControlClient = new VpnControlDaemonClient;
+    connect(m_pControlClient, SIGNAL(notifyResult(int, const QString&)), SLOT(onResult(int, const QString&)));
+    connect(m_pControlClient, SIGNAL(notifyCommandOutput(const QString&)), SLOT(onCommandOutput(const QString&)));
 
-   m_pControlClient->connectToServer();
+    m_pControlClient->connectToServer();
 
-   const bool fConnected(m_pControlClient->waitForConnected());
+    const bool fConnected(m_pControlClient->waitForConnected());
 
-   if (!fConnected)
-   {
-      m_iReturnCode = ERR_CONNECTING_TO_CONTROL_DAEMON;
-      emitErrorMsg("");
-   }
+    if (!fConnected)
+    {
+        m_iReturnCode = ERR_CONNECTING_TO_CONTROL_DAEMON;
+        emitErrorMsg("");
+    }
 
-   return(fConnected);
+    return(fConnected);
 }
 
 void VPNControlTask::deleteControlClient()
 {
-   if (m_pControlClient != NULL)
-   {
-      m_pControlClient->leave();
-      m_pControlClient->deleteLater();
-      m_pControlClient = NULL;
-   }
+    if (m_pControlClient != NULL)
+    {
+        m_pControlClient->leave();
+        m_pControlClient->deleteLater();
+        m_pControlClient = NULL;
+    }
 }
 
 void VPNControlTask::runConnect()
 {
     //qDebug() << "VPNControlTask::runConnect()";
-   
-
-   const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
-
-   if (VPNControlTask::plutoIsRunning())
-   {
-      runAndWait(VpnClientConnection::CMD_STOP_IPSECD);
-
-      while (VPNControlTask::plutoIsRunning())
-         sleep(1);
-   }
 
 
-   if (xl2tpdPid.exists())
-      runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
+    const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
 
-   if (!NetworkInterface::writeDefaultGatewayInfo())
-   {
-      m_iReturnCode = ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO;
-      emitErrorMsg("");
-   }
-   else if (!commonSettings.disableIPSecEncryption())
-      runAndWait(VpnClientConnection::CMD_START_IPSECD);
+    if (VPNControlTask::plutoIsRunning())
+    {
+        runAndWait(VpnClientConnection::CMD_STOP_IPSECD);
 
-   if (m_iReturnCode == 0)
-      runAndWait(VpnClientConnection::CMD_WRITE_CONNECTIONNAME_INFO, m_strConnectionName);
+        while (VPNControlTask::plutoIsRunning())
+            sleep(1);
+    }
 
-   if (m_iReturnCode == 0)
-   {
-      runAndWait(VpnClientConnection::CMD_START_L2TPD);
 
-      if (m_iReturnCode == 0)
-      {
-      
-         if (!commonSettings.disableIPSecEncryption())
-         {
-            // if (!m_fIPSecConnectionAdded)
-            //   exec();
+    if (xl2tpdPid.exists())
+        runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
 
-            // avoid need --listen before --initiate error
-            sleep(3);
-            runAndWait(VpnClientConnection::CMD_IPSEC_READY);
+    if (!NetworkInterface::writeDefaultGatewayInfo())
+    {
+        m_iReturnCode = ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO;
+        emitErrorMsg("");
+    }
+    else if (!commonSettings.disableIPSecEncryption())
+        runAndWait(VpnClientConnection::CMD_START_IPSECD);
 
-            if (m_iReturnCode == 0)
+    if (m_iReturnCode == 0)
+        runAndWait(VpnClientConnection::CMD_WRITE_CONNECTIONNAME_INFO, m_strConnectionName);
+
+    if (m_iReturnCode == 0)
+    {
+        runAndWait(VpnClientConnection::CMD_START_L2TPD);
+
+        if (m_iReturnCode == 0)
+        {
+
+            if (!commonSettings.disableIPSecEncryption())
             {
-               runAndWait(VpnClientConnection::CMD_IPSEC_UP, m_strConnectionName);
+                // if (!m_fIPSecConnectionAdded)
+                //   exec();
 
-               if (m_iReturnCode == 0 && !m_fIPSecConnectionIsUp)
-               {
-                  m_iReturnCode = ERR_IPSEC_SA_NOT_ESTABLISHED;
-                  emitErrorMsg("IPsec");
-               }
+                // avoid need --listen before --initiate error
+                sleep(3);
+                runAndWait(VpnClientConnection::CMD_IPSEC_READY);
 
-               if (m_iReturnCode == 0)
-               {
-                  sleep(3);
-                  runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
-               }
+                if (m_iReturnCode == 0)
+                {
+                    runAndWait(VpnClientConnection::CMD_IPSEC_UP, m_strConnectionName);
+
+                    if (m_iReturnCode == 0 && !m_fIPSecConnectionIsUp)
+                    {
+                        m_iReturnCode = ERR_IPSEC_SA_NOT_ESTABLISHED;
+                        emitErrorMsg("IPsec");
+                    }
+
+                    if (m_iReturnCode == 0)
+                    {
+                        sleep(3);
+                        runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+                    }
+                }
             }
-         }
-         else
-         {
-            sleep(3);
-            runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
-         }
-      }
-   }
-   
-//   qDebug() << "VPNControlTask::runConnect() -> finished";
+            else
+            {
+                sleep(3);
+                runAndWait(VpnClientConnection::CMD_L2TP_CONNECT, m_strConnectionName);
+            }
+        }
+    }
+
+    //   qDebug() << "VPNControlTask::runConnect() -> finished";
 }
 
 void VPNControlTask::runDisconnect()
 {
-//   qDebug() << "VPNControlTask::runDisconnect()";
+    //   qDebug() << "VPNControlTask::runDisconnect()";
 
-   const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
+    const CommonSettings commonSettings(ConnectionSettings().commonSettings(m_strConnectionName));
 
-   if (xl2tpdPid.exists())
-      runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
+    if (xl2tpdPid.exists())
+        runAndWait(VpnClientConnection::CMD_STOP_L2TPD);
 
-   if (m_iReturnCode == 0 && !commonSettings.disableIPSecEncryption())
-      runAndWait(VpnClientConnection::CMD_STOP_IPSECD);
+    if (m_iReturnCode == 0 && !commonSettings.disableIPSecEncryption())
+        runAndWait(VpnClientConnection::CMD_STOP_IPSECD);
 
-//   qDebug() << "VPNControlTask::runDisconnect() -> finished";
+    //   qDebug() << "VPNControlTask::runDisconnect() -> finished";
 }
 
 void VPNControlTask::runAndWait(VpnClientConnection::Command iCommand, const QString strArguments)
 {
-   //QTextStream(stdout) <<  "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ")" << endl;
+    //QTextStream(stdout) <<  "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ")" << endl;
 
-   if (!m_pControlClient->start(iCommand, strArguments))
-   {
-      m_iReturnCode = ERR_CONNECTING_TO_CONTROL_DAEMON;
-      QTextStream(stdout) << "error" << endl;
-      emitErrorMsg("");
-   }
-   else {
-      //QTextStream(stdout) << "exec" << endl;
-   //   QTextStream(stdout) <<  exec() << endl;
-      exec();
-   }
+    if (!m_pControlClient->start(iCommand, strArguments))
+    {
+        m_iReturnCode = ERR_CONNECTING_TO_CONTROL_DAEMON;
+        QTextStream(stdout) << "error" << endl;
+        emitErrorMsg("");
+    }
+    else {
+        //QTextStream(stdout) << "exec" << endl;
+        //   QTextStream(stdout) <<  exec() << endl;
+        exec();
+    }
 
-   //QTextStream(stdout) << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished" << endl;
+    //QTextStream(stdout) << "VPNControlTask::runAndWait(Command" << iCommand << ", const QString&" <<  strArguments << ") -> finished" << endl;
 }
 
 qint64 VPNControlTask::readLogLine(char* data, qint64 iMaxSize)
 {
-//   qDebug() << "VPNControlTask::readLogLine()";
+    //   qDebug() << "VPNControlTask::readLogLine()";
 
-   qint64 iRet(m_vpnLogPipe.readLine(data, iMaxSize));
+    qint64 iRet(m_vpnLogPipe.readLine(data, iMaxSize));
 
-   if (iRet > 0)
-   {
-      const QString strLine(data);
-      const QStringList astrParts(strLine.split(RE_LOG_SPLITLINE));
-      ::strcpy(data, astrParts.last().toLatin1().data());
-      iRet = ::strlen(data);
+    if (iRet > 0)
+    {
+        const QString strLine(data);
+        const QStringList astrParts(strLine.split(RE_LOG_SPLITLINE));
+        ::strcpy(data, astrParts.last().toLatin1().data());
+        iRet = ::strlen(data);
 
-      if (::strstr(data, STR_LOG_MATCH_CERTIFICATELOADERROR) != NULL)
-      {
-         m_iReturnCode = ERR_LOADING_CERTIFICATE;
-         if (RE_LOG_CAP_CERTIFICATEID.indexIn(data) > 0)
-            emitErrorMsg(RE_LOG_CAP_CERTIFICATEID.cap(1));
-         else
-            emitErrorMsg("unknown");
-      }
-      if (::strstr(data, STR_LOG_MATCH_AUTHFAILED) != NULL || ::strstr(data, STR_LOG_MATCH_AUTHFAILURE) != NULL || ::strstr(data, STR_LOG_MATCH_PAP_AUTHFAILED) != NULL)
-      {
-         m_iReturnCode = ERR_AUTHENTICATION_FAILED;
-         emitErrorMsg(connectionName());
-      }
-      else if (::strstr(data, STR_LOG_MATCH_NO_DATA))
-      {
-         m_iReturnCode = ERR_WRONG_CERTIFICATE;
-         emitErrorMsg(connectionName());
-      }
-      else if (::strstr(data, STR_LOG_MATCH_PEERAUTHFAILED))
-      {
-         m_iReturnCode = ERR_NO_SECRET_FOUND;
-         emitErrorMsg(connectionName());
-      }
-      else if (::strstr(data, STR_CONNECT_TIMEOUT))
-      {
-         m_iReturnCode = ERR_CONNECT_TIMEOUT;
-         emitErrorMsg(connectionName());
-      }
-      else if (!m_fIPSecConnectionAdded)
-      {
-         m_fIPSecConnectionAdded = strLine.contains(STR_LOG_MATCH_IPSEC_CONNECTIONADDED + "\"" + connectionName() + "\"");
-         if (m_fIPSecConnectionAdded) onResult(0, "");
-      }
-   }
+        if (::strstr(data, STR_LOG_MATCH_CERTIFICATELOADERROR) != NULL)
+        {
+            m_iReturnCode = ERR_LOADING_CERTIFICATE;
+            if (RE_LOG_CAP_CERTIFICATEID.indexIn(data) > 0)
+                emitErrorMsg(RE_LOG_CAP_CERTIFICATEID.cap(1));
+            else
+                emitErrorMsg("unknown");
+        }
+        if (::strstr(data, STR_LOG_MATCH_AUTHFAILED) != NULL || ::strstr(data, STR_LOG_MATCH_AUTHFAILURE) != NULL || ::strstr(data, STR_LOG_MATCH_PAP_AUTHFAILED) != NULL)
+        {
+            m_iReturnCode = ERR_AUTHENTICATION_FAILED;
+            emitErrorMsg(connectionName());
+        }
+        else if (::strstr(data, STR_LOG_MATCH_NO_DATA))
+        {
+            m_iReturnCode = ERR_WRONG_CERTIFICATE;
+            emitErrorMsg(connectionName());
+        }
+        else if (::strstr(data, STR_LOG_MATCH_PEERAUTHFAILED))
+        {
+            m_iReturnCode = ERR_NO_SECRET_FOUND;
+            emitErrorMsg(connectionName());
+        }
+        else if (::strstr(data, STR_CONNECT_TIMEOUT))
+        {
+            m_iReturnCode = ERR_CONNECT_TIMEOUT;
+            emitErrorMsg(connectionName());
+        }
+        else if (!m_fIPSecConnectionAdded)
+        {
+            m_fIPSecConnectionAdded = strLine.contains(STR_LOG_MATCH_IPSEC_CONNECTIONADDED + "\"" + connectionName() + "\"");
+            if (m_fIPSecConnectionAdded) onResult(0, "");
+        }
+    }
 
-//   qDebug() << "VPNControlTask::readLogLine() -> finished with" << iRet;
+    //   qDebug() << "VPNControlTask::readLogLine() -> finished with" << iRet;
 
-   return(iRet);
+    return(iRet);
 }
 
 qint64 VPNControlTask::readErrorLine(char* data, qint64 iMaxSize)
 {
-//   qDebug() << "VPNControlTask::readErrorLine()";
+    //   qDebug() << "VPNControlTask::readErrorLine()";
 
-   qint64 iRet(-1);
+    qint64 iRet(-1);
 
-   QString strLine(m_pErrorStream->readLine(iMaxSize));
-   if (!strLine.isNull())
-   {
-      strLine.append("\n");
-      ::strcpy(data, strLine.toLatin1().data());
-      iRet = ::strlen(data);
-   }
+    QString strLine(m_pErrorStream->readLine(iMaxSize));
+    if (!strLine.isNull())
+    {
+        strLine.append("\n");
+        ::strcpy(data, strLine.toLatin1().data());
+        iRet = ::strlen(data);
+    }
 
-//   qDebug() << "VPNControlTask::readErrorLine() -> finished with" << iRet;
+    //   qDebug() << "VPNControlTask::readErrorLine() -> finished with" << iRet;
 
-   return(iRet);
+    return(iRet);
 }
 
 void VPNControlTask::readyReadVpnLogPipe()
 {
-   emit readyReadLog();
+    emit readyReadLog();
 }
 
 void VPNControlTask::onResult(int iReturnCode, const QString& strCommand)
 {
-//   qDebug() << "VPNControlTask::onResult(int" << iReturnCode << ", const String&" << strCommand << ")";
+    //   qDebug() << "VPNControlTask::onResult(int" << iReturnCode << ", const String&" << strCommand << ")";
 
-   m_iReturnCode = iReturnCode;
+    m_iReturnCode = iReturnCode;
 
-   exit(iReturnCode);
+    exit(iReturnCode);
 
-   if (iReturnCode != 0)
-      emitErrorMsg(strCommand);
+    if (iReturnCode != 0)
+        emitErrorMsg(strCommand);
 
-//   qDebug() << "VPNControlTask::onResult(int" << iReturnCode << ", const String&" << strCommand << ") -> finished";
+    //   qDebug() << "VPNControlTask::onResult(int" << iReturnCode << ", const String&" << strCommand << ") -> finished";
 }
 
 void VPNControlTask::onCommandOutput(const QString& strOutputLine)
 {
-//   qDebug() << "VPNControlTask::onCommandOutput(const String&" << strOutputLine << ")";
+    //   qDebug() << "VPNControlTask::onCommandOutput(const String&" << strOutputLine << ")";
     QTextStream(stdout) << strOutputLine << endl;
-   if (!m_fIPSecConnectionIsUp)
+    if (!m_fIPSecConnectionIsUp)
     {
-      m_fIPSecConnectionIsUp = strOutputLine.contains(STR_LOG_MATCH_IPSECSAESTABLISHED);
+        m_fIPSecConnectionIsUp = strOutputLine.contains(STR_LOG_MATCH_IPSECSAESTABLISHED);
     }
 
-   emit commandOutputReceived(strOutputLine);
+    emit commandOutputReceived(strOutputLine);
 
-//   qDebug() << "VPNControlTask::onCommandOutput(const String&" << strOutputLine << ") --> finished";
+    //   qDebug() << "VPNControlTask::onCommandOutput(const String&" << strOutputLine << ") --> finished";
 }
 
 void VPNControlTask::emitErrorMsg(const QString& strErrorContext)
 {
-//   qDebug() << "VPNControlTask::emitErrorMsg(const QString&" << strErrorContext << ")";
+    //   qDebug() << "VPNControlTask::emitErrorMsg(const QString&" << strErrorContext << ")";
 
-   const qint64 iPos(m_pErrorStream->pos());
+    const qint64 iPos(m_pErrorStream->pos());
 
-   *m_pErrorStream << "[ERROR" << qSetFieldWidth(5) << right << m_iReturnCode << reset << "]   ";
+    *m_pErrorStream << "[ERROR" << qSetFieldWidth(5) << right << m_iReturnCode << reset << "]   ";
 
-   switch (m_iReturnCode)
-   {
-      case VpnClientConnection::CMD_UNKNOWN:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon did not recognize the command sent";
-         break;
+    switch (m_iReturnCode)
+    {
+        case VpnClientConnection::CMD_UNKNOWN:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon did not recognize the command sent";
+            break;
 
-      case VpnClientConnection::ERR_INALID_NO_OF_ARGUMENTS:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon is complained about the number of arguments in command '" << strErrorContext << "'";
-         break;
+        case VpnClientConnection::ERR_INALID_NO_OF_ARGUMENTS:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon is complained about the number of arguments in command '" << strErrorContext << "'";
+            break;
 
-      case VpnClientConnection::ERR_COMMAND_FAILED_TO_START:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' failed to start";
-         break;
+        case VpnClientConnection::ERR_COMMAND_FAILED_TO_START:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' failed to start";
+            break;
 
-      case VpnClientConnection::ERR_COMMAND_CRASHED_AFTER_START:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' crashed after starting successfully";
-         break;
+        case VpnClientConnection::ERR_COMMAND_CRASHED_AFTER_START:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' crashed after starting successfully";
+            break;
 
-      case VpnClientConnection::ERR_COMMAND_TIMEDOUT:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' timed out";
-         break;
+        case VpnClientConnection::ERR_COMMAND_TIMEDOUT:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' timed out";
+            break;
 
-      case VpnClientConnection::ERR_COMMAND_FAILED_TO_READ_FROM_PROCESS:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' an error occurred when attempting to read from the process";
-         break;
+        case VpnClientConnection::ERR_COMMAND_FAILED_TO_READ_FROM_PROCESS:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' an error occurred when attempting to read from the process";
+            break;
 
-      case VpnClientConnection::ERR_COMMAND_FAILED_TO_WRITE_TO_PROCESS:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' an error occurred when attempting to write to the process";
-         break;
+        case VpnClientConnection::ERR_COMMAND_FAILED_TO_WRITE_TO_PROCESS:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' an error occurred when attempting to write to the process";
+            break;
 
-      case VpnClientConnection::ERR_COMMAND_FAILED_WITH_UNKNOW_ERROR:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' an unknown error occurred";
-         break;
+        case VpnClientConnection::ERR_COMMAND_FAILED_WITH_UNKNOW_ERROR:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon: command '" << strErrorContext << "' an unknown error occurred";
+            break;
 
-      case ERR_CONNECTING_TO_CONTROL_DAEMON:
-         *m_pErrorStream << "L2tpIPsecVpnControlDaemon is either not started or connection to it failed";
-         break;
+        case ERR_CONNECTING_TO_CONTROL_DAEMON:
+            *m_pErrorStream << "L2tpIPsecVpnControlDaemon is either not started or connection to it failed";
+            break;
 
-      case VpnClientConnection::ERR_WRITE_PIPE:
-         *m_pErrorStream << "Failed to write command '" << strErrorContext << "' to l2tp-control";
-         break;
+        case VpnClientConnection::ERR_WRITE_PIPE:
+            *m_pErrorStream << "Failed to write command '" << strErrorContext << "' to l2tp-control";
+            break;
 
-      case VpnClientConnection::ERR_OPEN_PIPE:
-         *m_pErrorStream << "Failed to open l2tp control file '" << strErrorContext << "'";
-         break;
+        case VpnClientConnection::ERR_OPEN_PIPE:
+            *m_pErrorStream << "Failed to open l2tp control file '" << strErrorContext << "'";
+            break;
 
-      case VpnClientConnection::ERR_CREATE_VPN_LOG_PIPE:
-      case VpnClientConnection::ERR_CHMOD_VPN_LOG_PIPE:
-      case VpnClientConnection::ERR_CHOWN_VPN_LOG_PIPE:
-         *m_pErrorStream << "Failed to open l2tp ipsec vpn log file '" << strErrorContext << "'";
-         break;
+        case VpnClientConnection::ERR_CREATE_VPN_LOG_PIPE:
+        case VpnClientConnection::ERR_CHMOD_VPN_LOG_PIPE:
+        case VpnClientConnection::ERR_CHOWN_VPN_LOG_PIPE:
+            *m_pErrorStream << "Failed to open l2tp ipsec vpn log file '" << strErrorContext << "'";
+            break;
 
-      case VpnClientConnection::ERR_START_SYSLOG_DAEMON:
-         *m_pErrorStream << "Failed to start syslog daemon '" << strErrorContext << "'";
-         break;
+        case VpnClientConnection::ERR_START_SYSLOG_DAEMON:
+            *m_pErrorStream << "Failed to start syslog daemon '" << strErrorContext << "'";
+            break;
 
-      case ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO:
-         *m_pErrorStream << "No default gateway found or failed to write default gateway information '" << strErrorContext << "'";
-         break;
+        case ERR_FAILED_TO_SET_DEFAULT_GATEWAY_INFO:
+            *m_pErrorStream << "No default gateway found or failed to write default gateway information '" << strErrorContext << "'";
+            break;
 
-      case ERR_IPSEC_SA_NOT_ESTABLISHED:
-         *m_pErrorStream << "'" << strErrorContext << "' failed to negotiate or establish security associations";
-         break;
+        case ERR_IPSEC_SA_NOT_ESTABLISHED:
+            *m_pErrorStream << "'" << strErrorContext << "' failed to negotiate or establish security associations";
+            break;
 
-      case ERR_LOADING_CERTIFICATE:
-         *m_pErrorStream << "Error loading certificate with id '" << strErrorContext << "'";
-         break;
+        case ERR_LOADING_CERTIFICATE:
+            *m_pErrorStream << "Error loading certificate with id '" << strErrorContext << "'";
+            break;
 
-      case ERR_AUTHENTICATION_FAILED:
-         *m_pErrorStream << "Authentication failed: closing connection to '" << strErrorContext << "'";
-         break;
+        case ERR_AUTHENTICATION_FAILED:
+            *m_pErrorStream << "Authentication failed: closing connection to '" << strErrorContext << "'";
+            break;
 
-      case ERR_WRONG_CERTIFICATE:
-         *m_pErrorStream << "Peer did not accept certificate sent from smart card: closing connection to '" << strErrorContext << "'";
-         break;
+        case ERR_WRONG_CERTIFICATE:
+            *m_pErrorStream << "Peer did not accept certificate sent from smart card: closing connection to '" << strErrorContext << "'";
+            break;
 
-      case ERR_NO_SECRET_FOUND:
-         *m_pErrorStream << "No secret found to authenticate  '" << strErrorContext << "'";
-         break;
+        case ERR_NO_SECRET_FOUND:
+            *m_pErrorStream << "No secret found to authenticate  '" << strErrorContext << "'";
+            break;
 
-      case ERR_CONNECT_TIMEOUT:
-         *m_pErrorStream << "Connection attempt to '" << strErrorContext << "' timed out";
-         break;
+        case ERR_CONNECT_TIMEOUT:
+            *m_pErrorStream << "Connection attempt to '" << strErrorContext << "' timed out";
+            break;
 
-      default:
-         *m_pErrorStream << "Command '" << strErrorContext << "' failed and exited with given error code";
-         break;
-   }
-   m_pErrorStream->flush();
-   m_pErrorStream->seek(iPos);
-   emit errorMessageEmited(m_iReturnCode);
-//   qDebug() << "VPNControlTask::emitErrorMsg(const QString&" << strErrorContext << ") -> finished";
+        default:
+            *m_pErrorStream << "Command '" << strErrorContext << "' failed and exited with given error code";
+            break;
+    }
+    m_pErrorStream->flush();
+    m_pErrorStream->seek(iPos);
+    emit errorMessageEmited(m_iReturnCode);
+    //   qDebug() << "VPNControlTask::emitErrorMsg(const QString&" << strErrorContext << ") -> finished";
 }
 
 void VPNControlTask::clearVpnLogPipe()
 {
-   const int iVpnPipeFileDescriptor(::open(m_vpnLogPipe.fileName().toLatin1().data(), O_RDONLY | O_NONBLOCK));
+    const int iVpnPipeFileDescriptor(::open(m_vpnLogPipe.fileName().toLatin1().data(), O_RDONLY | O_NONBLOCK));
 
-   if (iVpnPipeFileDescriptor != -1)
-   {
-      char* buf[1024];
-      int iNoRead;
+    if (iVpnPipeFileDescriptor != -1)
+    {
+        char* buf[1024];
+        int iNoRead;
 
-      do
-         iNoRead = ::read(iVpnPipeFileDescriptor, buf, sizeof(buf));
-      while (iNoRead > 0);
+        do
+            iNoRead = ::read(iVpnPipeFileDescriptor, buf, sizeof(buf));
+        while (iNoRead > 0);
 
-      ::close(iVpnPipeFileDescriptor);
-   }
-   else
-   {
-      const int iResult(VpnControlDaemonClient::execute(VpnClientConnection::CMD_CREATE_VPN_LOGPIPE, m_vpnLogPipe.fileName()));
-      if (iResult != VpnClientConnection::OK)
-      {
-         if (iResult == 1)
-            QMessageBox::critical(NULL, tr("A critical error occurred"), tr("L2tpIPsecVpnControlDaemon is not started"));
-         else
-            QMessageBox::critical(NULL, tr("A critical error occurred"), tr("Create vpn syslog pipe command failed with exit code: %1").arg(iResult));
-      }
-   }
+        ::close(iVpnPipeFileDescriptor);
+    }
+    else
+    {
+        const int iResult(VpnControlDaemonClient::execute(VpnClientConnection::CMD_CREATE_VPN_LOGPIPE, m_vpnLogPipe.fileName()));
+        if (iResult != VpnClientConnection::OK)
+        {
+            if (iResult == 1)
+                QMessageBox::critical(NULL, tr("A critical error occurred"), tr("L2tpIPsecVpnControlDaemon is not started"));
+            else
+                QMessageBox::critical(NULL, tr("A critical error occurred"), tr("Create vpn syslog pipe command failed with exit code: %1").arg(iResult));
+        }
+    }
 }
 
 /**
@@ -564,35 +564,35 @@ void VPNControlTask::clearVpnLogPipe()
  **/
 bool VPNControlTask::plutoIsRunning()
 {
-   const uint uiUid(0);
+    const uint uiUid(0);
 
-   QFileInfoList procList(QDir(PROCDIR).entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot));
+    QFileInfoList procList(QDir(PROCDIR).entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot));
 
-   bool fDone(false);
-   for (QFileInfoList::const_iterator procIt(procList.constBegin()); !fDone && procIt != procList.constEnd(); procIt++)
-   {
-      bool fOk(false);
-      QString strPid((*procIt).fileName());
-      strPid.toUInt(&fOk);
+    bool fDone(false);
+    for (QFileInfoList::const_iterator procIt(procList.constBegin()); !fDone && procIt != procList.constEnd(); procIt++)
+    {
+        bool fOk(false);
+        QString strPid((*procIt).fileName());
+        strPid.toUInt(&fOk);
 
-      if (fOk) // pid must be numeric, ignore every thing else
-      {
-         // is this process owned by the user
-         if (uiUid == (*procIt).ownerId())
-         {
-            // we have a valid pid
-            // open the cmdline file to determine what's the name of the process running
-            QFile cmdLineFile(PROCDIR + strPid + "/cmdline");
-            if (cmdLineFile.open(QFile::ReadOnly))
+        if (fOk) // pid must be numeric, ignore every thing else
+        {
+            // is this process owned by the user
+            if (uiUid == (*procIt).ownerId())
             {
-               const QString strCli(cmdLineFile.readAll());
-               if (strCli.endsWith("charon"))
-                  fDone = true;
+                // we have a valid pid
+                // open the cmdline file to determine what's the name of the process running
+                QFile cmdLineFile(PROCDIR + strPid + "/cmdline");
+                if (cmdLineFile.open(QFile::ReadOnly))
+                {
+                    const QString strCli(cmdLineFile.readAll());
+                    if (strCli.endsWith("charon"))
+                        fDone = true;
+                }
+                else
+                    qWarning() << "Failed to open proc command line file" << cmdLineFile.fileName();
             }
-            else
-               qWarning() << "Failed to open proc command line file" << cmdLineFile.fileName();
-         }
-      }
-   }
-   return(fDone);
+        }
+    }
+    return(fDone);
 }

@@ -32,25 +32,25 @@
 
 class SmartCardObjectsDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit SmartCardObjectsDialog(SmartCardObjectListModel::ObjectType objectType, QWidget* pParent = 0);
-   virtual ~SmartCardObjectsDialog();
+    public:
+        explicit SmartCardObjectsDialog(SmartCardObjectListModel::ObjectType objectType, QWidget* pParent = 0);
+        virtual ~SmartCardObjectsDialog();
 
-   const QString selectedItem() const;
-   const QString selectedUserName() const;
+        const QString selectedItem() const;
+        const QString selectedUserName() const;
 
-private slots:
-   void accept();
+        private slots:
+            void accept();
 
-private:
-   SmartCardObjectsDialog(const SmartCardObjectsDialog& orig);
-   SmartCardObjectsDialog& operator=(const SmartCardObjectsDialog& orig);
+    private:
+        SmartCardObjectsDialog(const SmartCardObjectsDialog& orig);
+        SmartCardObjectsDialog& operator=(const SmartCardObjectsDialog& orig);
 
-   Ui::SmartCardObjectsDialog m_Widget;
+        Ui::SmartCardObjectsDialog m_Widget;
 
-   SmartCardObjectListModel* const m_pModel;
+        SmartCardObjectListModel* const m_pModel;
 };
 
 #endif	/* _SMARTCARDOBJECTSDIALOG_H */

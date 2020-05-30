@@ -31,20 +31,20 @@
 
 class PPPConfWriter : public AbstractConfWriter
 {
-public:
-   PPPConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~PPPConfWriter();
+    public:
+        PPPConfWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~PPPConfWriter();
 
-protected:
-   void fill();
+    protected:
+        void fill();
 
-private:
-   PPPConfWriter(const PPPConfWriter& orig);
-   PPPConfWriter& operator=(const PPPConfWriter& orig);
+    private:
+        PPPConfWriter(const PPPConfWriter& orig);
+        PPPConfWriter& operator=(const PPPConfWriter& orig);
 
-   void addRefuseEntry(const QString& strRefuse) const;
-   void addCertEntry(const QString& strCertEntry) const;
-   void addPasswordEntry(const QString& strPasswordEntry) const;
+        void addRefuseEntry(const QString& strRefuse) const;
+        void addCertEntry(const QString& strCertEntry) const;
+        void addPasswordEntry(const QString& strPasswordEntry) const;
 };
 
 #endif	/* PPPCONFWRITER_H */

@@ -42,137 +42,137 @@ static const char* const APPVERSION = "APPVERSION";
 static const char* const APPPFILEPATH = "APPPFILEPATH";
 
 AbstractConfWriter::AbstractConfWriter(const QString& strTemplateKey, const QString& strWriteTo, FileType type) :
-   m_strTemplateKey(strTemplateKey), m_strWriteTo(strWriteTo), m_Type(type),
-   m_strInstance(QString("")), m_strFileName(strWriteTo), m_pDictionary(NULL), m_fTemplatesInitialized(false)
+    m_strTemplateKey(strTemplateKey), m_strWriteTo(strWriteTo), m_Type(type),
+    m_strInstance(QString("")), m_strFileName(strWriteTo), m_pDictionary(NULL), m_fTemplatesInitialized(false)
 {
 }
 
 AbstractConfWriter::~AbstractConfWriter()
 {
-   if (m_pDictionary)
-      delete m_pDictionary;
+    if (m_pDictionary)
+        delete m_pDictionary;
 }
 
 const QString& AbstractConfWriter::write()
 {
-   readTemplate(m_strTemplateKey);
+    readTemplate(m_strTemplateKey);
 
-   if (m_strLastErrorMsg.isEmpty())
-   {
-      newDictionary();
-      fill();
-      save();
-   }
+    if (m_strLastErrorMsg.isEmpty())
+    {
+        newDictionary();
+        fill();
+        save();
+    }
 
-   return(m_strLastErrorMsg);
+    return(m_strLastErrorMsg);
 }
 
 const QString& AbstractConfWriter::instance() const
 {
-   return(m_strInstance);
+    return(m_strInstance);
 }
 
 void AbstractConfWriter::setInstance(const QString& strInstance)
 {
-   m_strInstance = strInstance.isNull() ? "" : strInstance;
+    m_strInstance = strInstance.isNull() ? "" : strInstance;
 
-   const QFileInfo fileInfo(m_strWriteTo);
-   m_strFileName = m_strInstance.trimmed().isEmpty() ? m_strWriteTo : fileInfo.path() + "/" + m_strInstance + (fileInfo.fileName().isEmpty() ? "" : "." + fileInfo.fileName());
+    const QFileInfo fileInfo(m_strWriteTo);
+    m_strFileName = m_strInstance.trimmed().isEmpty() ? m_strWriteTo : fileInfo.path() + "/" + m_strInstance + (fileInfo.fileName().isEmpty() ? "" : "." + fileInfo.fileName());
 }
 
 const QString& AbstractConfWriter::fileName() const
 {
-   return(m_strFileName);
+    return(m_strFileName);
 }
 
 void AbstractConfWriter::addErrorMsg(const QString& strErrorMsg)
 {
-   m_strLastErrorMsg.append(strErrorMsg + '\n');
+    m_strLastErrorMsg.append(strErrorMsg + '\n');
 }
 
 void AbstractConfWriter::save()
 {
-   dictionary()->SetValue(FILENAME, fileName().toLatin1().constData());
-   dictionary()->SetValue(CREATIONDATE, QDateTime::currentDateTime().toString().toLatin1().constData());
-   dictionary()->SetValue(APPNAME, QCoreApplication::instance()->applicationName().toLatin1().constData());
-   dictionary()->SetValue(APPVERSION, QCoreApplication::instance()->applicationVersion().toLatin1().constData());
-   dictionary()->SetValue(APPPFILEPATH, QCoreApplication::instance()->applicationFilePath().toLatin1().constData());
+    dictionary()->SetValue(FILENAME, fileName().toLatin1().constData());
+    dictionary()->SetValue(CREATIONDATE, QDateTime::currentDateTime().toString().toLatin1().constData());
+    dictionary()->SetValue(APPNAME, QCoreApplication::instance()->applicationName().toLatin1().constData());
+    dictionary()->SetValue(APPVERSION, QCoreApplication::instance()->applicationVersion().toLatin1().constData());
+    dictionary()->SetValue(APPPFILEPATH, QCoreApplication::instance()->applicationFilePath().toLatin1().constData());
 
-   std::string strOut;
-   ctemplate::Template* const pTpl = ctemplate::Template::GetTemplate(templateKey().toLatin1().constData(), ctemplate::DO_NOT_STRIP);
+    std::string strOut;
+    ctemplate::Template* const pTpl = ctemplate::Template::GetTemplate(templateKey().toLatin1().constData(), ctemplate::DO_NOT_STRIP);
 
-   if (pTpl)
-   {
-      if (pTpl->Expand(&strOut, dictionary()))
-      {
-   //   ctemplate::ExpandTemplate(key().toLatin1().constData(), ctemplate::DO_NOT_STRIP, dictionary(), &strOut);
+    if (pTpl)
+    {
+        if (pTpl->Expand(&strOut, dictionary()))
+        {
+            //   ctemplate::ExpandTemplate(key().toLatin1().constData(), ctemplate::DO_NOT_STRIP, dictionary(), &strOut);
 
-         QFile outFile(fileName());
-         QDir outFileDir(QFileInfo(outFile).absoluteDir());
+            QFile outFile(fileName());
+            QDir outFileDir(QFileInfo(outFile).absoluteDir());
 
-         bool fOk(true);
-         if (!outFileDir.exists())
-         {
-            const QString strDirName(outFileDir.dirName());
-            outFileDir.cdUp();
-            fOk = outFileDir.mkpath(strDirName);
-         }
+            bool fOk(true);
+            if (!outFileDir.exists())
+            {
+                const QString strDirName(outFileDir.dirName());
+                outFileDir.cdUp();
+                fOk = outFileDir.mkpath(strDirName);
+            }
 
-         if (fOk)
-         {
-           if (outFile.open(QIODevice::WriteOnly | QIODevice::Text))
-           {
-              switch (m_Type)
-              {
-                 case EXECUTABLE:
-                    outFile.setPermissions(outFile.permissions() | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
-                    break;
+            if (fOk)
+            {
+                if (outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+                {
+                    switch (m_Type)
+                    {
+                        case EXECUTABLE:
+                            outFile.setPermissions(outFile.permissions() | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+                            break;
 
-                 case SECRET:
-                    outFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
-                    break;
+                        case SECRET:
+                            outFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
+                            break;
 
-                 default:
-                    ;
-              }
+                        default:
+                            ;
+                    }
 
-              QTextStream out(&outFile);
-              out << strOut.data();
-              outFile.close();
-           }
-           else
-              addErrorMsg(QObject::tr("Failed to open configuration file '%1'.").arg(outFile.fileName()));
-         }
-         else
-            addErrorMsg(QObject::tr("Failed to create directory '%1'.").arg(outFileDir.absolutePath()));
-      }
-      else
-         addErrorMsg(QObject::tr("Failed to expand template '%1'.").arg(templateKey()));
-   }
-   else
-      addErrorMsg(QObject::tr("Failed to get template '%1'.").arg(templateKey()));
+                    QTextStream out(&outFile);
+                    out << strOut.data();
+                    outFile.close();
+                }
+                else
+                    addErrorMsg(QObject::tr("Failed to open configuration file '%1'.").arg(outFile.fileName()));
+            }
+            else
+                addErrorMsg(QObject::tr("Failed to create directory '%1'.").arg(outFileDir.absolutePath()));
+        }
+        else
+            addErrorMsg(QObject::tr("Failed to expand template '%1'.").arg(templateKey()));
+    }
+    else
+        addErrorMsg(QObject::tr("Failed to get template '%1'.").arg(templateKey()));
 }
 
 void AbstractConfWriter::readTemplate(const QString& strKey)
 {
-   if (!m_fTemplatesInitialized)
-   {
-      const QResource rsc(":/templates/" + strKey + ".tpl");
+    if (!m_fTemplatesInitialized)
+    {
+        const QResource rsc(":/templates/" + strKey + ".tpl");
 
-      if (rsc.isValid())
-      {
-         ctemplate::Template::StringToTemplateCache(m_strTemplateKey.toStdString(), QString(reinterpret_cast<const char*>(rsc.data())).toStdString());
-         m_fTemplatesInitialized = true;
-      }
-      else
-         addErrorMsg(QObject::tr("Failed to open template file ':/templates/%1.tpl'.").arg(strKey));
-   }
+        if (rsc.isValid())
+        {
+            ctemplate::Template::StringToTemplateCache(m_strTemplateKey.toStdString(), QString(reinterpret_cast<const char*>(rsc.data())).toStdString());
+            m_fTemplatesInitialized = true;
+        }
+        else
+            addErrorMsg(QObject::tr("Failed to open template file ':/templates/%1.tpl'.").arg(strKey));
+    }
 }
 
 void AbstractConfWriter::newDictionary()
 {
-   if (m_pDictionary)
-      delete m_pDictionary;
+    if (m_pDictionary)
+        delete m_pDictionary;
 
-   m_pDictionary = new ctemplate::TemplateDictionary(m_strTemplateKey.toLatin1().constData());
+    m_pDictionary = new ctemplate::TemplateDictionary(m_strTemplateKey.toLatin1().constData());
 }

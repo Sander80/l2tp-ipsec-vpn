@@ -38,14 +38,14 @@ OpensslConfWriter::OpensslConfWriter(const QString& strTemplateKey, const QStrin
 
 void OpensslConfWriter::fill()
 {
-   const OpenSSLSettings opensslSettings(Preferences().openSSLSettings());
+    const OpenSSLSettings opensslSettings(Preferences().openSSLSettings());
 
-   dictionary()->SetValue(ENGINEID, opensslSettings.engineId().toLatin1().constData());
-   dictionary()->SetValue(DYNAMICPATH, opensslSettings.enginePath().toLatin1().constData());
-   dictionary()->SetValue(MODULEPATH, opensslSettings.pkcs11Path().toLatin1().constData());
-   bool noLowerSec = opensslSettings.noLowerSec();
-   if (noLowerSec) 
+    dictionary()->SetValue(ENGINEID, opensslSettings.engineId().toLatin1().constData());
+    dictionary()->SetValue(DYNAMICPATH, opensslSettings.enginePath().toLatin1().constData());
+    dictionary()->SetValue(MODULEPATH, opensslSettings.pkcs11Path().toLatin1().constData());
+    bool noLowerSec = opensslSettings.noLowerSec();
+    if (noLowerSec) 
         dictionary()->SetValue(NOLOWERSEC, "#");
-   else
+    else
         dictionary()->SetValue(NOLOWERSEC, "");
 }

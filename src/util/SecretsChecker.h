@@ -36,27 +36,27 @@ class PppEapSettings;
 
 class SecretsChecker
 {
-public:
-   explicit SecretsChecker(const QString& strConnectionName);
-   virtual ~SecretsChecker();
+    public:
+        explicit SecretsChecker(const QString& strConnectionName);
+        virtual ~SecretsChecker();
 
-   bool check() const;
+        bool check() const;
 
-   static QString getSecret(const QString& strIdentity, bool* fok);
+        static QString getSecret(const QString& strIdentity, bool* fok);
 
-private:
-   SecretsChecker(const SecretsChecker& orig);
-   SecretsChecker& operator=(const SecretsChecker& orig);
+    private:
+        SecretsChecker(const SecretsChecker& orig);
+        SecretsChecker& operator=(const SecretsChecker& orig);
 
-   static bool promptAndStoreSecret(const QString& strTitle, const QString& strLabel, const PppSettings& pppSettings);
+        static bool promptAndStoreSecret(const QString& strTitle, const QString& strLabel, const PppSettings& pppSettings);
 
-   static QString readSecret(const PppSettings& pppSettings);
+        static QString readSecret(const PppSettings& pppSettings);
 
-   static QString getSecretsFilePath(const PppSettings& pppSettings);
+        static QString getSecretsFilePath(const PppSettings& pppSettings);
 
-   const QString& m_strConnectionName;
+        const QString& m_strConnectionName;
 
-   static QMutex MUTEX;
+        static QMutex MUTEX;
 };
 
 #endif	/* SECRETSCHECKER_H */

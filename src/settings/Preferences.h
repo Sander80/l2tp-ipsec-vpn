@@ -33,35 +33,35 @@ class OpenSSLSettings;
 
 class Preferences : public Settings
 {
-public:
-   Preferences();
-   virtual ~Preferences();
+    public:
+        Preferences();
+        virtual ~Preferences();
 
-   OpenSSLSettings openSSLSettings() const;
+        OpenSSLSettings openSSLSettings() const;
 
-private:
-   Preferences& operator=(const Preferences& orig);
+    private:
+        Preferences& operator=(const Preferences& orig);
 };
 
 class OpenSSLSettings : public Preferences
 {
-public:
-   virtual ~OpenSSLSettings() {}
+    public:
+        virtual ~OpenSSLSettings() {}
 
-   bool setEnginePath(const QString& strEnginePath) const;
-   QString enginePath() const;
-   bool setPkcs11Path(const QString& strModulePath) const;
-   QString pkcs11Path() const;
-   bool setEngineId(const QString& strEngineId) const;
-   QString engineId() const;
-   bool setNoLowerSec(const bool noLowerSec) const;
-   bool noLowerSec() const;
+        bool setEnginePath(const QString& strEnginePath) const;
+        QString enginePath() const;
+        bool setPkcs11Path(const QString& strModulePath) const;
+        QString pkcs11Path() const;
+        bool setEngineId(const QString& strEngineId) const;
+        QString engineId() const;
+        bool setNoLowerSec(const bool noLowerSec) const;
+        bool noLowerSec() const;
 
-private:
-   OpenSSLSettings() {}
-   OpenSSLSettings& operator=(const OpenSSLSettings& orig);
+    private:
+        OpenSSLSettings() {}
+        OpenSSLSettings& operator=(const OpenSSLSettings& orig);
 
-   friend class Preferences;
+        friend class Preferences;
 };
 
 #endif	/* PREFERENCES_H */

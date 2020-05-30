@@ -5,7 +5,7 @@
  * Author: wejaeger
  *
  * Created on April 11, 2011, 11:58 AM
-  *
+ *
  * Copyright 2011 Werner Jaeger.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifndef _CERTIFICATEIMPORTDIALOG_H
 #define	_CERTIFICATEIMPORTDIALOG_H
@@ -32,40 +32,40 @@ class QString;
 
 class CertificateImportDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   CertificateImportDialog(QWidget* pParent = 0);
-   virtual ~CertificateImportDialog();
+    public:
+        CertificateImportDialog(QWidget* pParent = 0);
+        virtual ~CertificateImportDialog();
 
-   const QString certificateFilename() const;
-   const QString certificateFilenamePath() const;
-   const QString privateKeyFilename() const;
-   const QString privateKeyFilenamePath() const;
-   const QString caCertificateFilename() const;
-   const QString caCertificateFilenamePath() const;
-   const QString passPhrase() const;
-   bool useAsAuthenticationCertificate() const;
+        const QString certificateFilename() const;
+        const QString certificateFilenamePath() const;
+        const QString privateKeyFilename() const;
+        const QString privateKeyFilenamePath() const;
+        const QString caCertificateFilename() const;
+        const QString caCertificateFilenamePath() const;
+        const QString passPhrase() const;
+        bool useAsAuthenticationCertificate() const;
 
-private slots:
-   void onHelpRequested() const;
-   void onCertificate();
-   void onValidateInput() const;
-   void accept();
+        private slots:
+            void onHelpRequested() const;
+        void onCertificate();
+        void onValidateInput() const;
+        void accept();
 
-private:
-   CertificateImportDialog(const CertificateImportDialog& orig);
-   CertificateImportDialog& operator=(const CertificateImportDialog& orig);
+    private:
+        CertificateImportDialog(const CertificateImportDialog& orig);
+        CertificateImportDialog& operator=(const CertificateImportDialog& orig);
 
-   bool isInputValid() const;
-   bool writePems() const;
-   void showError();
+        bool isInputValid() const;
+        bool writePems() const;
+        void showError();
 
-   bool checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString& strType) const;
+        bool checkIfFileExistAndConfirmOverwrite(const QString& strFilenamePath, const QString& strType) const;
 
-   Ui::CertificateImportDialog m_Widget;
+        Ui::CertificateImportDialog m_Widget;
 
-   Pkcs12* m_pPkcs12;
+        Pkcs12* m_pPkcs12;
 };
 
 #endif	/* _CERTIFICATEIMPORTDIALOG_H */

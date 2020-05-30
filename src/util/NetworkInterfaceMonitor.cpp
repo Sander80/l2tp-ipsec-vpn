@@ -48,373 +48,373 @@ NetworkInterfaceMonitor::NetworkInterfaceMonitor() : m_iSocket(-1)
 
 NetworkInterfaceMonitor::~NetworkInterfaceMonitor()
 {
-   if (m_pInstance)
-      delete m_pInstance;
+    if (m_pInstance)
+        delete m_pInstance;
 }
 
 NetworkInterfaceMonitor* NetworkInterfaceMonitor::instance()
 {
-   if (!m_pInstance)
-      m_pInstance = new NetworkInterfaceMonitor();
+    if (!m_pInstance)
+        m_pInstance = new NetworkInterfaceMonitor();
 
-   return (m_pInstance);
+    return (m_pInstance);
 }
 
 void NetworkInterfaceMonitor::subscribe(const QObject* pSubscriber)
 {
-   if (pSubscriber && !m_Subscribers.contains(pSubscriber))
-   {
-      m_Subscribers.append(pSubscriber);
-      connect(this, SIGNAL(routeAdded(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteAdded(NetworkInterface, unsigned int)));
-      connect(this, SIGNAL(routeDeleted(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteDeleted(NetworkInterface, unsigned int)));
-      connect(this, SIGNAL(addressAdded(NetworkInterface)), pSubscriber, SLOT(onAddressAdded(NetworkInterface)));
-      connect(this, SIGNAL(ptpInterfaceIsDeleted(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsDeleted(NetworkInterface)));
-   }
+    if (pSubscriber && !m_Subscribers.contains(pSubscriber))
+    {
+        m_Subscribers.append(pSubscriber);
+        connect(this, SIGNAL(routeAdded(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteAdded(NetworkInterface, unsigned int)));
+        connect(this, SIGNAL(routeDeleted(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteDeleted(NetworkInterface, unsigned int)));
+        connect(this, SIGNAL(addressAdded(NetworkInterface)), pSubscriber, SLOT(onAddressAdded(NetworkInterface)));
+        connect(this, SIGNAL(ptpInterfaceIsDeleted(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsDeleted(NetworkInterface)));
+    }
 }
 
 void NetworkInterfaceMonitor::unSubscribe(const QObject* pSubscriber)
 {
-   if (pSubscriber)
-   {
-      if (m_Subscribers.removeOne(pSubscriber))
-      {
-         disconnect(this, SIGNAL(routeAdded(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteAdded(NetworkInterface, unsigned int)));
-         disconnect(this, SIGNAL(routeDeleted(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteDeleted(NetworkInterface, unsigned int)));
-         disconnect(this, SIGNAL(addressAdded(NetworkInterface)), pSubscriber, SLOT(onAddressAdded(NetworkInterface)));
-         disconnect(this, SIGNAL(ptpInterfaceIsDeleted(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsGoingDown(NetworkInterface)));
-      }
-   }
+    if (pSubscriber)
+    {
+        if (m_Subscribers.removeOne(pSubscriber))
+        {
+            disconnect(this, SIGNAL(routeAdded(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteAdded(NetworkInterface, unsigned int)));
+            disconnect(this, SIGNAL(routeDeleted(NetworkInterface, unsigned int)), pSubscriber, SLOT(onRouteDeleted(NetworkInterface, unsigned int)));
+            disconnect(this, SIGNAL(addressAdded(NetworkInterface)), pSubscriber, SLOT(onAddressAdded(NetworkInterface)));
+            disconnect(this, SIGNAL(ptpInterfaceIsDeleted(NetworkInterface)), pSubscriber, SLOT(onPtpInterfaceIsGoingDown(NetworkInterface)));
+        }
+    }
 }
 
 void NetworkInterfaceMonitor::run()
 {
-//   qDebug() << "Starting NetworkInterfaceMonitor thread";
+    //   qDebug() << "Starting NetworkInterfaceMonitor thread";
 
-   m_iSocket = ::socket(PF_NETLINK, SOCK_RAW, NETLINK_ROUTE);
+    m_iSocket = ::socket(PF_NETLINK, SOCK_RAW, NETLINK_ROUTE);
 
-   if (m_iSocket != -1)
-   {
-//      qDebug() << "Socket" << m_iSocket << "created.";
+    if (m_iSocket != -1)
+    {
+        //      qDebug() << "Socket" << m_iSocket << "created.";
 
-      struct sockaddr addr;
-      struct sockaddr_nl_extended {
+        struct sockaddr addr;
+        struct sockaddr_nl_extended {
             struct sockaddr_nl base;
             char empty[4];
-      };
-      struct sockaddr_nl_extended* addr_nl = reinterpret_cast<struct sockaddr_nl_extended*>(&addr);
-      ::bzero(&addr, sizeof(addr));
-      addr_nl->base.nl_family = AF_NETLINK;
-      addr_nl->base.nl_pid = ::getpid();
-      addr_nl->base.nl_groups = RTMGRP_IPV4_ROUTE | RTMGRP_IPV6_ROUTE | RTMGRP_LINK | RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
+        };
+        struct sockaddr_nl_extended* addr_nl = reinterpret_cast<struct sockaddr_nl_extended*>(&addr);
+        ::bzero(&addr, sizeof(addr));
+        addr_nl->base.nl_family = AF_NETLINK;
+        addr_nl->base.nl_pid = ::getpid();
+        addr_nl->base.nl_groups = RTMGRP_IPV4_ROUTE | RTMGRP_IPV6_ROUTE | RTMGRP_LINK | RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
 
-      if (::bind(m_iSocket, &addr, sizeof(addr)) != -1)
-      {
-         m_Interfaces = NetworkInterface::pointToPointInterfaces();
+        if (::bind(m_iSocket, &addr, sizeof(addr)) != -1)
+        {
+            m_Interfaces = NetworkInterface::pointToPointInterfaces();
 
-         ssize_t iLen;
-         struct nlmsghdr acBuffer[64];
+            ssize_t iLen;
+            struct nlmsghdr acBuffer[64];
 
-         while (m_iSocket != -1)
-         {
-            struct nlmsghdr* pNetLinkMessageHeader = acBuffer;
-            if ((iLen = ::recv(m_iSocket, pNetLinkMessageHeader, sizeof(acBuffer), 0)) > 0)
+            while (m_iSocket != -1)
             {
-               // outer loop: loops thru all the NETLINK headers
-               for (bool fStop = false; !fStop && NLMSG_OK(pNetLinkMessageHeader, static_cast<__u32>(iLen)); pNetLinkMessageHeader = NLMSG_NEXT(pNetLinkMessageHeader, iLen))
-               {
-//                  qDebug() << "Netlink message received:" << "size =" << iLen << "type =" << pNetLinkMessageHeader->nlmsg_type;
-                  switch (pNetLinkMessageHeader->nlmsg_type)
-                  {
-                     case NLMSG_DONE:
-//                        qDebug() << "Netlink multipart message DONE";
-                        fStop = true;
-                        break;
+                struct nlmsghdr* pNetLinkMessageHeader = acBuffer;
+                if ((iLen = ::recv(m_iSocket, pNetLinkMessageHeader, sizeof(acBuffer), 0)) > 0)
+                {
+                    // outer loop: loops thru all the NETLINK headers
+                    for (bool fStop = false; !fStop && NLMSG_OK(pNetLinkMessageHeader, static_cast<__u32>(iLen)); pNetLinkMessageHeader = NLMSG_NEXT(pNetLinkMessageHeader, iLen))
+                    {
+                        //                  qDebug() << "Netlink message received:" << "size =" << iLen << "type =" << pNetLinkMessageHeader->nlmsg_type;
+                        switch (pNetLinkMessageHeader->nlmsg_type)
+                        {
+                            case NLMSG_DONE:
+                                //                        qDebug() << "Netlink multipart message DONE";
+                                fStop = true;
+                                break;
 
-                     case NLMSG_ERROR:
-                        qDebug() << "Netlink message ERROR";
-                        fStop = true;
-                        break;
+                            case NLMSG_ERROR:
+                                qDebug() << "Netlink message ERROR";
+                                fStop = true;
+                                break;
 
-                     default:
-                        if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWROUTE || pNetLinkMessageHeader->nlmsg_type == RTM_DELROUTE)
-                           handleRoutingMessage(pNetLinkMessageHeader);
-                        else if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWLINK || pNetLinkMessageHeader->nlmsg_type == RTM_DELLINK)
-                           handleInterfaceInfoMessage(pNetLinkMessageHeader);
-                        else if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWADDR || pNetLinkMessageHeader->nlmsg_type == RTM_DELADDR)
-                           handleAddressMessage(pNetLinkMessageHeader);
-                        break;
-                  }
-               }
-//               qDebug() << "Netlink message DONE";
-               pNetLinkMessageHeader = acBuffer;
+                            default:
+                                if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWROUTE || pNetLinkMessageHeader->nlmsg_type == RTM_DELROUTE)
+                                    handleRoutingMessage(pNetLinkMessageHeader);
+                                else if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWLINK || pNetLinkMessageHeader->nlmsg_type == RTM_DELLINK)
+                                    handleInterfaceInfoMessage(pNetLinkMessageHeader);
+                                else if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWADDR || pNetLinkMessageHeader->nlmsg_type == RTM_DELADDR)
+                                    handleAddressMessage(pNetLinkMessageHeader);
+                                break;
+                        }
+                    }
+                    //               qDebug() << "Netlink message DONE";
+                    pNetLinkMessageHeader = acBuffer;
+                }
+                //            else
+                //               qDebug() << "recv returned" << iLen;
             }
-//            else
-//               qDebug() << "recv returned" << iLen;
-         }
-//         qDebug() << "Leaving receive loop";
-      }
-      else
-         qCritical("Failed to bind netlink socket");
-   }
-   else
-      qCritical("Failed to create a new netlink socket.");
+            //         qDebug() << "Leaving receive loop";
+        }
+        else
+            qCritical("Failed to bind netlink socket");
+    }
+    else
+        qCritical("Failed to create a new netlink socket.");
 
-//   qDebug() << "Leaving NetworkInterfaceMonitor thread";
+    //   qDebug() << "Leaving NetworkInterfaceMonitor thread";
 }
 
 void NetworkInterfaceMonitor::stop()
 {
-   if (m_iSocket != -1)
-   {
-//      qDebug() << "Stopping NetworkInterfaceMonitor thread";
-      ::shutdown(m_iSocket, SHUT_RDWR);
-      m_iSocket = -1;
-      terminate();
-   }
+    if (m_iSocket != -1)
+    {
+        //      qDebug() << "Stopping NetworkInterfaceMonitor thread";
+        ::shutdown(m_iSocket, SHUT_RDWR);
+        m_iSocket = -1;
+        terminate();
+    }
 }
 
 void NetworkInterfaceMonitor::handleRoutingMessage(struct nlmsghdr* pNetLinkMessageHeader)
 {
-   // get route entry header
-   struct rtmsg * const pRouteMessage = reinterpret_cast<struct rtmsg*>(NLMSG_DATA(pNetLinkMessageHeader));
+    // get route entry header
+    struct rtmsg * const pRouteMessage = reinterpret_cast<struct rtmsg*>(NLMSG_DATA(pNetLinkMessageHeader));
 
-//   qDebug() << "Routing message:" << "dst len =" << pRouteMessage->rtm_dst_len << "family =" << pRouteMessage->rtm_family << "flags =" << pRouteMessage->rtm_flags << "protocol =" << pRouteMessage->rtm_protocol << "scope =" << pRouteMessage->rtm_scope << "src len =" << pRouteMessage->rtm_src_len << "table =" << pRouteMessage->rtm_table << "tos =" << pRouteMessage->rtm_tos << "type =" << pRouteMessage->rtm_type;
+    //   qDebug() << "Routing message:" << "dst len =" << pRouteMessage->rtm_dst_len << "family =" << pRouteMessage->rtm_family << "flags =" << pRouteMessage->rtm_flags << "protocol =" << pRouteMessage->rtm_protocol << "scope =" << pRouteMessage->rtm_scope << "src len =" << pRouteMessage->rtm_src_len << "table =" << pRouteMessage->rtm_table << "tos =" << pRouteMessage->rtm_tos << "type =" << pRouteMessage->rtm_type;
 
-   // we are only concerned about the main route table
-   if (pRouteMessage->rtm_table == RT_TABLE_MAIN)
-   {
-      // fields to hold content of an entry of the route table
-      char acInterfaceName[IFNAMSIZ], acDsts[INET6_ADDRSTRLEN], acGws[INET6_ADDRSTRLEN];
-      uint32_t iPriority = 0;
+    // we are only concerned about the main route table
+    if (pRouteMessage->rtm_table == RT_TABLE_MAIN)
+    {
+        // fields to hold content of an entry of the route table
+        char acInterfaceName[IFNAMSIZ], acDsts[INET6_ADDRSTRLEN], acGws[INET6_ADDRSTRLEN];
+        uint32_t iPriority = 0;
 
-      // init all the field
-      ::bzero(acInterfaceName, sizeof (acInterfaceName));
-      ::bzero(acDsts, sizeof(acDsts));
-      ::bzero(acGws, sizeof(acGws));
+        // init all the field
+        ::bzero(acInterfaceName, sizeof (acInterfaceName));
+        ::bzero(acDsts, sizeof(acDsts));
+        ::bzero(acGws, sizeof(acGws));
 
-      // inner loop: loop thru all the attributes of one route entry
-      struct rtattr* pRoutingAttributes = RTM_RTA(pRouteMessage);
-      int iPayloadLength = RTM_PAYLOAD(pNetLinkMessageHeader);
-      while (iPayloadLength && RTA_OK(pRoutingAttributes, iPayloadLength))
-      {
-//         qDebug() << "Routing attribute: type =" << pRoutingAttributes->rta_type << "len =" << pRoutingAttributes->rta_len;
+        // inner loop: loop thru all the attributes of one route entry
+        struct rtattr* pRoutingAttributes = RTM_RTA(pRouteMessage);
+        int iPayloadLength = RTM_PAYLOAD(pNetLinkMessageHeader);
+        while (iPayloadLength && RTA_OK(pRoutingAttributes, iPayloadLength))
+        {
+            //         qDebug() << "Routing attribute: type =" << pRoutingAttributes->rta_type << "len =" << pRoutingAttributes->rta_len;
 
-         switch (pRoutingAttributes->rta_type)
-         {
-            case RTA_DST: // destination IPv4 or IPv6 address
-               ::inet_ntop(pRouteMessage->rtm_family, RTA_DATA(pRoutingAttributes), acDsts, INET6_ADDRSTRLEN);
-               break;
+            switch (pRoutingAttributes->rta_type)
+            {
+                case RTA_DST: // destination IPv4 or IPv6 address
+                    ::inet_ntop(pRouteMessage->rtm_family, RTA_DATA(pRoutingAttributes), acDsts, INET6_ADDRSTRLEN);
+                    break;
 
-            case RTA_GATEWAY: // next hop IPv4 or IPv6 address
-               ::inet_ntop(pRouteMessage->rtm_family, RTA_DATA(pRoutingAttributes), acGws, INET6_ADDRSTRLEN);
-               break;
+                case RTA_GATEWAY: // next hop IPv4 or IPv6 address
+                    ::inet_ntop(pRouteMessage->rtm_family, RTA_DATA(pRoutingAttributes), acGws, INET6_ADDRSTRLEN);
+                    break;
 
-            case RTA_PRIORITY: // metric
-               iPriority = *reinterpret_cast<uint32_t*>(RTA_DATA(pRoutingAttributes));
-               break;
+                case RTA_PRIORITY: // metric
+                    iPriority = *reinterpret_cast<uint32_t*>(RTA_DATA(pRoutingAttributes));
+                    break;
 
-            case RTA_OIF: // unique ID associated with the network interface
-               ::if_indextoname(*reinterpret_cast<unsigned int*>(RTA_DATA(pRoutingAttributes)), acInterfaceName);
-               break;
+                case RTA_OIF: // unique ID associated with the network interface
+                    ::if_indextoname(*reinterpret_cast<unsigned int*>(RTA_DATA(pRoutingAttributes)), acInterfaceName);
+                    break;
 
-            default:
-               break;
-         }
-         pRoutingAttributes = RTA_NEXT(pRoutingAttributes, iPayloadLength);
-      }
+                default:
+                    break;
+            }
+            pRoutingAttributes = RTA_NEXT(pRoutingAttributes, iPayloadLength);
+        }
 
-      NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
-      if (itInterfaces == m_Interfaces.end())
-      {
-          const int iIndex(::if_nametoindex(acInterfaceName));
-          const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, iIndex, getInterfaceFlagByIndex(iIndex))));
-          itInterfaces = m_Interfaces.insert(entry).first;
-      }
+        NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
+        if (itInterfaces == m_Interfaces.end())
+        {
+            const int iIndex(::if_nametoindex(acInterfaceName));
+            const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, iIndex, getInterfaceFlagByIndex(iIndex))));
+            itInterfaces = m_Interfaces.insert(entry).first;
+        }
 
-      QNetworkAddressEntry routeEntry;
-      routeEntry.setIp(QHostAddress(acDsts));
-      routeEntry.setPrefixLength(pRouteMessage->rtm_dst_len);
-      routeEntry.setBroadcast(QHostAddress(acGws));
+        QNetworkAddressEntry routeEntry;
+        routeEntry.setIp(QHostAddress(acDsts));
+        routeEntry.setPrefixLength(pRouteMessage->rtm_dst_len);
+        routeEntry.setBroadcast(QHostAddress(acGws));
 
-      (*itInterfaces).second.clearRouteEntries();
-      (*itInterfaces).second.addRouteEntry(routeEntry);
+        (*itInterfaces).second.clearRouteEntries();
+        (*itInterfaces).second.addRouteEntry(routeEntry);
 
-      if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWROUTE)
-      {
-//         qDebug() << "Route added:" << "IF =" << acInterfaceName << "DST =" << acDsts << "GW =" << acGws << "Priority =" << iPriority;
-         emit routeAdded((*itInterfaces).second, iPriority);
-      }
-      else
-      {
-//         qDebug() << "Route deleted:" << "IF =" << acInterfaceName << "DST =" << acDsts << "GW =" << acGws << "Priority =" << iPriority;
-         emit routeDeleted((*itInterfaces).second, iPriority);
-      }
-   }
+        if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWROUTE)
+        {
+            //         qDebug() << "Route added:" << "IF =" << acInterfaceName << "DST =" << acDsts << "GW =" << acGws << "Priority =" << iPriority;
+            emit routeAdded((*itInterfaces).second, iPriority);
+        }
+        else
+        {
+            //         qDebug() << "Route deleted:" << "IF =" << acInterfaceName << "DST =" << acDsts << "GW =" << acGws << "Priority =" << iPriority;
+            emit routeDeleted((*itInterfaces).second, iPriority);
+        }
+    }
 }
 
 void NetworkInterfaceMonitor::handleInterfaceInfoMessage(struct nlmsghdr* pNetLinkMessageHeader)
 {
-   // get interface info header
-   struct ifinfomsg * const pInterfaceInfoMessage = reinterpret_cast<struct ifinfomsg*>(NLMSG_DATA(pNetLinkMessageHeader));
+    // get interface info header
+    struct ifinfomsg * const pInterfaceInfoMessage = reinterpret_cast<struct ifinfomsg*>(NLMSG_DATA(pNetLinkMessageHeader));
 
-   // strings to hold content of an entry of the route table
-   char acInterfaceName[IFNAMSIZ];
+    // strings to hold content of an entry of the route table
+    char acInterfaceName[IFNAMSIZ];
 
-   // init all the strings
-   ::bzero(acInterfaceName, sizeof (acInterfaceName));
+    // init all the strings
+    ::bzero(acInterfaceName, sizeof (acInterfaceName));
 
-   ::if_indextoname(pInterfaceInfoMessage->ifi_index, acInterfaceName);
+    ::if_indextoname(pInterfaceInfoMessage->ifi_index, acInterfaceName);
 
-//   qDebug() << "Interface info message:" << "name =" << acInterfaceName << "family =" << pInterfaceInfoMessage->ifi_family << "device type =" << pInterfaceInfoMessage->ifi_type << "interface index =" << pInterfaceInfoMessage->ifi_index << "device flags =" << pInterfaceInfoMessage->ifi_flags << "change mask =" << pInterfaceInfoMessage->ifi_change;
+    //   qDebug() << "Interface info message:" << "name =" << acInterfaceName << "family =" << pInterfaceInfoMessage->ifi_family << "device type =" << pInterfaceInfoMessage->ifi_type << "interface index =" << pInterfaceInfoMessage->ifi_index << "device flags =" << pInterfaceInfoMessage->ifi_flags << "change mask =" << pInterfaceInfoMessage->ifi_change;
 #ifndef QT_NO_DEBUG
-//   debugFlags(pInterfaceInfoMessage->ifi_flags);
+    //   debugFlags(pInterfaceInfoMessage->ifi_flags);
 #endif
 
-   // inner loop: loop thru all the attributes of one interface info entry
-   struct rtattr* pInterfaceAttributes = IFLA_RTA(pInterfaceInfoMessage);
-   int iPayloadLength = IFLA_PAYLOAD(pNetLinkMessageHeader);
-   while (iPayloadLength && RTA_OK(pInterfaceAttributes, iPayloadLength))
-   {
-//      qDebug() << "Interface attribute: type =" << pInterfaceAttributes->rta_type << "len =" << pInterfaceAttributes->rta_len;
+    // inner loop: loop thru all the attributes of one interface info entry
+    struct rtattr* pInterfaceAttributes = IFLA_RTA(pInterfaceInfoMessage);
+    int iPayloadLength = IFLA_PAYLOAD(pNetLinkMessageHeader);
+    while (iPayloadLength && RTA_OK(pInterfaceAttributes, iPayloadLength))
+    {
+        //      qDebug() << "Interface attribute: type =" << pInterfaceAttributes->rta_type << "len =" << pInterfaceAttributes->rta_len;
 
-      const int iAddressLen = RTA_PAYLOAD(pInterfaceAttributes);
-//      qDebug() << "Payload length =" << iAddressLen;
+        const int iAddressLen = RTA_PAYLOAD(pInterfaceAttributes);
+        //      qDebug() << "Payload length =" << iAddressLen;
 
-      switch (pInterfaceAttributes->rta_type)
-      {
-         case IFLA_ADDRESS: // MAC address
-            break;
+        switch (pInterfaceAttributes->rta_type)
+        {
+            case IFLA_ADDRESS: // MAC address
+                break;
 
-         case IFLA_BROADCAST: //2
-            struct sockaddr_ll addr;
-            ::bzero(&addr, sizeof(addr));
-            ::memcpy(addr.sll_addr, RTA_DATA(pInterfaceAttributes), iAddressLen);
-            addr.sll_family = AF_PACKET;
-            addr.sll_ifindex = pInterfaceInfoMessage->ifi_family;
-            addr.sll_halen = iAddressLen;
-            addr.sll_hatype = pInterfaceInfoMessage->ifi_type;
-            break;
+            case IFLA_BROADCAST: //2
+                struct sockaddr_ll addr;
+                ::bzero(&addr, sizeof(addr));
+                ::memcpy(addr.sll_addr, RTA_DATA(pInterfaceAttributes), iAddressLen);
+                addr.sll_family = AF_PACKET;
+                addr.sll_ifindex = pInterfaceInfoMessage->ifi_family;
+                addr.sll_halen = iAddressLen;
+                addr.sll_hatype = pInterfaceInfoMessage->ifi_type;
+                break;
 
-         case IFLA_IFNAME:       //  3
-            if (::strlen(acInterfaceName) == 0)
-               ::strcpy(acInterfaceName, reinterpret_cast<const char*>(RTA_DATA(pInterfaceAttributes)));
-            break;
+            case IFLA_IFNAME:       //  3
+                if (::strlen(acInterfaceName) == 0)
+                    ::strcpy(acInterfaceName, reinterpret_cast<const char*>(RTA_DATA(pInterfaceAttributes)));
+                break;
 
-         case IFLA_MTU:          //  4
-         case IFLA_QDISC:        //  6
-         case IFLA_STATS:        //  7
-         case IFLA_PROTINFO:     // 12
-         case IFLA_TXQLEN:       // 13
-         case IFLA_MAP:          // 14
-         case IFLA_OPERSTATE:    // 16
-         case IFLA_LINKMODE:     // 17
-            break;
-      }
-      pInterfaceAttributes = RTA_NEXT(pInterfaceAttributes, iPayloadLength);
-   }
+            case IFLA_MTU:          //  4
+            case IFLA_QDISC:        //  6
+            case IFLA_STATS:        //  7
+            case IFLA_PROTINFO:     // 12
+            case IFLA_TXQLEN:       // 13
+            case IFLA_MAP:          // 14
+            case IFLA_OPERSTATE:    // 16
+            case IFLA_LINKMODE:     // 17
+                break;
+        }
+        pInterfaceAttributes = RTA_NEXT(pInterfaceAttributes, iPayloadLength);
+    }
 
-   if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWLINK && (pInterfaceInfoMessage->ifi_flags & IFF_POINTOPOINT))
-   {
-      const NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
-      if (itInterfaces != m_Interfaces.end())
-      {
-         const NetworkInterface::InterfaceFlags oldFlags((*itInterfaces).second.flags());
+    if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWLINK && (pInterfaceInfoMessage->ifi_flags & IFF_POINTOPOINT))
+    {
+        const NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
+        if (itInterfaces != m_Interfaces.end())
+        {
+            const NetworkInterface::InterfaceFlags oldFlags((*itInterfaces).second.flags());
 
-         (*itInterfaces).second.setFlags(pInterfaceInfoMessage->ifi_flags);
-      }
-      else
-      {
-//         qDebug() << "Interface" << acInterfaceName << "added";
-         const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, pInterfaceInfoMessage->ifi_index, pInterfaceInfoMessage->ifi_flags)));
-         m_Interfaces.insert(entry);
-      }
-   }
-   else if (pNetLinkMessageHeader->nlmsg_type == RTM_DELLINK && pInterfaceInfoMessage->ifi_flags & IFF_POINTOPOINT)
-   {
-      const NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
-      if (itInterfaces != m_Interfaces.end())
-      {
-//         qDebug() << "Interface" << acInterfaceName << "deleted";
-         emit ptpInterfaceIsDeleted((*itInterfaces).second);
-         m_Interfaces.erase(itInterfaces);
-      }
-   }
+            (*itInterfaces).second.setFlags(pInterfaceInfoMessage->ifi_flags);
+        }
+        else
+        {
+            //         qDebug() << "Interface" << acInterfaceName << "added";
+            const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, pInterfaceInfoMessage->ifi_index, pInterfaceInfoMessage->ifi_flags)));
+            m_Interfaces.insert(entry);
+        }
+    }
+    else if (pNetLinkMessageHeader->nlmsg_type == RTM_DELLINK && pInterfaceInfoMessage->ifi_flags & IFF_POINTOPOINT)
+    {
+        const NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
+        if (itInterfaces != m_Interfaces.end())
+        {
+            //         qDebug() << "Interface" << acInterfaceName << "deleted";
+            emit ptpInterfaceIsDeleted((*itInterfaces).second);
+            m_Interfaces.erase(itInterfaces);
+        }
+    }
 }
 
 void NetworkInterfaceMonitor::handleAddressMessage(struct nlmsghdr* pNetLinkMessageHeader)
 {
-   struct ifaddrmsg* const pInterfaceAddressMessage = reinterpret_cast<struct ifaddrmsg*>(NLMSG_DATA(pNetLinkMessageHeader));
-//   qDebug() << "Address message: family =" << pInterfaceAddressMessage->ifa_family << "flags =" << pInterfaceAddressMessage->ifa_flags << "index =" << pInterfaceAddressMessage->ifa_index << "prefix len =" << pInterfaceAddressMessage->ifa_prefixlen << "scope =" << pInterfaceAddressMessage->ifa_scope;
+    struct ifaddrmsg* const pInterfaceAddressMessage = reinterpret_cast<struct ifaddrmsg*>(NLMSG_DATA(pNetLinkMessageHeader));
+    //   qDebug() << "Address message: family =" << pInterfaceAddressMessage->ifa_family << "flags =" << pInterfaceAddressMessage->ifa_flags << "index =" << pInterfaceAddressMessage->ifa_index << "prefix len =" << pInterfaceAddressMessage->ifa_prefixlen << "scope =" << pInterfaceAddressMessage->ifa_scope;
 
-   // strings to hold content of an entry of the route table
-   char acInterfaceName[IFNAMSIZ], acIp[INET6_ADDRSTRLEN], acBroadcast[INET6_ADDRSTRLEN], acDst[INET6_ADDRSTRLEN];
+    // strings to hold content of an entry of the route table
+    char acInterfaceName[IFNAMSIZ], acIp[INET6_ADDRSTRLEN], acBroadcast[INET6_ADDRSTRLEN], acDst[INET6_ADDRSTRLEN];
 
-   // init all the strings
-   ::bzero(acInterfaceName, sizeof (acInterfaceName));
-   ::bzero(acIp, sizeof(acIp));
-   ::bzero(acBroadcast, sizeof(acBroadcast));
-   ::bzero(acDst, sizeof(acDst));
+    // init all the strings
+    ::bzero(acInterfaceName, sizeof (acInterfaceName));
+    ::bzero(acIp, sizeof(acIp));
+    ::bzero(acBroadcast, sizeof(acBroadcast));
+    ::bzero(acDst, sizeof(acDst));
 
 
-   ::if_indextoname(pInterfaceAddressMessage->ifa_index, acInterfaceName);
+    ::if_indextoname(pInterfaceAddressMessage->ifa_index, acInterfaceName);
 
-   // inner loop: loop thru all the attributes of one address entry
-   struct rtattr* pAddressAttributes = IFA_RTA(pInterfaceAddressMessage);
-   int iPayloadLength = IFA_PAYLOAD(pNetLinkMessageHeader);
-   while (iPayloadLength && RTA_OK(pAddressAttributes, iPayloadLength))
-   {
-//      qDebug() << "Address attribute: type =" << pAddressAttributes->rta_type << "len =" << pAddressAttributes->rta_len;
+    // inner loop: loop thru all the attributes of one address entry
+    struct rtattr* pAddressAttributes = IFA_RTA(pInterfaceAddressMessage);
+    int iPayloadLength = IFA_PAYLOAD(pNetLinkMessageHeader);
+    while (iPayloadLength && RTA_OK(pAddressAttributes, iPayloadLength))
+    {
+        //      qDebug() << "Address attribute: type =" << pAddressAttributes->rta_type << "len =" << pAddressAttributes->rta_len;
 
-      switch (pAddressAttributes->rta_type)
-      {
-         case IFA_ADDRESS:       // 1
-            ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acDst, INET6_ADDRSTRLEN);
-            break;
-         case IFA_LOCAL:         // 2
-            ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acIp, INET6_ADDRSTRLEN);
-            break;
-         case IFA_LABEL:         // 3
-            break;
-         case IFA_BROADCAST:     // 4
-            ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acBroadcast, INET6_ADDRSTRLEN);
-            break;
-         case IFA_ANYCAST:       // 5
-            break;
-         case IFA_CACHEINFO:     // 6
-            break;
-         case IFA_MULTICAST:     // 7
-            break;
-      }
-      pAddressAttributes = RTA_NEXT(pAddressAttributes, iPayloadLength);
-   }
+        switch (pAddressAttributes->rta_type)
+        {
+            case IFA_ADDRESS:       // 1
+                ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acDst, INET6_ADDRSTRLEN);
+                break;
+            case IFA_LOCAL:         // 2
+                ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acIp, INET6_ADDRSTRLEN);
+                break;
+            case IFA_LABEL:         // 3
+                break;
+            case IFA_BROADCAST:     // 4
+                ::inet_ntop(pInterfaceAddressMessage->ifa_family, RTA_DATA(pAddressAttributes), acBroadcast, INET6_ADDRSTRLEN);
+                break;
+            case IFA_ANYCAST:       // 5
+                break;
+            case IFA_CACHEINFO:     // 6
+                break;
+            case IFA_MULTICAST:     // 7
+                break;
+        }
+        pAddressAttributes = RTA_NEXT(pAddressAttributes, iPayloadLength);
+    }
 
-   NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
-   if (itInterfaces == m_Interfaces.end())
-   {
-       const int iIndex(::if_nametoindex(acInterfaceName));
-       const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, iIndex, getInterfaceFlagByIndex(iIndex))));
-       itInterfaces = m_Interfaces.insert(entry).first;
-   }
+    NetworkInterface::InterfaceMap::iterator itInterfaces = m_Interfaces.find(acInterfaceName);
+    if (itInterfaces == m_Interfaces.end())
+    {
+        const int iIndex(::if_nametoindex(acInterfaceName));
+        const NetworkInterface::InterfaceMapEntry entry(std::make_pair(acInterfaceName, NetworkInterface(acInterfaceName, iIndex, getInterfaceFlagByIndex(iIndex))));
+        itInterfaces = m_Interfaces.insert(entry).first;
+    }
 
-   QNetworkAddressEntry addressEntry;
-   addressEntry.setIp(QHostAddress(acIp));
-   addressEntry.setPrefixLength(pInterfaceAddressMessage->ifa_prefixlen);
+    QNetworkAddressEntry addressEntry;
+    addressEntry.setIp(QHostAddress(acIp));
+    addressEntry.setPrefixLength(pInterfaceAddressMessage->ifa_prefixlen);
 
-   if ((*itInterfaces).second.isPtP())
-      addressEntry.setBroadcast(QHostAddress(acDst));
-   else
-      addressEntry.setBroadcast(QHostAddress(acBroadcast));
+    if ((*itInterfaces).second.isPtP())
+        addressEntry.setBroadcast(QHostAddress(acDst));
+    else
+        addressEntry.setBroadcast(QHostAddress(acBroadcast));
 
-   (*itInterfaces).second.clearAddressEntries();
-   (*itInterfaces).second.addAddressEntry(addressEntry);
+    (*itInterfaces).second.clearAddressEntries();
+    (*itInterfaces).second.addAddressEntry(addressEntry);
 
-   if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWADDR)
-   {
-//      qDebug() << "Address added:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broadcast =" << acBroadcast;
+    if (pNetLinkMessageHeader->nlmsg_type == RTM_NEWADDR)
+    {
+        //      qDebug() << "Address added:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broadcast =" << acBroadcast;
         emit addressAdded((*itInterfaces).second);
-   }
-//   else
-//      qDebug() << "Address deleted:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broadcast =" << acBroadcast;
+    }
+    //   else
+    //      qDebug() << "Address deleted:" << "IF =" << acInterfaceName << "IP =" << acIp << "Broadcast =" << acBroadcast;
 }
 
 int NetworkInterfaceMonitor::getInterfaceFlagByIndex(const int iIndex)
@@ -430,11 +430,11 @@ int NetworkInterfaceMonitor::getInterfaceFlagByIndex(const int iIndex)
             ifr.ifr_ifindex = iIndex;
             if (::ioctl(iSocketFd, SIOCGIFNAME, &ifr) >= 0)
             {
-               /* Interface flags. */
-               if (::ioctl(iSocketFd, SIOCGIFFLAGS, &ifr) == -1)
-                  iRet = 0;
-               else
-                  iRet = ifr.ifr_ifru.ifru_flags;
+                /* Interface flags. */
+                if (::ioctl(iSocketFd, SIOCGIFFLAGS, &ifr) == -1)
+                    iRet = 0;
+                else
+                    iRet = ifr.ifr_ifru.ifru_flags;
             }
 
             int iResult;
@@ -457,37 +457,37 @@ int NetworkInterfaceMonitor::getInterfaceFlagByIndex(const int iIndex)
 #ifndef QT_NO_DEBUG
 void NetworkInterfaceMonitor::debugFlags(unsigned iFlags)
 {
-   if (iFlags & IFF_UP)
-      qDebug() << "Interface"  << "is Up";
-   if (iFlags & IFF_BROADCAST)
-      qDebug() << "Interface"  << "broadcast address is valid";
-   if (iFlags & IFF_DEBUG)
-      qDebug() << "Interface"  << "debug is turned on";
-   if (iFlags & IFF_LOOPBACK)
-      qDebug() << "Interface"  << "is loop back";
-   if (iFlags & IFF_POINTOPOINT)
-      qDebug() << "Interface"  << "is Ptp";
-   if (iFlags & IFF_NOTRAILERS)
-      qDebug() << "Interface"  << "avoid trailers";
-   if (iFlags & IFF_RUNNING)
-      qDebug() << "Interface"  << "is running";
-   if (iFlags & IFF_NOARP)
-      qDebug() << "Interface"  << "has no address resolution protocol";
-   if (iFlags & IFF_PROMISC)
-      qDebug() << "Interface"  << "is in promiscous mode";
-   if (iFlags & IFF_ALLMULTI)
-      qDebug() << "Interface"  << "receives all multicast packets";
-   if (iFlags & IFF_MASTER)
-      qDebug() << "Interface"  << "is master of a load balancer";
-   if (iFlags & IFF_SLAVE)
-      qDebug() << "Interface"  << "is slave of a load balancer";
-   if (iFlags & IFF_MULTICAST)
-      qDebug() << "Interface"  << "supports multicast";
-   if (iFlags & IFF_PORTSEL)
-      qDebug() << "Interface"  << "can set media type";
-   if (iFlags & IFF_AUTOMEDIA)
-      qDebug() << "Interface"  << "auto media select is active";
-   if (iFlags & IFF_DYNAMIC)
-      qDebug() << "Interface"  << "is a dialup device with changing addresses";
+    if (iFlags & IFF_UP)
+        qDebug() << "Interface"  << "is Up";
+    if (iFlags & IFF_BROADCAST)
+        qDebug() << "Interface"  << "broadcast address is valid";
+    if (iFlags & IFF_DEBUG)
+        qDebug() << "Interface"  << "debug is turned on";
+    if (iFlags & IFF_LOOPBACK)
+        qDebug() << "Interface"  << "is loop back";
+    if (iFlags & IFF_POINTOPOINT)
+        qDebug() << "Interface"  << "is Ptp";
+    if (iFlags & IFF_NOTRAILERS)
+        qDebug() << "Interface"  << "avoid trailers";
+    if (iFlags & IFF_RUNNING)
+        qDebug() << "Interface"  << "is running";
+    if (iFlags & IFF_NOARP)
+        qDebug() << "Interface"  << "has no address resolution protocol";
+    if (iFlags & IFF_PROMISC)
+        qDebug() << "Interface"  << "is in promiscous mode";
+    if (iFlags & IFF_ALLMULTI)
+        qDebug() << "Interface"  << "receives all multicast packets";
+    if (iFlags & IFF_MASTER)
+        qDebug() << "Interface"  << "is master of a load balancer";
+    if (iFlags & IFF_SLAVE)
+        qDebug() << "Interface"  << "is slave of a load balancer";
+    if (iFlags & IFF_MULTICAST)
+        qDebug() << "Interface"  << "supports multicast";
+    if (iFlags & IFF_PORTSEL)
+        qDebug() << "Interface"  << "can set media type";
+    if (iFlags & IFF_AUTOMEDIA)
+        qDebug() << "Interface"  << "auto media select is active";
+    if (iFlags & IFF_DYNAMIC)
+        qDebug() << "Interface"  << "is a dialup device with changing addresses";
 }
 #endif

@@ -34,37 +34,37 @@ class ConnectionSettings;
 
 class ConnectionEditorDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit ConnectionEditorDialog(QWidget* pParent = 0);
-   virtual ~ConnectionEditorDialog();
+    public:
+        explicit ConnectionEditorDialog(QWidget* pParent = 0);
+        virtual ~ConnectionEditorDialog();
 
-   static bool applySettings(ConnectionsModel* pConnectionsModel, ConnectionSettings* pConnectionSettings, const QString strMsgBoxTitle = QString::null, QWidget* pFocus = NULL);
+        static bool applySettings(ConnectionsModel* pConnectionsModel, ConnectionSettings* pConnectionSettings, const QString strMsgBoxTitle = QString::null, QWidget* pFocus = NULL);
 
 signals:
-   void connectionAdded(const QString& strName);
-   void connectionRemoved(const QString& strName);
+        void connectionAdded(const QString& strName);
+        void connectionRemoved(const QString& strName);
 
-private slots:
-   void onHelpRequested() const;
-   void accept();
-   void reject();
-   void editPreferences();
-   void addConnection();
-   void editConnection();
-   void removeConnection();
+        private slots:
+            void onHelpRequested() const;
+        void accept();
+        void reject();
+        void editPreferences();
+        void addConnection();
+        void editConnection();
+        void removeConnection();
 
-private:
-   ConnectionEditorDialog(const ConnectionEditorDialog& orig);
-   ConnectionEditorDialog& operator=(const ConnectionEditorDialog& orig);
+    private:
+        ConnectionEditorDialog(const ConnectionEditorDialog& orig);
+        ConnectionEditorDialog& operator=(const ConnectionEditorDialog& orig);
 
-   void enableDeleteAndEdit(bool fEnable);
+        void enableDeleteAndEdit(bool fEnable);
 
-   Ui::ConnectionEditorDialog m_Widget;
+        Ui::ConnectionEditorDialog m_Widget;
 
-   ConnectionsModel* const m_pConnectionsModel;
-   ConnectionSettings* const m_pConnectionSettings;
+        ConnectionsModel* const m_pConnectionsModel;
+        ConnectionSettings* const m_pConnectionSettings;
 };
 
 #endif	/* _CONNECTIONEDITORDIALOG_H */

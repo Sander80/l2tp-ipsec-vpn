@@ -32,11 +32,11 @@
 
 ConnectionState::ConnectionState(QSystemTrayIcon* pTrayIcon, const QString& strHostName, const QString& strMsgTitle, const QString& strMsgBody, const QIcon& icon, const QSystemTrayIcon::MessageIcon& msgIcon, const NetworkInterface& ptpInterface) : m_pTrayIcon(pTrayIcon), m_strHostName(strHostName), m_strMsgTitle(strMsgTitle), m_strMsgBody(strMsgBody), m_Icon(icon), m_MsgIcon(msgIcon), m_PtpInterface(ptpInterface)
 {
-   if (pTrayIcon)
-   {
-      pTrayIcon->setIcon(icon);
-      pTrayIcon->setToolTip(strMsgTitle);
-   }
+    if (pTrayIcon)
+    {
+        pTrayIcon->setIcon(icon);
+        pTrayIcon->setToolTip(strMsgTitle);
+    }
 }
 
 ConnectionState::~ConnectionState()
@@ -45,32 +45,32 @@ ConnectionState::~ConnectionState()
 
 const QString& ConnectionState::hostName() const
 {
-   return(m_strHostName);
+    return(m_strHostName);
 }
 
 const QString& ConnectionState::msgTitle() const
 {
-   return(m_strMsgTitle);
+    return(m_strMsgTitle);
 }
 
 const QString& ConnectionState::msgBody() const
 {
-   return(m_strMsgBody);
+    return(m_strMsgBody);
 }
 
 const QIcon& ConnectionState::icon() const
 {
-   return(m_Icon);
+    return(m_Icon);
 }
 
 const QSystemTrayIcon::MessageIcon& ConnectionState::msgIcon() const
 {
-   return(m_MsgIcon);
+    return(m_MsgIcon);
 }
 
 const NetworkInterface& ConnectionState::ptpInterface() const
 {
-   return(m_PtpInterface);
+    return(m_PtpInterface);
 }
 
 NotConnected::NotConnected(QSystemTrayIcon* pTrayIcon) : ConnectionState(pTrayIcon, "", QObject::tr("Not Connected"), QObject::tr("Click to show details"), QIcon(":/images/connectNo"), QSystemTrayIcon::Warning)
@@ -83,40 +83,40 @@ NotConnected::~NotConnected()
 
 Connecting::Connecting(QSystemTrayIcon* pTrayIcon, const QString& strHostName) : ConnectionState(pTrayIcon, strHostName, QObject::tr("Connecting to ") + strHostName + " ...", QObject::tr("Click to show details"), QIcon(":/images/busy"), QSystemTrayIcon::Information), m_pMovie(new QMovie(":/images/busy"))
 {
-   connect(m_pMovie, SIGNAL(frameChanged(int)), SLOT(onFrameChanged()));
+    connect(m_pMovie, SIGNAL(frameChanged(int)), SLOT(onFrameChanged()));
 
-   if (m_pMovie->isValid())
-      m_pMovie->start();
+    if (m_pMovie->isValid())
+        m_pMovie->start();
 }
 
 Connecting::~Connecting()
 {
-   delete m_pMovie;
+    delete m_pMovie;
 }
 
 void Connecting::onFrameChanged() const
 {
-   if (trayIcon())
-      trayIcon()->setIcon(QIcon(m_pMovie->currentPixmap()));
+    if (trayIcon())
+        trayIcon()->setIcon(QIcon(m_pMovie->currentPixmap()));
 }
 
 Disconnecting::Disconnecting(QSystemTrayIcon* pTrayIcon, const QString& strHostName) : ConnectionState(pTrayIcon, strHostName, QObject::tr("Disconnecting from ") + strHostName + " ...", QObject::tr("Click to show details"), QIcon(":/images/busy"), QSystemTrayIcon::Information), m_pMovie(new QMovie(":/images/busy"))
 {
-   connect(m_pMovie, SIGNAL(frameChanged(int)), SLOT(onFrameChanged()));
+    connect(m_pMovie, SIGNAL(frameChanged(int)), SLOT(onFrameChanged()));
 
-   if (m_pMovie->isValid())
-      m_pMovie->start();
+    if (m_pMovie->isValid())
+        m_pMovie->start();
 }
 
 Disconnecting::~Disconnecting()
 {
-   delete m_pMovie;
+    delete m_pMovie;
 }
 
 void Disconnecting::onFrameChanged() const
 {
-   if (trayIcon())
-      trayIcon()->setIcon(QIcon(m_pMovie->currentPixmap()));
+    if (trayIcon())
+        trayIcon()->setIcon(QIcon(m_pMovie->currentPixmap()));
 }
 
 Connected::Connected(QSystemTrayIcon* pTrayIcon, const QString& strHostName, const NetworkInterface& ptpInterface) : ConnectionState(pTrayIcon, strHostName, QObject::tr("Connected to ") + strHostName, QObject::tr("Click to show details"), QIcon(":/images/connectEstablished"), QSystemTrayIcon::Information, ptpInterface)

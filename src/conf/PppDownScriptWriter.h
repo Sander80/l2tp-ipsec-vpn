@@ -31,16 +31,16 @@
 
 class PppDownScriptWriter : public AbstractConfWriter
 {
-public:
-   PppDownScriptWriter(const QString& strTemplateKey, const QString& strWriteTo);
-   virtual ~PppDownScriptWriter() {}
+    public:
+        PppDownScriptWriter(const QString& strTemplateKey, const QString& strWriteTo);
+        virtual ~PppDownScriptWriter() {}
 
-protected:
-   void fill();
+    protected:
+        void fill();
 
-private:
-   PppDownScriptWriter(const PppDownScriptWriter& orig);
-   PppDownScriptWriter& operator=(const PppDownScriptWriter& orig);
+    private:
+        PppDownScriptWriter(const PppDownScriptWriter& orig);
+        PppDownScriptWriter& operator=(const PppDownScriptWriter& orig);
 };
 
 #endif	/* PPPDOWNSCRIPTWRITER_H */

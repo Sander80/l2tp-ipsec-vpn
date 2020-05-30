@@ -31,25 +31,25 @@
 
 class PeerAuthenticationDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
-public:
-   explicit PeerAuthenticationDialog(const QString& strConnectionName, QWidget* pParent = 0);
-   virtual ~PeerAuthenticationDialog();
+    public:
+        explicit PeerAuthenticationDialog(const QString& strConnectionName, QWidget* pParent = 0);
+        virtual ~PeerAuthenticationDialog();
 
-private slots:
-   void readSettings() const;
-   bool writeSettings() const;
-   void onHelpRequested() const;
-   void accept();
+        private slots:
+            void readSettings() const;
+        bool writeSettings() const;
+        void onHelpRequested() const;
+        void accept();
 
-private:
-   PeerAuthenticationDialog(const PeerAuthenticationDialog& orig);
-   PeerAuthenticationDialog& operator=(const PeerAuthenticationDialog& orig);
+    private:
+        PeerAuthenticationDialog(const PeerAuthenticationDialog& orig);
+        PeerAuthenticationDialog& operator=(const PeerAuthenticationDialog& orig);
 
-   Ui::PeerAuthenticationDialog m_Widget;
+        Ui::PeerAuthenticationDialog m_Widget;
 
-   const QString m_strConnectionName;
+        const QString m_strConnectionName;
 };
 
 #endif	/* _PEERAUTHENTICATIONDIALOG_H */

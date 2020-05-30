@@ -30,22 +30,22 @@ struct lt__handle;
 
 class Libtool
 {
-public:
-   Libtool(const QString& strLibraryFilePath);
-   virtual ~Libtool();
+    public:
+        Libtool(const QString& strLibraryFilePath);
+        virtual ~Libtool();
 
-   bool hasSymbol(const QString& strSymbolName) const;
+        bool hasSymbol(const QString& strSymbolName) const;
 
-private:
-   Libtool(const Libtool& orig);
-   Libtool& operator=(const Libtool& orig);
+    private:
+        Libtool(const Libtool& orig);
+        Libtool& operator=(const Libtool& orig);
 
-   bool loaded() const { return !!m_pLoadedModuleHandle; };
-   void exit() const;
+        bool loaded() const { return !!m_pLoadedModuleHandle; };
+        void exit() const;
 
-   static lt__handle* init(const QString& strLibraryFilePath);
+        static lt__handle* init(const QString& strLibraryFilePath);
 
-   lt__handle* const m_pLoadedModuleHandle;
+        lt__handle* const m_pLoadedModuleHandle;
 };
 
 #endif	/* LIBTOOL_H */

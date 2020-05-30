@@ -30,13 +30,13 @@
 
 PeerAuthenticationDialog::PeerAuthenticationDialog(const QString& strConnectionName, QWidget* pParent) : QDialog(pParent), m_strConnectionName(strConnectionName)
 {
-   m_Widget.setupUi(this);
+    m_Widget.setupUi(this);
 
-   setWindowTitle(strConnectionName + tr(" - Peer Authentication Settings"));
+    setWindowTitle(strConnectionName + tr(" - Peer Authentication Settings"));
 
-   connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
+    connect(m_Widget.m_pButtonBox, SIGNAL(helpRequested()), SLOT(onHelpRequested()));
 
-   readSettings();
+    readSettings();
 }
 
 PeerAuthenticationDialog::~PeerAuthenticationDialog()
@@ -45,30 +45,30 @@ PeerAuthenticationDialog::~PeerAuthenticationDialog()
 
 void PeerAuthenticationDialog::readSettings() const
 {
-   const ConnectionSettings settings;
-   const PppSettings pppSettings = settings.pppSettings(m_strConnectionName);
+    const ConnectionSettings settings;
+    const PppSettings pppSettings = settings.pppSettings(m_strConnectionName);
 
-   m_Widget.m_pRemoteNameEdit->setText(pppSettings.remoteName());
+    m_Widget.m_pRemoteNameEdit->setText(pppSettings.remoteName());
 }
 
 bool PeerAuthenticationDialog::writeSettings() const
 {
-   const ConnectionSettings settings;
-   const PppSettings pppSettings = settings.pppSettings(m_strConnectionName);
+    const ConnectionSettings settings;
+    const PppSettings pppSettings = settings.pppSettings(m_strConnectionName);
 
-   bool fRet = pppSettings.setRemoteName(m_Widget.m_pRemoteNameEdit->text());
+    bool fRet = pppSettings.setRemoteName(m_Widget.m_pRemoteNameEdit->text());
 
-   return(fRet);
+    return(fRet);
 }
 
 void PeerAuthenticationDialog::onHelpRequested() const
 {
-   ::showHelp("Configure_Peer_authentication");
+    ::showHelp("Configure_Peer_authentication");
 }
 
 void PeerAuthenticationDialog::accept()
 {
-   writeSettings();
-   QDialog::accept();
+    writeSettings();
+    QDialog::accept();
 }
 
