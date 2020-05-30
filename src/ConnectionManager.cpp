@@ -570,7 +570,7 @@ void ConnectionManager::onAddressAdded(NetworkInterface interface)
 void ConnectionManager::onPtpInterfaceIsDeleted(NetworkInterface interface)
 {
 //   qDebug() << "ConnectionManager::onPtpInterfaceIsDeleted(" << interface.name().c_str() << ")";
-
+    if (!m_pState) return;
    if ((m_pState->isState(ConnectionState::Connected) || m_pState->isState(ConnectionState::Disconnecting)))
    {
       const QString strConnectionName(ConnectionManager::connectionName(interface));
