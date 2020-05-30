@@ -96,13 +96,18 @@ void NetworkInterfaceMonitor::run()
    {
 //      qDebug() << "Socket" << m_iSocket << "created.";
 
-      struct sockaddr_nl addr;
+      struct sockaddr addr;
+      struct sockaddr_nl_extended {
+            struct sockaddr_nl base;
+            char empty[4];
+      };
+      struct sockaddr_nl_extended* addr_nl = reinterpret_cast<struct sockaddr_nl_extended*>(&addr);
       ::bzero(&addr, sizeof(addr));
-      addr.nl_family = AF_NETLINK;
-      addr.nl_pid = ::getpid();
-      addr.nl_groups = RTMGRP_IPV4_ROUTE | RTMGRP_IPV6_ROUTE | RTMGRP_LINK | RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
+      addr_nl->base.nl_family = AF_NETLINK;
+      addr_nl->base.nl_pid = ::getpid();
+      addr_nl->base.nl_groups = RTMGRP_IPV4_ROUTE | RTMGRP_IPV6_ROUTE | RTMGRP_LINK | RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
 
-      if (::bind(m_iSocket, reinterpret_cast<const struct sockaddr*>(&addr), sizeof(addr)) != -1)
+      if (::bind(m_iSocket, &addr, sizeof(addr)) != -1)
       {
          m_Interfaces = NetworkInterface::pointToPointInterfaces();
 
