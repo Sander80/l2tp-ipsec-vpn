@@ -102,10 +102,14 @@ QList<unsigned long> Pkcs11::slotList()
       if ((rv == CKR_OK) && p11Slots)
          break;
 
-      p11Slots = reinterpret_cast<CK_SLOT_ID*>(::realloc(p11Slots, ulNumSlots * sizeof (CK_SLOT_ID)));
-      ErrorEx::checkOutOfMemory(p11Slots);
+      CK_SLOT_ID* p11Slots_temp = reinterpret_cast<CK_SLOT_ID*>(::realloc(p11Slots, ulNumSlots * sizeof (CK_SLOT_ID)));
+      ErrorEx::checkOutOfMemory(p11Slots_temp);
+      p11Slots = p11Slots_temp;
    }
-
+   
+   ErrorEx::checkOutOfMemory(p11Slots);
+   if (p11Slots == nullptr) return slotList;
+   
    for (unsigned long ul = 0; ul < ulNumSlots; ul++)
    {
       CK_SLOT_INFO slotInfo;
@@ -118,8 +122,7 @@ QList<unsigned long> Pkcs11::slotList()
       }
    }
 
-   if (p11Slots)
-      ::free(p11Slots);
+   free(p11Slots);
 
    return(slotList);
 }
@@ -135,6 +138,7 @@ QList<CK_MECHANISM_TYPE> Pkcs11::mechanismList(unsigned long ulSlot)
    {
       CK_MECHANISM_TYPE* const pMechanismType(reinterpret_cast<CK_MECHANISM_TYPE*>(::malloc(ulCount * sizeof(*pMechanismType))));
       ErrorEx::checkOutOfMemory(pMechanismType);
+      if (!pMechanismType) return mechanismList;
 
       rv = m_p11->C_GetMechanismList(ulSlot, pMechanismType, &ulCount);
       if (rv != CKR_OK)
