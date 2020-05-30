@@ -90,7 +90,7 @@ QString userName()
 {
     const char* buf = getenv("PKEXEC_UID");
     unsigned int uid = 0;
-    sscanf(buf,"%d",&uid);
+    sscanf(buf,"%u",&uid);
     if (uid) {
         struct passwd *pw = getpwuid (uid);
         if (pw)
