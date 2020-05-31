@@ -29,4 +29,4 @@ Currently it is available in the repository of [jjkeijser](https://github.com/jj
 Have a look at our wiki for more instructions. 
 
 # License
-Licensed under [GNU GPL version 3](GPL)
+Licensed under [GNU GPL version 3](LICENSE) 
