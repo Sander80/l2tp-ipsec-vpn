@@ -72,7 +72,7 @@ ConnectionEditorDialog::~ConnectionEditorDialog()
 
 void ConnectionEditorDialog::onHelpRequested() const
 {
-    ::showHelp("Installing_L2TP_over_IPsec_VPN_Manager");
+    ::showHelp("VPN-connections-list");
 }
 
 void ConnectionEditorDialog::accept()

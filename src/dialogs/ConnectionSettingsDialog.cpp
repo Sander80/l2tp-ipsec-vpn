@@ -76,19 +76,19 @@ void ConnectionSettingsDialog::onHelpRequested() const
     switch (m_Widget.m_pTabWidget->currentIndex())
     {
         case 0:
-            ::showHelp("Configure_IPsec_options");
+            ::showHelp("Configure-IPsec-options");
             break;
 
         case 1:
-            ::showHelp("Configure_L2TP_options");
+            ::showHelp("Configure-L2TP-options");
             break;
 
         case 2:
-            ::showHelp("Configure_PPP_options");
+            ::showHelp("Configure-PPP-options");
             break;
 
         default:
-            ::showHelp("Configuring_a_connection");
+            ::showHelp("Configuring-a-connection");
     }
 }
 

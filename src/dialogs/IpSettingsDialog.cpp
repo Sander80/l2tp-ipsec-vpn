@@ -57,7 +57,7 @@ void IpSettingsDialog::onRouteSettings() const
 
 void IpSettingsDialog::onHelpRequested() const
 {
-    ::showHelp("Configure_IP_settings");
+    ::showHelp("Configure-IP-settings");
 }
 
 void IpSettingsDialog::accept()

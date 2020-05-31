@@ -85,7 +85,7 @@ void PreferencesEditorDialog::onPkcs11Path()
 
 void PreferencesEditorDialog::onHelpRequested() const
 {
-    ::showHelp("Editing_preferences");
+    ::showHelp("Editing-preferences");
 }
 
 void PreferencesEditorDialog::accept()

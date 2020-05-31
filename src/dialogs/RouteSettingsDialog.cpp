@@ -151,7 +151,7 @@ void RouteSettingsDialog::removeNoRoute() const
 
 void RouteSettingsDialog::onHelpRequested() const
 {
-    ::showHelp("Configure_routes");
+    ::showHelp("Configure-routes");
 }
 
 void RouteSettingsDialog::accept()

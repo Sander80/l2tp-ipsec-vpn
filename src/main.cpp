@@ -121,7 +121,7 @@ int main(int iArgc, char* pcArgv[])
 
                 case L2tpIPsecVpnApplication::SHOWHELP:
                     {
-                        QUrl url("http://wiki.l2tpipsecvpn.tuxfamily.org/wiki/index.php?title=Main_Page" + L2tpIPsecVpnApplication::helpSection);
+                        QUrl url("https://github.com/Sander80/l2tp-ipsec-vpn/wiki" + L2tpIPsecVpnApplication::helpSection);
                         QDesktopServices::openUrl(url);
                         break;
                     }

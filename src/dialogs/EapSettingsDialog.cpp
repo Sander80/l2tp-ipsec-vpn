@@ -177,7 +177,7 @@ bool EapSettingsDialog::writeSettings() const
 
 void EapSettingsDialog::onHelpRequested() const
 {
-    ::showHelp("Configure_EAP_TLS_.28certificate.29_authentication");
+    ::showHelp("Configure-EAP-TLS-(certificate)-authentication");
 }
 
 void EapSettingsDialog::accept()

@@ -45,7 +45,7 @@ AdvancedSettingsDialog::~AdvancedSettingsDialog()
 
 void AdvancedSettingsDialog::onHelpRequested() const
 {
-    ::showHelp("Configure_advanced_settings");
+    ::showHelp("Configure-advanced-settings");
 }
 
 void AdvancedSettingsDialog::accept()

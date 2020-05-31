@@ -185,7 +185,7 @@ L2tpIPsecVpnApplication::APPLICATIONMODE L2tpIPsecVpnApplication::parseCmdLine(i
         else if (::strcmp(pcArgv[i], SHOWHELP_CMD_SWITCH) == 0)
         {
             retMode = SHOWHELP;
-            if (i + 1 < iArgc) L2tpIPsecVpnApplication::helpSection = QString("#") + pcArgv[i + 1];
+            if (i + 1 < iArgc) L2tpIPsecVpnApplication::helpSection = QString("/") + pcArgv[i + 1];
             fDone = true;
         }
         else if (pcArgv[i][0] == '-')

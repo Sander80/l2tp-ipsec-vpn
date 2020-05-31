@@ -102,7 +102,7 @@ bool CertificateImportDialog::useAsAuthenticationCertificate() const
 
 void CertificateImportDialog::onHelpRequested() const
 {
-    ::showHelp("Import_PKCS12_certificate_bundle");
+    ::showHelp("Import-PKCS12-certificate-bundle");
 }
 
 void CertificateImportDialog::onCertificate()

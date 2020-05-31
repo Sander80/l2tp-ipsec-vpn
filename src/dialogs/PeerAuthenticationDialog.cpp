@@ -63,7 +63,7 @@ bool PeerAuthenticationDialog::writeSettings() const
 
 void PeerAuthenticationDialog::onHelpRequested() const
 {
-    ::showHelp("Configure_Peer_authentication");
+    ::showHelp("Configure-Peer-authentication");
 }
 
 void PeerAuthenticationDialog::accept()
