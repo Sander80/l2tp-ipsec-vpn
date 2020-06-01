@@ -87,13 +87,12 @@ QByteArray fileName2ByteArray(const QString& strFileName)
 }
 
 unsigned int effectiveUid() {
+    const char* buf = getenv("PKEXEC_UID");
+    unsigned int uid = 0;
+    sscanf(buf,"%u",&uid);
+    if (uid) return uid;
+   
     return geteuid();
-    // I will keep the following commented as suggested by the PKEXEC manual. But we can be not using PKEXEC in principle...
-    /*const char* buf = getenv("PKEXEC_UID");
-      unsigned int uid = 0;
-      sscanf(buf,"%u",&uid);
-     return uid;
-     */
 
     // the following method was used in the original code in main.cpp. let's keep it here too.
     /*
