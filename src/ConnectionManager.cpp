@@ -63,8 +63,7 @@ static const QString strRuntimePath("/var/run/L2tpIPsecVpnControlDaemon/");
 static const char* const strAbout(
         "<p><center><small>Copyright &copy; 2010-2012 Werner Jaeger</small></center></p>"
         "<p><center><small>Upgrade and maintenance in 2020 by Alexander Smirnov</small></center></p>"
-        "<p><center><dda href='http://wiki.l2tpipsecvpn.tuxfamily.org/'>Help</a></center></p>"
-        "<p><center><a href='https://launchpad.net/l2tp-ipsec-vpn'>Website</a></center></p>"
+        "<p><center><a href='https://github.com/Sander80/l2tp-ipsec-vpn/wiki'>Wiki on github</a></center></p>"
         );
 
 ConnectionManager::ConnectionManager(L2tpIPsecVpnApplication& application, QObject* pParent) : QObject(pParent), m_pConnectionInformation(new ConnectionInformationDialog()),

@@ -1,3 +1,7 @@
+2.beta
+ - massive upgrade by Alexander Smirnov
+ - more details are coming before the release of 2.0
+
 1.0.9
  - fixed bug removes files that were installed by another package 
    (Closes: #684962)
