@@ -86,11 +86,44 @@ QByteArray fileName2ByteArray(const QString& strFileName)
 #endif
 }
 
+unsigned int effectiveUid() {
+    return geteuid();
+    // I will keep the following commented as suggested by the PKEXEC manual. But we can be not using PKEXEC in principle...
+    /*const char* buf = getenv("PKEXEC_UID");
+      unsigned int uid = 0;
+      sscanf(buf,"%u",&uid);
+     return uid;
+     */
+
+    // the following method was used in the original code in main.cpp. let's keep it here too.
+    /*
+    uint uiUid(::getuid());
+
+    const char* const pcSudoUid(::getenv("SUDO_UID"));
+    if (pcSudoUid)
+    {
+        const uid_t uiSudoUid(::strtol(pcSudoUid, NULL, 0));
+        if (uiSudoUid)
+            uiUid = uiSudoUid;
+    }
+    else
+    {
+        const char* const pcUser(::getenv("USER"));
+        if (pcUser)
+        {
+            const struct passwd* pPasswd(::getpwnam(pcUser));
+            if (pPasswd)
+                uiUid = pPasswd->pw_uid;
+        }
+    }
+
+    return(uiUid);
+    */
+}
+
 QString userName()
 {
-    const char* buf = getenv("PKEXEC_UID");
-    unsigned int uid = 0;
-    sscanf(buf,"%u",&uid);
+    unsigned int uid = effectiveUid();
     if (uid) {
         struct passwd *pw = getpwuid (uid);
         if (pw)

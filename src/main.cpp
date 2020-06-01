@@ -49,7 +49,6 @@ static const char* const DESKTOP_SESSION("DESKTOP_SESSION");
 static const char* const PROCDIR("/proc/");
 
 static void checkDesktop();
-static uint effectiveUid();
 void messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 //const char* pcMsg);
 
@@ -225,27 +224,3 @@ static void checkDesktop()
     }
 }
 
-static uint effectiveUid()
-{
-    uint uiUid(::getuid());
-
-    const char* const pcSudoUid(::getenv("SUDO_UID"));
-    if (pcSudoUid)
-    {
-        const uid_t uiSudoUid(::strtol(pcSudoUid, NULL, 0));
-        if (uiSudoUid)
-            uiUid = uiSudoUid;
-    }
-    else
-    {
-        const char* const pcUser(::getenv("USER"));
-        if (pcUser)
-        {
-            const struct passwd* pPasswd(::getpwnam(pcUser));
-            if (pPasswd)
-                uiUid = pPasswd->pw_uid;
-        }
-    }
-
-    return(uiUid);
-}

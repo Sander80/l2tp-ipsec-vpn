@@ -36,6 +36,7 @@ const QRegExp& ipValidationRE();
 const QRegExp& gatewayValidationRE();
 const QRegExp& hostNameValidationRE();
 const QRegExp& hostNameListValidationRE();
+unsigned int effectiveUid();
 
 QString utf82QString(const void* vpValue, unsigned long ulLen);
 QByteArray fileName2ByteArray(const QString& strFileName);
