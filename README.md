@@ -24,7 +24,7 @@ sudo apt-get install build-essential automake cmake libtool libltdl-dev libssl-d
 Then simply run make to get it compiled and sudo make install to install.
 
 In order to have the code working, you will need a version of ppp (point to point protocol) that supports eap-tls. 
-Currently it is available in the repository of [jjkeijser](https://github.com/jjkeijser/ppp), but we hope to get it into the [main ppp repository](https://github.com/paulusmack/ppp).
+It is available since the 2.4.9 release of pppd, which is available in the [main ppp repository](https://github.com/paulusmack/ppp).
 
 Have a look at our wiki for more instructions. 
 
